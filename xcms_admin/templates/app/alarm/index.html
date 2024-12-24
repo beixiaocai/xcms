@@ -110,12 +110,14 @@
                 <div class="x_title">
                   <h2>报警视频管理
                       <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
-                      <span style="display: none;" id="top_msg"></span>
-                  </h2>
 
                 <button style="margin-left: 10px;" onclick="f_handle('allDelete')" class="btn btn-primary btn-sm"> 全部删除</button>
                 <button onclick="f_handle('clear')" class="btn btn-primary btn-sm"> 清理缓存</button>
                 <button id="top_open_audio" class="btn btn-default btn-sm"><i class="fa fa-bell-o"></i> 关闭报警声音</button>
+                                            <span id="top_msg"></span>
+
+                  </h2>
+
                 <audio id="top_audio"  controls style="display: block;float: right; position: relative;height: 34px; "  >
                     浏览器不支持音频播放
                 </audio>
@@ -132,8 +134,7 @@
                 <label style="padding-top:5px;">
                     <input type="checkbox" class="check_all">
                   </label>
-                    <button style="margin-left:5px;" onclick="f_handle('read')" class="btn btn-default btn-sm"> 已读</button>
-                    <button onclick="f_handle('delete')" class="btn btn-default btn-sm">删除</button>
+                    <button style="margin-left:5px;" onclick="f_handle('delete')" class="btn btn-default btn-sm">删除</button>
                     </div>
                      <div style="float: left;margin-left: 10px;">
                                         <label style="text-align: left;">布控&nbsp;
@@ -328,8 +329,8 @@
 
         return alarm_ids_str;
     }
-    function f_show(code){
-        let url = "/alarm/show?code="+code;
+    function f_edit(code){
+        let url = "/alarm/edit?code="+code;
         window.open(url)
     }
 
@@ -440,7 +441,7 @@
                     content_list_html+="<div class=\"content_item\"><span style='margin-left:1px;'>共"+temp_cur_alarm_image_count+"张</span></div>"
 
                     let alarm_count_html = "发现"+temp_cur_alarm_count+"条新的报警视频";
-                    let alarm_control_code_html = "<a href='javascript:f_show(\""+alarm["code"]+"\")'>查看报警详情</a>";
+                    let alarm_control_code_html = "<a href='javascript:f_edit(\""+alarm["code"]+"\")'>查看报警详情</a>";
 
                     ele_bxc_alarm_count.html(alarm_count_html);
                     ele_bxc_alarm_time.html(alarm["create_time_str"]);
@@ -550,12 +551,28 @@
 
                                  html += "<div class=\"alarm_item_bottom\">";
                                  let state = d["state"];
-                                    if(0===state){
-                        html += "<span><span style=\"background-color:#1ABB9C !important;border-radius: 2px;font-size:10px;padding:1px 2px;color:#ffffff;margin:0 3px;\">未读</span>";
-                            html += "<span style=\"border: 1px solid #ddd; border-radius: 6px; padding: 0 5px;margin-right: 2px;\">"+d["id"]+"</span> <span class='sun-state-error'>"+d["flow_name"]+"</span> <a class='sun-a-label' href='javascript:f_show(\""+d["code"]+"\")'>详情</a></span>";
-                                    }else{
-                         html += "<span><span style=\"border: 1px solid #ddd; border-radius: 6px; padding: 0 5px;margin-right: 2px;\">"+d["id"]+"</span> <span class='sun-state-error'>"+d["flow_name"]+"</span> <a class='sun-a-label' href='javascript:f_show(\""+d["code"]+"\")'>详情</a></span>";
+                                 let flow_name = d["flow_name"];
+                                 if(flow_name.length > 12){
+                                     flow_name = flow_name.substring(0,12)+"...";
+                                 }
+
+                                    if(state===0){//未读
+                        html += "<span><span style=\"background-color:#337ab7 !important;border-radius: 2px;font-size:10px;padding:1px 2px;color:#ffffff;margin:0 3px;\">未处理</span>";
+                                html += "<span style=\"border: 1px solid #ddd; border-radius: 6px; padding: 0 5px;margin-right: 2px;\">"+d["id"]+"</span> <span class='sun-state-error'>"+flow_name+"</span> <a class='sun-a-label' href='javascript:f_edit(\""+d["code"]+"\")'>>></a></span>";
                                     }
+                                    else if(state===1){//已读-正常报警
+                        html += "<span><span style=\"background-color:#ac0b0b !important;border-radius: 2px;font-size:10px;padding:1px 2px;color:#ffffff;margin:0 3px;\">报警</span>";
+                                html += "<span style=\"border: 1px solid #ddd; border-radius: 6px; padding: 0 5px;margin-right: 2px;\">"+d["id"]+"</span> <span class='sun-state-error'>"+flow_name+"</span> <a class='sun-a-label' href='javascript:f_edit(\""+d["code"]+"\")'>>></a></span>";
+                                    }
+                                    else if(state===2){//已读-误报
+                        html += "<span><span style=\"background-color:#bb751a !important;border-radius: 2px;font-size:10px;padding:1px 2px;color:#ffffff;margin:0 3px;\">误报</span>";
+                                html += "<span style=\"border: 1px solid #ddd; border-radius: 6px; padding: 0 5px;margin-right: 2px;\">"+d["id"]+"</span> <span class='sun-state-error'>"+flow_name+"</span> <a class='sun-a-label' href='javascript:f_edit(\""+d["code"]+"\")'>>></a></span>";
+                                    }
+                                    else{//非法类型
+                         html += "<span><span style=\"border: 1px solid #ddd; border-radius: 6px; padding: 0 5px;margin-right: 2px;\">"+d["id"]+"</span> <span class='sun-state-error'>"+flow_name+"</span> <a class='sun-a-label' href='javascript:f_edit(\""+d["code"]+"\")'>>></a></span>";
+                                    }
+
+
                                   html += "<div style=\"position: relative; display: block;\">";
                                      html += "<label style=\"float:left;\"><input type=\"checkbox\" class=\"check_item\" value=\""+d["id"]+"\"></label>";
                                     html += "<span style=\"margin-left:5px;\">"+d["create_time_str"]+"</span>";

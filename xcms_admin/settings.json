@@ -11,6 +11,14 @@
     "check_version_app_key": "public",
     "check_version_app_secret": "xc",
     "check_version_download_url": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/e05dce83e5129785b9f316978a14b896",
+    "email": {
+        "user": "bilibili_bxc@yeah.net",
+        "host": "smtp.yeah.net",
+        "port": "465",
+        "passwd": "GJaqFGgyNVNVYMJq",
+        "receiver": "bilibili_bxc@126.com",
+        "enable_alarm":false
+    },
     "docs": {
         "alarmIndex": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/fg97vrayt2pkke3w",
         "alarmInterfaceAdd": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/bf833658041bb92238865077f0130fb2",

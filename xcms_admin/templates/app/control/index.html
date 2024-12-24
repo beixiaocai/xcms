@@ -17,24 +17,16 @@
 
                       <h2>布控管理
                          <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
-                         <span id="top_msg">{{top_msg}}</span>
-                      </h2>
 
-                      <div style="margin-left:5px;"  class="btn-group">
                           <button onclick="f_docs()" class="btn btn-primary btn-sm" type="button">文档</button>
-                          <button onclick="f_reload()"  class="btn btn-default btn-sm" type="button">刷新</button>
-                          <div class="btn-group">
-                            <button data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle" type="button" aria-expanded="false"> 更多 <span class="caret"></span> </button>
-                            <ul class="dropdown-menu">
-                              <li><a href="javascript:f_postHandleAllControl('add')">全部执行布控</a>
-                              </li>
-                              <li><a href="javascript:f_postHandleAllControl('cancel')">全部取消布控</a>
-                              </li>
-                              <li><a href="javascript:f_postHandleAllControl('delete')">全部删除</a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
+                          <button onclick="f_reload()" class="btn btn-default btn-sm" type="button">刷新</button>
+                          <button onclick="f_postHandleAllControl('add')" class="btn btn-default btn-sm" type="button">全部执行布控</button>
+                          <button onclick="f_postHandleAllControl('cancel')" class="btn btn-default btn-sm" type="button">全部取消布控</button>
+                          <button onclick="f_postHandleAllControl('delete')" class="btn btn-default btn-sm" type="button">全部删除</button>
+
+                      <span id="top_msg">{{top_msg}}</span>
+              </h2>
+
 
                         <div class="clearfix"></div>
                   </div>

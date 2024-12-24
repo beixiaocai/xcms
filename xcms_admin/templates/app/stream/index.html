@@ -33,22 +33,13 @@
                 <div class="x_title">
                  <h2>摄像头管理
                     <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
-                    <span id="top_msg">{{top_msg}}</span>
-                 </h2>
-                      <div style="margin-left:5px;"  class="btn-group">
                            <button data-toggle="modal" data-target="#ImportFileDialog"  class="btn btn-primary btn-sm">批量导入</button>
-                          <div class="btn-group">
-                            <button data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle" type="button" aria-expanded="false"> 更多 <span class="caret"></span> </button>
-                            <ul class="dropdown-menu">
-                              <li><a href="javascript:f_postHandleAllForward('add')">全部开启转发</a>
-                              </li>
-                              <li><a href="javascript:f_postHandleAllForward('del')">全部关闭转发</a>
-                              </li>
-                                <li><a href="javascript:f_delAll()">全部删除</a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
+                           <button onclick="f_postHandleAllForward('add')"  class="btn btn-default btn-sm">全部开启转发</button>
+                           <button onclick="f_postHandleAllForward('del')"  class="btn btn-default btn-sm">全部停止转发</button>
+                           <button onclick="f_delAll()"  class="btn btn-default btn-sm">全部删除</button>
+                            <span id="top_msg">{{top_msg}}</span>
+                            </h2>
+
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">

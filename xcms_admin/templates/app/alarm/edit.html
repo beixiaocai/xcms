@@ -8,10 +8,7 @@
     <!-- bootstrap-wysiwyg -->
     <link href="/static/vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
     <style>
-    .bxc_line_b{
-        font-size: 15px;
-        font-weight: 300;
-    }
+
     </style>
 {% endblock stylesheets %}
 
@@ -39,7 +36,7 @@
      <!--展示视频start -->
                 <div>
                   <p>
-                    <span><i class="fa fa-paperclip"></i> {{ alarm.video_count }} video </span>
+                    <span><i class="fa fa-paperclip"></i> 报警视频数量（{{ alarm.video_count }}） </span>
                   </p>
   {% if alarm.video_count > 0 %}
                    <div style="margin: 10px 0;">
@@ -53,7 +50,7 @@
                   <!--展示图片start -->
                     <div class="attachment">
                       <p>
-                        <span><i class="fa fa-paperclip"></i> {{ alarm.image_count }} image </span>
+                        <span><i class="fa fa-paperclip"></i> 报警图片数量（{{ alarm.image_count }}）  </span>
                       </p>
                       <ul>
 
@@ -80,18 +77,23 @@
                 </div>
 
                 <div class="col-sm-3 mail_list_column">
-                        <button style="margin-bottom: 20px;" class="btn btn-primary btn-block" type="button">报警信息</button>
 
-                    <!--
-                    <div class="mail_list">
+                <div class="mail_list">
                           <div class="left">
                             <i class="fa"></i>
                           </div>
                           <div class="right">
-                            <h3>分组编号 <small>{{ alarm.flag }}</small></h3>
-                          </div>
-                        </div>-->
 
+                          </div>
+                        </div>
+                  <div class="mail_list">
+                          <div class="left">
+                            <i class="fa"></i>
+                          </div>
+                          <div class="right">
+                            <h3>报警ID <small>{{ alarm.id }}</small></h3>
+                          </div>
+                        </div>
                         <div class="mail_list">
                           <div class="left">
                             <i class="fa"></i>
@@ -133,10 +135,44 @@
                             <i class="fa"></i>
                           </div>
                           <div class="right">
-                            <h3>关联算法 <small><a href="javascript:f_flow_edit('{{ flow.code }}')">{{ flow.name }}</small></h3>
+                              <h3>关联算法 <small><a href="javascript:f_flow_edit('{{ flow.code }}')">{{ flow.name }}</a></small></h3>
 
                           </div>
                         </div>
+
+                          <div class="mail_list">
+                                  <div class="left">
+                                    <i class="fa"></i>
+                                  </div>
+
+                                  <div class="right">
+
+                                               <div class="radio">
+                                          <label>
+                                            <input type="radio" {% if alarm.state == 0 %} checked="checked" {% endif %} value="0" name="state"> 未处理
+                                          </label>
+                                        </div>
+
+                                      <div class="radio">
+                                          <label>
+                                            <input type="radio" {% if alarm.state == 1 %} checked="checked" {% endif %} value="1" name="state"> 审核确认为正常报警
+                                          </label>
+                                        </div>
+
+                                       <div class="radio">
+                                          <label>
+                                            <input type="radio" {% if alarm.state == 2 %} checked="checked" {% endif %} value="2" name="state"> 审核确认为误报
+                                          </label>
+                                        </div>
+
+                                        <div>
+                                            <input type="text" name="review_remark"  value="{{ alarm.review_remark }}" placeholder="请输入审核备注" class="form-control">
+
+                                            <button style="margin-top: 10px;" onclick="f_review()" type="submit" class="btn btn-success">提交</button>
+                                         </div>
+
+                                  </div>
+                           </div>
 
                 </div>
 
@@ -154,17 +190,45 @@
   {{ block.super }}
 <script src="/static/lib/jquery/fancybox/3.5.7/jquery.fancybox.min.js"></script>
 <script>
-    function f_show(code){
-        let url = "/alarm/show?code="+code;
-        window.location.href = url;
-    }
+    let alarm_code = "{{ alarm.code }}";
+
     function f_control_edit(code) {
         let url = "/control/edit?code="+code;
         window.location.href = url;
     }
-        function f_flow_edit(code) {
+    function f_flow_edit(code) {
         let url = "/algorithmFlow/edit?code="+code;
         window.location.href = url;
+    }
+    function f_review() {
+        let eleState = $("input[type=radio][name='state']:checked");
+        let eleReviewRemark = $("input[name='review_remark']");
+        let state = parseInt(eleState.val());
+        let review_remark = eleReviewRemark.val();
+
+        $.ajax({
+           url: "/alarm/edit",
+           type: "post",
+           async: true,
+           data: {
+               "code":alarm_code,
+               "state":state,
+               "review_remark":review_remark
+           },
+           dataType: "json",
+           timeout: 0,
+           error: function () {
+                myAlert("网络异常，请确定网络正常！","error");
+           },
+           success: function (res) {
+               if(1000 === res.code){
+                   myAlert(res.msg,"success",2000);
+               }else{
+                    myAlert(res.msg,"error");
+               }
+           }
+        });
+
     }
     $('img').click(function() {
         $.fancybox.open({
