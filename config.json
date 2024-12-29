@@ -45,7 +45,7 @@
         "sipServerRealm": "3402000000",
         "sipServerPass": "123456",
         "sipServerTimeout": 1800,
-        "sipServerExpiry": 3600,
+        "sipServerExpiry": 600,
         "rtpTransferMode": 0
     }
 }

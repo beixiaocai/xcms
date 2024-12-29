@@ -20,9 +20,9 @@
 
                           <button onclick="f_docs()" class="btn btn-primary btn-sm" type="button">文档</button>
                           <button onclick="f_reload()" class="btn btn-default btn-sm" type="button">刷新</button>
-                          <button onclick="f_postHandleAllControl('add')" class="btn btn-default btn-sm" type="button">全部执行布控</button>
-                          <button onclick="f_postHandleAllControl('cancel')" class="btn btn-default btn-sm" type="button">全部取消布控</button>
-                          <button onclick="f_postHandleAllControl('delete')" class="btn btn-default btn-sm" type="button">全部删除</button>
+                          <button onclick="f_openHandleAllControl('add')" class="btn btn-default btn-sm" type="button">全部执行布控</button>
+                          <button onclick="f_openHandleAllControl('cancel')" class="btn btn-default btn-sm" type="button">全部取消布控</button>
+                          <button onclick="f_openHandleAllControl('delete')" class="btn btn-default btn-sm" type="button">全部删除</button>
 
                       <span id="top_msg">{{top_msg}}</span>
               </h2>
@@ -359,7 +359,8 @@
                         controlCount += info.controlCount;
                     }
                  }
-                 html += "<code>进程总数("+infos_len+")</code>  <code>"+controlCount+"/"+info0_authMaxControlCount+"</code>";
+                 //html += "<code>进程总数("+infos_len+")</code>  <code>"+controlCount+"/"+info0_authMaxControlCount+"</code>";
+                 html += "<code>进程总数("+infos_len+")</code>";
                  for (let i = 0; i < infos_len; i++) {
                     let info = infos[i];
                     let info_status = info["status"]
@@ -478,9 +479,9 @@
 
                                     item_html += "<div class=\"btn-group\">";
                                         if(1===d["cur_state"]) {//布控中
-                                            item_html += "<button data-code='" + d["code"] + "'  data-handle='cancel' onclick=\"f_postHandleControl(this)\" class=\"btn btn-dark btn-sm\">取消布控</button>";
+                                            item_html += "<button data-code='" + d["code"] + "'  data-handle='cancel' onclick=\"f_openHandleControl(this)\" class=\"btn btn-dark btn-sm\">取消布控</button>";
                                         }else{
-                                            item_html += "<button data-code='" + d["code"] + "'  data-handle='add'onclick=\"f_postHandleControl(this)\"class=\"btn btn-primary btn-sm\">执行布控</button>";
+                                            item_html += "<button data-code='" + d["code"] + "'  data-handle='add'onclick=\"f_openHandleControl(this)\"class=\"btn btn-primary btn-sm\">执行布控</button>";
                                         }
                                       item_html += "<button onclick=\"f_edit('"+d["code"]+"')\" class=\"btn btn-sm btn-default\" type=\"button\" title=\"编辑\"><i class=\"fa fa-edit\"></i></button>";
                                       item_html += "<button onclick=\"f_del('"+d["code"]+"')\" class=\"btn btn-sm btn-default\" type=\"button\" title=\"删除\"><i class=\"fa fa-remove\"></i></button>";
@@ -502,7 +503,7 @@
 
     }
 
-    function f_postHandleAllControl(handle) {
+    function f_openHandleAllControl(handle) {
         //执行全部布控 或 取消全部布控
         let msg = "";
         if(handle === "add"){
@@ -518,7 +519,7 @@
         if (ret) {
             ele_top_loading.show();
             $.ajax({
-                   url: '/control/postHandleAllControl',
+                   url: '/control/openHandleAllControl',
                    type: "post",
                    async: true,
                    data: {"handle":handle, "state":10},
@@ -543,7 +544,7 @@
         }
 
     }
-    function f_postHandleControl(obj) {
+    function f_openHandleControl(obj) {
         //obj.getAttribute("data-handle"); // js 获取 data-handle属性
         //obj.setAttribute("data-handle","123") // js 修改 data-handle属性
         let jqueryObj = $(obj);
@@ -551,12 +552,20 @@
         //jqueryObj.data("handle","123");
         let code = jqueryObj.data("code");
 
+        let url;
+        if(handle === "add"){
+            url = "/control/openStartControl";
+        }else if(handle === "cancel"){
+            url = "/control/openStopControl";
+        }else{
+            return;
+        }
         ele_top_loading.show();
         $.ajax({
-           url: "/control/postHandleControl",
+           url: url,
            type: "post",
            async: true,
-           data: {"code":code,"handle":handle},
+           data: {"code":code},
            dataType: "json",
            timeout: 0,
            error: function () {
