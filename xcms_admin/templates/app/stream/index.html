@@ -291,14 +291,23 @@
         return false;
     }
     function f_postHandleForward(handle,code,pull_stream_type){
+
+        let url;
+        if(handle === "add"){
+            url = "/stream/openAddStreamProxy";
+        }else if(handle === "del"){
+            url = "/stream/openDelStreamProxy";
+        }else {
+            return;
+        }
         pull_stream_type = parseInt(pull_stream_type);
 
         ele_top_loading.show();
         $.ajax({
-               url: '/stream/postHandleForward',
+               url: url,
                type: "post",
                async: true,
-               data: {"handle":handle,"code":code},
+               data: {"code":code},
                dataType: "json",
                timeout: 0,
                error: function () {
@@ -310,10 +319,10 @@
                     if(1000 === res.code){
                         if(handle === "add"){
                             if(pull_stream_type === 21){
-                                myAlert("刷新中","success",5000);
+                                myAlert("刷新中","success",4000);
                                 setTimeout(function () {
                                     window.location.reload();
-                                }, 5000);
+                                }, 4000);
 
                             }else{
                                 myAlert("刷新中","success",2000);
@@ -322,10 +331,9 @@
                                 }, 2000);
                             }
 
-                        }else{
+                        }else if(handle === "del"){
                             window.location.reload();
                         }
-
                    }else{
                         myAlert(res.msg,"error");
                    }

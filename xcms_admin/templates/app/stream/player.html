@@ -10,25 +10,63 @@
 {% block content %}
 <style>
       #input_address {
-        -webkit-appearance: none;
-        background-color: #fff;
-        background-image: none;
-        border-radius: 4px;
-        border: 1px solid #dcdfe6;
-        box-sizing: border-box;
-        font-size: 13px;
-          font-weight: normal;
-        height: 35px;
-        line-height: 35px;
-          width: 400px;
-
-          margin-left: 15px;
-        padding: 1px 10px;
-        transition: border-color .2s cubic-bezier(.645,.045,.355,1);
-
+            -webkit-appearance: none;
+            background-color: #fff;
+            background-image: none;
+            border-radius: 4px;
+            border: 1px solid #dcdfe6;
+            box-sizing: border-box;
+            font-size: 13px;
+            font-weight: normal;
+            height: 35px;
+            line-height: 35px;
+            width: 400px;
+            margin-left: 15px;
+            padding: 1px 10px;
+            transition: border-color .2s cubic-bezier(.645,.045,.355,1);
       }
-</style>
-
+        .control-panel {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 40px);
+            grid-template-rows: repeat(3, 40px);
+            gap: 10px;
+        }
+        .control-panel>button {
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .zoom-control {
+            margin-top: 10px;
+            margin-left: 25px;
+        }
+        .zoom-control>button {
+            width: 40px;
+            height: 40px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .snap-control {
+            margin-top: 10px;
+            margin-left: 25px;
+        }
+        .snap-control > .video_is_recording{
+            background: #0d95e8;
+        }
+        .snap-control>button {
+            width: 40px;
+            height: 40px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .ptz-button-gray{
+            color: #aca3a3;
+        }
+    </style>
   <div class="right_col" role="main">
     <div class="">
       <div class="row">
@@ -50,24 +88,51 @@
                   </ul>
                   -->
 
-                    <div style="float: right; margin-top: 6px; margin-right: 50px;">
-                        <button type="button" id="handle_snapshot"  class="btn btn-primary btn-sm">截图</button>
-                        <button type="button" id="handle_record"  class="btn btn-primary btn-sm">开启录像</button>
-                    </div>
-
                   <div class="clearfix"></div>
             </div>
 
             <div class="x_content">
-              <div class="col-md-12 col-sm-12 col-xs-12">
+               <div class="col-md-10 col-sm-10 col-xs-12">
                     <div id="video_player" style="background-color: black;min-height: 500px;"></div>
-              </div>
+               </div>
+               <div class="col-md-2 col-sm-2 col-xs-12" >
+                          <div class="control-panel">
+                            <!-- 上 -->
+                            <button class="ptz-button" onmousedown="f_openPtz(3,250)" onmouseup="f_openPtz(0,0)" style="grid-column: 2 / 3; grid-row: 1 / 2;"><i class="fa fa-chevron-up"></i></button>
+                            <!-- 左 -->
+                            <button class="ptz-button"  onmousedown="f_openPtz(5,250)" onmouseup="f_openPtz(0,0)" style="grid-column: 1 / 2; grid-row: 2 / 3;"><i class="fa fa-chevron-left"></i></button>
+                            <!-- 中间 -->
+                            <button class="ptz-button"  style="grid-column: 2 / 3; grid-row: 2 / 3;">○</button>
+                            <!-- 右 -->
+                            <button class="ptz-button"  onmousedown="f_openPtz(1,250)" onmouseup="f_openPtz(0,0)"  style="grid-column: 3 / 4; grid-row: 2 / 3;"><i class="fa fa-chevron-right"></i></button>
+                            <!-- 下 -->
+                            <button class="ptz-button"  onmousedown="f_openPtz(7,250)" onmouseup="f_openPtz(0,0)"  style="grid-column: 2 / 3; grid-row: 3 / 4;"><i class="fa fa-chevron-down"></i></button>
+                        </div>
+                        <div style="margin-top: 20px;" class="zoom-control">
+                            <button class="ptz-button"  onmousedown="f_openPtz(9,200)" onmouseup="f_openPtz(0,0)" title="调焦">Z+</button>
+                            <button class="ptz-button"  onmousedown="f_openPtz(9,-200)" onmouseup="f_openPtz(0,0)"  title="调焦">Z-</button>
+                        </div>
+                        <div class="zoom-control">
+                            <button class="ptz-button"  onmousedown="f_openPtz(11,200)" onmouseup="f_openPtz(0,0)"  title="聚焦">F+</button>
+                            <button class="ptz-button"  onmousedown="f_openPtz(11,-200)" onmouseup="f_openPtz(0,0)"  title="聚焦">F-</button>
+                        </div>
+                       <div class="zoom-control">
+                            <button class="ptz-button"  onmousedown="f_openPtz(10,250)" onmouseup="f_openPtz(0,0)"  title="光圈">I+</button>
+                            <button class="ptz-button"  onmousedown="f_openPtz(10,-250)" onmouseup="f_openPtz(0,0)"  title="光圈">I-</button>
+                        </div>
+                         <div class="snap-control">
+                            <button id="handle_snapshot" ><i class="fa fa-camera"></i></button>
+                            <button id="handle_record" ><i class="fa fa-video-camera"></i></button>
+                        </div>
+
+               </div>
+
 
               <div class="col-md-12 col-sm-12 col-xs-12">
 
                  <div class="form-horizontal form-label-left">
 
-                    {% if is_normal %}
+                    {% if stream.is_online %}
                         <p style="margin-top:10px;font-size: 16px;">视频流支持的所有转发协议</p>
                         <p>{{ stream.wsMp4Url }}</p>
                         <!--<p>{{ stream.wsFlvUrl }}</p>-->
@@ -78,6 +143,7 @@
                   </div>
 
               </div>
+
             </div>
           </div>
         </div>
@@ -92,12 +158,23 @@
 <script>
     let stream_app = "{{ stream.app }}";
     let stream_name = "{{ stream.name }}";
+    let stream_code = "{{ stream.code }}";
+    let stream_pull_stream_type = parseInt("{{ stream.pull_stream_type }}");
+    let stream_is_online = parseInt("{{ stream.is_online }}")
+
     let eleInputAddress= $("#input_address");
     let eleHandleSnapshot = $("#handle_snapshot");
     let eleHandleRecord = $("#handle_record");
     let mCurrentIsRecording = false;
     let eleVideoPlayer = document.querySelector('#video_player');
     let ePlayer = null;
+
+    if(stream_pull_stream_type === 21){
+        //gb28181的设备
+    }else{
+        //非gb28181的设备
+        $(".ptz-button").addClass("ptz-button-gray");
+    }
     function f_createEPlayer() {
         ePlayer = new EasyPlayerPro({
             container: eleVideoPlayer,
@@ -199,6 +276,33 @@
 	function f_clickPlayStop() {
         f_playStop();
     }
+    function f_openPtz(ptzType,val){
+        if(stream_pull_stream_type === 21){
+
+        }else {
+            return
+        }
+
+        $.ajax({
+           url: "/stream/openPtz",
+           type: "post",
+           async: true,
+           data: {"code":stream_code,"ptzType":ptzType,"val":val},
+           dataType: "json",
+           timeout: 0,
+           error: function () {
+               myAlert("网络异常，请确定网络正常！","error");
+           },
+           success: function (res) {
+               if(1000 === res.code){
+                   //myAlert(res.msg,"success");
+               }else{
+                    //myAlert(res.msg,"error");
+               }
+           }
+        });
+
+    }
     function f_getVideoIsRecording() {
         $.ajax({
                url: "/nvr/getVideoIsRecording",
@@ -212,9 +316,7 @@
                },
                success: function (res) {
                    if(1000 === res.code){
-                       eleHandleRecord.html("停止录像");
-                       eleHandleRecord.removeClass("btn-primary")
-                       eleHandleRecord.addClass("btn-danger")
+                       eleHandleRecord.addClass("video_is_recording")
                         mCurrentIsRecording = true;
                    }
                }
@@ -252,8 +354,8 @@
     })
     eleHandleRecord.click(function () {
         //开启录像和停止录像
-        console.log("stream_app->",typeof stream_app,stream_app)
-        console.log("stream_name->",typeof stream_name,stream_name)
+        //console.log("stream_app->",typeof stream_app,stream_app)
+        //console.log("stream_name->",typeof stream_name,stream_name)
 
         if(mCurrentIsRecording){
             //当前正在录制中，接下来执行停止录像
@@ -269,9 +371,7 @@
                },
                success: function (res) {
                    if(1000 === res.code){
-                       eleHandleRecord.html("开启录像");
-                       eleHandleRecord.removeClass("btn-danger")
-                       eleHandleRecord.addClass("btn-primary")
+                       eleHandleRecord.removeClass("video_is_recording")
 
                        mCurrentIsRecording = false;
                        let info = res.info;
@@ -305,9 +405,7 @@
                },
                success: function (res) {
                    if(1000 === res.code){
-                        eleHandleRecord.html("停止录像");
-                       eleHandleRecord.removeClass("btn-primary")
-                       eleHandleRecord.addClass("btn-danger")
+                       eleHandleRecord.addClass("video_is_recording")
                         mCurrentIsRecording = true;
 
                    }else{
@@ -319,8 +417,7 @@
     });
     
     $(function() {
-        let is_normal = parseInt("{{ is_normal }}");
-        if(is_normal === 1){
+        if(stream_is_online === 1){
             let is_online = parseInt("{{ stream.is_online }}");
             let video_codec_name = "{{ stream.video_codec_name }}";
             let video_width = parseInt("{{ stream.video_width }}");
@@ -331,6 +428,7 @@
             let wsMp4Url = "{{ stream.wsMp4Url }}";
             //let httpMp4Url = "{{ stream.httpMp4Url }}";
             //let rtspUrl = "{{ stream.rtspUrl }}";
+
             let video_url = wsMp4Url
             eleInputAddress.val(video_url);
             f_playStart(video_url);
