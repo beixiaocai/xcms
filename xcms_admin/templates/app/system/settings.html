@@ -44,29 +44,53 @@
                     </p>
                     <span class="section">Personal Info</span>
                     -->
-                    <div class="ln_solid"></div>
+                        <div class="ln_solid"></div>
                       <div class="form-group">
                           <div class="col-md-6 col-sm-6 col-md-offset-3">
-                              <h4>导出配置</h4>
-                              <p style="margin-top: 10px;"><button type="button" onclick="f_export_settings()" class="btn btn-primary btn-sm"  >导出配置</button> 导出软件配置参数（不包括报警数据）</p>
-                          </div>
-                          <div class="col-md-6 col-sm-6 col-md-offset-3">
-                                <h4>导出日志</h4>
-                              <p style="margin-top: 10px;"><button type="button" onclick="f_export_logs()" class="btn btn-primary btn-sm" >导出日志</button> 导出软件运行日志（可以提供给开发者排查问题）</p>
+                              <h4 style="font-weight: bold">重启</h4>
+
+                                    <button type="button" onclick="f_restartApp()"  class="btn btn-default btn-sm">重启软件</button>
+                                    <button type="button" onclick="f_restartOS()"  class="btn btn-default btn-sm">重启操作系统</button>
+
                           </div>
                     </div>
 
     <div class="ln_solid"></div>
                       <div class="form-group">
-                          <div class="col-md-6 col-sm-6 col-md-offset-3">
-                              <h4>导入配置</h4>
-                                <p style="margin-top: 10px;">
-                                    <input type="file" name="file" accept=".xcsettings" class="form-control" placeholder="浏览配置文件" >
-                                </p>
-                                <p style="margin-top: 10px;"><button type="button" onclick="f_import_settings()" class="btn btn-primary btn-sm"  >导入配置</button></p>
+                         <div class="col-md-6 col-sm-6 col-md-offset-3">
+                                <h4 style="font-weight: bold">日志</h4>
+                             <button type="button" onclick="f_clear_logs()" class="btn btn-primary btn-sm" >清理日志</button>
+                             <button type="button" onclick="f_export_logs()" class="btn btn-primary btn-sm" >导出日志</button>
                           </div>
                     </div>
 
+
+    <div class="ln_solid"></div>
+                      <div class="form-group">
+                          <div class="col-md-6 col-sm-6 col-md-offset-3">
+                              <h4  style="font-weight: bold">升级版本 <small>v{{ project_version }} {{ project_flag }}</small></h4>
+                                <p>
+                                    <input type="file" name="xcupdate_file" accept=".xcupdate" class="form-control" placeholder="浏览升级安装包" >
+                                </p>
+                               <button type="button" onclick="f_import_update()" class="btn btn-primary btn-sm"  >升级版本</button> 升级过程需要1-5分钟，请不要关闭电源，完成升级后将自动重启
+                          </div>
+                    </div>
+
+                    <div class="ln_solid"></div>
+                      <div class="form-group">
+                          <div class="col-md-6 col-sm-6 col-md-offset-3">
+                              <h4>导出配置</h4>
+                             <button type="button" onclick="f_export_settings()" class="btn btn-primary btn-sm"  >导出配置</button> 导出软件配置参数，不包括报警数据
+                          </div>
+
+                          <div style="margin-top: 20px;" class="col-md-6 col-sm-6 col-md-offset-3">
+                                <h4>导入配置</h4>
+                                <p>
+                                    <input type="file" name="xcsettings_file" accept=".xcsettings" class="form-control" placeholder="浏览配置文件" >
+                                </p>
+                                <button type="button" onclick="f_import_settings()" class="btn btn-primary btn-sm"  >导入配置</button>
+                          </div>
+                    </div>
 
                 </div>
 
@@ -83,11 +107,60 @@
 <script>
     let ele_top_loading = $("#top_loading");
     let ele_top_msg= $("#top_msg");
-    let eleFile = $("input[name='file']");
+    let eleXcSettingsFile = $("input[name='xcsettings_file']");
+    let eleXcUpdateFile = $("input[name='xcupdate_file']");
 
     function f_docs() {
         let url= "{{ settings.docs.systemSettings }}";
         window.open(url);
+    }
+    function f_restartApp() {
+        let ret = confirm("确定重启软件吗？");
+        if (ret) {
+            $.ajax({
+               url: "/open/restartApp",
+               type: "post",
+               async: true,
+               data: {
+               },
+               dataType: "json",
+               timeout: 0,
+               error: function () {
+                    myAlert("网络异常，请确定网络正常！","error");
+               },
+               success: function (res) {
+                   if(res.code === 1000){
+                       myAlert(res.msg,"success");
+                   }else{
+                       myAlert(res.msg,"error");
+                   }
+               }
+            });
+        }
+
+    }
+    function f_restartOS() {
+        let ret = confirm("确定重启操作系统吗？");
+        if (ret) {
+            $.ajax({
+                url: "/open/restartOS",
+                type: "post",
+                async: true,
+                data: {},
+                dataType: "json",
+                timeout: 0,
+                error: function () {
+                    myAlert("网络异常，请确定网络正常！", "error");
+                },
+                success: function (res) {
+                    if(res.code === 1000){
+                        myAlert(res.msg, "success");
+                    } else {
+                        myAlert(res.msg, "error");
+                    }
+                }
+            });
+        }
     }
     function f_export_settings() {
         //导出配置
@@ -105,19 +178,18 @@
            },
            success: function (res) {
                ele_top_loading.hide();
-               if(1000 === res.code){
+               if(res.code === 1000){
                     let info = res.info;
                     let export_filename = info["export_filename"]
                     let download_url = "/storage/download?filename="+export_filename;
                     window.open(download_url);
                }else{
-                    myAlert(res.msg,"error",3000);
+                    myAlert(res.msg,"error");
                }
            }
         });
 
     }
-
     function f_export_logs(){
         //导出日志
         ele_top_loading.show();
@@ -134,23 +206,47 @@
            },
            success: function (res) {
                ele_top_loading.hide();
-               if(1000 === res.code){
+               if(res.code === 1000){
                     let info = res.info;
                     let export_filename = info["export_filename"]
                     let download_url = "/storage/download?filename="+export_filename;
                     window.open(download_url);
                }else{
-                   myAlert(res.msg,"error",3000);
+                   myAlert(res.msg,"error");
                }
            }
         });
 
     }
+    function f_clear_logs(){
+        //清理日志
+        ele_top_loading.show();
+        $.ajax({
+           url: "/system/postClearLogs",
+           type: "post",
+           async: true,
+           data: {},
+           dataType: "json",
+           timeout: 0,
+           error: function () {
+               ele_top_loading.hide();
+               myAlert("网络异常，请确定网络正常！","error");
+           },
+           success: function (res) {
+               ele_top_loading.hide();
+               if(res.code === 1000){
+                   myAlert(res.msg,"success");
+               }else{
+                   myAlert(res.msg,"error");
+               }
+           }
+        });
 
+    }
     function f_import_settings() {
         //导入配置
-        if (eleFile[0].files.length > 0){
-           let file = eleFile[0].files[0];
+        if (eleXcSettingsFile[0].files.length > 0){
+           let file = eleXcSettingsFile[0].files[0];
            //console.log("file",file)
             //let fs_name = file.name;
             //let fs_size = file.size;//文件字节大小
@@ -175,10 +271,10 @@
               },
               success: function (res) {
                   ele_top_loading.hide();
-                    if (1000 === res.code) {
+                    if(res.code === 1000){
                         myAlert(res.msg,"success");
                     }else{
-                        myAlert(res.msg,"error",3000);
+                        myAlert(res.msg,"error");
                     }
               }
             });
@@ -188,6 +284,48 @@
         }
 
     }
+    function f_import_update(){
+        //导入安装包
+        if (eleXcUpdateFile[0].files.length > 0){
+           let file = eleXcUpdateFile[0].files[0];
+           //console.log("file",file)
+            //let fs_name = file.name;
+            //let fs_size = file.size;//文件字节大小
+            //let fs_size_m = parseInt(fs_size / 1024 / 1024); //换算成M单位
+
+            let formData = new FormData();
+            formData.append('file',file)
+            ele_top_loading.show();
+
+            $.ajax({
+              url:"/system/postImportUpdate",
+              type:'post',
+              async: true,
+              contentType:false,
+              processData:false,
+              data:formData,
+              dataType: "json",
+              timeout: 0,
+              error: function () {
+                  ele_top_loading.hide();
+                  //myAlert("网络异常，请确定网络正常！","error");
+              },
+              success: function (res) {
+                  ele_top_loading.hide();
+                    if(res.code === 1000){
+                        myAlert(res.msg,"success");
+                    }else{
+                        myAlert(res.msg,"error");
+                    }
+              }
+            });
+
+        }else{
+            myAlert("请选择升级包文件！","error");
+        }
+
+    }
+
 
 </script>
 

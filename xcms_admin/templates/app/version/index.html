@@ -1,0 +1,190 @@
+{% extends "app/base_site.html" %}
+
+{% block title %} 关于系统 {% endblock title %}
+
+{% block stylesheets %}
+  {{ block.super }}
+{% endblock stylesheets %}
+
+
+{% block content %}
+
+  <div class="right_col" role="main">
+    <div class="">
+
+        <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+             <h2>关于系统
+                 <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
+                 <span id="top_msg">{{top_msg}}</span>
+              </h2>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                <h3>{{ settings.name }}</h3>
+                        <div style="margin-top: 6px;"  class="col-md-12 col-sm-12">
+                          <span>软件版本：</span><span style="color: green;font-size: 15px ;margin-right: 10px;">{{ project_version }}</span>
+                      </div>
+                     <div style="margin-top: 4px;" class="col-md-12 col-sm-12">
+                          <span>软件标记：</span><span style="color: green;font-size: 15px ;margin-right: 10px;">{{ project_flag }}</span>
+                      </div>
+{% if settings.is_show_author == 1 %}
+                    <div style="margin-top: 4px;"  class="col-md-12 col-sm-12">
+                        <a href="{{ settings.author_link }}" target="_blank">{{ settings.author }}</a>
+                    </div>
+{% endif %}
+                <div style="margin-top: 20px;"  class="col-md-12 col-sm-12">
+                         <button onclick="f_getCheckVersion()" class="btn btn-primary btn">检测新版本</button>
+                </div>
+              </div>
+              <div class="col-md-9 col-sm-9 col-xs-12">
+
+                <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                  <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"  >版本检测结果</a>
+                    </li>
+
+                  </ul>
+                  <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+
+                      <ul class="messages" id="data">
+                          <!--
+                        <li>
+                          <img src="/static/images/logo.png" class="avatar" alt="Avatar">
+                          <div class="message_date">
+                            <h3 class="date text-info">24</h3>
+                            <p class="month">May</p>
+                          </div>
+                          <div class="message_wrapper">
+                            <h4 class="heading">发现新版本：V4.2.1</h4>
+                            <blockquote class="message">
+                            （1）优化解码和分析以及推流的队列内存复用
+                            </blockquote>
+                              <blockquote class="message">
+                            （2）优化算法推流的流畅性
+                            </blockquote>
+                            <br>
+                            <p class="url">
+                              <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
+                              <a href="#"><i class="fa fa-download"></i> 历史版本 </a>
+                              &nbsp;<a href="#"><i class="fa fa-download"></i> 新版本 </a>
+                            </p>
+                          </div>
+                        </li>
+
+                        <li>
+                          <img src="/static/images/logo.png" class="avatar" alt="Avatar">
+                          <div class="message_wrapper">
+                            <h4 class="heading">未发现新版本</h4>
+                            <p class="url">
+                              <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
+                              <a href="#"><i class="fa fa-download"></i> 历史版本 </a>
+                            </p>
+                          </div>
+                        </li>
+                        -->
+                      </ul>
+
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super }}
+
+<script>
+    let eleData = $("#data");
+    let ele_top_loading = $("#top_loading");
+    let ele_top_msg= $("#top_msg");
+
+    function f_getCheckVersion() {
+        ele_top_loading.show();
+        $.ajax({
+               url: '/version/getCheckVersion',
+               type: "get",
+               async: true,
+               data: {},
+               dataType: "json",
+               timeout: 0,
+               error: function () {
+                   ele_top_loading.hide();
+                   myAlert("网络异常，请确定网络正常！","error");
+               },
+               success: function (res) {
+                   ele_top_loading.hide();
+                       let item_html = "";
+              let info = res.info;
+              let historyVersionUrl = info.historyVersionUrl;//历史版本下载地址
+
+                   if(1000 === res.code){
+
+                       let version = info.version.toString();//新版本版本号
+                       let updateContent = info.updateContent;//array
+                       let pubdate = info.pubdate;//版本发布时间
+
+                       let url = info.url;//新版本下载地址
+
+                        item_html +="";
+                        item_html +="<li>";
+                          item_html +="<img src=\"/static/images/logo.png\" class=\"avatar\" alt=\"Avatar\">";
+                          item_html +="<div class=\"message_date\">";
+                            //item_html +="<h3 class=\"date text-info\">"+pubdate+"</h3>";
+                            item_html +="<p class=\"month\">"+pubdate+"</p>";
+                          item_html +="</div>";
+                          item_html +="<div class=\"message_wrapper\">";
+                            item_html +="<h4 class=\"heading\">发现新版本：v"+version+"</h4>";
+                           for (let i = 0; i < updateContent.length; i++) {
+                                   item_html +="<blockquote class=\"message\">"+updateContent[i]+"</blockquote>";
+                           }
+
+                            item_html +="<br>";
+                            item_html +="<p class=\"url\">";
+                              item_html +="<span class=\"fs1 text-info\" aria-hidden=\"true\" data-icon=\"\"></span>";
+                             item_html +=" <a href=\""+historyVersionUrl+"\" target='_blank'><i class=\"fa fa-download\"></i> 历史版本 </a>";
+                             item_html +=" &nbsp;<a href=\""+url+"\" target='_blank'><i class=\"fa fa-download\"></i> 新版本 </a>";
+                           item_html +=" </p>";
+                          item_html +="</div>";
+                       item_html +=" </li>";
+                        eleData.html(item_html);
+                        //setTimeout(function () {f_getStreams();}, 6000);
+
+                   }else{
+                       item_html+="<li>";
+                          item_html+="<img src=\"/static/images/logo.png\" class=\"avatar\" alt=\"Avatar\">";
+                          item_html+="<div class=\"message_wrapper\">";
+                            item_html+="<h4 class=\"heading\">"+res.msg+"</h4>";
+                            item_html+="<p class=\"url\">";
+                              item_html+="<span class=\"fs1 text-info\" aria-hidden=\"true\" data-icon=\"\"></span>";
+                           item_html +=" <a href=\""+historyVersionUrl+"\" target='_blank'><i class=\"fa fa-download\"></i> 历史版本 </a>";
+                            item_html+="</p>";
+                          item_html+="</div>";
+                        item_html+="</li>";
+                        eleData.html(item_html);
+                   }
+               }
+            });
+
+    }
+    window.onload = function (){
+        f_getCheckVersion();
+    };
+
+</script>
+{% endblock javascripts %}
+
+

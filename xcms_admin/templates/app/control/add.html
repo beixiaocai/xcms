@@ -77,8 +77,6 @@
     let m_alarmInterfaceCodeDict = {}; //报警接口字典
     let m_alarmInterfaceCode;
 
-    let m_alarmFilterCodeDict = {}; //报警过滤器字典
-    let m_alarmFilterCode;
 
 </script>
   <div class="right_col" role="main">
@@ -285,31 +283,6 @@
                           </div>
                     </div>
 
-
-                    <div class="form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12">报警过滤器
-                          </label>
-
-                          <div class="col-md-9 col-sm-9 col-xs-12">
-
-                            <select id="select_alarm_filter"  class="select2_single form-control" required="required" >
-                                <option value="0">请选择报警过滤器</option>
-                                {% for alarmFilter in alarmFilters %}
-                                   <script>
-                                        m_alarmFilterCode = '{{ alarmFilter.code }}';
-                                        m_alarmFilterCodeDict[m_alarmFilterCode] = {
-                                            "code":m_alarmFilterCode,
-                                            "name":'{{ alarmFilter.name }}'
-                                        }
-                                    </script>
-                                    <option {% if alarmFilter.code == control.alarm_filter_code %} selected {% endif %} value="{{ alarmFilter.code }}">{{ alarmFilter.name }}</option>
-                                {% endfor %}
-                            </select>
-
-                          </div>
-                    </div>
-
-
                   <div class="form-group">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12">报警间隔<span class="required" style="color: red;">*</span> <i class="bxc_introduce fa fa-info-circle" title="1路视频最小报警间隔时长（单位秒）"></i></label>
                       <div class="col-md-9 col-sm-9 col-xs-12">
@@ -318,7 +291,7 @@
                     </div>
 
                   <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12">周界比例<span class="required" style="color: red;">*</span> <i class="bxc_introduce fa fa-info-circle" title="检测目标位于周界区域部分占目标整体的比例"></i></label>
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">重叠比例<span class="required" style="color: red;">*</span> <i class="bxc_introduce fa fa-info-circle" title="检测目标位于绘制区域部分占目标整体的比例"></i></label>
                       <div class="col-md-9 col-sm-9 col-xs-12">
                            <input id="overlap_thresh"  type="number" value="{{ control.overlap_thresh }}" class="form-control" >
                       </div>
@@ -420,7 +393,6 @@
 
     let eleSelectAudio = $("#select_audio");// select 音频
     let eleSelectAlarmInterface = $("#select_alarm_interface");// select 报警接口
-    let eleSelectAlarmFilter = $("#select_alarm_filter");// select 报警过滤器
 
     let eleInputMinInterval = $("#min_interval");
     let eleInputOverlapThresh = $("#overlap_thresh");
@@ -795,10 +767,6 @@
             myAlert("请选择报警接口","error");
             return;
         }
-        m_alarmFilterCode = eleSelectAlarmFilter.val().trim();//typeof string
-        if(m_alarmFilterCode === "0"){
-            m_alarmFilterCode = "";//如果该参数是'0'，表示默认值，强制设置为空字符串
-        }
 
         let minInterval = parseInt(eleInputMinInterval.val());
         if(isNaN(minInterval)){
@@ -954,7 +922,6 @@
             "flowCode":flowCode,
             "audioCode":audioCode,
             "alarmInterfaceCode":m_alarmInterfaceCode,
-            "alarmFilterCode":m_alarmFilterCode,
             "polygon":polygon,
             "polygon_type": mPolygonType,
             "minInterval":minInterval,

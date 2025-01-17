@@ -417,13 +417,16 @@
                success: function (res) {
                    ele_top_loading.hide();
                    eleData.html("");
-                   let item_html;
-                   if(1000 === res.code){
+
+                   if(res.code === 1000){
                        let data = res.data;
                        let data_length = data.length;
+                       let item_html;
+
                        let infos = res.infos;
                        f_showInfos(infos);
-                       if(0===data_length){
+
+                       if(data_length === 0){
                             item_html = "";
                             item_html += "<tr class=\"even pointer\">";
                             item_html += "<td colspan='8'>暂无数据</td>";
