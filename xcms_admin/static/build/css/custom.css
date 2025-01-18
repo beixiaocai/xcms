@@ -138,13 +138,13 @@ html , body{
     margin: 0 0 4px 0
 }
 .calendar-exibit .show-calendar.picker_1 {
-    background: #34495E
+    background: #091f35
 }
 .calendar-exibit .calendar-table {
     padding: 0 0 4px 0
 }
 .left_col {
-    background: #2A3F54
+    background: #091f35
 }
 .nav-sm .container.body .col-md-3.left_col {
     min-height: 100%;
@@ -223,7 +223,7 @@ html , body{
     top: 0;
     width: 150px;
     z-index: 4000;
-    background: #3E5367;
+    background: #091f35;
     display: none
 }
 .nav-sm ul.nav.child_menu li {
@@ -356,7 +356,7 @@ body .container.body .right_col {
 .nav_title {
     width: 200px;
     float: left;
-    background: #2A3F54;
+    background: #091f35;
     border-radius: 0;
     height: 57px
 }
@@ -497,8 +497,8 @@ body .container.body .right_col {
     background: #D9DEE4
 }
 body {
-    color: #000000;/*#73879C*/
-    background: #2A3F54;
+    color: #000000;
+    background: #091f35;
     font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
     /*font-size: 13px;*/
     font-weight: 400;
@@ -797,7 +797,7 @@ a:active,
 }
 .nav.side-menu>li.active>a {
     text-shadow: rgba(0, 0, 0, 0.25) 0 -1px 0;
-    background: linear-gradient(#334556, #2C4257), #2A3F54;
+    background: linear-gradient(#091f35, #091f35), #091f35;
     box-shadow: rgba(0, 0, 0, 0.25) 0 1px 0, inset rgba(255, 255, 255, 0.16) 0 1px 0
 }
 .navbar-brand,

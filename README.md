@@ -34,8 +34,8 @@
 
 * [下载x86-Windows-ov版](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/333803623628302fe6f578cd3485e4be)
 * [下载x86-Windows-ovtrt版](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/gyvtvcndflyppuhw)
-* [下载x86-Ubuntu-ov版](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/944d5586badc8e93686afc522a4feece)
-* [下载x86-Ubuntu-ovtrt版](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/2713611802e365950bc9c6fef5c6b118)
+* [下载x86-Linux-ov版](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/944d5586badc8e93686afc522a4feece)
+* [下载x86-Linux-ovtrt版](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/2713611802e365950bc9c6fef5c6b118)
 * [下载arm-昇腾版](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/644800c887eb14094e2154882b78e8fc)
 * [下载arm-rk版](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/76dbf61f8b5f8ce67891dc3e3f36b686)
 * [下载arm/x86其他版本](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/e382620e4df52bd7628d3fd141a7112d)
@@ -54,12 +54,13 @@
 * [FFmpeg电脑桌面推流](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/00a95632b189aa5a4e5e6e4ffb2bbd40)
 
 
-<img width="720" alt="控制面板" src="https://gitee.com/Vanishi/images/raw/master/BXC_VideoAnalyzer_v4/v4.409/1.png">
-<img width="720" alt="报警视频管理" src="https://gitee.com/Vanishi/images/raw/master/BXC_VideoAnalyzer_v4/v4.409/2.png">
-<img width="720" alt="摄像头管理" src="https://gitee.com/Vanishi/images/raw/master/BXC_VideoAnalyzer_v4/v4.409/3.png">
-<img width="720" alt="算法管理" src="https://gitee.com/Vanishi/images/raw/master/BXC_VideoAnalyzer_v4/v4.409/4.png">
-<img width="720" alt="添加算法" src="https://gitee.com/Vanishi/images/raw/master/BXC_VideoAnalyzer_v4/v4.409/5.png">
-<img width="720" alt="布控管理" src="https://gitee.com/Vanishi/images/raw/master/BXC_VideoAnalyzer_v4/v4.409/6.png">
-<img width="720" alt="添加布控" src="https://gitee.com/Vanishi/images/raw/master/BXC_VideoAnalyzer_v4/v4.409/7.png">
-<img width="720" alt="系统维护" src="https://gitee.com/Vanishi/images/raw/master/BXC_VideoAnalyzer_v4/v4.409/8.png">
-<img width="720" alt="关于系统" src="https://gitee.com/Vanishi/images/raw/master/BXC_VideoAnalyzer_v4/v4.409/9.png">
+<img width="720" alt="视频行为分析系统v4.610" src="https://gitee.com/Vanishi/images/raw/master/xcms/1.png">
+<img width="720" alt="视频行为分析系统v4.610" src="https://gitee.com/Vanishi/images/raw/master/xcms/2.png">
+<img width="720" alt="视频行为分析系统v4.610" src="https://gitee.com/Vanishi/images/raw/master/xcms/3.png">
+<img width="720" alt="视频行为分析系统v4.610" src="https://gitee.com/Vanishi/images/raw/master/xcms/4.png">
+<img width="720" alt="视频行为分析系统v4.610" src="https://gitee.com/Vanishi/images/raw/master/xcms/5.png">
+<img width="720" alt="视频行为分析系统v4.610" src="https://gitee.com/Vanishi/images/raw/master/xcms/6.png">
+<img width="720" alt="视频行为分析系统v4.610" src="https://gitee.com/Vanishi/images/raw/master/xcms/7.png">
+<img width="720" alt="视频行为分析系统v4.610" src="https://gitee.com/Vanishi/images/raw/master/xcms/8.png">
+<img width="720" alt="视频行为分析系统v4.610" src="https://gitee.com/Vanishi/images/raw/master/xcms/9.png">
+
