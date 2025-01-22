@@ -59,8 +59,7 @@
                       <div class="form-group">
                          <div class="col-md-6 col-sm-6 col-md-offset-3">
                                 <h4 style="font-weight: bold">日志</h4>
-                             <button type="button" onclick="f_clear_logs()" class="btn btn-primary btn-sm" >清理日志</button>
-                             <button type="button" onclick="f_export_logs()" class="btn btn-primary btn-sm" >导出日志</button>
+                             <button type="button" onclick="f_export_logs()" class="btn btn-primary btn-sm" >导出日志</button> 导出日志，提供给开发者排查问题
                           </div>
                     </div>
 
@@ -211,31 +210,6 @@
                     let export_filename = info["export_filename"]
                     let download_url = "/storage/download?filename="+export_filename;
                     window.open(download_url);
-               }else{
-                   myAlert(res.msg,"error");
-               }
-           }
-        });
-
-    }
-    function f_clear_logs(){
-        //清理日志
-        ele_top_loading.show();
-        $.ajax({
-           url: "/system/postClearLogs",
-           type: "post",
-           async: true,
-           data: {},
-           dataType: "json",
-           timeout: 0,
-           error: function () {
-               ele_top_loading.hide();
-               myAlert("网络异常，请确定网络正常！","error");
-           },
-           success: function (res) {
-               ele_top_loading.hide();
-               if(res.code === 1000){
-                   myAlert(res.msg,"success");
                }else{
                    myAlert(res.msg,"error");
                }

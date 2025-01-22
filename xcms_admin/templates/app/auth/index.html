@@ -30,10 +30,10 @@
                 </div>
 
                 <div class="item form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">机器授权码 <span class="required">*</span>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">授权码 <span class="required">*</span>
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                      <textarea id="active_code" name="active_code" class="form-control" rows="6" placeholder="请输入机器授权码"></textarea>
+                      <textarea id="active_code" name="active_code" class="form-control" rows="6" placeholder="请输入授权码"></textarea>
                   </div>
                 </div>
 
@@ -82,13 +82,13 @@
 
                   <div class="form-group">
                   <div class="col-md-6 col-md-offset-3">
-                             <button type="submit" class="btn btn-success">激活授权码</button>
+                             <button type="submit" class="btn btn-primary">激活授权码</button>
 
                     {% if settings.auth_online_link != "" %}
-                          <button type="button" onclick="f_link('{{ settings.auth_online_link }}')" class="btn btn-primary btn-sm">申请试用授权</button>
+                          <button type="button" onclick="f_link('{{ settings.auth_online_link }}')" class="btn btn-default btn-sm">申请试用授权</button>
                     {% endif %}
                     {% if settings.auth_buy_link != "" %}
-                          <button type="button" onclick="f_link('{{ settings.auth_buy_link }}')" class="btn btn-primary btn-sm">购买永久授权</button>
+                          <button type="button" onclick="f_link('{{ settings.auth_buy_link }}')" class="btn btn-default btn-sm">购买永久授权</button>
                     {% endif %}
 
 
@@ -184,7 +184,7 @@
     function f_showDongleVerifyInfo(dongle_status,dongle_remark) {
         let verifyMsg;
         if(-1===dongle_status){
-            verifyMsg = "<span class='sun-state-error'>检测加密锁失败！原因：分析器模块未正常运行</span";
+            verifyMsg = "<span class='sun-state-error'>检测加密锁失败！原因：未正常运行</span";
         } else if(0===dongle_status){
             verifyMsg = "<span class='sun-state-error'>未发现加密锁设备</span";
         }else if(1===dongle_status){
@@ -228,7 +228,7 @@
                    //显示机器授权验证结果start
                     let machine_mac = info.machine_mac;
                     if (machine_mac === "00-00-00-00-00-00"){
-                        eleMachineMac.html("<span style=\"color:#c9302c;font-size: 13px ;\">读取本机MAC失败！原因：分析器模块未正常运行</span>");
+                        eleMachineMac.html("<span style=\"color:#c9302c;font-size: 13px ;\">读取本机MAC失败！原因：未正常运行</span>");
                     }else{
                         eleMachineMac.html("<span style=\"color: green;font-size: 15px ;\">"+machine_mac+"</span>");
                     }
@@ -253,19 +253,36 @@
                }
             });
     }
+    function f_updateAllCoreProcess() {
+        $.ajax({
+               url: '/auth/updateAllCoreProcess',
+               type: "get",
+               async: true,
+               data: {},
+               dataType: "json",
+               timeout: 0,
+               error: function () {
+
+               },
+               success: function (res) {
+
+               }
+            });
+    }
+
+    $("form").submit(function () {
+        let active_code = eleTextareaActiveCode.val().trim();
+        if(active_code === ""){
+            myAlert("请输入授权码", "error");
+            return false;
+        }
+         return true;
+    });
+
 
     $(function () {
         f_getAuthInfo();
-        $("form").submit(function () {
-            let active_code = eleTextareaActiveCode.val().trim();
-            if("" === active_code){
-                myAlert("请输入授权码", "error");
-                return false;
-            }
-             return true;
-        });
-
-
+        f_updateAllCoreProcess();
     });
 </script>
 
