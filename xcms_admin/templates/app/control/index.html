@@ -20,8 +20,8 @@
 
                           <button onclick="f_docs()" class="btn btn-primary btn-sm" type="button">文档</button>
                           <button onclick="f_reload()" class="btn btn-default btn-sm" type="button">刷新</button>
-                          <button onclick="f_openHandleAllControl('add')" class="btn btn-default btn-sm" type="button">全部执行布控</button>
-                          <button onclick="f_openHandleAllControl('cancel')" class="btn btn-default btn-sm" type="button">全部取消布控</button>
+                          <button onclick="f_openHandleAllControl('add')" class="btn btn-default btn-sm" type="button">全部执行</button>
+                          <button onclick="f_openHandleAllControl('cancel')" class="btn btn-default btn-sm" type="button">全部取消</button>
                           <button onclick="f_openHandleAllControl('delete')" class="btn btn-default btn-sm" type="button">全部删除</button>
 
                       <span id="top_msg">{{top_msg}}</span>
@@ -37,7 +37,7 @@
           <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel">
                   <div class="x_content">
-                      <p id="infos"><code>...</code></p>
+                      <p id="controlInfo"><code>...</code></p>
 
                       <div class="table-responsive">
                        <table class="table table-bordered">
@@ -151,13 +151,12 @@
   {{ block.super }}
 
 <script>
-
+    let eleControlInfo= $("#controlInfo");
     let eleData = $("#data");
     let elePageData = $("#pageData");
     let ele_top_loading = $("#top_loading");
     let ele_top_msg= $("#top_msg");
-    let eleInfos= $("#infos");
-
+    
     let ele_div_control_log_dialog = $("#controlLogDialog");
     let ele_div_control_data = $("#controlLogData");
 
@@ -342,42 +341,6 @@
         let url = "/algorithmFlow/edit?code="+code;
         window.open(url);
     }
-    function f_showInfos(infos){
-        //console.log(infos)
-        let infos_len = infos.length;
-        let html = "";
-        if (infos_len > 0){
-            let info0 = infos[0];
-            let info0_status = info0["status"]
-            if (info0_status === 1){
-                 let info0_authMaxControlCount = info0["authMaxControlCount"]
-                 let controlCount = 0;
-                 for (let i = 0; i < infos_len; i++) {
-                    let info = infos[i];
-                    let info_status = info["status"]
-                    if(info_status === 1){
-                        controlCount += info.controlCount;
-                    }
-                 }
-                 //html += "<code>进程总数("+infos_len+")</code>  <code>"+controlCount+"/"+info0_authMaxControlCount+"</code>";
-                 html += "<code>进程总数["+infos_len+"]</code>";
-                 for (let i = 0; i < infos_len; i++) {
-                    let info = infos[i];
-                    let info_status = info["status"]
-                    if(info_status === 1){
-                        html += "  <code>"+i+":"+info.controlCount+"/"+info.maxControlCount+"</code>";
-                    }else{
-                        html += "  <code>"+i+":未启动</code>";
-                    }
-                 }
-            }else{
-               html +="<code>分析进程未启动</code>";
-            }
-        }else{
-            html +="<code>分析进程未启动</code>";
-        }
-        eleInfos.html(html);
-    }
     function f_show_pageData(pageData) {
         let page_size = pageData["page_size"];
         let html = "";
@@ -402,7 +365,6 @@
         temp_cur_page = page;
         temp_cur_page_size = page_size;
         ele_top_loading.show();
-        eleInfos.html("<code>...</code>");
         $.ajax({
                url: '/control/getIndex',
                type: "get",
@@ -422,9 +384,6 @@
                        let data = res.data;
                        let data_length = data.length;
                        let item_html;
-
-                       let infos = res.infos;
-                       f_showInfos(infos);
 
                        if(data_length === 0){
                             item_html = "";
@@ -449,7 +408,7 @@
 
                                 item_html += "<td><a class='sun-a-label' style='font-size: 12px;' href=\"javascript:f_open_player('"+d["push_stream_app"]+"','"+d["push_stream_name"]+"')\" ><i class=\"fa fa-play\"></i>算法流</a></td>";
 
-                                if(0===d["flow_nickname"]){//算法已被删除
+                                if(d["flow_nickname"] === 0){//算法已被删除
                                     item_html += "<td><span class='sun-state-error'>已删除</span></td>";
                                 }else{
                                     let flow_mode = d["flow_mode"];
@@ -461,15 +420,14 @@
                                     item_html += "<td><a class='sun-a-label' href=\"javascript:f_open_flow('"+d["flow_code"]+"')\" >("+base+") "+d["flow_nickname"]+"</a>";
                                 }
 
-
                                item_html += "<td>"+d["checkFps"]+"</td>";
 
                                 item_html += "<td class='cur_state_" + d["code"] + "'>";
-                               if(0===d["cur_state"]){
+                               if(d["cur_state"] === 0){
                                    item_html += "<span class='sun-state-error'>未布控</span>";
-                               }else if(1===d["cur_state"]){
+                               }else if(d["cur_state"] === 1){
                                     item_html += "<span class='sun-state-success'>布控中</span>";
-                               }else if(5===d["cur_state"]){
+                               }else if(d["cur_state"] === 5){
                                     item_html += "<span class='sun-state-error'>布控中断</span>";
                                }else{
                                     item_html += "<span class='sun-state-error'>未知状态</span>";
@@ -506,13 +464,43 @@
 
     }
 
+    function f_getAllOnlineControlInfo() {
+        eleControlInfo.html("<code>...</code>");
+        $.ajax({
+               url: '/open/getAllOnlineControlInfo',
+               type: "get",
+               async: true,
+               data: {},
+               dataType: "json",
+               timeout: 0,
+               error: function () {
+                   myAlert("网络异常，请确定网络正常！","error");
+               },
+               success: function (res) {
+                   if(1000 === res.code) {
+                       let info = res.info
+                       let workerCount = info["workerCount"]
+                       //let coreProcessNum = info["coreProcessNum"]
+                       //let coreProcessMode = info["coreProcessMode"]
+
+                       let html = "<code>执行中总数量:"+workerCount+"</code>";
+                       eleControlInfo.html(html);
+                   }else{
+                       let msg = res.msg;
+
+                       let html = "<code>"+msg+"</code>";
+                       eleControlInfo.html(html);
+                   }
+               }
+            });
+    }
     function f_openHandleAllControl(handle) {
         //执行全部布控 或 取消全部布控
         let msg = "";
         if(handle === "add"){
-            msg = "确认全部执行布控吗？";
+            msg = "确认全部执行吗？";
         }else if(handle === "cancel"){
-            msg = "确认全部取消布控吗？";
+            msg = "确认全部取消吗？";
         }else if(handle === "delete"){
             msg = "确认全部删除吗？";
         }else{
@@ -533,7 +521,9 @@
                        myAlert("网络异常，请确定网络正常！","error");
                    },
                    success: function (res) {
-                          ele_top_loading.hide();
+                        ele_top_loading.hide();
+                        f_getAllOnlineControlInfo();
+
                         if(1000 === res.code){
                             myAlert(res.msg,"success",1000);
                             setTimeout(function () {
@@ -577,7 +567,10 @@
            },
            success: function (res) {
                ele_top_loading.hide();
-               if(1000 === res.code){
+
+               f_getAllOnlineControlInfo();
+
+               if(res.code === 1000){
                    myAlert(res.msg,"success",2000);
 
                    if(handle === "add"){
@@ -614,6 +607,7 @@
     }
     window.onload = function (){
         f_getIndex(temp_cur_page,temp_cur_page_size);
+        f_getAllOnlineControlInfo();
 
     };
 

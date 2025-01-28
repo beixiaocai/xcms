@@ -49,33 +49,15 @@
         <div class="col-md-4 col-sm-6 col-xs-12">
           <div class="x_panel">
             <div class="x_title">
-                <h2>运行状态</h2>
+                <h2>分析器</h2>
               <div class="clearfix"></div>
             </div>
             <div class="x_content">
               <table class="table table-hover">
-                <tbody>
+                <tbody id="coreProcessData">
                  <tr>
-                    <th scope="row">启动器</th>
-                    <th scope="row" id="xcms">未启动</th>
-                  </tr>
-
-                  <tr>
-                    <th scope="row">管理服务器</th>
-                    <th scope="row" id="xcms_admin">00:00:00</th>
-                  </tr>
-                  <tr>
-                    <th scope="row">流媒体服务器</th>
-                    <th scope="row" id="xcms_zlm">00:00:00</th>
-                  </tr>
-                 <tr>
-                    <th scope="row">流媒体管理器</th>
-                    <th scope="row" id="xcms_media">00:00:00</th>
-                  </tr>
-
-                  <tr>
-                   <th scope="row">视频分析器</th>
-                    <th scope="row" id="xcms_core">00:00:00</th>
+                    <th scope="row">分析进程数据</th>
+                    <th scope="row">加载中</th>
                   </tr>
                 </tbody>
               </table>
@@ -404,11 +386,8 @@
 		}]
     });
 
-    let eleXcms = $("#xcms");
-    let eleXcmsAdmin = $("#xcms_admin");
-    let eleXcmsZlm = $("#xcms_zlm");
-    let eleXcmsMedia = $("#xcms_media");
-    let eleXcmsCore = $("#xcms_core");
+    let eleCoreProcessData = $("#coreProcessData");
+
     //系统信息
     let eleProjectVersion = $("#project_version");
     let eleOsMachineNode = $("#os_machine_node");
@@ -564,9 +543,9 @@
                }
             });
     }
-    function f_getSystemInfo() {
+    function f_getAllCoreProcessData() {
         $.ajax({
-           url: '/system/getSystemInfo',
+           url: '/open/getAllCoreProcessData',
            type: "get",
            async: true,
            data: {},
@@ -576,62 +555,31 @@
                 myAlert("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
-               if(1000 === res.code){
+                let config = res["config"];
+                let coreProcessNum = config["coreProcessNum"]
+                let coreProcessMode = config["coreProcessMode"]
+                let allProcessData = res["allProcessData"];
 
-                    // 视频行为分析系统数据
-                    let data = res["data"];
+                let html = "<tr><th scope=\"row\">分析进程数量</th><th scope=\"row\">"+coreProcessNum+"</th></tr>";
+                html += "<tr><th scope=\"row\">分析进程模式</th><th scope=\"row\">"+coreProcessMode+"</th></tr>";
 
-                    for (let i = 0; i < data.length; i++) {
-                        let d = data[i];
-                        let process_name = d["process_name"];
+                for (let i = 0; i < allProcessData.length; i++) {
+                    let __status = allProcessData[i]["status"]
+                    let __port = allProcessData[i]["port"]
 
-                       if(process_name === "xcms"){
-                           if(d["state"]===1){
-                                eleXcms.html("<span class='sun-state-success'>运行中</span>")
-                           }else{
-                                eleXcms.html("<span class='sun-state-error'>未启动</span>")
-                           }
-                       }
-                       else if(process_name === "xcms_admin"){
-                           if(d["state"]===1){
-                                eleXcmsAdmin.html("<span class='sun-state-success'>"+d["spend_date_str"]+"</span>")
-                           }else{
-                                eleXcmsAdmin.html("<span class='sun-state-error'>未启动</span>")
-                           }
-
-                       }else if(process_name === "xcms_zlm"){
-
-                          if(d["state"]===1){
-                                eleXcmsZlm.html("<span class='sun-state-success'>"+d["spend_date_str"]+"</span>")
-                           }else{
-                               eleXcmsZlm.html("<span class='sun-state-error'>未启动</span>")
-                           }
-
-                       }else if(process_name === "xcms_media"){
-
-                          if(d["state"]===1){
-                               eleXcmsMedia.html("<span class='sun-state-success'>"+d["spend_date_str"]+"</span>")
-                           }else{
-                               eleXcmsMedia.html("<span class='sun-state-error'>未启动</span>")
-                           }
-
-                       }else if(process_name === "xcms_core"){
-
-                          if(d["state"]===1){
-                                eleXcmsCore.html("<span class='sun-state-success'>"+d["spend_date_str"]+"</span>")
-                           }else{
-                               eleXcmsCore.html("<span class='sun-state-error'>未启动</span>")
-                           }
-                       }
+                    if(__status === 1){
+                        let __workerCount = allProcessData[i]["workerCount"]
+                        let __maxControlCount = allProcessData[i]["maxControlCount"]
+                        let __authMaxControlCount = allProcessData[i]["authMaxControlCount"]
+                        html+="<tr><th scope=\"row\">"+__port+"</th><th scope=\"row\">"+__workerCount+"/"+__maxControlCount+"/"+__authMaxControlCount+"</th></tr>";
+                    }else{
+                        html+="<tr><th scope=\"row\">"+__port+"</th><th scope=\"row\">重启中</th></tr>";
                     }
 
-               }else{
-                   console.log(res.msg);
+                }
 
-               }
-               setTimeout(function () {
-                   f_getSystemInfo();
-               }, 6000);
+                eleCoreProcessData.html(html);
+
            }
         });
     }
@@ -679,7 +627,7 @@
     window.onload = function (){
         f_getIndex();
         f_getAuthInfo();
-        f_getSystemInfo();
+        f_getAllCoreProcessData();
         f_getCheckVersion();
     };
 
