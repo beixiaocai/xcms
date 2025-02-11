@@ -126,8 +126,9 @@
                     {%  for d  in data %}
                       <tr class="even pointer">
                         <td>{{ d.id }}<!--{{forloop.counter}}--></td>
-                        <td>{{ d.custom_code }}</td>
+
                         <td>{{ d.name }}</td>
+                          <td>{{ d.custom_code }}</td>
                         <td>
                             <div class="image_container">
                                 <img src="{{ storageDir_www }}{{ d.image_dir }}/{{ d.image_name }}" title="照片">

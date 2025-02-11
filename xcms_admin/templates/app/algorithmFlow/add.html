@@ -232,12 +232,21 @@
                   </div>
                 </div>
 
+                      <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">扩展参数
+                      </label>
+                       <div class="col-md-6 col-sm-6 col-xs-12">
+                        <textarea required="required" name="extend_params" class="form-control col-md-7 col-xs-12">{{ flow.extend_params }}</textarea>
+
+                      </div>
+                </div>
+
             <!--
 
                <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">备注
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">备注
                       </label>
-                      <div class="col-md-9 col-sm-9 col-xs-12">
+                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <textarea required="required" name="remark" class="form-control col-md-7 col-xs-12">{{ flow.remark }}</textarea>
 
                       </div>
@@ -292,7 +301,8 @@
     let eleSelectAlgorithmTrack = $("#select_algorithm_track");// select 特征算法
     //行为算法
     let eleSelectBehaviour = $("#select_behaviour");// select 行为算法
-    let eleTextarea_remark = $("textarea[name='remark']");
+    let eleTextareaExtendParams = $("textarea[name='extend_params']");
+    let eleTextareaRemark = $("textarea[name='remark']");
 
    let eleFlowBoxDetect = $("#flow_box_detect");
    let eleFlowBoxDetectClass = $("#flow_box_detect_class");
@@ -609,7 +619,9 @@
         let max_concurrency = parseInt(ele_input_max_concurrency.val());
         let concurrency_unit_length = parseInt(ele_input_concurrency_unit_length.val());
 
-        let remark = eleTextarea_remark.val();
+        let extend_params = eleTextareaExtendParams.val();
+        let remark = eleTextareaRemark.val();
+        
         if(remark===undefined){
             remark = "";
         }
@@ -627,6 +639,7 @@
             "deploy_process_index":deploy_process_index,
             "max_concurrency":max_concurrency,
             "concurrency_unit_length":concurrency_unit_length,
+            "extend_params":extend_params,
             "remark":remark
         }
 
