@@ -86,7 +86,7 @@
           <div class="x_panel">
             <div class="x_title">
               <h2>{% if  "add" == handle %}添加{% else %}编辑{% endif %}布控
-                <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-primary btn-sm">文档</button>
+                <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-dark btn-sm">文档</button>
               </h2>
               <div class="clearfix"></div>
             </div>
@@ -101,8 +101,8 @@
                 </div>
 
                 <div class="div_left_bottom_menu">
-                  <button type="button" onclick="f_clickPlayStart()" class="btn btn-success"><i class="fa fa-play"></i> 播放 </button>
-                  <button type="button" onclick="f_clickPlayStop()" class="btn btn-default"><i class="fa fa-stop"></i> 停止 </button>
+                  <button type="button" onclick="f_clickPlayStart()" class="btn btn-dark btn-sm"><i class="fa fa-play"></i> 播放 </button>
+                  <button type="button" onclick="f_clickPlayStop()" class="btn btn-default btn-sm"><i class="fa fa-stop"></i> 停止 </button>
                   <button type="button" onclick="f_clearVideoCanvas()" class="btn btn-default btn-sm"><i class="fa fa-paint-brush"></i> 清空区域</button>
                   <div class="btn-group" style="margin-bottom: 5px;">
                       <button type="button" id="btn_draw_type1" class="btn btn-default btn-sm">矩形</button>
@@ -355,8 +355,8 @@
 
                         <div class="form-group">
                           <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                            <button type="button" onclick="window.history.go(-1)" class="btn btn-primary">返回</button>
-                            <button type="button" onclick="f_postHandle()" class="btn btn-success">提交</button>
+                            <button type="button" onclick="window.history.go(-1)" class="btn btn-default">返回</button>
+                            <button type="button" onclick="f_postHandle()" class="btn btn-dark">提交</button>
                           </div>
                         </div>
 
@@ -438,25 +438,25 @@
         //调整显示按钮
         if(mPolygonType===1){
             eleBtnDrawType1.removeClass("btn-default");
-            eleBtnDrawType1.addClass("btn-primary");
-            eleBtnDrawType2.removeClass("btn-primary");
+            eleBtnDrawType1.addClass("btn-dark");
+            eleBtnDrawType2.removeClass("btn-dark");
             eleBtnDrawType2.addClass("btn-default");
-            eleBtnDrawType4.removeClass("btn-primary");
+            eleBtnDrawType4.removeClass("btn-dark");
             eleBtnDrawType4.addClass("btn-default");
         }else if(mPolygonType === 3){
-            eleBtnDrawType1.removeClass("btn-primary");
+            eleBtnDrawType1.removeClass("btn-dark");
             eleBtnDrawType1.addClass("btn-default");
             eleBtnDrawType2.removeClass("btn-default");
-            eleBtnDrawType2.addClass("btn-primary");
-            eleBtnDrawType4.removeClass("btn-primary");
+            eleBtnDrawType2.addClass("btn-dark");
+            eleBtnDrawType4.removeClass("btn-dark");
             eleBtnDrawType4.addClass("btn-default");
         }else if(mPolygonType === 2){
-            eleBtnDrawType1.removeClass("btn-primary");
+            eleBtnDrawType1.removeClass("btn-dark");
             eleBtnDrawType1.addClass("btn-default");
-            eleBtnDrawType2.removeClass("btn-primary");
+            eleBtnDrawType2.removeClass("btn-dark");
             eleBtnDrawType2.addClass("btn-default");
             eleBtnDrawType4.removeClass("btn-default");
-            eleBtnDrawType4.addClass("btn-primary");
+            eleBtnDrawType4.addClass("btn-dark");
         }
     }
 

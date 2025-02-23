@@ -55,7 +55,7 @@
                     <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
 
                <div style="margin-left:5px;"  class="btn-group">
-                  <button onclick="f_docs()" class="btn btn-primary btn-sm" type="button">文档</button>
+                  <button onclick="f_docs()" class="btn btn-dark btn-sm" type="button">文档</button>
                   <button onclick="f_reload()"  class="btn btn-default btn-sm" type="button">刷新</button>
                 </div>
                   <div style="margin-left:5px;"  class="btn-group">
@@ -143,7 +143,7 @@
                           <td>{{ d.last_update_time }}</td>
                           <td>
                               <div class="btn-group">
-                              <button onclick="f_edit('{{ d.code }}')" class="btn btn-sm btn-primary" type="button"><i class="fa fa-edit"></i> 编辑</button>
+                              <button onclick="f_edit('{{ d.code }}')" class="btn btn-sm btn-default" type="button"><i class="fa fa-edit"></i> 编辑</button>
                               <button onclick="f_openSyncDatabase('{{ d.group_name }}','{{ d.code }}')" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="更新人脸库"><i class="fa fa-adjust"></i></button>
                               <button onclick="f_del('{{ d.code }}')" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="删除"><i class="fa fa-remove"></i></button>
                             </div>

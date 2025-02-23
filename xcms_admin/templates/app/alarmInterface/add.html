@@ -28,7 +28,7 @@
           <div class="x_panel">
             <div class="x_title">
                 <h2>{% if  "add" == handle %}添加{% else %}编辑{% endif %}报警接口
-                <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-primary btn-sm">文档</button>
+                <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-dark btn-sm">文档</button>
                  <span id="top_msg">{{top_msg}}</span>
                 </h2>
 
@@ -95,11 +95,12 @@
                               </label>
                             </div>
 
+                         <!--
                               <div class="radio">
                               <label>
                                 <input type="radio" {% if obj.request_server_type == 3 %} checked="checked" {% endif %} value="3" name="request_server_type"> 上传kafka
                               </label>
-                            </div>
+                            </div>-->
 
                               <div class="radio">
                               <label>
@@ -132,14 +133,6 @@
                   </div>
                 </div>
 
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12">报警延迟（秒） <span class="required" style="color: red;">*</span></label>
-             <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input type="number" name="alarm_delay" value="{{ obj.alarm_delay }}" required="required"  class="form-control">
-                  </div>
-                </div>
-
-
 
                   <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12">备注
@@ -151,8 +144,8 @@
 
                 <div class="form-group">
                   <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                    <button type="button" onclick="window.history.go(-1)" class="btn btn-primary">返回</button>
-                    <button type="submit" class="btn btn-success">提交</button>
+                    <button type="button" onclick="window.history.go(-1)" class="btn btn-default">返回</button>
+                    <button type="submit" class="btn btn-dark">提交</button>
 
                   </div>
                 </div>

@@ -48,12 +48,11 @@
                         <td>{{ d.code }}</td>
                         <td>{{ d.name }}</td>
                           <td>{{ d.last_update_time }}</td>
-
-                                                  <td>
+                          <td>
                               <div class="btn-group">
-                                 <button onclick="f_edit('{{ d.code }}')" class="btn btn-sm btn-primary" type="button"><i class="fa fa-edit"></i> 编辑</button>
-                                 <button onclick="f_del('{{ d.code }}')" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="删除"><i class="fa fa-remove"></i></button>
+                                 <button onclick="f_edit('{{ d.code }}')" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="编辑"><i class="fa fa-edit"></i> 编辑</button>
                                  <button onclick="f_play('{{ d.audio_path }}')" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="播放"><i class="fa fa-play"></i></button>
+                                 <button onclick="f_del('{{ d.code }}')" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="删除"><i class="fa fa-remove"></i></button>
                             </div>
                         </td>
 

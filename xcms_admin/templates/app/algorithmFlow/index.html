@@ -16,7 +16,7 @@
               <div class="x_title">
                <h2>业务算法管理
                     <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
-                    <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-primary btn-sm">文档</button>
+                    <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-dark btn-sm">文档</button>
                    <span id="top_msg">{{top_msg}}</span>
   </h2>
                 <div class="clearfix"></div>
@@ -52,7 +52,7 @@
                           <td>{{ d.last_update_time }}</td>
                                <td>
                               <div class="btn-group">
-                              <button onclick="f_edit('{{ d.code }}')" class="btn btn-sm btn-primary" type="button"><i class="fa fa-edit"></i> 编辑</button>
+                              <button onclick="f_edit('{{ d.code }}')" class="btn btn-sm btn-default" type="button"><i class="fa fa-edit"></i> 编辑</button>
                               <button onclick="f_del('{{ d.code }}')" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="删除"><i class="fa fa-remove"></i></button>
                             </div>
                         </td>
