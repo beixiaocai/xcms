@@ -464,10 +464,10 @@
 
     }
 
-    function f_getAllOnlineControlInfo() {
+    function f_getOnlineInfo() {
         eleControlInfo.html("<code>...</code>");
         $.ajax({
-               url: '/open/getAllOnlineControlInfo',
+               url: '/open/getOnlineInfo',
                type: "get",
                async: true,
                data: {},
@@ -522,7 +522,7 @@
                    },
                    success: function (res) {
                         ele_top_loading.hide();
-                        f_getAllOnlineControlInfo();
+                        f_getOnlineInfo();
 
                         if(1000 === res.code){
                             myAlert(res.msg,"success",1000);
@@ -568,7 +568,7 @@
            success: function (res) {
                ele_top_loading.hide();
 
-               f_getAllOnlineControlInfo();
+               f_getOnlineInfo();
 
                if(res.code === 1000){
                    myAlert(res.msg,"success",2000);
@@ -607,7 +607,7 @@
     }
     window.onload = function (){
         f_getIndex(temp_cur_page,temp_cur_page_size);
-        f_getAllOnlineControlInfo();
+        f_getOnlineInfo();
 
     };
 

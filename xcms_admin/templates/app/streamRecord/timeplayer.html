@@ -168,11 +168,11 @@
                myAlert("录像播放地址不正确！","error");
         }
     }
-    function f_getRecordFilename(timestamp){
+    function f_openRecordFilename(timestamp){
         eleInputRecordVideoAddress.val("");
 
         $.ajax({
-           url: "/streamRecord/getRecordFilename",
+           url: "/streamRecord/openRecordFilename",
            type: "get",
            async: true,
            data: {
@@ -229,19 +229,19 @@
         });
         
     }
-    function f_getRecordTimeline(date) {
+    function f_openRecordTimeline(date) {
        try {
             eleVideoPlayerJsObj.pause();
             //eleVideoPlayerJsObj.currentTime = 0;
             eleVideoPlayerJqueryObj.removeAttr("src");
             eleVideoPlayerJqueryObj.load();
        }catch (e) {
-           console.log("f_getRecordTimeline error:",e)
+           console.log("f_openRecordTimeline error:",e)
        }
 
         let timestamp = parseInt(date.valueOf() / 1000);//秒级时间戳
         $.ajax({
-           url: "/streamRecord/getRecordTimeline",
+           url: "/streamRecord/openRecordTimeline",
            type: "get",
            async: true,
            data: {
@@ -309,7 +309,7 @@
                             // fired on pointer release
                              //console.log("onFinish:",typeof data,data)
                              let timestamp = parseInt(data.from / 1000);//秒级时间戳
-                             f_getRecordFilename(timestamp);
+                             f_openRecordFilename(timestamp);
                         },
                         onUpdate: function (data) {
                             // fired on changing slider with Update method
@@ -361,10 +361,10 @@
             //console.log(typeof event,event)
             //console.log(typeof obj,obj)
             //console.log(typeof obj.date1,obj.date1)
-            f_getRecordTimeline(obj.date1);
+            f_openRecordTimeline(obj.date1);
         });
 
-    f_getRecordTimeline(start_date);
+    f_openRecordTimeline(start_date);
 
 </script>
 
