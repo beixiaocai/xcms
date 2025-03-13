@@ -503,11 +503,11 @@ function f_submit() {
                ele_submit_msg.show();
                ele_submit_msg.html(res.msg)
                if(1000 === res.code){
-                   myAlert(res.msg,"success");
-                   //myAlert(res.msg,"success",1000);
-                   //setTimeout(function () {
-                   //     window.location.href= "/algorithm/index";
-                   //}, 1000);
+                   //myAlert(res.msg,"success");
+                   myAlert(res.msg,"success",1000);
+                   setTimeout(function () {
+                        window.location.href= "/algorithm/index";
+                   }, 1000);
                }else{
                     myAlert(res.msg,"error");
                }
