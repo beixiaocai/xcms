@@ -22,23 +22,17 @@
 * v4安装包下载地址：https://gitee.com/Vanishi/xcms
 
 ## 软件支持的运行环境介绍
-| 架构 | 操作系统 | 硬件 | 推理引擎 | 下载地址 |
-| :----: | :----: | :----: | :----: | :----- |
-| x86 | Windows | intel,amd | openvino+ort | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/333803623628302fe6f578cd3485e4be) |
-| x86 | Windows | intel,amd+nvidia | openvino+tensorrt+ort | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/gyvtvcndflyppuhw) |
-| x86 | Linux（gcc>=9.4）| intel,amd | openvino | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/944d5586badc8e93686afc522a4feece) |
-| x86 | Linux（gcc>=9.4）| intel,amd+nvidia | openvino+tensorrt | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/2713611802e365950bc9c6fef5c6b118) |
-| arm | Linux（基于docker）| 昇腾 | cann | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/644800c887eb14094e2154882b78e8fc) |
-| arm | Linux（gcc>=9.4）| rk3588/rk3576 | rknpu | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/76dbf61f8b5f8ce67891dc3e3f36b686) |
-| arm/x86 | Linux | 不限 |  | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/e382620e4df52bd7628d3fd141a7112d) |
+| 架构 | 操作系统 | 硬件配置 | 下载地址 |
+| :----: | :----: | :----:  | :----- |
+| x86 | Windows | x86架构cpu  | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/333803623628302fe6f578cd3485e4be) |
+| x86 | Windows | x86架构cpu+N卡 | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/gyvtvcndflyppuhw) |
+| x86 | Linux（gcc>=9.4）| x86架构cpu | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/944d5586badc8e93686afc522a4feece) |
+| x86 | Docker | x86架构cpu | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/vmqcfrgrx30wiglm) |
+| x86 | Linux（gcc>=9.4）| x86架构cpu+N卡 | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/2713611802e365950bc9c6fef5c6b118) |
+| arm | Docker | arm架构cpu+华为昇腾 | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/644800c887eb14094e2154882b78e8fc) |
+| arm | Linux（gcc>=9.4）| arm架构cpu+rk3588/rk3576 | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/76dbf61f8b5f8ce67891dc3e3f36b686) |
+| 不限 | Linux | 不限   | [定制兼容](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/e382620e4df52bd7628d3fd141a7112d) |
 
-* [下载x86-Windows-ov版](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/333803623628302fe6f578cd3485e4be)
-* [下载x86-Windows-ovtrt版](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/gyvtvcndflyppuhw)
-* [下载x86-Linux-ov版](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/944d5586badc8e93686afc522a4feece)
-* [下载x86-Linux-ovtrt版](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/2713611802e365950bc9c6fef5c6b118)
-* [下载arm-昇腾版](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/644800c887eb14094e2154882b78e8fc)
-* [下载arm-rk版](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/76dbf61f8b5f8ce67891dc3e3f36b686)
-* [下载arm/x86其他版本](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/e382620e4df52bd7628d3fd141a7112d)
 
 ## 使用手册
 * [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/e05dce83e5129785b9f316978a14b896)
