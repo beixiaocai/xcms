@@ -464,10 +464,10 @@
 
     }
 
-    function f_getOnlineInfo() {
+    function f_getAllCoreProcessData2() {
         eleControlInfo.html("<code>...</code>");
         $.ajax({
-               url: '/open/getOnlineInfo',
+               url: '/open/getAllCoreProcessData2',
                type: "get",
                async: true,
                data: {},
@@ -479,15 +479,12 @@
                success: function (res) {
                    if(1000 === res.code) {
                        let info = res.info
-                       let workerCount = info["workerCount"]
-                       //let coreProcessNum = info["coreProcessNum"]
-                       //let coreProcessMode = info["coreProcessMode"]
-
-                       let html = "<code>执行中总数量:"+workerCount+"</code>";
+                       let __controlCount = info["controlCount"]
+                       let __streamCount = info["streamCount"]
+                       let html = "<code>视频数量:"+__streamCount+"</code> <code>布控数量:"+__controlCount+"</code>";
                        eleControlInfo.html(html);
                    }else{
                        let msg = res.msg;
-
                        let html = "<code>"+msg+"</code>";
                        eleControlInfo.html(html);
                    }
@@ -522,7 +519,7 @@
                    },
                    success: function (res) {
                         ele_top_loading.hide();
-                        f_getOnlineInfo();
+                        f_getAllCoreProcessData2();
 
                         if(1000 === res.code){
                             myAlert(res.msg,"success",1000);
@@ -568,7 +565,7 @@
            success: function (res) {
                ele_top_loading.hide();
 
-               f_getOnlineInfo();
+               f_getAllCoreProcessData2();
 
                if(res.code === 1000){
                    myAlert(res.msg,"success",2000);
@@ -607,7 +604,7 @@
     }
     window.onload = function (){
         f_getIndex(temp_cur_page,temp_cur_page_size);
-        f_getOnlineInfo();
+        f_getAllCoreProcessData2();
 
     };
 

@@ -556,22 +556,32 @@
            },
            success: function (res) {
                 let config = res["config"];
-                let coreProcessNum = config["coreProcessNum"]
-                let coreProcessMode = config["coreProcessMode"]
-                let allProcessData = res["allProcessData"];
+                let processNum = config["processNum"]
+                let processMode = config["processMode"]
+                let maxCount = config["maxCount"]
+                let isMultiProcess = config["isMultiProcess"]
+                let isMultiProcessStr;
+                if(isMultiProcess===1){
+                    isMultiProcessStr = "是";
+                }else {
+                    isMultiProcessStr = "否";
+                }
 
-                let html = "<tr><th scope=\"row\">分析进程数量</th><th scope=\"row\">"+coreProcessNum+"</th></tr>";
-                html += "<tr><th scope=\"row\">分析进程模式</th><th scope=\"row\">"+coreProcessMode+"</th></tr>";
+                let data = res["data"];
+                let html = "<tr><th scope=\"row\">进程模式</th><th scope=\"row\">"+processMode+"</th></tr>";
+                html += "<tr><th scope=\"row\">进程数量</th><th scope=\"row\">"+processNum+"</th></tr>";
 
-                for (let i = 0; i < allProcessData.length; i++) {
-                    let __status = allProcessData[i]["status"]
-                    let __port = allProcessData[i]["port"]
+                html += "<tr><th scope=\"row\">高级版授权</th><th scope=\"row\">"+isMultiProcessStr+"</th></tr>";
+                html += "<tr><th scope=\"row\">视频上限</th><th scope=\"row\">"+maxCount+"(路)</th></tr>";
 
+                for (let i = 0; i < data.length; i++) {
+                    let __status = data[i]["status"]
+                    let __port = data[i]["port"]
                     if(__status === 1){
-                        let __workerCount = allProcessData[i]["workerCount"]
-                        let __maxControlCount = allProcessData[i]["maxControlCount"]
-                        let __authMaxControlCount = allProcessData[i]["authMaxControlCount"]
-                        html+="<tr><th scope=\"row\">"+__port+"</th><th scope=\"row\">"+__workerCount+"/"+__maxControlCount+"/"+__authMaxControlCount+"</th></tr>";
+                        let __controlCount = data[i]["controlCount"]
+                        let __streamCount = data[i]["streamCount"]
+
+                        html+="<tr><th scope=\"row\">"+__port+"</th><th scope=\"row\">"+__streamCount+"("+__controlCount+")(路)</th></tr>";
                     }else{
                         html+="<tr><th scope=\"row\">"+__port+"</th><th scope=\"row\">重启中</th></tr>";
                     }
