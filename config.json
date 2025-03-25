@@ -7,7 +7,7 @@
 	"mediaRtspPort": 9554,
     "analyzerPort": 9004,
     "analyzerProcessNum": 1,
-    "analyzerProcessMode": 1,
+    "analyzerProcessMode": 0,
     "xcmsMediaPort": 9003,
     "xcmsPort": 9555,
     "xcmsSafe": "aqxY9ps21fyhyKNRyYpGvJCTp1JBeGOM",
@@ -26,9 +26,6 @@
     "logDebug": false,
     "algorithmStreamMaxCount": 16,
     "flowInstanceMaxDuration": 120000,
-    "x86HardwareH264Decoder": "h264_cuvid",
-    "x86HardwareH265Decoder": "hevc_cuvid",
-    "x86HardwareEncoder": "h264_nvenc",
     "nvsServer": {
         "nvsServerIp": "127.0.0.1",
         "nvsServerPort": 9824,
