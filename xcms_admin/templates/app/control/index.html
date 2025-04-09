@@ -406,7 +406,9 @@
                                   item_html += "<td><span class='sun-state-error'>离线</span> "+d["stream_nickname"]+"</td>";
                                 }
 
+
                                 item_html += "<td><a class='sun-a-label' style='font-size: 12px;' href=\"javascript:f_open_player('"+d["push_stream_app"]+"','"+d["push_stream_name"]+"')\" ><i class=\"fa fa-play\"></i>算法流</a></td>";
+
 
                                 if(d["flow_nickname"] === 0){//算法已被删除
                                     item_html += "<td><span class='sun-state-error'>已删除</span></td>";
