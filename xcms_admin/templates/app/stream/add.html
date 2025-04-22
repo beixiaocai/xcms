@@ -287,7 +287,14 @@
         }else if(pull_stream_type === 21){
             myAlert("如需接入GB28181，请到摄像头管理平台配置","error");
             return false;
+        }else if(pull_stream_type === 31){
+            myAlert("如需接入cRTSP，请主动推流","error");
+            return false;
+        }else if(pull_stream_type === 32){
+            myAlert("如需接入cRTMP，请主动推流","error");
+            return false;
         }
+
         let pull_stream_url = ele_input_pull_stream_url.val().trim();
         if(pull_stream_url === ""){
             myAlert("请输入直播流地址","error");

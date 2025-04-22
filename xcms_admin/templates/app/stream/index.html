@@ -67,15 +67,25 @@
                                     <td>{{ d.code }}</td>
 
                                       <td>
-                                          {% if d.pull_stream_type == 1 %}
+                                          {% if d.pull_stream_type == 0 %}
+                                              <span>unknown</span>
+                                          {% elif d.pull_stream_type == 1 %}
                                               <span>RTSP</span>
-                                              {% elif d.pull_stream_type == 2 %}
-                                                <span>RTMP</span>
-                                              {% elif d.pull_stream_type == 21 %}
-                                                <span>GB28181</span>
+                                          {% elif d.pull_stream_type == 2 %}
+                                            <span>RTMP</span>
+                                          {% elif d.pull_stream_type == 3 %}
+                                            <span>FLV</span>
+                                          {% elif d.pull_stream_type == 4 %}
+                                            <span>HLS</span>
+                                          {% elif d.pull_stream_type == 21 %}
+                                            <span>GB28181</span>
+                                          {% elif d.pull_stream_type == 31 %}
+                                            <span>cRTSP</span>
+                                          {% elif d.pull_stream_type == 32 %}
+                                            <span>cRTMP</span>
                                           {% endif %}
                                       </td>
-                                  <td>{{ d.nickname }}</td>
+                                    <td>{{ d.nickname }}</td>
                                     <td>{{ d.pull_stream_ip }}</td>
                                     <td>
                                          {% for item in audio_types %}

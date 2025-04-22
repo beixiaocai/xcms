@@ -214,8 +214,8 @@
                 return false;
             }
 
-           if(pull_stream_type ===21){
-               //如GB28181接入协议，其他一些私有协议，是不允许修改该字段的
+           if(pull_stream_type ===21 || pull_stream_type ===31 || pull_stream_type ===32){
+                //
            }else{
                 let pull_stream_url = ele_input_pull_stream_url.val().trim();
                 if(pull_stream_url === ""){

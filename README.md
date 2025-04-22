@@ -7,6 +7,7 @@
 * 哔哩哔哩主页：https://space.bilibili.com/487906612
 * gitee地址：https://gitee.com/Vanishi/xcms
 * github地址：https://github.com/beixiaocai/xcms
+* gitcode地址：https://gitcode.com/Vanishi/xcms
 
 ## 简介
 * C++开发的视频行为分析系统v4版本，简称xcms，用户可以基于视频行为分析系统，在不用考虑音视频开发，编解码开发，界面开发等情况下， 只需要训练自己的模型，就可以轻松做出任何需要的视频行为分析算法，比如人脸检测，人脸识别，周界入侵，烟火检测，打架，斗殴，跌倒，人群聚集，电动车，垃圾箱，抽烟，攀爬，离岗睡岗，安全帽，充电桩，工作服， 疲劳检测，交通拥堵等等
@@ -31,6 +32,7 @@
 | x86 | Linux（gcc>=9.4）| x86架构cpu+N卡 | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/2713611802e365950bc9c6fef5c6b118) |
 | arm | Docker | arm架构cpu+华为昇腾 | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/644800c887eb14094e2154882b78e8fc) |
 | arm | Linux（gcc>=9.4）| arm架构cpu+rk3588/rk3576 | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/76dbf61f8b5f8ce67891dc3e3f36b686) |
+| arm | Linux（gcc>=11.4）| arm架构cpu+jetson | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/okov4t4su38y0blu) |
 | 不限 | Linux | 不限   | [定制兼容](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/e382620e4df52bd7628d3fd141a7112d) |
 
 
