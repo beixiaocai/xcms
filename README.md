@@ -40,15 +40,13 @@
 * [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/e05dce83e5129785b9f316978a14b896)
 * [快速体验](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/czfysbd6ka3xhabb)
 * [常见问题](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/ayxx1a5nmksqwuye)
-* [软件贴牌](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/e45770b681f5d0a2e0300b94672de1ae)
 * [硬件配置参考](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/5f5b8c534610b075a56f0dddea6f5bea)
-* [软件使用优化](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/626c74072ae1bdc63e01a04002186a92)
 * [添加摄像头](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/cf41d9b53c35c8cb8850028261dfd4bc)
+* [添加业务算法](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/ktte3crgsfrklspa)
+* [添加基础算法](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/e642113af5a2909261dd2ef2b59f7be3)
+* [添加行为算法](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/bacded01cbb5107aa88a9df95750652d)
+* [软件贴牌](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/e45770b681f5d0a2e0300b94672de1ae)
 * [浏览器设置网页自动播放声音](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/404272bee98998c7f9217a0a54824a5a)
-* [FFmpeg推USB摄像头](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/0deb4194d8ad8f0ca437263dd40597c0)
-* [FFmpeg推本地视频文件](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/60850e5f979a8cddc42d5fd4e81fc70f)
-* [FFmpeg电脑桌面推流](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/00a95632b189aa5a4e5e6e4ffb2bbd40)
-
 
 <img width="720" alt="视频行为分析系统v4.610" src="https://gitee.com/Vanishi/images/raw/master/xcms/1.png">
 <img width="720" alt="视频行为分析系统v4.610" src="https://gitee.com/Vanishi/images/raw/master/xcms/2.png">

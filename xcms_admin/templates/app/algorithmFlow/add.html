@@ -7,7 +7,12 @@
 
 {% endblock stylesheets %}
 {% block content %}
-
+<style>
+    .algorithm_select{
+        border: 1px solid #169F85;
+        border-radius: 10px;
+    }
+</style>
 <script>
     let modeDict = {};//模式字典
     let modeId;//模式ID
@@ -84,9 +89,10 @@
                     <!-- 选择检测算法 -->
                     <div id="flow_box_detect" class="form-group">
                           <label class="control-label col-md-3 col-sm-3 col-xs-12">请选择检测算法 <span class="required" style="color: red;">*</span></label>
-                          <div class="col-md-6 col-sm-6 col-xs-12">
 
-                            <select id="select_algorithm_detect"  class="select2_single form-control" required="required" >
+                        <div class="col-md-6 col-sm-6 col-xs-12" >
+
+                            <select id="select_algorithm_detect"  class="algorithm_select select2_single form-control" required="required" >
                                 <option value="0">请选择</option>
                                 {% for algorithm in algorithm_detect_data %}
                                    <script>
@@ -113,18 +119,19 @@
                     <div id="flow_box_detect_class" class="form-group">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12">请选择检测目标 <span class="required" style="color: red;">*</span></label>
                       <div class="col-md-6 col-sm-6 col-xs-12">
-                        <select id="select_detect_class_name"  class="select2_multiple form-control" required="required"  multiple="multiple" >
+                        <select id="select_detect_class_name"  class="algorithm_select select2_multiple form-control" required="required"  multiple="multiple" >
                             <option value="0">---请选择检测目标(可多选)---</option>
                         </select>
                       </div>
                     </div>
+
                     <!-- 选择分类算法 -->
                    <div id="flow_box_classify" class="form-group">
                           <label class="control-label col-md-3 col-sm-3 col-xs-12">请选择分类算法 <span class="required" style="color: red;">*</span></label>
 
                          <div class="col-md-6 col-sm-6 col-xs-12">
 
-                            <select id="select_algorithm_classify"  class="select2_single form-control" required="required" >
+                            <select id="select_algorithm_classify"  class="algorithm_select select2_single form-control" required="required" >
                                 <option value="0">请选择</option>
                                 {% for algorithm in algorithm_classify_data %}
                                    <script>
@@ -149,13 +156,11 @@
 
                           </div>
                     </div>
-
-
-                      <!-- 选择分类目标 -->
+                    <!-- 选择分类目标 -->
                    <div id="flow_box_classify_class" class="form-group">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12">请选择分类目标 <span class="required" style="color: red;">*</span></label>
                       <div class="col-md-6 col-sm-6 col-xs-12">
-                        <select id="select_classify_class_name"  class="select2_multiple form-control" required="required"  multiple="multiple" >
+                        <select id="select_classify_class_name" class="algorithm_select select2_multiple form-control" required="required"  multiple="multiple" >
                             <option value="0">---请选择分类目标(可多选)---</option>
                         </select>
                       </div>
@@ -164,7 +169,7 @@
                    <div id="flow_box_track" class="form-group">
                           <label class="control-label col-md-3 col-sm-3 col-xs-12">请选择特征算法 <span class="required" style="color: red;">*</span></label>
                          <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select id="select_algorithm_track"  class="select2_single form-control" required="required" >
+                            <select id="select_algorithm_track"  class="algorithm_select select2_single form-control" required="required" >
                                 <option value="0">请选择</option>
                                 {% for algorithm in algorithm_track_data %}
                                    <script>
@@ -187,10 +192,10 @@
                           </div>
                         </div>
                     <!-- 选择行为算法 -->
-                   <div class="form-group">
+                   <div id="flow_box_behaviour" class="form-group">
                           <label class="control-label col-md-3 col-sm-3 col-xs-12">请选择行为算法 <span class="required" style="color: red;">*</span></label>
                          <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select id="select_behaviour"  class="select2_single form-control" required="required" >
+                            <select id="select_behaviour"  class="algorithm_select select2_single form-control" required="required" >
                                 <option value="0">请选择</option>
 
                                 {% for behaviour in behaviours %}
@@ -210,6 +215,7 @@
                             </select>
                           </div>
                         </div>
+
 
                   <div class="form-group">
                           <label class="control-label col-md-3 col-sm-3 col-xs-12">分析进程 <span class="required" style="color: red;">*</span></label>
@@ -309,6 +315,7 @@
    let eleFlowBoxClassify = $("#flow_box_classify");
    let eleFlowBoxClassifyClass = $("#flow_box_classify_class");
    let eleFlowBoxTrack = $("#flow_box_track");
+   let eleFlowBoxBehaviour = $("#flow_box_behaviour");
 
     function f_showDetectOptions(algorithm_code,selected_class_names) {
        console.log("f_showDetectOptions->",algorithm_code,"selected_class_names->",selected_class_names)
@@ -379,6 +386,7 @@
                 eleFlowBoxClassify.hide();
                 eleFlowBoxClassifyClass.hide();
                 eleFlowBoxTrack.hide();
+                eleFlowBoxBehaviour.show();
                 break;
             }
             case 2:{
@@ -387,6 +395,7 @@
                 eleFlowBoxClassify.hide();
                 eleFlowBoxClassifyClass.hide();
                 eleFlowBoxTrack.show();
+                eleFlowBoxBehaviour.show();
                 break;
             }
             case 3:{
@@ -395,6 +404,7 @@
                 eleFlowBoxClassify.show();
                 eleFlowBoxClassifyClass.show();
                 eleFlowBoxTrack.hide();
+                eleFlowBoxBehaviour.show();
                 break;
             }
             case 4:{
@@ -403,6 +413,7 @@
                 eleFlowBoxClassify.show();
                 eleFlowBoxClassifyClass.show();
                 eleFlowBoxTrack.hide();
+                eleFlowBoxBehaviour.show();
                 break;
             }
             case 5:{
@@ -411,6 +422,25 @@
                 eleFlowBoxClassify.hide();
                 eleFlowBoxClassifyClass.hide();
                 eleFlowBoxTrack.hide();
+                eleFlowBoxBehaviour.show();
+                break;
+            }
+            case 6:{
+                eleFlowBoxClassify.show();
+                eleFlowBoxClassifyClass.show();
+                eleFlowBoxDetect.show();
+                eleFlowBoxDetectClass.show();
+                eleFlowBoxTrack.hide();
+                eleFlowBoxBehaviour.show();
+                break;
+            }
+            case 7:{
+                eleFlowBoxDetect.show();
+                eleFlowBoxDetectClass.show();
+                eleFlowBoxClassify.show();
+                eleFlowBoxClassifyClass.show();
+                eleFlowBoxTrack.show();
+                eleFlowBoxBehaviour.show();
                 break;
             }
             default:{
@@ -419,6 +449,7 @@
                 eleFlowBoxClassify.hide();
                 eleFlowBoxClassifyClass.hide();
                 eleFlowBoxTrack.hide();
+                eleFlowBoxBehaviour.hide();
                 break;
             }
         }
@@ -491,7 +522,8 @@
 
         switch (mode) {
             case 1:{
-                //检测算法>>行为算法，Detect_Behaviour
+                //检测算法>>行为算法
+                //判断检测算法
                 algorithmDetectCode_s = eleSelectAlgorithmDetect.val().trim();
                 if(algorithmDetectCode_s==="0"){
                     myAlert("请选择检测算法","error");
@@ -512,7 +544,8 @@
                 break
             }
             case 2:{
-                //检测算法>>特征算法>>行为算法，Detect_Track_Behaviour
+                //检测算法>>特征算法>>行为算法
+                //判断检测算法
                 algorithmDetectCode_s = eleSelectAlgorithmDetect.val().trim();
                 if(algorithmDetectCode_s==="0"){
                     myAlert("请选择检测算法","error");
@@ -542,7 +575,8 @@
                 break
             }
             case 3:{
-                //检测算法>>分类算法>>行为算法，Detect_Classify_Behaviour
+                //检测算法>>分类算法>>行为算法
+                //判断检测算法
                 algorithmDetectCode_s = eleSelectAlgorithmDetect.val().trim();
                 if(algorithmDetectCode_s==="0"){
                     myAlert("请选择检测算法","error");
@@ -575,7 +609,7 @@
                 break
             }
             case 4:{
-                //分类算法>>行为算法，Classify_Behaviour
+                //分类算法>>行为算法
                 //判断分类算法
                 algorithmClassifyCode_s= eleSelectAlgorithmClassify.val().trim();
                 if(algorithmClassifyCode_s==="0"){
@@ -598,7 +632,7 @@
                 break
             }
             case 5:{
-                //行为算法，Behaviour
+                //行为算法
 
                 //行为算法判断
                 behaviourCode_s = eleSelectBehaviour.val().trim();//typeof string
@@ -606,6 +640,84 @@
                     myAlert("请选择行为算法","error");
                     return;
                 }
+                break
+            }
+            case 6:{
+                //分类算法>>检测算法>>行为算法
+                //判断分类算法
+                algorithmClassifyCode_s= eleSelectAlgorithmClassify.val().trim();
+                if(algorithmClassifyCode_s==="0"){
+                    myAlert("请选择分类算法","error");
+                    return;
+                }
+                //分类算法目标option
+                classifyClassNames_s = f_calcuOptionStr(eleSelectClassifyClassName.val());
+                if(classifyClassNames_s === ""){
+                    myAlert("请至少选择1个分类目标","error");
+                    return;
+                }
+                //判断检测算法
+                algorithmDetectCode_s = eleSelectAlgorithmDetect.val().trim();
+                if(algorithmDetectCode_s==="0"){
+                    myAlert("请选择检测算法","error");
+                    return;
+                }
+                //检测算法目标option
+                detectClassNames_s = f_calcuOptionStr(eleSelectDetectClassName.val());// eleSelectDetectClassName.val();//typeof object, array
+                if(detectClassNames_s === ""){
+                    myAlert("请至少选择1个检测目标","error");
+                    return;
+                }
+
+                //行为算法判断
+                behaviourCode_s = eleSelectBehaviour.val().trim();//typeof string
+                if(behaviourCode_s==="0"){
+                    myAlert("请选择行为算法","error");
+                    return;
+                }
+                break
+            }
+            case 7:{
+                //检测算法>>分类算法>>特征算法>>行为算法
+                //判断检测算法
+                algorithmDetectCode_s = eleSelectAlgorithmDetect.val().trim();
+                if(algorithmDetectCode_s==="0"){
+                    myAlert("请选择检测算法","error");
+                    return;
+                }
+
+                //检测算法目标option
+                detectClassNames_s = f_calcuOptionStr(eleSelectDetectClassName.val());// eleSelectDetectClassName.val();//typeof object, array
+                if(detectClassNames_s === ""){
+                    myAlert("请至少选择1个检测目标","error");
+                    return;
+                }
+                //判断分类算法
+                algorithmClassifyCode_s= eleSelectAlgorithmClassify.val().trim();
+                if(algorithmClassifyCode_s==="0"){
+                    myAlert("请选择分类算法","error");
+                    return;
+                }
+                //分类算法目标option
+                classifyClassNames_s = f_calcuOptionStr(eleSelectClassifyClassName.val());
+                if(classifyClassNames_s === ""){
+                    myAlert("请至少选择1个分类目标","error");
+                    return;
+                }
+                //判断特征算法
+                algorithmTrackCode_s = eleSelectAlgorithmTrack.val().trim();
+                if(algorithmTrackCode_s==="0"){
+                    myAlert("请选择特征算法","error");
+                    return;
+                }
+
+                //行为算法判断
+                behaviourCode_s = eleSelectBehaviour.val().trim();//typeof string
+                if(behaviourCode_s==="0"){
+                    myAlert("请选择行为算法","error");
+                    return;
+                }
+
                 break
             }
             default: {
@@ -682,16 +794,14 @@
         let url= "{{ settings.docs.algorithmFlowAdd }}";
         window.open(url);
     }
+
     $(function() {
-
-
         if(handle==="add"){
             f_showFlowMode(0);
         }
         else if(handle==="edit"){
              let mode = parseInt(old_flow_mode)
              f_showFlowMode(mode);
-
              f_showDetectOptions(old_flow_algorithm_detect_code,old_flow_detect_class_names);
              f_showClassifyOptions(old_flow_algorithm_classify_code,old_flow_classify_class_names);
         }

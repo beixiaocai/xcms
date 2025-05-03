@@ -54,7 +54,7 @@
             margin-left: 25px;
         }
         .snap-control > .video_is_recording{
-            background: #0d95e8;
+            background: #f10505;
         }
         .snap-control>button {
             width: 40px;
@@ -303,9 +303,10 @@
         });
 
     }
-    function f_getVideoIsRecording() {
+
+    function f_openVideoIsRecording() {
         $.ajax({
-               url: "/nvr/getVideoIsRecording",
+               url: "/nvr/openVideoIsRecording",
                type: "get",
                async: true,
                data: {"app":stream_app,"name":stream_name},
@@ -322,9 +323,10 @@
                }
             });
     }
+
     eleHandleSnapshot.click(function () {
         $.ajax({
-           url: "/nvr/postSnapShot",
+           url: "/nvr/openSnapShot",
            type: "post",
            async: true,
            data: {"app":stream_app,"name":stream_name},
@@ -335,17 +337,10 @@
            },
            success: function (res) {
                if(1000 === res.code){
-                       let info = res.info;
-
-                       let snapshot_ret = info["snapshot_ret"]
-                       let snapshot_msg = info["snapshot_msg"]
-                       if(snapshot_ret===true){
-                           let snapshot_filename = info["snapshot_filename"] //绝对路径
-                           let download_url = "/storage/download?filename="+snapshot_filename;
-                           window.open(download_url);
-                       }else{
-                           myAlert(snapshot_msg,"error");
-                       }
+                   let info = res.info;
+                   let snapshot_filename = info["snapshot_filename"]
+                   let download_url = "/storage/download?filename="+snapshot_filename;
+                   window.open(download_url);
                }else{
                     myAlert(res.msg,"error");
                }
@@ -360,7 +355,7 @@
         if(mCurrentIsRecording){
             //当前正在录制中，接下来执行停止录像
             $.ajax({
-               url: "/nvr/postStopRecordVideo",
+               url: "/nvr/openStopRecordVideo",
                type: "post",
                async: true,
                data: {"app":stream_app,"name":stream_name},
@@ -394,7 +389,7 @@
         }else{
             //当前未录制，接下来开启录像
             $.ajax({
-               url: "/nvr/postStartRecordVideo",
+               url: "/nvr/openStartRecordVideo",
                type: "post",
                async: true,
                data: {"app":stream_app,"name":stream_name},
@@ -433,7 +428,7 @@
             eleInputAddress.val(video_url);
             f_playStart(video_url);
         }
-        f_getVideoIsRecording();
+        f_openVideoIsRecording();
     });
 </script>
 
