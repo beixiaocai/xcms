@@ -253,22 +253,6 @@
                }
             });
     }
-    function f_updateAllCoreProcess() {
-        $.ajax({
-               url: '/auth/updateAllCoreProcess',
-               type: "get",
-               async: true,
-               data: {},
-               dataType: "json",
-               timeout: 0,
-               error: function () {
-
-               },
-               success: function (res) {
-
-               }
-            });
-    }
 
     $("form").submit(function () {
         let active_code = eleTextareaActiveCode.val().trim();
@@ -282,7 +266,6 @@
 
     $(function () {
         f_getAuthInfo();
-        f_updateAllCoreProcess();
     });
 </script>
 

@@ -134,7 +134,7 @@
              <div class="form-group">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12">模型目标 <span class="required" style="color: red;">*</span></label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                    <textarea name="model_class_names" {% if "edit" == handle %}disabled="disabled"{% endif %} class="form-control" rows="4"  placeholder="请填写模型支持的目标名称，多个名称，用英文逗号隔开。不可随意填写，建议参考添加基础算法示例文档" >{{ algorithm.model_class_names }}</textarea>
+                    <textarea name="model_class_names" {% if "edit" == handle %}disabled="disabled"{% endif %} class="form-control" rows="4"  placeholder="请填写模型支持的目标名称，如果多个名称请用英文逗号隔开。添加前，建议参考添加基础算法文档的示例" >{{ algorithm.model_class_names }}</textarea>
                   </div>
                 </div>
 

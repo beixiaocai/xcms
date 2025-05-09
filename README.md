@@ -16,7 +16,7 @@
 ## 更新记录
 * [更新记录](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/qchculv81t93orwh)
 
-## 视频行为分析系统v1/v2/v3/v3相关地址
+## 视频行为分析系统v1/v2/v3/v4相关地址
 * v1开源地址：https://gitee.com/Vanishi/BXC_VideoAnalyzer_v1
 * v2开源地址：https://gitee.com/Vanishi/BXC_VideoAnalyzer_v2
 * v3安装包下载地址：https://gitee.com/Vanishi/BXC_VideoAnalyzer_v3
@@ -48,13 +48,13 @@
 * [软件贴牌](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/e45770b681f5d0a2e0300b94672de1ae)
 * [浏览器设置网页自动播放声音](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/404272bee98998c7f9217a0a54824a5a)
 
-<img width="720" alt="视频行为分析系统v4.610" src="https://gitee.com/Vanishi/images/raw/master/xcms/1.png">
-<img width="720" alt="视频行为分析系统v4.610" src="https://gitee.com/Vanishi/images/raw/master/xcms/2.png">
-<img width="720" alt="视频行为分析系统v4.610" src="https://gitee.com/Vanishi/images/raw/master/xcms/3.png">
-<img width="720" alt="视频行为分析系统v4.610" src="https://gitee.com/Vanishi/images/raw/master/xcms/4.png">
-<img width="720" alt="视频行为分析系统v4.610" src="https://gitee.com/Vanishi/images/raw/master/xcms/5.png">
-<img width="720" alt="视频行为分析系统v4.610" src="https://gitee.com/Vanishi/images/raw/master/xcms/6.png">
-<img width="720" alt="视频行为分析系统v4.610" src="https://gitee.com/Vanishi/images/raw/master/xcms/7.png">
-<img width="720" alt="视频行为分析系统v4.610" src="https://gitee.com/Vanishi/images/raw/master/xcms/8.png">
-<img width="720" alt="视频行为分析系统v4.610" src="https://gitee.com/Vanishi/images/raw/master/xcms/9.png">
+<img width="720" alt="视频行为分析系统v4" src="https://gitee.com/Vanishi/images/raw/master/xcms/1.png">
+<img width="720" alt="视频行为分析系统v4" src="https://gitee.com/Vanishi/images/raw/master/xcms/2.png">
+<img width="720" alt="视频行为分析系统v4" src="https://gitee.com/Vanishi/images/raw/master/xcms/3.png">
+<img width="720" alt="视频行为分析系统v4" src="https://gitee.com/Vanishi/images/raw/master/xcms/4.png">
+<img width="720" alt="视频行为分析系统v4" src="https://gitee.com/Vanishi/images/raw/master/xcms/5.png">
+<img width="720" alt="视频行为分析系统v4" src="https://gitee.com/Vanishi/images/raw/master/xcms/6.png">
+<img width="720" alt="视频行为分析系统v4" src="https://gitee.com/Vanishi/images/raw/master/xcms/7.png">
+<img width="720" alt="视频行为分析系统v4" src="https://gitee.com/Vanishi/images/raw/master/xcms/8.png">
+<img width="720" alt="视频行为分析系统v4" src="https://gitee.com/Vanishi/images/raw/master/xcms/9.png">
 

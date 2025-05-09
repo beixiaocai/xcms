@@ -59,7 +59,6 @@
                   </div>
                 </div>
 
-
                 <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" >主机IP 
                   </label>
@@ -68,14 +67,15 @@
                   </div>
                 </div>
 
-                              <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >轮巡自动管理转发 
+                  <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >调试模式
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                    <label class="my_radio_label">开启&nbsp;&nbsp;<input type="radio" name="autoManagePatrolForward" value="1" class="flat"  {% if 1 == config.autoManagePatrolForward %}checked="checked"{% endif %} >
+                      <label class="my_radio_label">开启&nbsp;&nbsp;<input type="radio" name="logDebug" value="1" class="flat"  {% if 1 == config.logDebug %}checked="checked"{% endif %} >
                     </label>
-                    <label class="my_radio_label">关闭&nbsp;&nbsp;<input type="radio" name="autoManagePatrolForward" value="0" class="flat"  {% if 0 == config.autoManagePatrolForward %}checked="checked"{% endif %}  >
+                    <label class="my_radio_label">关闭&nbsp;&nbsp;<input type="radio" name="logDebug" value="0"  class="flat" {% if 0 == config.logDebug %}checked="checked"{% endif %}  >
                     </label>
+
                   </div>
                 </div>
 
@@ -91,6 +91,16 @@
                   </div>
                 </div>
 
+                  <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >轮巡自动管理转发
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <label class="my_radio_label">开启&nbsp;&nbsp;<input type="radio" name="autoManagePatrolForward" value="1" class="flat"  {% if 1 == config.autoManagePatrolForward %}checked="checked"{% endif %} >
+                    </label>
+                    <label class="my_radio_label">关闭&nbsp;&nbsp;<input type="radio" name="autoManagePatrolForward" value="0" class="flat"  {% if 0 == config.autoManagePatrolForward %}checked="checked"{% endif %}  >
+                    </label>
+                  </div>
+                </div>
                          <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" >数据存储路径 
                   </label>
@@ -300,6 +310,7 @@
         let ele_host = $("input[name='host']");
         let ele_autoManagePatrolForward = $("input[type=radio][name='autoManagePatrolForward']:checked");
         let ele_autoStart = $("input[type=radio][name='autoStart']:checked");
+        let ele_logDebug = $("input[type=radio][name='logDebug']:checked");
         let eleStorageAlarmMaxSize = $("input[name='storageAlarmMaxSize']");
         let eleStorageRecordMaxSize = $("input[name='storageRecordMaxSize']");
         let eleFlowInstanceMaxDuration = $("input[name='flowInstanceMaxDuration']");
@@ -311,6 +322,7 @@
         let host = ele_host.val().trim();
         let autoManagePatrolForward = parseInt(ele_autoManagePatrolForward.val());
         let autoStart = parseInt(ele_autoStart.val());
+        let logDebug = parseInt(ele_logDebug.val());
         let storageAlarmMaxSize = parseInt(eleStorageAlarmMaxSize.val());
         let storageRecordMaxSize = parseInt(eleStorageRecordMaxSize.val());
         let flowInstanceMaxDuration = parseInt(eleFlowInstanceMaxDuration.val());
@@ -359,8 +371,9 @@
                "install":install,
                "host":host,
                "storageDir":storageDir,
-               "autoManagePatrolForward":autoManagePatrolForward,
+               "logDebug":logDebug,
                "autoStart":autoStart,
+               "autoManagePatrolForward":autoManagePatrolForward,
                "storageAlarmMaxSize":storageAlarmMaxSize,
                "storageRecordMaxSize":storageRecordMaxSize,
                "flowInstanceMaxDuration":flowInstanceMaxDuration,
