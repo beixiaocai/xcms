@@ -284,7 +284,7 @@
                     </div>
 
                   <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12">报警间隔<span class="required" style="color: red;">*</span> <i class="bxc_introduce fa fa-info-circle" title="1路视频最小报警间隔时长（单位秒）"></i></label>
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">报警间隔<span class="required" style="color: red;">*</span> <i class="bxc_introduce fa fa-info-circle" title="单路布控强制最低报警间隔时长（单位秒）"></i></label>
                       <div class="col-md-9 col-sm-9 col-xs-12">
                            <input id="min_interval"  type="number" value="{{ control.min_interval }}" class="form-control" >
                       </div>
@@ -298,7 +298,7 @@
                     </div>
 
                   <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12">图片数量<span class="required" style="color: red;">*</span> <i class="bxc_introduce fa fa-info-circle" title="触发报警时上报图片数量"></i></label>
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">图片数量<span class="required" style="color: red;">*</span> <i class="bxc_introduce fa fa-info-circle" title="决策报警的图片数量"></i></label>
                       <div class="col-md-9 col-sm-9 col-xs-12">
                            <input name="alarm_image_count"  type="number" value="{{ control.alarm_image_count }}" class="form-control" >
                       </div>
@@ -306,21 +306,26 @@
 
 
                 <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12">画框选项<span class="required" style="color: red;">*</span> <i class="bxc_introduce fa fa-info-circle" title="合成报警视频画框类型，无特殊原因强烈不建议开启同时保存画框和不画框"></i></label>
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">画框选项<span class="required" style="color: red;">*</span> <i class="bxc_introduce fa fa-info-circle" title="合成报警图片或视频时画框类型"></i></label>
                       <div class="col-md-9 col-sm-9 col-xs-12">
 
                           <div class="radio">
                               <label>
-                                <input type="radio" {% if control.alarm_draw_type == 0 %} checked="checked" {% endif %} value="0" name="alarm_draw_type"> 合成报警视频只保存画框
+                                <input type="radio" {% if control.alarm_draw_type == 0 %} checked="checked" {% endif %} value="0" name="alarm_draw_type"> 画框
                               </label>
                             </div>
 
                             <div class="radio">
                               <label>
-                                <input type="radio" {% if control.alarm_draw_type == 1 %} checked="checked" {% endif %} value="1" name="alarm_draw_type"> 合成报警视频同时保存画框和不画框
+                                <input type="radio" {% if control.alarm_draw_type == 1 %} checked="checked" {% endif %} value="1" name="alarm_draw_type"> 不画框
                               </label>
                             </div>
 
+                            <div class="radio">
+                              <label>
+                                <input type="radio" {% if control.alarm_draw_type == 2 %} checked="checked" {% endif %} value="2" name="alarm_draw_type"> 画框+不画框
+                              </label>
+                            </div>
 
                       </div>
                     </div>
@@ -638,6 +643,8 @@
 
     eleRadioAlarmDrawType.change(function () {
        alarmDrawType = $(this).val();
+       //console.log("alarmDrawType",alarmDrawType)
+
     });
 
     let ePlayer = null;

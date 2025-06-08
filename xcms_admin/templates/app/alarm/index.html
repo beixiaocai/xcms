@@ -111,9 +111,9 @@
                   <h2>报警视频管理
                       <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
 
-                <button style="margin-left: 10px;" onclick="f_handle('allDelete')" class="btn btn-default btn-sm"> 全部删除</button>
-                <button onclick="f_handle('clear')" class="btn btn-default btn-sm"> 清理缓存</button>
-                <button id="top_open_audio" class="btn btn-default btn-sm"><i class="fa fa-bell-o"></i> 关闭报警声音</button>
+                <button style="margin-left: 10px;" onclick="f_handle('deleteAll')" class="btn btn-default btn-sm"> 全部删除</button>
+                <button onclick="f_handle('clearCache')" class="btn btn-default btn-sm"> 清理缓存</button>
+                <button id="top_open_audio" class="btn btn-default btn-sm"><i class="fa fa-bell-o"></i> 关闭声音</button>
                                             <span id="top_msg"></span>
 
                   </h2>
@@ -134,44 +134,54 @@
                 <label style="padding-top:5px;">
                     <input type="checkbox" class="check_all">
                   </label>
-                    <button style="margin-left:5px;" onclick="f_handle('delete')" class="btn btn-default btn-sm">删除</button>
+                    <button style="margin-left:1px;" onclick="f_handle('delete')" class="btn btn-default btn-sm">批量删除</button>
+                    <button onclick="f_openExport('labelme')" class="btn btn-default btn-sm">批量导出</button>
+                </div>
+             <div style="float: left;margin-left: 6px;">
+                    <label style="text-align: left;">类型&nbsp;
+                        <select id="select_draw_type"  class="input-sm">
+                            <option value="-1">选择全部</option>
+                            <option value="1">画框</option>
+                            <option value="0">不画框</option>
+                        </select>
+                    </label>
+                 </div>
+
+               <div style="float: left;margin-left: 6px;">
+                    <label style="text-align: left;">布控&nbsp;
+                        <select id="select_control"  class="input-sm">
+                            <option value="-1">选择全部</option>
+                            {% for control in controls %}
+                                <option value="{{ control.code }}">{{ control.code }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                 </div>
+
+                  <div style="float: left;margin-left: 6px;">
+                        <label style="text-align: left;">视频&nbsp;
+                            <select id="select_stream" class="input-sm">
+                                 <option value="-1">选择全部</option>
+                                {% for stream in streams %}
+                                    <option value="{{ stream.code }}">{{ stream.nickname }}</option>
+                                {% endfor %}
+                            </select>
+                        </label>
                     </div>
-                     <div style="float: left;margin-left: 10px;">
-                                        <label style="text-align: left;">布控&nbsp;
-                                            <select id="select_control"  class="input-sm">
-                                                <option value="0">选择全部</option>
-                                                {% for control in controls %}
-                                                    <option value="{{ control.code }}">{{ control.code }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </label>
-                                    </div>
 
 
-                    <div style="float: left;margin-left: 10px;">
-                                        <label style="text-align: left;">视频流&nbsp;
-                                            <select id="select_stream" class="input-sm">
-                                                 <option value="0">选择全部</option>
-                                                {% for stream in streams %}
-                                                    <option value="{{ stream.code }}">{{ stream.nickname }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </label>
-                                    </div>
+                    <div style="float: left;margin-left: 6px;">
+                        <label style="text-align: left;">算法&nbsp;
+                          <select id="select_flow" class="input-sm">
+                            <option value="-1">选择全部</option>
+                                {% for flow in flows %}
+                                    <option value="{{ flow.code }}">{{ flow.name }}</option>
+                                {% endfor %}
+                           </select>
+                        </label>
+                    </div>
 
-
-                    <div style="float: left;margin-left: 10px;">
-                            <label style="text-align: left;">业务算法&nbsp;
-                              <select id="select_flow" class="input-sm">
-                                <option value="0">选择全部</option>
-                                    {% for flow in flows %}
-                                        <option value="{{ flow.code }}">{{ flow.name }}</option>
-                                    {% endfor %}
-                               </select>
-                            </label>
-                        </div>
-
-                      <div style="float: left;margin-left: 10px;">
+                 <div style="float: left;margin-left: 6px;">
                         <input type="text" style="width: 200px;height: 30px;" id="input_dateRange" class="form-control" value="{{ startDate }} to {{ endDate }}">
                       </div>
 
@@ -253,14 +263,16 @@
 
 
     // 筛选条件 2024/7/4 新增
+    let eleSelectDrawType = $("#select_draw_type");// select 选择画框类型（2025/5/28 v4.634新增）
     let eleSelectControl = $("#select_control");// select  选择布控
     let eleSelectStream = $("#select_stream");// select  选择视频流
     let eleSelectFlow = $("#select_flow");// select  选择算法流
     let eleInputDateRange = $('#input_dateRange');//日期范围
 
-    let temp_controlCode = "0";//默认选择全部 string 0
-    let temp_streamCode = "0";//默认选择全部 string 0
-    let temp_flowCode = "0";//默认选择全部 string 0
+    let temp_drawType = "-1";//默认选择全部 string -1
+    let temp_controlCode = "-1";//默认选择全部 string -1
+    let temp_streamCode = "-1";//默认选择全部 string -1
+    let temp_flowCode = "-1";//默认选择全部 string -1
     let temp_startDate = "";
     let temp_endDate = "";
 
@@ -283,7 +295,7 @@
     });
     ele_btn_open_audio.click(function () {
         if(temp_audioPlayer_isOpen){//当前开启，点击则关闭
-            $(this).html("<i class=\"fa fa-bell-slash-o\"></i> 开启报警声音");
+            $(this).html("<i class=\"fa fa-bell-slash-o\"></i> 开启声音");
             temp_audioPlayer_isOpen = false;
             try {
                 if(!eleAudioPlayer.paused){
@@ -294,7 +306,7 @@
             }
         }else{//当前关闭中，点击则开启
             temp_audioPlayer_isOpen = true;
-            $(this).html("<i class=\"fa fa-bell-o\"></i> 关闭报警声音");
+            $(this).html("<i class=\"fa fa-bell-o\"></i> 关闭声音");
         }
     })
 
@@ -334,10 +346,10 @@
         window.open(url)
     }
 
-    function f_postHandle(handle,alarm_ids_str,is_after_reload=true){
+    function f_openHandle(handle,alarm_ids_str,is_after_reload=true){
         ele_top_loading.show();
         $.ajax({
-            url: '/alarm/postHandle',
+            url: '/alarm/openHandle',
             type: "post",
             async: true,
             data: {"handle":handle,"alarm_ids_str":alarm_ids_str},
@@ -352,9 +364,8 @@
                 if(1000===res.code){
                     if(is_after_reload){
                         myAlert(res.msg,"success",1000);
-                        eleCheckAll.prop("checked", false);
                         setTimeout(function () {
-                            f_getIndex(temp_cur_page,temp_cur_page_size);
+                            f_openIndex(temp_cur_page,temp_cur_page_size);
                          }, 1000);
                     }else{
                         myAlert(res.msg,"success");
@@ -367,21 +378,55 @@
     }
 
     function f_handle(handle_type){
-        if('clear' === handle_type){
-             f_postHandle(handle_type,"",false);//清理文件换成
-        }else if("allDelete" === handle_type){
-             f_postHandle(handle_type,"",true);//全部逻辑删除
+        if(handle_type === "clearCache"){
+             f_openHandle(handle_type,"",false);//清理缓存（真实删除）
+        }else if(handle_type === "deleteAll"){
+             f_openHandle(handle_type,"",true);//全部删除（逻辑删除）
         }
-        else if('read' === handle_type || 'delete' === handle_type){//已读处理 或 逻辑删除处理
+        else if(handle_type === "delete"){//批量已读处理，批量删除（逻辑删除），批量导出处理
             let alarm_ids_str = __f_get_alarm_ids_str();
-            if(""===alarm_ids_str){
-                myAlert("请至少选中一条数据","error");
+            if(alarm_ids_str === ""){
+                myAlert("请至少选择一条数据","error");
             }else{
-                f_postHandle(handle_type,alarm_ids_str,true);
+                f_openHandle(handle_type,alarm_ids_str,true);
             }
         }
     }
 
+    function f_openExport(export_format){
+        let alarm_ids_str = __f_get_alarm_ids_str();
+        if(alarm_ids_str === ""){
+            myAlert("请至少选择一条数据","error");
+            return;
+        }
+        ele_top_loading.show();
+        $.ajax({
+            url: '/alarm/openExport',
+            type: "post",
+            async: true,
+            data: {"export_format":export_format,"alarm_ids_str":alarm_ids_str},
+            dataType: "json",
+            timeout: 0,
+            error: function () {
+                ele_top_loading.hide();
+                myAlert("网络异常，请确定网络正常！", "error");
+            },
+            success: function (res) {
+                ele_top_loading.hide();
+                if(1000===res.code){
+                     let info = res.info;
+                    myAlert(res.msg,"success",1000);
+                    eleCheckAll.prop("checked", false);//恢复未选中状态（每次刷新页面前，都先恢复该按钮为未选中状态）
+                    let export_filename = info["export_filename"];
+                    let download_url = "/storage/download?filename="+export_filename;
+                    window.open(download_url);
+
+                }else{
+                    myAlert(res.msg,"error");
+                }
+            }
+        });
+    }
 
     function f_getCheckNewData() {
         setTimeout(function () {
@@ -459,7 +504,7 @@
                     });
 
                     //刷新页面显示
-                    f_getIndex(1,temp_cur_page_size);
+                    f_openIndex(1,temp_cur_page_size);
 
                 }else{
                     //未检测到新数据
@@ -481,32 +526,35 @@
 
             for (let i = 0; i < pageLabels.length; i++) {
                 let cur = pageLabels[i]["cur"];
-                console.log("f_show_pageData",typeof cur,cur)
+                //console.log("f_show_pageData",typeof cur,cur)
                 if(cur === 1){
                     html+="<li class=\"paginate_button active\"><a href=\"#\"  >"+pageLabels[i]["name"]+"</a></li>";
                 }else{
-                    html+="<li class=\"paginate_button \"><a href=\"javascript:f_getIndex("+pageLabels[i]["page"]+","+page_size+")\" >"+pageLabels[i]["name"]+"</a></li>";
+                    html+="<li class=\"paginate_button \"><a href=\"javascript:f_openIndex("+pageLabels[i]["page"]+","+page_size+")\" >"+pageLabels[i]["name"]+"</a></li>";
                 }
             }
         html+="</ul></div>";
 
         elePageData.html(html);
     }
-    function f_getIndex(page,page_size) {
+    function f_openIndex(page,page_size) {
+        eleCheckAll.prop("checked", false);//恢复未选中状态（每次刷新页面前，都先恢复该按钮为未选中状态）
         let dateRange = eleInputDateRange.val();
-        console.log("f_getIndex()",page,page_size,temp_controlCode,temp_streamCode,temp_flowCode,"dateRange=",dateRange)
+
+        //console.log("f_openIndex()",page,page_size,temp_controlCode,temp_streamCode,temp_flowCode,"dateRange=",dateRange)
 
         temp_cur_page = page;
         temp_cur_page_size = page_size;
 
         ele_top_loading.show();
         $.ajax({
-               url: '/alarm/getIndex',
+               url: '/alarm/openIndex',
                type: "get",
                async: true,
                data: {
                    "p":page,
                    "ps":page_size,
+                   "drawType":temp_drawType,
                    "controlCode":temp_controlCode,
                    "streamCode":temp_streamCode,
                    "flowCode":temp_flowCode,
@@ -592,18 +640,21 @@
             });
 
     }
-
+    eleSelectDrawType.change(function () {
+        temp_drawType = $(this).val();
+        f_openIndex(1,temp_cur_page_size);
+    });
     eleSelectControl.change(function () {
         temp_controlCode = $(this).val();
-        f_getIndex(1,temp_cur_page_size);
+        f_openIndex(1,temp_cur_page_size);
     });
     eleSelectStream.change(function () {
         temp_streamCode = $(this).val();
-        f_getIndex(1,temp_cur_page_size);
+        f_openIndex(1,temp_cur_page_size);
     });
     eleSelectFlow.change(function () {
         temp_flowCode = $(this).val();
-        f_getIndex(1,temp_cur_page_size);
+        f_openIndex(1,temp_cur_page_size);
     });
     eleInputDateRange.dateRangePicker(
         {
@@ -619,11 +670,11 @@
         }
     ).bind('datepicker-apply',function(event,obj)
         {
-            f_getIndex(1,temp_cur_page_size);
+            f_openIndex(1,temp_cur_page_size);
         });
 
     window.onload = function (){
-        f_getIndex(1,temp_cur_page_size);//首次进入 刷新页面
+        f_openIndex(1,temp_cur_page_size);//首次进入 刷新页面
         f_getCheckNewData();//检测新报警
 
     };

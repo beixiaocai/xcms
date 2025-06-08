@@ -102,8 +102,22 @@
                             <h3>报警编号 <small>{{ alarm.code }}</small></h3>
                           </div>
                         </div>
+                        <div class="mail_list">
+                          <div class="left">
+                            <i class="fa"></i>
+                          </div>
+                          <div class="right">
+                            <h3>画框类型 <small>
+                                {% if alarm.draw_type == 1 %}
+                                    画框
+                                {% else %}
+                                    不画框
+                                {% endif %}
+                                </small></h3>
+                          </div>
+                        </div>
 
-                                            <div class="mail_list">
+                       <div class="mail_list">
                           <div class="left">
                             <i class="fa"></i>
                           </div>

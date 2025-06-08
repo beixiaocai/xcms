@@ -223,26 +223,34 @@
                     return false;
                 }
                 if(pull_stream_type === 1 ){
-                    if(!pull_stream_url.startsWith("rtsp://")){
-                        myAlert("RTSP类型接入协议仅支持rtsp直播流地址","error");
+                    if(pull_stream_url.startsWith("rtsp://") || pull_stream_url.startsWith("rtsps://")){
+                        //ok
+                    }else{
+                        myAlert("直播流地址格式不正确","error");
                         return false;
                     }
                 }
                 else if(pull_stream_type === 2 ){
-                    if(!pull_stream_url.startsWith("rtmp://")){
-                        myAlert("RTMP类型接入协议仅支持rtmp直播流地址","error");
+                    if(pull_stream_url.startsWith("rtmp://") || pull_stream_url.startsWith("rtmps://")){
+                        //ok
+                    }else{
+                        myAlert("直播流地址格式不正确","error");
                         return false;
                     }
                 }
                 else if(pull_stream_type === 3 ){
-                    if(!pull_stream_url.startsWith("http://")){
-                        myAlert("FLV接入协议仅支持FLV直播流地址","error");
+                    if(pull_stream_url.startsWith("http://") || pull_stream_url.startsWith("https://")){
+                        //ok
+                    }else{
+                        myAlert("直播流地址格式不正确","error");
                         return false;
                     }
                 }
                 else if(pull_stream_type === 4 ){
-                    if(!pull_stream_url.startsWith("http://")){
-                        myAlert("HLS接入协议仅支持HLS直播流地址","error");
+                    if(pull_stream_url.startsWith("http://") || pull_stream_url.startsWith("https://")){
+                        //ok
+                    }else{
+                        myAlert("直播流地址格式不正确","error");
                         return false;
                     }
                 }

@@ -1,0 +1,445 @@
+{% extends "app/base_site.html" %}
+
+{% block title %} 测试工具 {% endblock title %}
+{% block stylesheets %}
+  {{ block.super }}
+    <style>
+        /*
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+            background: #f4f6fb;
+        }
+        */
+        .xc_algorithm_container {
+            display: flex;
+            height: 100vh;
+        }
+        .xc_algorithm_sidebar {
+            width: 340px;
+            background: #fff;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.06);
+            padding: 30px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .xc_algorithm_sidebar h2 {
+            margin: 0 0 20px 0;
+            font-size: 1.5em;
+            color: #2d3a4b;
+        }
+        .xc_algorithm_form_group {
+            margin-bottom: 10px;
+        }
+        .xc_algorithm_label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4a5a6a;
+            font-weight: 500;
+        }
+        .xc_algorithm_select, .xc_algorithm_input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            background: #f9fafb;
+            font-size: 1em;
+        }
+        .xc_algorithm_btn {
+            width: 100%;
+            padding: 6px;
+            background: linear-gradient(90deg, #4f8cff 0%, #2355e6 100%);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .xc_algorithm_btn:hover {
+            background: linear-gradient(90deg, #2355e6 0%, #4f8cff 100%);
+        }
+        .xc_algorithm_main {
+            flex: 1;
+            background: #f4f6fb;
+            padding: 50px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .xc_algorithm_result_title {
+            font-size: 1.8em;
+            color: #1a365d;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .xc_algorithm_result_box {
+            width: 90%;
+            min-height: 350px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 40px;
+            color: #2d3748;
+            font-size: 1.1em;
+            line-height: 1.8;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border: 1px solid #d1d5db;
+            margin-right: 20px;
+        }
+        .xc_algorithm_result_content {
+            display: flex;
+            gap: 30px;
+        }
+        .xc_algorithm_result_info {
+            flex: 1;
+        }
+        .xc_algorithm_result_preview {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            max-height: calc(100vh - 300px);
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+        .xc_algorithm_result_preview_title {
+            font-size: 1.1em;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        .xc_algorithm_result_preview_content {
+            width: 100%;
+            max-width: 100%;
+            max-height: calc(100vh - 380px);
+            height: auto;
+            object-fit: contain;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .xc_algorithm_preview_img, .xc_algorithm_preview_video {
+            max-width: 280px;
+            max-height: 180px;
+            margin-top: 6px;
+            border-radius: 6px;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+        }
+        .xc_algorithm_file_input_wrapper {
+            position: relative;
+            width: 100%;
+            height: 80px;
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            background: #f9fafb;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .xc_algorithm_file_input_wrapper:hover {
+            border-color: #4f8cff;
+            background: #f0f7ff;
+        }
+        .xc_algorithm_file_input_wrapper input[type="file"] {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .xc_algorithm_file_input_wrapper .xc_algorithm_upload_icon {
+            font-size: 2em;
+            color: #4f8cff;
+            margin-bottom: 8px;
+        }
+        .xc_algorithm_file_input_wrapper .xc_algorithm_upload_text {
+            color: #4a5a6a;
+            font-size: 0.9em;
+        }
+        /* 隐藏原生文件输入框 */
+        input[type="file"] {
+            display: none;
+        }
+        /* 新增样式：模型信息、文件信息和目标详情 */
+        .xc_algorithm_model_info, .xc_algorithm_file_info, .xc_algorithm_target_details {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        .xc_algorithm_model_info {
+            background: #e6f7ff;
+        }
+        .xc_algorithm_file_info {
+            background: #f0f7ff;
+        }
+        .xc_algorithm_target_details {
+            background: #f9fafb;
+        }
+    </style>
+{% endblock stylesheets %}
+{% block content %}
+<script>
+let algorithmDict = {};//基础算法字典
+let algorithmCode;
+
+</script>
+
+  <div class="right_col" role="main">
+    <div class="">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel">
+        <!-- xc page start -->
+        <div class="xc_algorithm_container">
+            <div class="xc_algorithm_sidebar">
+                <h2>测试工具 <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">计算中</span></h2>
+                <div class="xc_algorithm_form_group">
+                    <label class="xc_algorithm_label" for="select_algorithm">选择基础算法<a href="javascript:f_postRelease()" style="margin-left: 6px;font-size: 12px;cursor: pointer;color: #4f8cff;">释放所有实例</a></label>
+                    <select class="xc_algorithm_select" id="select_algorithm">
+                        <option value="0">请选择基础算法</option>
+                        {% for algorithm in algorithms %}
+                            <script>
+                                algorithmCode = '{{ algorithm.code }}';
+                                algorithmDict[algorithmCode] = {
+                                    "code":algorithmCode,
+                                    "name":'{{ algorithm.name }}',
+                                    "objectCount":'{{ algorithm.objectCount }}',
+                                };
+                            </script>
+                             <option value="{{ algorithm.code }}">{{ algorithm.name }}（{{ algorithm.objectCount }}）</option>
+                         {% endfor %}
+                    </select>
+                </div>
+                <div class="xc_algorithm_form_group">
+                    <label class="xc_algorithm_label" for="file-input">上传图片</label>
+                    <div class="xc_algorithm_file_input_wrapper">
+                        <!--<input type="file" id="file-input" accept="image/*,video/*">-->
+                        <input type="file" id="file-input" accept="image/*">
+                        <div class="xc_algorithm_upload_icon">📁</div>
+                        <div class="xc_algorithm_upload_text">点击或拖拽文件到此处</div>
+                    </div>
+                    <div id="preview"></div>
+                </div>
+
+                <button class="xc_algorithm_btn" id="run-btn">计算</button>
+            </div>
+            <div class="xc_algorithm_main">
+                <div class="xc_algorithm_result_title">检测结果</div>
+                <div class="xc_algorithm_result_box">
+                    <div class="xc_algorithm_result_content" id="xc_algorithm_result_content">
+                        <!--
+                        <div class="xc_algorithm_result_info">
+
+                            <div class="xc_algorithm_model_info"><b>模型：</b> YOLOv5</div>
+                            <div class="xc_algorithm_file_info"><b>文件类型：</b> 图片</div>
+                            <div class="xc_algorithm_target_details">
+                                <b>检测到目标：</b> 3<br>
+                                <b>目标详情：</b><br>
+                                - person (置信度: 0.92)<br>
+                                - dog (置信度: 0.87)<br>
+                                - car (置信度: 0.81)
+                            </div>
+
+                        </div>
+                        <div class="xc_algorithm_result_preview">
+                            <div class="xc_algorithm_result_preview_title">渲染结果预览</div>
+                            <div id="result-preview"></div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- xc page end -->
+
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super }}
+<script>
+    let eleTopLoading = $("#top_loading");
+    let eleSelectAlgorithm = $("#select_algorithm");
+    let eleXcAlgorithmResultContent = document.getElementById('xc_algorithm_result_content');
+    let fileInput = document.getElementById('file-input');
+    let preview = document.getElementById('preview');
+    let runBtn = document.getElementById('run-btn');
+    let mFileType = "unknown";
+    fileInput.addEventListener('change', function() {
+        preview.innerHTML = '';
+        const file = this.files[0];
+        if (!file) return;
+        let file_name = file.name;
+        if (file.type.startsWith('image/')) {
+            mFileType = "image";
+            const img = document.createElement('img');
+            img.className = 'xc_algorithm_preview_img';
+            img.src = URL.createObjectURL(file);
+            preview.appendChild(img);
+        } else if (file.type.startsWith('video/')) {
+            mFileType = "video";
+            const video = document.createElement('video');
+            video.className = 'xc_algorithm_preview_video';
+            video.src = URL.createObjectURL(file);
+            video.controls = true;
+            preview.appendChild(video);
+        } else {
+            mFileType = "unknown";
+        }
+    });
+    runBtn.addEventListener('click', function() {
+        algorithmCode = eleSelectAlgorithm.val().trim();
+        if(algorithmCode === "0"){
+            myAlert("请选择基础算法！","error");
+            return false;
+        }
+        let algorithm = algorithmDict[algorithmCode];
+        if(algorithm){
+            //ok
+        }else{
+            myAlert("请选择基础算法！","error");
+            return false;
+        }
+        if(mFileType === "image"){
+            //ok
+        }else{
+            myAlert("请上传图片类型的文件！","error");
+            return false;
+        }
+        let formData = new FormData();
+        formData.append('algorithm_code',algorithmCode);
+        if(fileInput.files.length > 0) {
+            let file = fileInput.files[0];
+            let fs_name = file.name;
+            let fs_size = parseInt(file.size);//文件字节大小
+            let fs_size_m = parseInt(fs_size / 1024 / 1024); //换算成M单位
+            if(fs_size_m > 20){
+                myAlert("图片文件不能超过（20）M："+String(fs_size_m),"error");
+                return false;
+            }
+            formData.append("file",file);
+        }else{
+             myAlert("请至少上传一个文件！","error");
+             return false;
+        }
+
+
+       eleTopLoading.show();
+       $.ajax({
+               url: "/tools/postCalcu",
+               type: "post",
+               async: true,
+               contentType:false,
+               processData:false,
+               data: formData,
+               dataType: "json",
+               timeout: 0,
+               error: function () {
+                   eleTopLoading.hide();
+                   myAlert("网络异常，请确定网络正常！","error");
+               },
+               success: function (res) {
+                   eleTopLoading.hide();
+                   let duration = parseFloat(res["duration"]).toFixed(3);
+
+                   if(res.code === 1000){
+
+                       let info = res.info;
+                       //myAlert(res.msg,"success");
+                       myAlert(res.msg,"success",1000);
+                       let predict_filename = info["predict_filename"];
+                       let detects = info["detects"];
+
+                       let predict_url = "/storage/download?filename="+predict_filename;
+
+                        let resultHtml = '';
+                        resultHtml += "<div class=\"xc_algorithm_result_info\">";
+                        resultHtml += `<div class="xc_algorithm_model_info"><b>基础算法：</b> ${algorithm["name"]}</div>
+                                <div class="xc_algorithm_file_info"><b>计算耗时：</b> ${duration}(s)</div>`;
+                            let num = detects.length;
+                            resultHtml += `<div class="xc_algorithm_target_details"><b>检测到目标：</b> ${num}<br>`;
+                                for (let i = 0; i < num; i++) {
+                                    let x1 = detects[i]["x1"];
+                                    let y1 = detects[i]["y1"];
+                                    let x2 = detects[i]["x2"];
+                                    let y2 = detects[i]["y2"];
+                                    let class_name = detects[i]["class_name"];
+                                    let class_score = detects[i]["class_score"];
+
+                                    const class_score_tf = parseFloat(class_score).toFixed(2);
+                                    resultHtml += `${i}. ${class_name}(${class_score_tf}) ${x1}x${y1} ${x2}x${y2}<br>`;
+                                }
+                            resultHtml += `</div>`;
+                        resultHtml += `</div>`;
+
+                        resultHtml += `<div class="xc_algorithm_result_preview">`;
+                            resultHtml += `<div class="xc_algorithm_result_preview_title">渲染结果预览</div>`;
+                            resultHtml += `<div id="result-preview"><img class="xc_algorithm_result_preview_content" src="${predict_url}" alt=""></div>`;
+                        resultHtml += `</div>`;
+
+                        eleXcAlgorithmResultContent.innerHTML = resultHtml;
+
+
+                   }else{
+                       myAlert(res.msg,"error");
+                   }
+               }
+        });
+
+    });
+
+    function f_postRelease() {
+       eleTopLoading.show();
+       $.ajax({
+               url: "/tools/postRelease",
+               type: "post",
+               async: true,
+               contentType:false,
+               processData:false,
+               data: {},
+               dataType: "json",
+               timeout: 0,
+               error: function () {
+                   eleTopLoading.hide();
+                   myAlert("网络异常，请确定网络正常！","error");
+               },
+               success: function (res) {
+                   eleTopLoading.hide();
+                   if(res.code === 1000){
+                       myAlert(res.msg,"success");
+                   }else{
+                       myAlert(res.msg,"error");
+                   }
+               }
+        });
+    }
+</script>
+
+{% endblock javascripts %}

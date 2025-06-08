@@ -230,7 +230,7 @@
 {% block javascripts %}
   {{ block.super }}
 <script>
-let ele_top_loading = $("#top_loading");
+let eleTopLoading = $("#top_loading");
 let eleTimerCounter = $("#timer_counter");
 let mTimer = null;
 let mTimerSpendSecond = 0;//当前计时器开启总时长
@@ -359,7 +359,7 @@ function f_submit() {
     formData.append('handle',handle);
     formData.append('name',name_s);
     formData.append('algorithm_type',selectedAlgorithmTypeCode);
-   let framework_s = ele_select_framework.val().trim();
+    let framework_s = ele_select_framework.val().trim();
     if(framework_s==="0"){
         myAlert("请选择算法框架","error");
         return false;
@@ -465,7 +465,7 @@ function f_submit() {
         return false;
     }
     curIsPost = true;
-    ele_top_loading.show();
+    eleTopLoading.show();
     f_startTimer();
     $.ajax({
            url: handleUrl,
@@ -478,13 +478,13 @@ function f_submit() {
            timeout: 0,
            error: function () {
                curIsPost = false;
-               ele_top_loading.hide();
+               eleTopLoading.hide();
                f_stopTimer();
                myAlert("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
                curIsPost = false;
-               ele_top_loading.hide();
+               eleTopLoading.hide();
                f_stopTimer();
 
                try {
