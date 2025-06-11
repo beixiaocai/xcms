@@ -32,7 +32,7 @@
 | x86 | Linux（gcc>=9.4）| x86架构cpu+N卡 | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/2713611802e365950bc9c6fef5c6b118) |
 | arm | Docker | arm架构cpu+华为昇腾 | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/644800c887eb14094e2154882b78e8fc) |
 | arm | Linux（gcc>=9.4）| arm架构cpu+rk3588/rk3576 | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/76dbf61f8b5f8ce67891dc3e3f36b686) |
-| arm | Linux（gcc>=11.4）| arm架构cpu+jetson | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/okov4t4su38y0blu) |
+| arm | Linux（gcc>=9.4）| arm架构cpu+jetson | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/okov4t4su38y0blu) |
 | 不限 | Linux | 不限   | [定制兼容](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/e382620e4df52bd7628d3fd141a7112d) |
 
 
