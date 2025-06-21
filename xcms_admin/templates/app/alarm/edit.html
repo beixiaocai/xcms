@@ -38,11 +38,13 @@
                   <p>
                     <span><i class="fa fa-paperclip"></i> 报警视频数量（{{ alarm.video_count }}） </span>
                   </p>
-  {% if alarm.video_count > 0 %}
-                   <div style="margin: 10px 0;">
-                       <video controls muted loop preload="none" style="width: 100%; display: block;"
-                              poster="{{ alarm.imageUrl }}" src="{{ alarm.videoUrl }}" ></video>
-                    </div>
+    {% if alarm.video_count > 0 %}
+              <div style="margin: 10px 0;">
+                   <video controls muted loop preload="none"  style="width: 100%; display: block;"
+                          poster="{{ alarm.imageUrl }}" src="{{ alarm.videoUrl }}" >
+                   </video>
+             </div>
+
     {% endif %}
                 </div>
    <!--展示视频end -->
