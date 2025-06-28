@@ -9,7 +9,7 @@
     "analyzerProcessNum": 1,
     "analyzerProcessMode": 0,
     "xcmsMediaPort": 9003,
-    "xcmsPort": 9555,
+    "xcmsAssistantPort": 9555,
     "xcmsSafe": "aqxY9ps21fyhyKNRyYpGvJCTp1JBeGOM",
     "install": "D:\\xcms",
 	"winStartup": "Microsoft\\Windows\\Start Menu\\Programs\\Startup",
