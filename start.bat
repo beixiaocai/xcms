@@ -11,12 +11,21 @@ if errorlevel 1 (
 	taskkill /IM xcms.exe /F
 )
 
+
 tasklist | findstr /i "xcms_admin.exe" >nul
 if errorlevel 1 (
     echo xcms_admin.exe is not running
 ) else (
     echo xcms_admin.exe is running
 	taskkill /IM xcms_admin.exe /F
+)
+
+tasklist | findstr /i "xcms_assistant.exe" >nul
+if errorlevel 1 (
+    echo xcms_assistant.exe is not running
+) else (
+    echo xcms_assistant.exe is running
+	taskkill /IM xcms_assistant.exe /F
 )
 
 tasklist | findstr /i "xcms_core.exe" >nul
