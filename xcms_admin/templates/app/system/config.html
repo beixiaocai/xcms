@@ -4,7 +4,6 @@
 {% block stylesheets %}
   {{ block.super }}
     <style>
-
     .my_radio_label{
         font-size: 12px;
         color: black;
@@ -35,7 +34,7 @@
             <div class="x_content">
               <div class="form-horizontal form-label-left">
                               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >软件名称 
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >软件名称
                   </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                     <input type="text" name="name" required="required" value="{{config.name}}" class="form-control">
@@ -52,7 +51,7 @@
 
 
                               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >软件安装路径 
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >软件安装路径
                   </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                     <input type="text" name="install" required="required" value="{{config.install}}" class="form-control">
@@ -60,7 +59,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >主机IP 
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >主机IP
                   </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                     <input type="text" name="host" required="required" value="{{config.host}}" class="form-control">
@@ -80,7 +79,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >软件自启动 
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >软件自启动
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                       <label class="my_radio_label">开启&nbsp;&nbsp;<input type="radio" name="autoStart" value="1" class="flat"  {% if 1 == config.autoStart %}checked="checked"{% endif %} >
@@ -102,7 +101,7 @@
                   </div>
                 </div>
                          <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >数据存储路径 
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >数据存储路径
                   </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                     <input type="text" name="storageDir" required="required" value="{{config.storageDir}}" class="form-control">
@@ -127,19 +126,35 @@
                   </div>
                 </div>
 
-                                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >算法实例缓存时长(ms)
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >模型缓存时长(ms)
                   </label>
                    <div class="col-md-6 col-sm-6 col-xs-12">
                     <input type="number" name="flowInstanceMaxDuration" value="{{config.flowInstanceMaxDuration}}" required="required" class="form-control">
                   </div>
                 </div>
 
+                <!-- v4.637新增 start -->
+              <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >多进程模式
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input type="number" name="analyzerProcessMode" value="{{config.analyzerProcessMode}}" required="required" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >多进程数量
+                  </label>
+                   <div class="col-md-6 col-sm-6 col-xs-12">
+                       <input type="number" name="analyzerProcessNum" value="{{config.analyzerProcessNum}}" required="required" class="form-control">
+                  </div>
+                </div>
+                <!-- v4.637新增 end -->
 
-              <!-- nvsServer -->
+
 
 <div class="ln_solid"></div>
-
+                <!-- nvsServer start -->
                   <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" >nvs服务器IP
                   </label>
@@ -188,7 +203,7 @@
                 </div>
 
                                               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >是否开启 
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >是否开启
                   </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
 
@@ -199,11 +214,10 @@
 
                   </div>
                 </div>
-
+                <!-- nvsServer end -->
 
               <div class="ln_solid"></div>
-              <!-- GB28181 -->
-
+                <!-- sipServer start -->
 
                   <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" >gb28181服务器IP
@@ -214,7 +228,7 @@
                 </div>
 
                   <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >服务器端口 
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >服务器端口
                   </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                     <input type="number" name="sipServerPort" required="required" value="{{config.sipServer.sipServerPort}}" class="form-control">
@@ -222,7 +236,7 @@
                 </div>
 
                                 <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >信令传输协议 
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >信令传输协议
                   </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
 
@@ -235,14 +249,14 @@
                 </div>
 
                   <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >服务器ID 
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >服务器ID
                   </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                     <input type="text" name="sipServerId" required="required" value="{{config.sipServer.sipServerId}}" class="form-control">
                   </div>
                 </div>
                   <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >服务器域 
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >服务器域
                   </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                     <input type="text" name="sipServerRealm" required="required" value="{{config.sipServer.sipServerRealm}}" class="form-control">
@@ -250,37 +264,47 @@
                 </div>
 
                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >服务器密码 
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >服务器密码
                   </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                     <input type="text" name="sipServerPass" required="required" value="{{config.sipServer.sipServerPass}}" class="form-control">
                   </div>
                 </div>
-
-                      <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" >数据传输协议 
-                  </label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-
-                            <label class="my_radio_label">UDP被动&nbsp;&nbsp;<input type="radio" name="rtpTransferMode" value="0" class="flat"  {% if 0 == config.sipServer.rtpTransferMode %}checked="checked"{% endif %} >
-                            </label>
-                            <label  class="my_radio_label">TCP被动&nbsp;&nbsp;<input type="radio" name="rtpTransferMode" value="1" class="flat"  {% if 1 == config.sipServer.rtpTransferMode %}checked="checked"{% endif %} >
-                            </label>
-
-                  </div>
+                  <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" >数据传输协议
+                      </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                <label class="my_radio_label">UDP被动&nbsp;&nbsp;<input type="radio" name="rtpTransferMode" value="0" class="flat"  {% if 0 == config.sipServer.rtpTransferMode %}checked="checked"{% endif %} >
+                                </label>
+                                <label  class="my_radio_label">TCP被动&nbsp;&nbsp;<input type="radio" name="rtpTransferMode" value="1" class="flat"  {% if 1 == config.sipServer.rtpTransferMode %}checked="checked"{% endif %} >
+                                </label>
+                      </div>
                 </div>
+                <!-- v4.637新增 start -->
+                  <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" >音频传输类型
+                          </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <label class="my_radio_label">静音&nbsp;&nbsp;<input type="radio" name="rtpTransferAudioType" value="0" class="flat"  {% if 0 == config.sipServer.rtpTransferAudioType %}checked="checked"{% endif %} >
+                                </label>
+                                <label  class="my_radio_label">原始音频&nbsp;&nbsp;<input type="radio" name="rtpTransferAudioType" value="1" class="flat"  {% if 1 == config.sipServer.rtpTransferAudioType %}checked="checked"{% endif %} >
+                                </label>
+                          </div>
+                    </div>
+                <!-- v4.637新增 end -->
+                <!-- sipServer end -->
 
                 <div class="ln_solid"></div>
 
-            <div class="form-group">
                 <div class="form-group">
-                  <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                      <button type="button" onclick="window.history.go(-1)" class="btn btn-default">返回</button>
-                      <button type="button" onclick="f_handle()"  class="btn btn-dark">保存</button>
-                  </div>
+                    <div class="form-group">
+                      <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button type="button" onclick="window.history.go(-1)" class="btn btn-default">返回</button>
+                          <button type="button" onclick="f_handle()"  class="btn btn-dark">保存</button>
+                      </div>
+                    </div>
                 </div>
 
-              </div>
             </div>
           </div>
         </div>
@@ -314,6 +338,9 @@
         let eleStorageAlarmMaxSize = $("input[name='storageAlarmMaxSize']");
         let eleStorageRecordMaxSize = $("input[name='storageRecordMaxSize']");
         let eleFlowInstanceMaxDuration = $("input[name='flowInstanceMaxDuration']");
+        let eleAnalyzerProcessMode = $("input[name='analyzerProcessMode']");
+        let eleAnalyzerProcessNum = $("input[name='analyzerProcessNum']");
+
 
         let name = eleName.val().trim();
         let describe = eleDescribe.val().trim();
@@ -326,6 +353,8 @@
         let storageAlarmMaxSize = parseInt(eleStorageAlarmMaxSize.val());
         let storageRecordMaxSize = parseInt(eleStorageRecordMaxSize.val());
         let flowInstanceMaxDuration = parseInt(eleFlowInstanceMaxDuration.val());
+        let analyzerProcessMode = parseInt(eleAnalyzerProcessMode.val());
+        let analyzerProcessNum = parseInt(eleAnalyzerProcessNum.val());
 
         //xcnvs
         let eleNvsServerIp = $("input[name='nvsServerIp']");
@@ -352,6 +381,7 @@
         let ele_sipServerRealm = $("input[name='sipServerRealm']");
         let ele_sipServerPass = $("input[name='sipServerPass']");
         let ele_rtpTransferMode = $("input[type=radio][name='rtpTransferMode']:checked");
+        let eleRtpTransferAudioType = $("input[type=radio][name='rtpTransferAudioType']:checked");
 
         let sipServerIp = ele_sipServerIp.val();
         let sipServerPort = parseInt(ele_sipServerPort.val());
@@ -360,6 +390,7 @@
         let sipServerRealm = ele_sipServerRealm.val();
         let sipServerPass = ele_sipServerPass.val();
         let rtpTransferMode = parseInt(ele_rtpTransferMode.val());
+        let rtpTransferAudioType = parseInt(eleRtpTransferAudioType.val());
 
         $.ajax({
            url: "/system/config",
@@ -377,7 +408,9 @@
                "storageAlarmMaxSize":storageAlarmMaxSize,
                "storageRecordMaxSize":storageRecordMaxSize,
                "flowInstanceMaxDuration":flowInstanceMaxDuration,
-                //xcnvs
+               "analyzerProcessMode":analyzerProcessMode,
+               "analyzerProcessNum":analyzerProcessNum,
+                //nvsServer
                "nvsServerIp":nvsServerIp,
                "nvsServerPort":nvsServerPort,
                "nvsServerKey":nvsServerKey,
@@ -386,14 +419,15 @@
                "reConnectInterval":reConnectInterval,
                "enable":nvsServer_enable,
 
-                //gb28181
+                //sipServer
                "sipServerIp":sipServerIp,
                "sipServerPort":sipServerPort,
                "sipTransferMode":sipTransferMode,
                "sipServerId":sipServerId,
                "sipServerRealm":sipServerRealm,
                "sipServerPass":sipServerPass,
-               "rtpTransferMode":rtpTransferMode
+               "rtpTransferMode":rtpTransferMode,
+               "rtpTransferAudioType":rtpTransferAudioType
            },
            dataType: "json",
            timeout: 0,

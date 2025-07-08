@@ -148,8 +148,8 @@
 
     let record_code = '{{ code }}';
     let record_day = parseInt('{{ record_day }}');
-    let start_date = new Date();
-    let start_day = start_date.getDate() //日期，例如1-31,,,
+    let current_date = new Date();
+    let current_day = current_date.getDate() //日期，例如1-31,,,
 
     let eleInputRecordDate = $('#record_date');//选择录像日期
     let eleInputTimelineDiv = $("#timeline_div"); //时间线div
@@ -158,7 +158,7 @@
     let eleTimelineContainer = $(".timeline-container");
     let eleInputRecordVideoAddress = $("#record_video_address");
 
-    eleInputRecordDate.val(start_date.toLocaleDateString())
+    eleInputRecordDate.val(current_date.toLocaleDateString())
 
     function f_downloadRecordVideo() {
         let url = eleInputRecordVideoAddress.val().trim();
@@ -347,9 +347,11 @@
         singleMonth: true,
         beforeShowDay: function(time)
         {
-            let day = start_day - time.getDate()
+            let cost_ms = current_date - time;
+            let cost_day = cost_ms / (1000 * 60 * 60 * 24);//距离当前时间已经花费的天数，float类型
+            // time.getDate(), time.getDay()
             let valid = false;
-            if (day >=0 && day <= record_day){
+            if (cost_day >=0 && cost_day <= record_day){
                 valid = true;
             }
             //valid = !(time.getDay() == 0 || time.getDay() == 6);  //disable saturday and sunday
@@ -364,7 +366,7 @@
             f_openRecordTimeline(obj.date1);
         });
 
-    f_openRecordTimeline(start_date);
+    f_openRecordTimeline(current_date);
 
 </script>
 

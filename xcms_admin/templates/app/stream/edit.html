@@ -79,19 +79,25 @@
 
             {% if stream.pull_stream_type == 21 %}
                 <!-- 如GB28181接入协议，其他一些私有协议，是不允许修改该字段的 -->
+              <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">SIP上级设备编号</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                     <input type="text" disabled  value="{{ stream.camera_parent_id }}" class="form-control">
+                   </div>
+                </div>
 
               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12">SIP用户名</label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">SIP设备编号</label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                               <input type="text" disabled  value="{{ stream.camera_device_id }}" class="form-control">
                    </div>
                 </div>
 
-              <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12">SIP服务器</label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="text" disabled  value="{{ stream.camera_parent_id }}" class="form-control">
-                   </div>
+                 <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">SIP通道编号 </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                       <input type="text" disabled  value="{{ stream.code }}" class="form-control">
+                  </div>
                 </div>
 
                               <div class="form-group">
@@ -126,7 +132,7 @@
 
 
                   <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12">音频输出 <span class="required" style="color: red;">*</span></label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">音频类型 <span class="required" style="color: red;">*</span></label>
               <div class="col-md-6 col-sm-6 col-xs-12">
                             <select name="is_audio" class="form-control" disabled>
                             <option value="0">请选择</option>
