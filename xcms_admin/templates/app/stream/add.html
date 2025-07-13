@@ -32,9 +32,17 @@
                <div class="form-group">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12">名称<span class="required" style="color: red;">*</span>
                       </label>
-               <div class="col-md-6 col-sm-6 col-xs-12">
+                         <div class="col-md-6 col-sm-6 col-xs-12">
                               <input type="text" name="nickname"  value="{{ stream.nickname }}" placeholder="请输入名称" class="form-control">
-                      </div>
+                        </div>
+                </div>
+
+              <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">分组编号<span class="required" style="color: red;">*</span>
+                      </label>
+                         <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input type="text" name="camera_device_id"  value="{{ stream.camera_device_id }}" placeholder="请输入分组编号" class="form-control">
+                        </div>
                 </div>
 
                <div class="form-group">
@@ -168,9 +176,10 @@
 
     let ele_input_pull_stream_url = $("input[name='pull_stream_url']");
     let ele_input_pull_stream_ip = $("input[name='pull_stream_ip']");
-    let ele_input_camera_name= $("input[name='camera_name']");
-    let ele_input_camera_manufacturer= $("input[name='camera_manufacturer']");
-    let ele_textarea_remark= $("textarea[name='remark']");
+    let eleInputCameraName= $("input[name='camera_name']");
+    let eleInputCameraManufacturer= $("input[name='camera_manufacturer']");
+    let eleInputCameraDeviceId = $("input[name='camera_device_id']");
+    let eleTextareaRemark= $("textarea[name='remark']");
     let eleSelectIsAudio = $("select[name='is_audio']");
 
     function f_docs() {
@@ -191,8 +200,17 @@
                 if(pull_stream_type===0){
                     myAlert("请选择接入协议","error");
                     return false;
-                }else if(pull_stream_type === 21){
+                }
+                else if(pull_stream_type === 21){
                     myAlert("如需接入GB28181，请到摄像头管理平台配置","error");
+                    return false;
+                }
+                else if(pull_stream_type === 31){
+                    myAlert("如需接入cRTSP，请主动推流","error");
+                    return false;
+                }
+                else if(pull_stream_type === 32){
+                    myAlert("如需接入cRTMP，请主动推流","error");
                     return false;
                 }
           }
@@ -254,11 +272,11 @@
                     }
                     ele_input_pull_stream_url.val(streamUri);
                     ele_input_pull_stream_ip.val(onvif_ip);
-                    ele_input_camera_name.val(HardwareId);//设备编号设置为摄像头名称
-                    ele_input_camera_manufacturer.val(Manufacturer);
+                    eleInputCameraName.val(HardwareId);//设备编号设置为摄像头名称
+                    eleInputCameraManufacturer.val(Manufacturer);
 
                     let remark = "FirmwareVersion="+FirmwareVersion+",Model="+Model+",SerialNumber="+SerialNumber;
-                    ele_textarea_remark.val(remark)
+                    eleTextareaRemark.val(remark)
 
                }else{
                     myAlert(res.msg,"error");
@@ -337,9 +355,10 @@
         let onvif_username = ele_input_onvif_username.val().trim();
         let onvif_password = ele_input_onvif_password.val().trim();
         let pull_stream_ip = ele_input_pull_stream_ip.val().trim();
-        let camera_name = ele_input_camera_name.val().trim();
-        let camera_manufacturer = ele_input_camera_manufacturer.val().trim();
-        let remark = ele_textarea_remark.val().trim();
+        let camera_name = eleInputCameraName.val().trim();
+        let camera_manufacturer = eleInputCameraManufacturer.val().trim();
+        let camera_device_id = eleInputCameraDeviceId.val().trim();
+        let remark = eleTextareaRemark.val().trim();
         let is_audio = parseInt(eleSelectIsAudio.val());
 
         let data = {
@@ -353,6 +372,7 @@
             "pull_stream_port":0,
             "camera_name":camera_name,
             "camera_manufacturer":camera_manufacturer,
+            "camera_device_id":camera_device_id,
             "remark":remark,
             "onvif_username":onvif_username,
             "onvif_password":onvif_password,

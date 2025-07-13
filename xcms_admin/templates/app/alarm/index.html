@@ -7,345 +7,343 @@
 
 <link rel="stylesheet" href="/static/lib/jquery/fancybox/3.5.7/jquery.fancybox.min.css" />
 <link rel="stylesheet" href="/static/lib/jquery/daterangepicker/daterangepicker.min.css"/>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        .xc_container {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 10px 20px;
-        }
-        .xc_container>header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 3px;
-            padding-bottom: 3px;
-        }
-        .xc_container>header>h1 {
-            font-size: 20px;
-            color: #1a5276;
-            font-weight: 500;
-        }
-        .xc_action-buttons {
-            display: flex;
-            gap: 12px;
-        }
-        .xc_btn {
-            padding: 8px 16px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .xc_btn_small {
-            padding: 3px 5px;
-            border-radius: 3px;
-            border: none;
-            cursor: pointer;
-            font-size: 11px;
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .xc_container {
+        color: #333;
+        line-height: 1.6;
+        margin: 0 auto;
+        padding: 10px 20px;
+    }
+    .xc_container>header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 3px;
+        padding-bottom: 3px;
+    }
+    .xc_container>header>h1 {
+        font-size: 20px;
+        color: #1D2129;
+        font-weight: 500;
+    }
+    .xc_action-buttons {
+        display: flex;
+        gap: 12px;
+    }
+    .xc_btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .xc_btn_small {
+        padding: 3px 5px;
+        border-radius: 3px;
+        border: none;
+        cursor: pointer;
+        font-size: 11px;
 
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .xc_btn-secondary {
+        background-color: #ecf0f1;
+        color: #34495e;
+    }
+    .xc_btn-secondary:hover {
+        background-color: #d5dbdb;
+    }
+    .xc_stats {
+        background-color: #e8f4fd;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        margin-left: 15px;
+    }
+    .xc_stats span {
+        color: #e74c3c;
+        font-weight: bold;
+    }
+    .xc_filters {
+        background-color: white;
+        padding: 8px 2px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        margin-bottom: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        align-items: center;
+    }
+    .xc_filter-group {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .xc_filter-label {
+        font-size: 12px;
+        color: #555;
+        white-space: nowrap;
+    }
+    select{
+        padding: 4px 8px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+        color: #333;
+        background-color: white;
+        transition: border-color 0.2s;
+    }
+    select:focus{
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+    .xc_date-range {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .xc_date-range>input[type="text"] {
+        width: 180px;
+        padding: 4px 8px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 12px;
+        color: #333;
+        background-color: white;
+        transition: border-color 0.2s;
+    }
+    .xc_date-range>input[type="text"]:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+    .xc_video-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 20px;
+    }
+    .xc_video-card {
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+    }
+    .xc_video-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+    .xc_video-thumbnail {
+        position: relative;
+        height: 160px;
+        background-color: #000;
+        overflow: hidden;
+    }
+    .xc_video-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.85;
+        transition: opacity 0.1s;
+    }
+    .xc_video-card:hover .xc_video-thumbnail img {
+        opacity: 1;
+    }
+    .xc_play-button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255,255,255,0.9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.8;
+        transition: all 0.1s;
+    }
+    .xc_video-card:hover .xc_play-button {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    .xc_play-button::after {
+        content: '';
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 8px 0 8px 14px;
+        border-color: transparent transparent transparent #3498db;
+        margin-left: 3px;
+    }
+    .xc_video-info {
+        padding: 10px 15px;
+    }
+    .xc_video-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 1px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .xc_video-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 13px;
+        color: #7f8c8d;
+    }
+
+    /* 响应式调整 */
+    @media (max-width: 1200px) {
+        .xc_video-grid {
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
         }
-        .xc_btn-secondary {
-            background-color: #ecf0f1;
-            color: #34495e;
-        }
-        .xc_btn-secondary:hover {
-            background-color: #d5dbdb;
-        }
-        .xc_stats {
-            background-color: #e8f4fd;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 14px;
-            margin-left: 15px;
-        }
-        .xc_stats span {
-            color: #e74c3c;
-            font-weight: bold;
-        }
+    }
+    @media (max-width: 768px) {
         .xc_filters {
-            background-color: white;
-            padding: 8px 2px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 15px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            align-items: center;
+            flex-direction: column;
+            align-items: stretch;
         }
         .xc_filter-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            width: 100%;
         }
-        .xc_filter-label {
-            font-size: 13px;
-            color: #555;
-            white-space: nowrap;
-        }
-        select{
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-            color: #333;
-            background-color: white;
-            transition: border-color 0.2s;
-        }
-        select:focus{
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-        }
-        .xc_date-range {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .xc_date-range>input[type="text"] {
-            width: 200px;
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-            color: #333;
-            background-color: white;
-            transition: border-color 0.2s;
-        }
-        .xc_date-range>input[type="text"]:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        select, input[type="date"] {
+            width: 100%;
         }
         .xc_video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
         }
-        .xc_video-card {
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
+        .xc_container>header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
         }
-        .xc_video-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-        }
-        .xc_video-thumbnail {
-            position: relative;
-            height: 160px;
-            background-color: #000;
-            overflow: hidden;
-        }
-        .xc_video-thumbnail img {
+        .xc_action-buttons {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.85;
-            transition: opacity 0.3s;
-        }
-        .xc_video-card:hover .xc_video-thumbnail img {
-            opacity: 1;
-        }
-        .xc_play-button {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255,255,255,0.9);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0.8;
-            transition: all 0.3s;
-        }
-        .xc_video-card:hover .xc_play-button {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1.1);
-        }
-        .xc_play-button::after {
-            content: '';
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 8px 0 8px 14px;
-            border-color: transparent transparent transparent #3498db;
-            margin-left: 3px;
-        }
-        .xc_video-info {
-            padding: 10px 15px;
-        }
-        .xc_video-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 1px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .xc_video-meta {
-            display: flex;
             justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-            color: #7f8c8d;
         }
+    }
+</style>
+<style>
+    .xc_pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .xc_pagination>.xc_page-btn {
+        min-width: 36px;
+        height: 36px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        background-color: white;
+        color: #555;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .xc_pagination>.xc_page-btn:hover:not(.xc_active) {
+        border-color: #34495e;
+        color: #34495e;
+    }
+    .xc_pagination>.xc_page-btn.xc_active {
+        background-color: #34495e;
+        color: white;
 
-        /* 响应式调整 */
-        @media (max-width: 1200px) {
-            .xc_video-grid {
-                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            }
-        }
-        @media (max-width: 768px) {
-            .xc_filters {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .xc_filter-group {
-                width: 100%;
-            }
-            select, input[type="date"] {
-                width: 100%;
-            }
-            .xc_video-grid {
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            }
-            .xc_container>header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            .xc_action-buttons {
-                width: 100%;
-                justify-content: space-between;
-            }
-        }
-    </style>
-    <style>
-        .xc_pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            padding-bottom: 10px;
-            margin-bottom: 10px;
-        }
-        .xc_pagination>.xc_page-btn {
-            min-width: 36px;
-            height: 36px;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-            background-color: white;
-            color: #555;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .xc_pagination>.xc_page-btn:hover:not(.xc_active) {
-            border-color: #3498db;
-            color: #3498db;
-        }
-        .xc_pagination>.xc_page-btn.xc_active {
-            background-color: #3498db;
-            color: white;
-            border-color: #3498db;
-        }
-        .xc_pagination>.xc_page-info {
-            font-size: 14px;
-            color: #7f8c8d;
-        }
-    </style>
-    <style>
-            #bxc_dialog_mask {
-            background-color: rgba(0,0,0,0.5);   /* 设置半透明黑色背景 */
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: none;
-        }
+    }
+    .xc_pagination>.xc_page-info {
+        font-size: 14px;
+        color: #7f8c8d;
+    }
+</style>
+<style>
+    #bxc_dialog_mask {
+        background-color: rgba(0,0,0,0.5);   /* 设置半透明黑色背景 */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+    }
 
-        #bxc_dialog {
-            position: absolute;
-            z-index: 999;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 640px;
-            height: 240px;
-            background-color: #ffffff;
-            border: 1px solid #c51515;
-            box-shadow: 0 0 5px rgba(245, 231, 231, 0.3);
-            border-radius: 5px;
-            padding: 10px;
-            display: none;
-        }
+    #bxc_dialog {
+        position: absolute;
+        z-index: 999;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 640px;
+        height: 240px;
+        background-color: #ffffff;
+        border: 1px solid #c51515;
+        box-shadow: 0 0 5px rgba(245, 231, 231, 0.3);
+        border-radius: 5px;
+        padding: 10px;
+        display: none;
+    }
 
-        #bxc_dialog>.dialog_title{
-            margin-top: 10px;
-        }
-        #bxc_dialog>.dialog_title>.bxc_alarm_count{
-            color: #d50404;
-            font-weight: bold;
-        }
-        #bxc_dialog>.dialog_title>.close{
-            font-size: 14px;
-            float: right;
-            margin-right: 10px;
-            cursor: pointer;
+    #bxc_dialog>.dialog_title{
+        margin-top: 10px;
+    }
+    #bxc_dialog>.dialog_title>.bxc_alarm_count{
+        color: #d50404;
+        font-weight: bold;
+    }
+    #bxc_dialog>.dialog_title>.close{
+        font-size: 14px;
+        float: right;
+        margin-right: 10px;
+        cursor: pointer;
 
-        }
-        #bxc_dialog>.dialog_content{
-            border-top: 1px solid #4b4848;
-            padding: 10px;
-            margin-top: 15px;
-        }
-        #bxc_dialog>.dialog_content>.content_top{
-            margin-top: 10px;
-        }
-        #bxc_dialog>.dialog_content>.content_list{
-            margin-top: 10px;
-        }
-        #bxc_dialog>.dialog_content>.content_list>.content_item{
-            display: inline;
-            padding: 1px;
-        }
-        #bxc_dialog>.dialog_content>.content_list>.content_item>img{
-            width: 102px;
-            height: 100%;
-            border: 1px solid #ffffff;
-            padding: 1px;
-            cursor: pointer;
-        }
+    }
+    #bxc_dialog>.dialog_content{
+        border-top: 1px solid #4b4848;
+        padding: 10px;
+        margin-top: 15px;
+    }
+    #bxc_dialog>.dialog_content>.content_top{
+        margin-top: 10px;
+    }
+    #bxc_dialog>.dialog_content>.content_list{
+        margin-top: 10px;
+    }
+    #bxc_dialog>.dialog_content>.content_list>.content_item{
+        display: inline;
+        padding: 1px;
+    }
+    #bxc_dialog>.dialog_content>.content_list>.content_item>img{
+        width: 102px;
+        height: 100%;
+        border: 1px solid #ffffff;
+        padding: 1px;
+        cursor: pointer;
+    }
 </style>
 {% endblock stylesheets %}
 
@@ -354,84 +352,84 @@
   <div class="right_col" role="main">
     <div class="">
 
-      <div class="row">
+    <div class="row">
         <div class="col-md-12">
             <div class="x_panel">
    <!-- xc page start -->
-                    <div class="xc_container">
-        <header>
-            <h1>报警视频管理</h1>
-            <div style="display: flex; align-items: center;">
-                <div class="xc_action-buttons">
-                    <button class="xc_btn xc_btn-secondary" onclick="f_handle('deleteAll')" >全部删除</button>
-                    <button class="xc_btn xc_btn-secondary" onclick="f_handle('clearCache')" >清理缓存</button>
-                    <button class="xc_btn xc_btn-secondary" id="top_open_audio" ><i class="fa fa-bell-o"></i> 关闭声音</button>
+            <div class="xc_container">
+                <header>
+                    <h1>报警视频管理</h1>
+                    <div style="display: flex; align-items: center;">
+                        <div class="xc_action-buttons">
+                            <button class="xc_btn xc_btn-secondary" onclick="f_handle('deleteAll')" >全部删除</button>
+                            <button class="xc_btn xc_btn-secondary" onclick="f_handle('clearCache')" >清理缓存</button>
+                            <button class="xc_btn xc_btn-secondary" id="top_open_audio" ><i class="fa fa-bell-o"></i> 关闭声音</button>
+                        </div>
+
+                        <div class="xc_stats">
+                            <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
+                            <span id="top_msg"></span>
+                        </div>
+
+                        <audio id="top_audio"  controls style="display: none;float: right; position: relative;height: 34px; "  >
+                            浏览器不支持音频播放
+                        </audio>
+                    </div>
+                </header>
+
+                <div class="xc_filters">
+                    <div class="xc_filter-group">
+                        <input type="checkbox" id="check_all" style="margin-left: 10px;">
+                    </div>
+                    <div class="xc_filter-group">
+                        <button class="btn btn-default btn-sm" onclick="f_handle('delete')" >批量删除</button>
+                        <button class="btn btn-default btn-sm" onclick="f_openExport('labelme')" >批量导出</button>
+                    </div>
+                    <div class="xc_filter-group">
+                        <label class="xc_filter-label">类型:</label>
+                            <select id="select_draw_type">
+                                <option value="-1">选择全部</option>
+                                <option value="1">画框</option>
+                                <option value="0">不画框</option>
+                            </select>
+                    </div>
+                    <div class="xc_filter-group">
+                        <label class="xc_filter-label">布控:</label>
+                           <select id="select_control">
+                            <option value="-1">选择全部</option>
+                            {% for control in controls %}
+                                <option value="{{ control.code }}">{{ control.code }}</option>
+                            {% endfor %}
+                          </select>
+                    </div>
+                    <div class="xc_filter-group">
+                        <label class="xc_filter-label">视频:</label>
+                        <select id="select_stream">
+                             <option value="-1">选择全部</option>
+                            {% for stream in streams %}
+                                <option value="{{ stream.code }}">{{ stream.nickname }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="xc_filter-group">
+                        <label class="xc_filter-label">算法:</label>
+                        <select id="select_flow">
+                            <option value="-1">选择全部</option>
+                            {% for flow in flows %}
+                                <option value="{{ flow.code }}">{{ flow.name }}</option>
+                            {% endfor %}
+                       </select>
+                    </div>
+                    <div class="xc_date-range">
+                        <input type="text" id="input_dateRange"  value="{{ startDate }} 至 {{ endDate }}">
+                    </div>
                 </div>
 
-                <div class="xc_stats">
-                    <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
-                    <span id="top_msg"></span>
+                <div class="xc_video-grid" id="data">
+                    <!-- 其他视频卡片结构相同，已省略 -->
                 </div>
 
-                <audio id="top_audio"  controls style="display: none;float: right; position: relative;height: 34px; "  >
-                    浏览器不支持音频播放
-                </audio>
             </div>
-        </header>
-
-        <div class="xc_filters">
-            <div class="xc_filter-group">
-                <input type="checkbox" id="check_all" style="margin-left: 10px;">
-            </div>
-            <div class="xc_filter-group">
-                <button class="xc_btn_small xc_btn-secondary" onclick="f_handle('delete')" >批量删除</button>
-                <button class="xc_btn_small xc_btn-secondary" onclick="f_openExport('labelme')" >批量导出</button>
-            </div>
-            <div class="xc_filter-group">
-                <label class="xc_filter-label">类型:</label>
-                    <select id="select_draw_type">
-                        <option value="-1">选择全部</option>
-                        <option value="1">画框</option>
-                        <option value="0">不画框</option>
-                    </select>
-            </div>
-            <div class="xc_filter-group">
-                <label class="xc_filter-label">布控:</label>
-                   <select id="select_control">
-                    <option value="-1">选择全部</option>
-                    {% for control in controls %}
-                        <option value="{{ control.code }}">{{ control.code }}</option>
-                    {% endfor %}
-                  </select>
-            </div>
-            <div class="xc_filter-group">
-                <label class="xc_filter-label">视频:</label>
-                <select id="select_stream">
-                     <option value="-1">选择全部</option>
-                    {% for stream in streams %}
-                        <option value="{{ stream.code }}">{{ stream.nickname }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="xc_filter-group">
-                <label class="xc_filter-label">算法:</label>
-                <select id="select_flow">
-                    <option value="-1">选择全部</option>
-                    {% for flow in flows %}
-                        <option value="{{ flow.code }}">{{ flow.name }}</option>
-                    {% endfor %}
-               </select>
-            </div>
-            <div class="xc_date-range">
-                <input type="text" id="input_dateRange"  value="{{ startDate }} 至 {{ endDate }}">
-            </div>
-        </div>
-
-        <div class="xc_video-grid" id="data">
-            <!-- 其他视频卡片结构相同，已省略 -->
-        </div>
-
-    </div>
    <!-- xc page end -->
             </div>
         </div>
@@ -493,7 +491,7 @@
     let temp_audioPlayer_isOpen = true;
 
     let temp_cur_page = 1;//当前页面
-    let temp_cur_page_size = 8;//page size
+    let temp_cur_page_size = 10;//page size
 
     //报警弹窗专用start
     let eleBxcDialogMask = $("#bxc_dialog_mask")
@@ -726,7 +724,7 @@
                     }
                     content_list_html+="<div class=\"content_item\"><span style='margin-left:1px;'>共"+temp_cur_alarm_image_count+"张</span></div>"
 
-                    let alarm_count_html = "发现"+temp_cur_alarm_count+"条新的报警视频";
+                    let alarm_count_html = "发现"+temp_cur_alarm_count+"条新的报警";
                     let alarm_control_code_html = "<a href='javascript:f_edit(\""+alarm["code"]+"\")'>查看报警详情</a>";
 
                     ele_bxc_alarm_count.html(alarm_count_html);

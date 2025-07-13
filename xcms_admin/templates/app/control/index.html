@@ -4,6 +4,478 @@
 
 {% block stylesheets %}
   {{ block.super }}
+<style>
+    :root {
+        --xc-primary: #165DFF;
+        --xc-primary-light: #4080FF;
+        --xc-primary-dark: #0E42D2;
+        --xc-warning: #FF7D00;
+        --xc-danger: #F53F3F;
+        --xc-gray-100: #F2F3F5;
+        --xc-gray-200: #E5E6EB;
+        --xc-gray-300: #C9CDD4;
+        --xc-gray-400: #86909C;
+        --xc-gray-500: #4E5969;
+        --xc-gray-600: #272E3B;
+        --xc-gray-700: #1D2129;
+        --xc-white: #FFFFFF;
+        --xc-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+        --xc-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        --xc-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.16);
+        --xc-radius-sm: 4px;
+        --xc-radius: 6px;
+        --xc-radius-lg: 8px;
+        --xc-radius-xl: 12px;
+        --xc-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+
+    .xc_container {
+        color: #333;
+        line-height: 1.6;
+        margin: 0 auto;
+        padding: 10px 20px;
+    }
+
+    /* 工具栏样式 */
+    .xc_toolbar {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .xc_btn {
+        padding: 4px 8px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .xc_btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--xc-shadow);
+    }
+
+    .xc_btn:active {
+        transform: translateY(0);
+    }
+    .xc_btn_primary {
+        background-color: var(--xc-primary);
+        color: white;
+    }
+
+    .xc_btn_primary:hover {
+        background-color: var(--xc-primary-dark);
+    }
+
+    .xc_btn_success {
+        background-color: #2b542c;
+        color: white;
+    }
+
+    .xc_btn_success:hover {
+        background-color: #347335;
+    }
+
+    .xc_btn_danger {
+        background-color: var(--xc-danger);
+        color: white;
+    }
+
+    .xc_btn_danger:hover {
+        background-color: #e03636;
+    }
+
+    .xc_btn_warning {
+        background-color: var(--xc-warning);
+        color: white;
+    }
+
+    .xc_btn_warning:hover {
+        background-color: #e67200;
+    }
+
+    .xc_btn_default {
+        background-color: var(--xc-white);
+        color: var(--xc-gray-600);
+        border: 1px solid var(--xc-gray-200);
+    }
+
+    .xc_btn_default:hover {
+        background-color: var(--xc-gray-100);
+    }
+
+    .xc_search_box {
+        display: flex;
+        margin-left: auto;
+        position: relative;
+        width: 200px;
+    }
+
+    .xc_search_input {
+        flex: 1;
+        padding: 3px 16px 5px 40px;
+        border: 1px solid var(--xc-gray-200);
+        border-radius: var(--xc-radius);
+        font-size: 14px;
+        transition: var(--xc-transition);
+        background-color: var(--xc-white);
+    }
+
+    .xc_search_input:focus {
+        border-color: var(--xc-primary);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.1);
+    }
+
+    .xc_search_icon {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--xc-gray-400);
+    }
+
+    /* 摄像头组样式 */
+    .xc_camera_groups {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .xc_group {
+        background-color: var(--xc-white);
+        border-radius: var(--xc-radius-xl);
+        overflow: hidden;
+        box-shadow: var(--xc-shadow-sm);
+        transition: var(--xc-transition);
+    }
+
+    .xc_group:hover {
+        box-shadow: var(--xc-shadow);
+    }
+    .xc_group_header {
+        padding: 2px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+    }
+
+    .xc_group_header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+
+    }
+    .xc_group_title {
+        color: #000000;
+        padding: 2px 8px;
+        display: flex;
+        font-size: 18px;
+        font-weight: 600;
+        align-items: center;
+        gap: 12px;
+    }
+    .xc_group_title_a {
+        color: #000000;
+        text-decoration:none;
+        cursor: pointer;
+    }
+    .xc_group_title_a:hover {
+        color: var(--xc-primary);
+        text-decoration:none;
+    }
+
+    .xc_group_count {
+        border: 1px solid #000000;
+        color: #000000;
+        padding: 1px 7px;
+        border-radius: 10px;
+        font-size: 8px;
+        cursor: pointer;
+    }
+
+    .xc_group_actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .xc_group_toggle {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 1px solid green;
+        color: #000000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--xc-transition);
+    }
+
+    .xc_group_toggle.expanded {
+        transform: rotate(180deg);
+    }
+
+    /* 摄像头列表样式 - 二级显示 */
+    .xc_camera_list {
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    }
+
+    .xc_camera_list.expanded {
+        padding: 4px;
+        max-height: 800px;
+        overflow: auto;
+    }
+    .xc_camera_table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .xc_camera_table th {
+        padding: 6px 12px;
+        text-align: left;
+        font-weight: 500;
+        color: var(--xc-gray-500);
+        font-size: 14px;
+        border-bottom: 1px solid var(--xc-gray-200);
+        position: relative;
+    }
+
+    .xc_camera_table th::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 16px;
+        right: 16px;
+        height: 1px;
+        background-color: var(--xc-gray-200);
+    }
+
+    .xc_camera_table td {
+        padding: 3px 4px;
+        font-size: 14px;
+        color: var(--xc-gray-600);
+        border-bottom: 1px solid var(--xc-gray-100);
+        transition: background-color 0.2s;
+    }
+
+    .xc_camera_table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .xc_camera_table tbody tr:hover {
+        background-color: rgba(22, 93, 255, 0.03);
+    }
+
+    /* 状态标签样式 */
+    .xc_status {
+        padding: 4px 6px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .xc_status_running {
+        background-color: rgba(0, 180, 42, 0.1);
+        color: #2b542c;
+    }
+
+    .xc_status_stopped {
+        background-color: rgba(245, 63, 63, 0.1);
+        color: var(--xc-danger);
+    }
+
+    .xc_status_pending {
+        background-color: rgba(255, 125, 0, 0.1);
+        color: var(--xc-warning);
+    }
+
+    .xc_status_dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: currentColor;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 1; }
+    }
+
+    /* 操作按钮样式 */
+    .xc_action_buttons {
+        display: flex;
+        gap: 8px;
+    }
+
+    .xc_action_btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        background-color: var(--xc-gray-100);
+        border: none;
+        color: var(--xc-gray-500);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--xc-transition);
+    }
+
+    .xc_action_btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .xc_action_btn.view:hover {
+        background-color: var(--xc-primary);
+        color: white;
+        cursor: pointer;
+    }
+
+    .xc_action_btn.start:hover {
+        background-color: #2b542c;
+        color: white;
+    }
+
+    .xc_action_btn.stop:hover {
+        background-color: var(--xc-warning);
+        color: white;
+    }
+
+    .xc_action_btn.delete:hover {
+        background-color: var(--xc-danger);
+        color: white;
+    }
+
+
+    /* SVG图标样式 */
+    .xc-icon {
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .xc-icon-sm {
+        width: 16px;
+        height: 16px;
+    }
+
+    .xc-icon-lg {
+        width: 24px;
+        height: 24px;
+    }
+
+    /* 响应式调整 */
+    @media (max-width: 1024px) {
+        .xc_search_box {
+            width: 260px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .xc_toolbar {
+            justify-content: flex-start;
+        }
+
+        .xc_search_box {
+            margin-left: 0;
+            width: 100%;
+            order: 100;
+            margin-top: 12px;
+        }
+
+        .xc_group_header {
+            padding: 12px 16px;
+        }
+
+        .xc_camera_list.expanded {
+            padding: 12px;
+        }
+
+        .xc_camera_table td {
+            padding: 12px 8px;
+        }
+
+        .xc_action_buttons {
+            gap: 4px;
+        }
+
+        .xc_action_btn {
+            width: 28px;
+            height: 28px;
+        }
+    }
+</style>
+<style>
+    .xc_pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .xc_pagination>.xc_page-btn {
+        min-width: 36px;
+        height: 36px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        background-color: white;
+        color: #555;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .xc_pagination>.xc_page-btn:hover:not(.xc_active) {
+        border-color: #34495e;
+        color: #34495e;
+    }
+    .xc_pagination>.xc_page-btn.xc_active {
+        background-color: #34495e;
+        color: white;
+
+    }
+    .xc_pagination>.xc_page-info {
+        font-size: 14px;
+        color: #7f8c8d;
+    }
+</style>
 {% endblock stylesheets %}
 
 {% block content %}
@@ -13,58 +485,62 @@
       <div class="row">
           <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel">
-                  <div class="x_title">
+   <!-- xc page start -->
+    <div class="xc_container">
+        <div class="xc_toolbar">
+            <h2>布控管理
+             <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
+            </h2>
 
-                      <h2>布控管理
-                         <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
+            <button class="xc_btn xc_btn_default" onclick="f_docs()" >
+                文档
+            </button>
 
-                          <button onclick="f_docs()" class="btn btn-dark btn-sm" type="button">文档</button>
-                          <button onclick="f_reload()" class="btn btn-default btn-sm" type="button">刷新</button>
-                          <button onclick="f_openHandleAllControl('add')" class="btn btn-default btn-sm" type="button">全部执行</button>
-                          <button onclick="f_openHandleAllControl('cancel')" class="btn btn-default btn-sm" type="button">全部取消</button>
-                          <button onclick="f_openHandleAllControl('delete')" class="btn btn-default btn-sm" type="button">全部删除</button>
+            <button class="xc_btn xc_btn_default" onclick="f_openHandleAllControl('add')">
+                <svg class="xc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                全部执行
+            </button>
+            <button class="xc_btn xc_btn_default" onclick="f_openHandleAllControl('cancel')">
+                <svg class="xc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="6" y="4" width="4" height="16"/>
+                    <rect x="14" y="4" width="4" height="16"/>
+                </svg>
+                全部取消
+            </button>
+            <button class="xc_btn xc_btn_default" onclick="f_openHandleAllControl('delete')">
+                <svg class="xc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"/>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                </svg>
+                全部删除
+            </button>
+             <span id="control_info"></span>
+             <span id="top_msg">{{top_msg}}</span>
 
-                      <span id="top_msg">{{top_msg}}</span>
-              </h2>
+            <div class="xc_search_box">
+                <svg class="xc_search_icon xc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" class="xc_search_input" id="search_input" placeholder="请输入视频流名称">
+            </div>
+        </div>
 
+        <div class="xc_camera_groups"  id="data">
+            <!-- item start -->
 
-                        <div class="clearfix"></div>
-                  </div>
+            <!-- item end -->
+        </div>
+    </div>
+   <!-- xc page end -->
               </div>
         </div>
       </div>
-      <div class="row">
-          <div class="col-md-12 col-sm-12 col-xs-12">
-              <div class="x_panel">
-                  <div class="x_content">
-                      <p id="controlInfo"><code>...</code></p>
 
-                      <div class="table-responsive">
-                       <table class="table table-bordered">
-                          <thead>
-                            <tr class="headings">
-                              <th class="column-title">ID </th>
-                              <th class="column-title">视频流 </th>
-                              <th class="column-title">算法流 <i class="bxc_introduce fa fa-info-circle" title="算法流在布控执行时才能查看"></i></th>
-                              <th class="column-title">业务算法 </th>
-                              <th class="column-title">计算频率 </th>
-                              <th class="column-title">状态 </th>
-                              <th class="column-title">时间 </th>
-                              <th class="column-title last"><span class="nobr">操作</span></th>
-                            </tr>
-                          </thead>
-
-                          <tbody id="data">
-                          </tbody>
-                        </table>
-                      </div>
-                   </div>
-              </div>
+    <div class="row">
+        <div class="xc_pagination" id="pageData">
         </div>
-      </div>
+    </div>
 
-
-      <div class="row" id="pageData"></div>
       <!--日志弹窗start -->
       <div id="controlLogDialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
           <div class="modal-dialog">
@@ -151,22 +627,42 @@
   {{ block.super }}
 
 <script>
-    let eleControlInfo= $("#controlInfo");
     let eleData = $("#data");
     let elePageData = $("#pageData");
     let ele_top_loading = $("#top_loading");
     let ele_top_msg= $("#top_msg");
-    
+    let eleControlInfo= $("#control_info");
+    let eleSearchInput= $("#search_input");//v4.638新增
+
     let ele_div_control_log_dialog = $("#controlLogDialog");
     let ele_div_control_data = $("#controlLogData");
 
     let ele_div_copy_dialog = $("#copyDialog");
     let ele_copy_select_streams= $("#copySelectStreams");
     let ele_copy_textarea_remark= $("#copyRemark");
+
     let temp_cur_control_code = null;
+    let temp_cur_search_text = "";//v4.638新增
     let temp_cur_page = 1;//当前页面
     let temp_cur_page_size = 10;
-    
+
+    function toggleGroup(actionsElement) {
+        const headerElement = actionsElement.parentNode;
+        const listElement = headerElement.nextElementSibling;
+        const toggleIcon = headerElement.querySelector('.xc_group_toggle');
+
+        listElement.classList.toggle('expanded');
+        toggleIcon.classList.toggle('expanded');
+    }
+    const groupBy = (arr, keyFunc) => {
+      return arr.reduce((groups, item) => {
+        const key = typeof keyFunc === 'function' ? keyFunc(item) : item[keyFunc]; // 支持函数或属性名
+        groups[key] = groups[key] || []; // 初始化分组数组
+        groups[key].push(item);
+        return groups;
+      }, {});
+    };
+
     function f_edit(controlCode) {
         let url = "/control/edit?code="+controlCode;
         window.location.href = url;
@@ -197,7 +693,41 @@
                 });
         }
     }
+    function f_copy(controlCode) {
+        temp_cur_control_code = controlCode;
+        ele_copy_textarea_remark.val("copy from "+controlCode)
+        ele_div_copy_dialog.modal("toggle");
+        ele_top_loading.show();
+        $.ajax({
+               url: '/open/getAllStreamData',
+               type: "get",
+               async: true,
+               data: {},
+               dataType: "json",
+               timeout: 0,
+               error: function () {
+                   ele_top_loading.hide();
+                   myAlert("网络异常，请确定网络正常！","error");
+               },
+               success: function (res) {
+                   ele_top_loading.hide();
+                   if(1000 === res.code){
+                       let data = res.data;
+                       let html = "<option value=\"0\">---请选择摄像头(可多选)---</option>";
+                       for (let i = 0; i < data.length; i++) {
+                           let d = data[i];
+                           let d_code = d["code"];
+                           let d_nickname = d["nickname"];
+                           html += "<option value=\""+d_code+"\">"+d_nickname+"</option>";
+                       }
+                       ele_copy_select_streams.html(html);
+                   }else{
+                       myAlert(res.msg,"error");
+                   }
+                }
+            });
 
+    }
     function f_postCopy() {
         let temp1 = ele_copy_select_streams.val();//typeof object, array
         if(temp1===null){
@@ -241,43 +771,6 @@
             }
         }
     }
-
-    function f_copy(controlCode) {
-        temp_cur_control_code = controlCode;
-        ele_copy_textarea_remark.val("copy from "+controlCode)
-        ele_div_copy_dialog.modal("toggle");
-        ele_top_loading.show();
-        $.ajax({
-               url: '/open/getAllStreamData',
-               type: "get",
-               async: true,
-               data: {},
-               dataType: "json",
-               timeout: 0,
-               error: function () {
-                   ele_top_loading.hide();
-                   myAlert("网络异常，请确定网络正常！","error");
-               },
-               success: function (res) {
-                   ele_top_loading.hide();
-                   if(1000 === res.code){
-                       let data = res.data;
-                       let html = "<option value=\"0\">---请选择摄像头(可多选)---</option>";
-                       for (let i = 0; i < data.length; i++) {
-                           let d = data[i];
-                           let d_code = d["code"];
-                           let d_nickname = d["nickname"];
-                           html += "<option value=\""+d_code+"\">"+d_nickname+"</option>";
-                       }
-                       ele_copy_select_streams.html(html);
-                   }else{
-                       myAlert(res.msg,"error");
-                   }
-                }
-            });
-
-    }
-
     function f_log(controlCode) {
         // BootStrap弹窗说明：https://www.genban.org/teach/teach-28585.html
         ele_div_control_log_dialog.modal("toggle");
@@ -344,21 +837,18 @@
     function f_show_pageData(pageData) {
         let page_size = pageData["page_size"];
         let html = "";
-        html+="<div class=\"col-md-12 col-sm-12 col-xs-12\"><ul class=\"pagination\">";
-                html+="<li><span style=\"margin-right:10px;color:#000;\">共<span>"+pageData["page_num"]+"</span>页 / <span>"+pageData["count"]+"</span >条</span></li>";
-            let pageLabels = pageData["pageLabels"];
+        html+="<div class=\"xc_page-info\">共"+pageData["page_num"]+"页 / "+pageData["count"]+"条</div>";
+        let pageLabels = pageData["pageLabels"];
 
-            for (let i = 0; i < pageLabels.length; i++) {
-                let cur = pageLabels[i]["cur"];
-                console.log(typeof cur,cur)
-                if(cur === 1){
-                    html+="<li class=\"paginate_button active\"><a href=\"#\"  >"+pageLabels[i]["name"]+"</a></li>";
-                }else{
-                    html+="<li class=\"paginate_button \"><a href=\"javascript:f_getIndex("+pageLabels[i]["page"]+","+page_size+")\" >"+pageLabels[i]["name"]+"</a></li>";
-                }
+        for (let i = 0; i < pageLabels.length; i++) {
+            let cur = pageLabels[i]["cur"];
+            //console.log("f_show_pageData",typeof cur,cur)
+            if(cur === 1){
+                html+="<div class=\"xc_page-btn xc_active\">"+pageLabels[i]["name"]+"</div>";
+            }else{
+                html+="<div class=\"xc_page-btn\" onclick=\"f_getIndex("+pageLabels[i]["page"]+","+page_size+")\" >"+pageLabels[i]["name"]+"</div>";
             }
-        html+="</ul></div>";
-
+        }
         elePageData.html(html);
     }
     function f_getIndex(page,page_size) {
@@ -369,7 +859,7 @@
                url: '/control/getIndex',
                type: "get",
                async: true,
-               data: {"p":page,"ps":page_size},
+               data: {"p":page,"ps":page_size,"search_text":temp_cur_search_text},
                dataType: "json",
                timeout: 0,
                error: function () {
@@ -378,92 +868,122 @@
                },
                success: function (res) {
                    ele_top_loading.hide();
-                   eleData.html("");
-
-                   if(res.code === 1000){
+                   if(res.code === 1000)
+                   {
                        let data = res.data;
-                       let data_length = data.length;
-                       let item_html;
 
-                       if(data_length === 0){
-                            item_html = "";
-                            item_html += "<tr class=\"even pointer\">";
-                            item_html += "<td colspan='8'>暂无数据</td>";
-                            item_html += "</tr>";
-                            eleData.append(item_html);
+                       if(data.length === 0){
+                            eleData.html("<div>暂无数据</div>");
                        }else{
-                            for (let i = 0; i < data_length; i++) {
-                               let d = data[i];
-                               item_html = "";
-                               item_html += "<tr class=\"even pointer\">";
-                               item_html += "<td>"+d["id"]+"</td>";
-                               //item_html += "<td>"+d["code"]+"</td>";
+                            eleData.html("");
+                            const group_object = groupBy(data, "stream_name");
+                            for (const stream_name in group_object) {
+                                let dd = group_object[stream_name];
+                                let dd_length = dd.length;
+                                let d0 = dd[0];
 
-                               if(d["stream_active"] === 1){
-                                  item_html += "<td><span class='sun-state-success'><i class=\"fa fa-bar-chart\"></i> 在线</span> <a class='sun-a-label' href=\"javascript:f_open_player('"+d["stream_app"]+"','"+d["stream_name"]+"')\" ><i class=\"fa fa-play\"></i> "+
-                                                d["stream_nickname"]+"</a></td>";
-                               }else{
-                                  item_html += "<td><span class='sun-state-error'>离线</span> "+d["stream_nickname"]+"</td>";
-                                }
-
-
-                                item_html += "<td><a class='sun-a-label' style='font-size: 12px;' href=\"javascript:f_open_player('"+d["push_stream_app"]+"','"+d["push_stream_name"]+"')\" ><i class=\"fa fa-play\"></i>算法流</a></td>";
-
-
-                                if(d["flow_nickname"] === 0){//算法已被删除
-                                    item_html += "<td><span class='sun-state-error'>已删除</span></td>";
+                                let title;
+                                if(d0["stream_active"] === 1){
+                                    title= "<span class='sun-state-success'><i class=\"fa fa-bar-chart\"></i> 在线</span><a class='xc_group_title_a' href=\"javascript:f_open_player('"+d0["stream_app"]+"','"+d0["stream_name"]+"')\" ><i class=\"fa fa-play-circle-o\"></i> "+d0["stream_nickname"]+"</a>";
                                 }else{
-                                    let flow_mode = d["flow_mode"];
-                                    let flow_deploy_process_index = d["flow_deploy_process_index"];
-                                    let flow_max_concurrency = d["flow_max_concurrency"];
-                                    let flow_concurrency_unit_length = d["flow_concurrency_unit_length"];
-                                    let base = flow_deploy_process_index+"/"+flow_max_concurrency+"/"+flow_concurrency_unit_length;
-
-                                    item_html += "<td><a class='sun-a-label' href=\"javascript:f_open_flow('"+d["flow_code"]+"')\" >("+base+") "+d["flow_nickname"]+"</a>";
+                                    title= "<span class='sun-state-error'>离线</span> "+d0["stream_nickname"];
                                 }
+                                let item_html = "<div class=\"xc_group\">";
+                item_html+="<div class=\"xc_group_header\">";
+                    item_html+="<div class=\"xc_group_title\">"+title+"<span class=\"xc_group_count\">"+dd_length.toString()+"</span></div>";
+                    item_html+="<div class=\"xc_group_actions\" onclick=\"toggleGroup(this)\">";
+                        item_html+="<div class=\"xc_group_toggle\">";
+                            item_html+="<svg class=\"xc-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><polyline points=\"6 9 12 15 18 9\"/></svg>";
+                        item_html+="</div>";
+                    item_html+="</div>";
+                item_html+="</div>";
+                item_html+="<div class=\"xc_camera_list expanded\">";
+                    item_html+="<table class=\"xc_camera_table\">";
+                        item_html+="<thead>";
+                            item_html+="<tr>";
+                                item_html+="<th>ID</th>";
+                                item_html+="<th>编号</th>";
+                                item_html+="<th>算法流</th>";
+                                item_html+="<th>算法</th>";
+                                item_html+="<th>计算频率</th>";
+                                item_html+="<th>状态</th>";
+                                item_html+="<th>时间</th>";
+                                item_html+="<th>操作</th>";
+                            item_html+="</tr>";
+                        item_html+="</thead>";
+                        item_html+="<tbody>";
+                               for (let i = 0; i < dd_length; i++) {
+                                    let d = dd[i];
+                                   item_html+="<tr>";
+                                item_html+="<td>"+d["id"]+"</td>";
+                                item_html+="<td style='width:15%;'>"+d["code"]+"</td>";
+                                item_html+="<td><a class='sun-a-label' style='font-size: 12px;' href=\"javascript:f_open_player('"+d["push_stream_app"]+"','"+d["push_stream_name"]+"')\" ><i class=\"fa fa-play\"></i> 算法流</a></td>";
+                                item_html += "<td style='width:20%;'>";
+                                   if(d["flow_nickname"] === 0){//业务算法已被删除
+                                        item_html += "<span class='sun-state-error'>已删除</span>";
+                                    }else{
+                                        //显示业务算法
+                                        let flow_mode = d["flow_mode"];
+                                        let flow_deploy_process_index = d["flow_deploy_process_index"];
+                                        let flow_max_concurrency = d["flow_max_concurrency"];
+                                        let flow_concurrency_unit_length = d["flow_concurrency_unit_length"];
+                                        let base = flow_deploy_process_index+"/"+flow_max_concurrency+"/"+flow_concurrency_unit_length;
 
-                               item_html += "<td>"+d["checkFps"]+"</td>";
+                                        item_html += "<a class='sun-a-label' href=\"javascript:f_open_flow('"+d["flow_code"]+"')\" >("+base+") "+d["flow_nickname"]+"</a>";
+                                    }
+                                item_html += "</td>";
+                                item_html+="<td>"+d["checkFps"]+"</td>";
 
                                 item_html += "<td class='cur_state_" + d["code"] + "'>";
-                               if(d["cur_state"] === 0){
-                                   item_html += "<span class='sun-state-error'>未布控</span>";
-                               }else if(d["cur_state"] === 1){
-                                    item_html += "<span class='sun-state-success'>布控中</span>";
-                               }else if(d["cur_state"] === 5){
-                                    item_html += "<span class='sun-state-error'>布控中断</span>";
-                               }else{
-                                    item_html += "<span class='sun-state-error'>未知状态</span>";
+                                   if(d["cur_state"] === 0){
+                                       item_html += "<span class='sun-state-error'>未布控</span>";
+                                   }else if(d["cur_state"] === 1){
+                                        item_html += "<span class='sun-state-success'>布控中</span>";
+                                   }else if(d["cur_state"] === 5){
+                                        item_html += "<span class='sun-state-error'>布控中断</span>";
+                                   }else{
+                                        item_html += "<span class='sun-state-error'>未知状态</span>";
+                                   }
+                                  item_html += "</td>";
+                                  item_html += "<td>"+d["last_update_time"]+"</td>";
+
+                                item_html+="<td class=\"xc_action_buttons\">";
+                                    if(1===d["cur_state"]) {//布控中
+                                        item_html += "<button data-code='" + d["code"] + "'  data-handle='cancel' onclick=\"f_openHandleControl(this)\" class=\"btn btn-dark btn-sm\">取消布控</button>";
+                                    }else{
+                                        item_html += "<button data-code='" + d["code"] + "'  data-handle='add' onclick=\"f_openHandleControl(this)\" class=\"btn btn-default btn-sm\">执行布控</button>";
+                                    }
+
+                                    item_html+="<button class=\"xc_action_btn view\" onclick=\"f_edit('"+d["code"]+"')\" title=\"编辑\"><i class=\"fa fa-edit\"></i></button>";
+                                    item_html+="<button class=\"xc_action_btn delete\" onclick=\"f_del('"+d["code"]+"')\"  title=\"删除\">";
+                                        item_html+="<svg class=\"xc-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"> <polyline points=\"3 6 5 6 21 6\"/><path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\"/></svg>";
+                                    item_html+="</button>";
+
+                                    item_html+="<button class=\"xc_action_btn view\" onclick=\"f_copy('"+d["code"]+"')\"  title=\"复制\"><i class=\"fa fa-copy\"></i></button>";
+                                    item_html+="<button class=\"xc_action_btn view\" onclick=\"f_log('"+d["code"]+"')\"  title=\"日志\"><i class=\"fa fa-chain\"></i></button>";
+
+
+                                item_html+="</td>";
+                            item_html+="</tr>";
                                }
-                                item_html += "</td>";
+                        item_html+="</tbody>";
+                    item_html+="</table>";
+                item_html+="</div>";
+            item_html+="</div>";
 
-
-                               item_html += "<td>"+d["last_update_time"]+"</td>";
-                               item_html += "<td>";
-
-                                    item_html += "<div class=\"btn-group\">";
-                                        if(1===d["cur_state"]) {//布控中
-                                            item_html += "<button data-code='" + d["code"] + "'  data-handle='cancel' onclick=\"f_openHandleControl(this)\" class=\"btn btn-dark btn-sm\">取消布控</button>";
-                                        }else{
-                                            item_html += "<button data-code='" + d["code"] + "'  data-handle='add'onclick=\"f_openHandleControl(this)\"class=\"btn btn-default btn-sm\">执行布控</button>";
-                                        }
-                                      item_html += "<button onclick=\"f_edit('"+d["code"]+"')\" class=\"btn btn-sm btn-default\" type=\"button\" title=\"编辑\"><i class=\"fa fa-edit\"></i></button>";
-                                      item_html += "<button onclick=\"f_del('"+d["code"]+"')\" class=\"btn btn-sm btn-default\" type=\"button\" title=\"删除\"><i class=\"fa fa-remove\"></i></button>";
-                                      item_html += "<button onclick=\"f_copy('"+d["code"]+"')\" class=\"btn btn-sm btn-default\" type=\"button\" title=\"复制\"><i class=\"fa fa-copy\"></i></button>";
-                                      item_html += "<button onclick=\"f_log('"+d["code"]+"')\" class=\"btn btn-sm btn-default\" type=\"button\" title=\"日志\"><i class=\"fa fa-chain\"></i></button>";
-                                    item_html += "</div>";
-
-                               item_html += "</td></tr>";
-
-                               eleData.append(item_html);
+                                eleData.append(item_html);
                            }
                             f_show_pageData(res.pageData)
                        }
-                   }else{
-                        myAlert(res.msg,"error");
+
+                   }
+                   else
+                   {
+                       eleData.html("<div>"+res.msg+"</div>");
+                       myAlert(res.msg,"error");
                    }
                }
             });
-
     }
 
     function f_getAllCoreProcessData2() {
@@ -604,6 +1124,14 @@
         let url= "{{ settings.docs.controlAdd }}";
         window.open(url);
     }
+    eleSearchInput.on("keydown",function(e){
+        if (e.key === 'Enter' || e.keyCode === 13) {
+            e.preventDefault(); // 阻止默认行为，例如表单提交
+            temp_cur_page = 1;
+            temp_cur_search_text = eleSearchInput.val().trim();
+            f_getIndex(temp_cur_page,temp_cur_page_size);
+        }
+    })
     window.onload = function (){
         f_getIndex(temp_cur_page,temp_cur_page_size);
         f_getAllCoreProcessData2();

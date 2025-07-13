@@ -3,6 +3,480 @@
 {% block stylesheets %}
   {{ block.super }}
 <style>
+    :root {
+        --xc-primary: #165DFF;
+        --xc-primary-light: #4080FF;
+        --xc-primary-dark: #0E42D2;
+        --xc-warning: #FF7D00;
+        --xc-danger: #F53F3F;
+        --xc-gray-100: #F2F3F5;
+        --xc-gray-200: #E5E6EB;
+        --xc-gray-300: #C9CDD4;
+        --xc-gray-400: #86909C;
+        --xc-gray-500: #4E5969;
+        --xc-gray-600: #272E3B;
+        --xc-gray-700: #1D2129;
+        --xc-white: #FFFFFF;
+        --xc-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+        --xc-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        --xc-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.16);
+        --xc-radius-sm: 4px;
+        --xc-radius: 6px;
+        --xc-radius-lg: 8px;
+        --xc-radius-xl: 12px;
+        --xc-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+
+    .xc_container {
+        color: #333;
+        line-height: 1.6;
+        margin: 0 auto;
+        padding: 10px 20px;
+    }
+
+    /* 工具栏样式 */
+    .xc_toolbar {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .xc_btn {
+        padding: 4px 8px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .xc_btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--xc-shadow);
+    }
+
+    .xc_btn:active {
+        transform: translateY(0);
+    }
+    .xc_btn_primary {
+        background-color: var(--xc-primary);
+        color: white;
+    }
+
+    .xc_btn_primary:hover {
+        background-color: var(--xc-primary-dark);
+    }
+
+    .xc_btn_success {
+        background-color: #2b542c;
+        color: white;
+    }
+
+    .xc_btn_success:hover {
+        background-color: #347335;
+    }
+
+    .xc_btn_danger {
+        background-color: var(--xc-danger);
+        color: white;
+    }
+
+    .xc_btn_danger:hover {
+        background-color: #e03636;
+    }
+
+    .xc_btn_warning {
+        background-color: var(--xc-warning);
+        color: white;
+    }
+
+    .xc_btn_warning:hover {
+        background-color: #e67200;
+    }
+
+    .xc_btn_default {
+        background-color: var(--xc-white);
+        color: var(--xc-gray-600);
+        border: 1px solid var(--xc-gray-200);
+    }
+
+    .xc_btn_default:hover {
+        background-color: var(--xc-gray-100);
+    }
+
+    .xc_search_box {
+        display: flex;
+        margin-left: auto;
+        position: relative;
+        width: 200px;
+    }
+
+    .xc_search_input {
+        flex: 1;
+        padding: 3px 16px 5px 40px;
+        border: 1px solid var(--xc-gray-200);
+        border-radius: var(--xc-radius);
+        font-size: 14px;
+        transition: var(--xc-transition);
+        background-color: var(--xc-white);
+    }
+
+    .xc_search_input:focus {
+        border-color: var(--xc-primary);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.1);
+    }
+
+    .xc_search_icon {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--xc-gray-400);
+    }
+
+    /* 摄像头组样式 */
+    .xc_camera_groups {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .xc_group {
+        background-color: var(--xc-white);
+        border-radius: var(--xc-radius-xl);
+        overflow: hidden;
+        box-shadow: var(--xc-shadow-sm);
+        transition: var(--xc-transition);
+    }
+
+    .xc_group:hover {
+        box-shadow: var(--xc-shadow);
+    }
+
+    .xc_group_header {
+        padding: 2px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+    }
+
+    .xc_group_header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+
+    }
+    .xc_group_title {
+        color: #000000;
+        padding: 2px 8px;
+        display: flex;
+        font-size: 18px;
+        font-weight: 600;
+        align-items: center;
+        gap: 12px;
+    }
+    .xc_group_title_a {
+        color: #000000;
+        text-decoration:none;
+        cursor: pointer;
+    }
+    .xc_group_title_a:hover {
+        color: var(--xc-primary);
+        text-decoration:none;
+    }
+
+    .xc_group_count {
+        border: 1px solid #000000;
+        color: #000000;
+        padding: 1px 7px;
+        border-radius: 10px;
+        font-size: 8px;
+        cursor: pointer;
+    }
+
+    .xc_group_actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .xc_group_toggle {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 1px solid green;
+        color: #000000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--xc-transition);
+    }
+
+    .xc_group_toggle.expanded {
+        transform: rotate(180deg);
+    }
+
+    /* 摄像头列表样式 - 二级显示 */
+    .xc_camera_list {
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    }
+
+    .xc_camera_list.expanded {
+        padding: 4px;
+        max-height: 800px;
+        overflow: auto;
+    }
+
+    .xc_camera_table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .xc_camera_table th {
+        padding: 6px 12px;
+        text-align: left;
+        font-weight: 500;
+        color: var(--xc-gray-500);
+        font-size: 14px;
+        border-bottom: 1px solid var(--xc-gray-200);
+        position: relative;
+    }
+
+    .xc_camera_table th::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 16px;
+        right: 16px;
+        height: 1px;
+        background-color: var(--xc-gray-200);
+    }
+
+    .xc_camera_table td {
+        padding: 3px 4px;
+        font-size: 14px;
+        color: var(--xc-gray-600);
+        border-bottom: 1px solid var(--xc-gray-100);
+        transition: background-color 0.2s;
+    }
+
+    .xc_camera_table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .xc_camera_table tbody tr:hover {
+        background-color: rgba(22, 93, 255, 0.03);
+    }
+
+    /* 状态标签样式 */
+    .xc_status {
+        padding: 4px 6px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .xc_status_running {
+        background-color: rgba(0, 180, 42, 0.1);
+        color: #2b542c;
+    }
+
+    .xc_status_stopped {
+        background-color: rgba(245, 63, 63, 0.1);
+        color: var(--xc-danger);
+    }
+
+    .xc_status_pending {
+        background-color: rgba(255, 125, 0, 0.1);
+        color: var(--xc-warning);
+    }
+
+    .xc_status_dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: currentColor;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 1; }
+    }
+
+    /* 操作按钮样式 */
+    .xc_action_buttons {
+        display: flex;
+        gap: 8px;
+    }
+
+    .xc_action_btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        background-color: var(--xc-gray-100);
+        border: none;
+        color: var(--xc-gray-500);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--xc-transition);
+    }
+
+    .xc_action_btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .xc_action_btn.view:hover {
+        background-color: var(--xc-primary);
+        color: white;
+        cursor: pointer;
+    }
+
+    .xc_action_btn.start:hover {
+        background-color: #2b542c;
+        color: white;
+    }
+
+    .xc_action_btn.stop:hover {
+        background-color: var(--xc-warning);
+        color: white;
+    }
+
+    .xc_action_btn.delete:hover {
+        background-color: var(--xc-danger);
+        color: white;
+    }
+
+
+    /* SVG图标样式 */
+    .xc-icon {
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .xc-icon-sm {
+        width: 16px;
+        height: 16px;
+    }
+
+    .xc-icon-lg {
+        width: 24px;
+        height: 24px;
+    }
+
+    /* 响应式调整 */
+    @media (max-width: 1024px) {
+        .xc_search_box {
+            width: 260px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .xc_toolbar {
+            justify-content: flex-start;
+        }
+
+        .xc_search_box {
+            margin-left: 0;
+            width: 100%;
+            order: 100;
+            margin-top: 12px;
+        }
+
+        .xc_group_header {
+            padding: 12px 16px;
+        }
+
+        .xc_camera_list.expanded {
+            padding: 12px;
+        }
+
+        .xc_camera_table td {
+            padding: 12px 8px;
+        }
+
+        .xc_action_buttons {
+            gap: 4px;
+        }
+
+        .xc_action_btn {
+            width: 28px;
+            height: 28px;
+        }
+    }
+</style>
+<style>
+    .xc_pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .xc_pagination>.xc_page-btn {
+        min-width: 36px;
+        height: 36px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        background-color: white;
+        color: #555;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .xc_pagination>.xc_page-btn:hover:not(.xc_active) {
+        border-color: #34495e;
+        color: #34495e;
+    }
+    .xc_pagination>.xc_page-btn.xc_active {
+        background-color: #34495e;
+        color: white;
+
+    }
+    .xc_pagination>.xc_page-info {
+        font-size: 14px;
+        color: #7f8c8d;
+    }
+</style>
+<style>
     input[type="file"]{
       color: #8d2f2f;
       font-size: 12px;
@@ -25,166 +499,108 @@
   <div class="right_col" role="main">
     <div class="">
 
-     <div class="row">
-
-        <!--add history start-->
-            <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel">
-                <div class="x_title">
-                 <h2>摄像头管理
-                    <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
-                           <button data-toggle="modal" data-target="#ImportFileDialog"  class="btn btn-dark btn-sm">批量导入</button>
-                           <button onclick="f_postHandleAllForward('add')"  class="btn btn-default btn-sm">全部开启转发</button>
-                           <button onclick="f_postHandleAllForward('del')"  class="btn btn-default btn-sm">全部停止转发</button>
-                           <button onclick="f_delAll()"  class="btn btn-default btn-sm">全部删除</button>
-                            <span id="top_msg">{{top_msg}}</span>
-                            </h2>
+   <!-- xc page start -->
+    <div class="xc_container">
+        <div class="xc_toolbar">
+            <h2>摄像头管理
+             <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
+            </h2>
 
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                    <div class="table-responsive">
-                       <table class="table table-bordered">
-                            <thead>
-                                <tr class="headings">
-                                <th class="column-title">ID</th>
-                                <!--<th>编号</th>-->
+            <button class="xc_btn xc_btn_default" onclick="f_docs()" >
+                文档
+            </button>
+            <button class="xc_btn xc_btn_default" data-toggle="modal" data-target="#ImportFileDialog" >
+                批量导入
+            </button>
 
-                                    <th class="column-title">编号</th>
-                                    <th class="column-title">接入协议</th>
-                                    <th class="column-title">名称</th>
-                                    <th class="column-title">IP</th>
-                                     <th class="column-title">音频</th>
-                                    <th class="column-title">状态</th>
-                                    <th class="column-title">添加时间</th>
-                               <th class="column-title no-link last"><span class="nobr">操作</span></th>
-                              </tr>
-                            </thead>
-                          <tbody>
-                              {%  for d  in data %}
-                                  <tr class="even pointer">
-                                    <th scope="row">{{ d.id }}</th><!-- {{forloop.counter}} -->
-                                    <td>{{ d.code }}</td>
+            <button class="xc_btn xc_btn_default" onclick="f_postHandleAllForward('add')" >
+                <svg class="xc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                全部开启转发
+            </button>
+            <button class="xc_btn xc_btn_default" onclick="f_postHandleAllForward('del')">
+                <svg class="xc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="6" y="4" width="4" height="16"/>
+                    <rect x="14" y="4" width="4" height="16"/>
+                </svg>
+                全部停止转发
+            </button>
+            <button class="xc_btn xc_btn_default" onclick="f_delAll()">
+                <svg class="xc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"/>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                </svg>
+                全部删除
+            </button>
+             <span id="top_msg">{{top_msg}}</span>
 
-                                      <td>
-                                          {% if d.pull_stream_type == 0 %}
-                                              <span>unknown</span>
-                                          {% elif d.pull_stream_type == 1 %}
-                                              <span>RTSP</span>
-                                          {% elif d.pull_stream_type == 2 %}
-                                            <span>RTMP</span>
-                                          {% elif d.pull_stream_type == 3 %}
-                                            <span>FLV</span>
-                                          {% elif d.pull_stream_type == 4 %}
-                                            <span>HLS</span>
-                                          {% elif d.pull_stream_type == 21 %}
-                                            <span>GB28181</span>
-                                          {% elif d.pull_stream_type == 31 %}
-                                            <span>cRTSP</span>
-                                          {% elif d.pull_stream_type == 32 %}
-                                            <span>cRTMP</span>
-                                          {% endif %}
-                                      </td>
-                                    <td>{{ d.nickname }}</td>
-                                    <td>{{ d.pull_stream_ip }}</td>
-                                    <td>
-                                         {% for item in audio_types %}
-                                            {% if item.type == d.is_audio %} {{ item.name }} {% endif %}
-                                       {% endfor %}
-                                    </td>
-
-                                    <td>
-
-                                        {% if d.forward_state == 1 %}
-                                            <span class="sun-state-success"><i class="fa fa-bar-chart"></i> 转发中</span>
-                                            <a href="javascript:f_open_player('{{ d.app }}','{{ d.name }}')" class="sun-a-label">播放</a>
-                                            <a href="javascript:f_postHandleForward('del','{{ d.code }}','{{ d.pull_stream_type }}')" class="sun-a-label">停止</a>
-                                        {% else %}
-                                            <span class="sun-state-error">未转发</span>
-                                            <a href="javascript:f_postHandleForward('add','{{ d.code }}','{{ d.pull_stream_type }}')" class="sun-a-label">开启</a>
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ d.create_time }}</td>
-
-                                      <td>
-                                          <div class="btn-group">
-                                          <button onclick="f_edit('{{ d.code }}')" class="btn btn-sm btn-default" type="button"><i class="fa fa-edit"></i> 编辑</button>
-                                          <button onclick="f_del('{{ d.code }}')" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="删除"><i class="fa fa-remove"></i></button>
-                                        </div>
-                                    </td>
-                                  </tr>
-                              {% endfor %}
-
-                            </tbody>
-                          </table>
-                     </div>
-                </div>
-
-              <!--批量导入弹窗start -->
-                  <div id="ImportFileDialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title" >批量导入摄像头</h4>
-                      </div>
-                      <div class="modal-body">
-                        <div style="padding: 5px 20px;">
-                          <form class="form-horizontal calender" role="form">
-                              <div class="form-group">
-                              <label class="col-sm-3 control-label">文件模板</label>
-                              <div class="col-sm-9">
-                                  <button onclick="f_downloadCameraTemplate()" class="btn btn-default"><i class="fa fa-download"></i> 下载模板</button>
-                              </div>
-                            </div>
-
-                            <div class="form-group">
-                              <label class="col-sm-3 control-label">导入文件</label>
-                              <div class="col-sm-9">
-                                <input type="file" class="form-control" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" name="file"  >
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label class="col-sm-3 control-label">导入备注</label>
-                              <div class="col-sm-9">
-                                <textarea class="form-control" style="height:55px;" name="import_remark"></textarea>
-                              </div>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                        <button type="button" onclick="f_postImportFile()" class="btn btn-dark">提交</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              <!--批量导入弹窗end -->
-			  
-              </div>
+            <div class="xc_search_box">
+                <svg class="xc_search_icon xc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" class="xc_search_input" id="search_input" placeholder="请输入视频流名称">
             </div>
-      <!--add history end-->
         </div>
 
-<div class="row">
-          <div class="col-md-12 col-sm-12 col-xs-12">
-            <ul class="pagination">
-                <li>
-                    <span style="margin-right:10px;color:#000;">共<span>{{ pageData.page_num}}</span>页 / <span>{{pageData.count}}</span >条</span>
-                </li>
+        <div class="xc_camera_groups"  id="data">
+            <!-- item start -->
+            <!-- item end -->
+        </div>
+    </div>
+   <!-- xc page end -->
+              </div>
+        </div>
+      </div>
 
-                {%  for d  in pageData.pageLabels%}
-                  {% if d.cur == 1 %}
-                    <li class="paginate_button active"><a href="#"  >{{ d.name }}</a></li>
-                  {% else %}
-                    <li class="paginate_button "><a href="/stream/index?p={{d.page}}&ps={{pageData.page_size}}" >{{ d.name }}</a></li>
-                  {% endif %}
-                {% endfor %}
-            </ul>
+    <div class="row">
+        <div class="xc_pagination" id="pageData">
+        </div>
+    </div>
+
+    <!--批量导入弹窗start -->
+    <div id="ImportFileDialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" >批量导入摄像头</h4>
           </div>
-</div>
+          <div class="modal-body">
+            <div style="padding: 5px 20px;">
+              <form class="form-horizontal calender" role="form">
+                  <div class="form-group">
+                  <label class="col-sm-3 control-label">文件模板</label>
+                  <div class="col-sm-9">
+                      <button onclick="f_downloadCameraTemplate()" class="btn btn-default"><i class="fa fa-download"></i> 下载模板</button>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">导入文件</label>
+                  <div class="col-sm-9">
+                    <input type="file" class="form-control" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" name="file"  >
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">导入备注</label>
+                  <div class="col-sm-9">
+                    <textarea class="form-control" style="height:55px;" name="import_remark"></textarea>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" onclick="f_postImportFile()" class="btn btn-dark">提交</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--批量导入弹窗end -->
 
     </div>
   </div>
@@ -193,16 +609,41 @@
 {% block javascripts %}
   {{ block.super }}
 <script>
+    let eleData = $("#data");
+    let elePageData = $("#pageData");
     let ele_top_loading = $("#top_loading");
     let ele_top_msg= $("#top_msg");
     let eleFile = $("input[name='file']");
     let eleTextareaImportRemark= $("textarea[name='import_remark']");
+    let eleSearchInput= $("#search_input");//v4.638新增
 
+    let temp_cur_search_text = "";//v4.638新增
+    let temp_cur_page = 1;//当前页面
+    let temp_cur_page_size = 10;
+
+    function toggleGroup(actionsElement) {
+        const headerElement = actionsElement.parentNode;
+        const listElement = headerElement.nextElementSibling;
+        const toggleIcon = headerElement.querySelector('.xc_group_toggle');
+
+        listElement.classList.toggle('expanded');
+        toggleIcon.classList.toggle('expanded');
+    }
+
+    const groupBy = (arr, keyFunc) => {
+      return arr.reduce((groups, item) => {
+        const key = typeof keyFunc === 'function' ? keyFunc(item) : item[keyFunc]; // 支持函数或属性名
+        groups[key] = groups[key] || []; // 初始化分组数组
+        groups[key].push(item);
+        return groups;
+      }, {});
+    };
     function f_open_player(stream_app,stream_name){
         window.open("/stream/player?app="+stream_app+"&name="+stream_name);
     }
     function f_downloadCameraTemplate() {
-        let url= "/static/resource/camera20240418.xlsx"
+        //let url= "/static/resource/camera20240418.xlsx"//v4.639以前的导入模板
+        let url= "/static/resource/camera20250713_4.639.xlsx";//v4.639新的导入模板
         window.open(url);
     }
     function f_edit(code) {
@@ -221,6 +662,11 @@
             f_postDel("one",code);
         }
     }
+    function f_docs() {
+        let url= "{{ settings.docs.streamAdd }}";
+        window.open(url);
+    }
+
     function f_postDel(handle,code) {
         ele_top_loading.show();
         $.ajax({
@@ -237,7 +683,8 @@
             success: function (res) {
                 ele_top_loading.hide();
                 if (1000 === res.code) {
-                    window.location.reload();
+                    temp_cur_page = 1;
+                    f_openIndex(temp_cur_page,temp_cur_page_size);
                 } else {
                     myAlert(res.msg, "error");
                 }
@@ -249,7 +696,6 @@
 
         if (eleFile[0].files.length > 0){
           let file = eleFile[0].files[0];
-          console.log("file",file)
            let importRemark = eleTextareaImportRemark.val().trim();
             if(importRemark === ""){
                 myAlert("请输入导入备注！","error");
@@ -284,9 +730,8 @@
                         //$("#ImportFileDialog").modal("show");
                         $("#ImportFileDialog").modal("hide");
 
-                        setTimeout(function () {
-                            window.location.reload();
-                         }, 2000);
+                        temp_cur_page = 1;
+                        f_openIndex(temp_cur_page,temp_cur_page_size);
 
                     }else{
                         myAlert(res.msg,"error");
@@ -330,20 +775,17 @@
                     if(1000 === res.code){
                         if(handle === "add"){
                             if(pull_stream_type === 21){
-                                myAlert("刷新中","success",4000);
-                                setTimeout(function () {
-                                    window.location.reload();
-                                }, 4000);
+                                myAlert(res.msg,"success",1000);
+                                f_openIndex(temp_cur_page,temp_cur_page_size);
 
                             }else{
-                                myAlert("刷新中","success",2000);
-                                setTimeout(function () {
-                                    window.location.reload();
-                                }, 2000);
+                                myAlert(res.msg,"success",1000);
+                                f_openIndex(temp_cur_page,temp_cur_page_size);
                             }
 
                         }else if(handle === "del"){
-                            window.location.reload();
+                            myAlert(res.msg,"success",1000);
+                            f_openIndex(temp_cur_page,temp_cur_page_size);
                         }
                    }else{
                         myAlert(res.msg,"error");
@@ -370,9 +812,8 @@
                    ele_top_loading.hide();
                     if(1000 === res.code){
                         myAlert(res.msg,"success");
-                        setTimeout(function () {
-                            window.location.reload();
-                        }, 2000);
+                        temp_cur_page = 1;
+                        f_openIndex(temp_cur_page,temp_cur_page_size);
                    }else{
                         myAlert(res.msg,"error");
                    }
@@ -380,6 +821,165 @@
             });
 
     }
+    function f_show_pageData(pageData) {
+        let page_size = pageData["page_size"];
+        let html = "";
+        html+="<div class=\"xc_page-info\">共"+pageData["page_num"]+"页 / "+pageData["count"]+"条</div>";
+        let pageLabels = pageData["pageLabels"];
+
+        for (let i = 0; i < pageLabels.length; i++) {
+            let cur = pageLabels[i]["cur"];
+            //console.log("f_show_pageData",typeof cur,cur)
+            if(cur === 1){
+                html+="<div class=\"xc_page-btn xc_active\">"+pageLabels[i]["name"]+"</div>";
+            }else{
+                html+="<div class=\"xc_page-btn\" onclick=\"f_openIndex("+pageLabels[i]["page"]+","+page_size+")\" >"+pageLabels[i]["name"]+"</div>";
+            }
+        }
+        elePageData.html(html);
+    }
+    function f_openIndex(page,page_size) {
+        temp_cur_page = page;
+        temp_cur_page_size = page_size;
+        ele_top_loading.show();
+        $.ajax({
+               url: '/stream/openIndex',
+               type: "get",
+               async: true,
+               data: {"p":page,"ps":page_size,"search_text":temp_cur_search_text},
+               dataType: "json",
+               timeout: 0,
+               error: function () {
+                   ele_top_loading.hide();
+                   myAlert("网络异常，请确定网络正常！","error");
+               },
+               success: function (res) {
+                   ele_top_loading.hide();
+                   if(res.code === 1000)
+                   {
+                       let data = res.data;
+
+                       if(data.length === 0){
+                            eleData.html("<div>暂无数据</div>");
+                       }else{
+                            eleData.html("");
+                            let extra = res.extra;
+                            let pullStreamTypes = extra["pullStreamTypes"];
+                            let audioTypes = extra["audioTypes"];
+                            function get_pull_stream_type(pull_stream_type){
+                                for (let i = 0; i < pullStreamTypes.length; i++) {
+                                    if(pullStreamTypes[i]["id"] === pull_stream_type){
+                                        return pullStreamTypes[i]["name"];
+                                    }
+                                }
+                                return pull_stream_type;
+                            }
+                            function get_audio_type(audio_type){
+                                for (let i = 0; i < audioTypes.length; i++) {
+                                    if(audioTypes[i]["type"] === audio_type){
+                                        return audioTypes[i]["name"];
+                                    }
+                                }
+                                return audio_type;
+                            }
+
+                            const group_object = groupBy(data, "camera_device_id");
+                            for (const camera_device_id in group_object) {
+                                let dd = group_object[camera_device_id];
+                                let dd_length = dd.length;
+
+                                let title = camera_device_id;
+
+                                let item_html = "<div class=\"xc_group\">";
+                item_html+="<div class=\"xc_group_header\">";
+                    item_html+="<div class=\"xc_group_title\">"+title+"<span class=\"xc_group_count\">"+dd_length.toString()+"</span>";
+                    item_html+="</div>";
+                    item_html+="<div class=\"xc_group_actions\" onclick=\"toggleGroup(this)\">";
+                        item_html+="<div class=\"xc_group_toggle\">";
+                            item_html+="<svg class=\"xc-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">";
+                                item_html+="<polyline points=\"6 9 12 15 18 9\"/>";
+                            item_html+="</svg>";
+                        item_html+="</div>";
+                    item_html+="</div>";
+                item_html+="</div>";
+                item_html+="<div class=\"xc_camera_list expanded\">";
+                    item_html+="<table class=\"xc_camera_table\">";
+                        item_html+="<thead>";
+                            item_html+="<tr>";
+                                item_html+="<th>ID</th>";
+                                item_html+="<th>编号</th>";
+                                item_html+="<th>接入协议</th>";
+                                item_html+="<th>名称</th>";
+                                item_html+="<th>IP</th>";
+                                item_html+="<th>音频</th>";
+                                item_html+="<th>状态</th>";
+                                item_html+="<th>更新时间</th>";
+                                item_html+="<th>操作</th>";
+                            item_html+="</tr>";
+                        item_html+="</thead>";
+                        item_html+="<tbody>";
+                               for (let i = 0; i < dd_length; i++) {
+                                    let d = dd[i];
+                                   item_html+="<tr>";
+                                item_html+="<td>"+d["id"]+"</td>";
+                                item_html+="<td style='width:15%;'>"+d["code"]+"</td>";
+
+                                item_html+="<td style='width:8%;'>"+get_pull_stream_type(d["pull_stream_type"])+"</td>";
+
+                                item_html+="<td style='width:10%;'>"+d["nickname"]+"</td>";
+                                item_html+="<td style='width:10%;'>"+d["pull_stream_ip"]+"</td>";
+                                item_html+="<td style='width:8%;'>"+get_audio_type(d["is_audio"])+"</td>";
+                                item_html+="<td style='width:15%;'>";
+                                   if(d["forward_state"] === 1){
+                                       item_html+="<span class=\"sun-state-success\"><i class=\"fa fa-bar-chart\"></i> 转发中</span><a href=\"javascript:f_open_player('"+d["app"]+"','"+d["name"]+"')\" class=\"sun-a-label\">播放</a><a href=\"javascript:f_postHandleForward('del','"+d["code"]+"','"+d["pull_stream_type"]+"')\" class=\"sun-a-label\">停止</a>";
+                                   }else{
+                                       item_html+="<span class=\"sun-state-error\">未转发</span><a href=\"javascript:f_postHandleForward('add','"+d["code"]+"','"+d["pull_stream_type"]+"')\" class=\"sun-a-label\">开启</a>";
+                                   }
+                                item_html+="</td>";
+                                item_html += "<td>"+d["last_update_time"]+"</td>";
+                                item_html+="<td class=\"xc_action_buttons\">";
+
+                                    item_html+="<button class=\"xc_action_btn view\" onclick=\"f_edit('"+d["code"]+"')\" title=\"编辑\"><i class=\"fa fa-edit\"></i></button>";
+                                    item_html+="<button class=\"xc_action_btn delete\" onclick=\"f_del('"+d["code"]+"')\"  title=\"删除\">";
+                                        item_html+="<svg class=\"xc-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"> <polyline points=\"3 6 5 6 21 6\"/><path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\"/></svg>";
+                                    item_html+="</button>";
+
+                                item_html+="</td>";
+                            item_html+="</tr>";
+                               }
+                        item_html+="</tbody>";
+                    item_html+="</table>";
+                item_html+="</div>";
+            item_html+="</div>";
+
+                                eleData.append(item_html);
+                           }
+                            f_show_pageData(res.pageData)
+                       }
+
+                   }
+                   else
+                   {
+                       eleData.html("<div>"+res.msg+"</div>");
+                       myAlert(res.msg,"error");
+                   }
+               }
+            });
+    }
+    
+    eleSearchInput.on("keydown",function(e){
+        if (e.key === 'Enter' || e.keyCode === 13) {
+            e.preventDefault(); // 阻止默认行为，例如表单提交
+            temp_cur_page = 1;
+            temp_cur_search_text = eleSearchInput.val().trim();
+            f_openIndex(temp_cur_page,temp_cur_page_size);
+        }
+    })
+
+    window.onload = function (){
+        f_openIndex(temp_cur_page,temp_cur_page_size);
+
+    };
 </script>
 
 {% endblock javascripts %}
