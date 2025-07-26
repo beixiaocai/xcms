@@ -1,6 +1,6 @@
-Metadata-Version: 2.3
+Metadata-Version: 2.4
 Name: attrs
-Version: 24.2.0
+Version: 25.3.0
 Summary: Classes Without Boilerplate
 Project-URL: Documentation, https://www.attrs.org/
 Project-URL: Changelog, https://www.attrs.org/en/stable/changelog.html
@@ -12,8 +12,6 @@ License-Expression: MIT
 License-File: LICENSE
 Keywords: attribute,boilerplate,class
 Classifier: Development Status :: 5 - Production/Stable
-Classifier: License :: OSI Approved :: MIT License
-Classifier: Programming Language :: Python :: 3.7
 Classifier: Programming Language :: Python :: 3.8
 Classifier: Programming Language :: Python :: 3.9
 Classifier: Programming Language :: Python :: 3.10
@@ -23,33 +21,32 @@ Classifier: Programming Language :: Python :: 3.13
 Classifier: Programming Language :: Python :: Implementation :: CPython
 Classifier: Programming Language :: Python :: Implementation :: PyPy
 Classifier: Typing :: Typed
-Requires-Python: >=3.7
-Requires-Dist: importlib-metadata; python_version < '3.8'
+Requires-Python: >=3.8
 Provides-Extra: benchmark
 Requires-Dist: cloudpickle; (platform_python_implementation == 'CPython') and extra == 'benchmark'
 Requires-Dist: hypothesis; extra == 'benchmark'
-Requires-Dist: mypy>=1.11.1; (platform_python_implementation == 'CPython' and python_version >= '3.9') and extra == 'benchmark'
+Requires-Dist: mypy>=1.11.1; (platform_python_implementation == 'CPython' and python_version >= '3.10') and extra == 'benchmark'
 Requires-Dist: pympler; extra == 'benchmark'
 Requires-Dist: pytest-codspeed; extra == 'benchmark'
-Requires-Dist: pytest-mypy-plugins; (platform_python_implementation == 'CPython' and python_version >= '3.9' and python_version < '3.13') and extra == 'benchmark'
+Requires-Dist: pytest-mypy-plugins; (platform_python_implementation == 'CPython' and python_version >= '3.10') and extra == 'benchmark'
 Requires-Dist: pytest-xdist[psutil]; extra == 'benchmark'
 Requires-Dist: pytest>=4.3.0; extra == 'benchmark'
 Provides-Extra: cov
 Requires-Dist: cloudpickle; (platform_python_implementation == 'CPython') and extra == 'cov'
 Requires-Dist: coverage[toml]>=5.3; extra == 'cov'
 Requires-Dist: hypothesis; extra == 'cov'
-Requires-Dist: mypy>=1.11.1; (platform_python_implementation == 'CPython' and python_version >= '3.9') and extra == 'cov'
+Requires-Dist: mypy>=1.11.1; (platform_python_implementation == 'CPython' and python_version >= '3.10') and extra == 'cov'
 Requires-Dist: pympler; extra == 'cov'
-Requires-Dist: pytest-mypy-plugins; (platform_python_implementation == 'CPython' and python_version >= '3.9' and python_version < '3.13') and extra == 'cov'
+Requires-Dist: pytest-mypy-plugins; (platform_python_implementation == 'CPython' and python_version >= '3.10') and extra == 'cov'
 Requires-Dist: pytest-xdist[psutil]; extra == 'cov'
 Requires-Dist: pytest>=4.3.0; extra == 'cov'
 Provides-Extra: dev
 Requires-Dist: cloudpickle; (platform_python_implementation == 'CPython') and extra == 'dev'
 Requires-Dist: hypothesis; extra == 'dev'
-Requires-Dist: mypy>=1.11.1; (platform_python_implementation == 'CPython' and python_version >= '3.9') and extra == 'dev'
-Requires-Dist: pre-commit; extra == 'dev'
+Requires-Dist: mypy>=1.11.1; (platform_python_implementation == 'CPython' and python_version >= '3.10') and extra == 'dev'
+Requires-Dist: pre-commit-uv; extra == 'dev'
 Requires-Dist: pympler; extra == 'dev'
-Requires-Dist: pytest-mypy-plugins; (platform_python_implementation == 'CPython' and python_version >= '3.9' and python_version < '3.13') and extra == 'dev'
+Requires-Dist: pytest-mypy-plugins; (platform_python_implementation == 'CPython' and python_version >= '3.10') and extra == 'dev'
 Requires-Dist: pytest-xdist[psutil]; extra == 'dev'
 Requires-Dist: pytest>=4.3.0; extra == 'dev'
 Provides-Extra: docs
@@ -59,18 +56,18 @@ Requires-Dist: myst-parser; extra == 'docs'
 Requires-Dist: sphinx; extra == 'docs'
 Requires-Dist: sphinx-notfound-page; extra == 'docs'
 Requires-Dist: sphinxcontrib-towncrier; extra == 'docs'
-Requires-Dist: towncrier<24.7; extra == 'docs'
+Requires-Dist: towncrier; extra == 'docs'
 Provides-Extra: tests
 Requires-Dist: cloudpickle; (platform_python_implementation == 'CPython') and extra == 'tests'
 Requires-Dist: hypothesis; extra == 'tests'
-Requires-Dist: mypy>=1.11.1; (platform_python_implementation == 'CPython' and python_version >= '3.9') and extra == 'tests'
+Requires-Dist: mypy>=1.11.1; (platform_python_implementation == 'CPython' and python_version >= '3.10') and extra == 'tests'
 Requires-Dist: pympler; extra == 'tests'
-Requires-Dist: pytest-mypy-plugins; (platform_python_implementation == 'CPython' and python_version >= '3.9' and python_version < '3.13') and extra == 'tests'
+Requires-Dist: pytest-mypy-plugins; (platform_python_implementation == 'CPython' and python_version >= '3.10') and extra == 'tests'
 Requires-Dist: pytest-xdist[psutil]; extra == 'tests'
 Requires-Dist: pytest>=4.3.0; extra == 'tests'
 Provides-Extra: tests-mypy
-Requires-Dist: mypy>=1.11.1; (platform_python_implementation == 'CPython' and python_version >= '3.9') and extra == 'tests-mypy'
-Requires-Dist: pytest-mypy-plugins; (platform_python_implementation == 'CPython' and python_version >= '3.9' and python_version < '3.13') and extra == 'tests-mypy'
+Requires-Dist: mypy>=1.11.1; (platform_python_implementation == 'CPython' and python_version >= '3.10') and extra == 'tests-mypy'
+Requires-Dist: pytest-mypy-plugins; (platform_python_implementation == 'CPython' and python_version >= '3.10') and extra == 'tests-mypy'
 Description-Content-Type: text/markdown
 
 <p align="center">
@@ -99,12 +96,15 @@ Especially those generously supporting us at the *The Organization* tier and hig
 import pathlib, tomllib
 
 for sponsor in tomllib.loads(pathlib.Path("pyproject.toml").read_text())["tool"]["sponcon"]["sponsors"]:
-      print(f'<a href="{sponsor["url"]}"><img title="{sponsor["title"]}" src="https://www.attrs.org/en/24.2.0/_static/sponsors/{sponsor["img"]}" width="190" /></a>')
+      print(f'<a href="{sponsor["url"]}"><img title="{sponsor["title"]}" src="https://www.attrs.org/en/25.3.0/_static/sponsors/{sponsor["img"]}" width="190" /></a>')
 ]]] -->
-<a href="https://www.variomedia.de/"><img title="Variomedia AG" src="https://www.attrs.org/en/24.2.0/_static/sponsors/Variomedia.svg" width="190" /></a>
-<a href="https://tidelift.com/?utm_source=lifter&utm_medium=referral&utm_campaign=hynek"><img title="Tidelift" src="https://www.attrs.org/en/24.2.0/_static/sponsors/Tidelift.svg" width="190" /></a>
-<a href="https://klaviyo.com/"><img title="Klaviyo" src="https://www.attrs.org/en/24.2.0/_static/sponsors/Klaviyo.svg" width="190" /></a>
-<a href="https://filepreviews.io/"><img title="FilePreviews" src="https://www.attrs.org/en/24.2.0/_static/sponsors/FilePreviews.svg" width="190" /></a>
+<a href="https://www.variomedia.de/"><img title="Variomedia AG" src="https://www.attrs.org/en/25.3.0/_static/sponsors/Variomedia.svg" width="190" /></a>
+<a href="https://tidelift.com/?utm_source=lifter&utm_medium=referral&utm_campaign=hynek"><img title="Tidelift" src="https://www.attrs.org/en/25.3.0/_static/sponsors/Tidelift.svg" width="190" /></a>
+<a href="https://klaviyo.com/"><img title="Klaviyo" src="https://www.attrs.org/en/25.3.0/_static/sponsors/Klaviyo.svg" width="190" /></a>
+<a href="https://privacy-solutions.org/"><img title="Privacy Solutions" src="https://www.attrs.org/en/25.3.0/_static/sponsors/Privacy-Solutions.svg" width="190" /></a>
+<a href="https://www.emsys-renewables.com/"><img title="emsys renewables" src="https://www.attrs.org/en/25.3.0/_static/sponsors/emsys-renewables.svg" width="190" /></a>
+<a href="https://filepreviews.io/"><img title="FilePreviews" src="https://www.attrs.org/en/25.3.0/_static/sponsors/FilePreviews.svg" width="190" /></a>
+<a href="https://polar.sh/"><img title="Polar" src="https://www.attrs.org/en/25.3.0/_static/sponsors/Polar.svg" width="190" /></a>
 <!-- [[[end]]] -->
 
 </p>
@@ -213,27 +213,17 @@ For more details, please refer to our [comparison page](https://www.attrs.org/en
 
 ### *attrs* for Enterprise
 
-Available as part of the Tidelift Subscription.
+Available as part of the [Tidelift Subscription](https://tidelift.com/?utm_source=lifter&utm_medium=referral&utm_campaign=hynek).
 
 The maintainers of *attrs* and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source packages you use to build your applications.
 Save time, reduce risk, and improve code health, while paying the maintainers of the exact packages you use.
-[Learn more](https://tidelift.com/?utm_source=lifter&utm_medium=referral&utm_campaign=hynek).
 
 ## Release Information
 
-### Deprecations
-
-- Given the amount of warnings raised in the broader ecosystem, we've decided to only soft-deprecate the *hash* argument to `@define` / `@attr.s`.
-  Please don't use it in new code, but we don't intend to remove it anymore.
-  [#1330](https://github.com/python-attrs/attrs/issues/1330)
-
-
 ### Changes
 
-- `attrs.converters.pipe()` (and its syntactic sugar of passing a list for `attrs.field()`'s / `attr.ib()`'s *converter* argument) works again when passing `attrs.setters.convert` to *on_setattr* (which is default for `attrs.define`).
-  [#1328](https://github.com/python-attrs/attrs/issues/1328)
-- Restored support for PEP [649](https://peps.python.org/pep-0649/) / [749](https://peps.python.org/pep-0749/)-implementing Pythons -- currently 3.14-dev.
-  [#1329](https://github.com/python-attrs/attrs/issues/1329)
+- Restore support for generator-based `field_transformer`s.
+  [#1417](https://github.com/python-attrs/attrs/issues/1417)
 
 
 

@@ -340,9 +340,9 @@
     }
 
     .xc_action_btn {
-        width: 32px;
-        height: 32px;
-        border-radius: 6px;
+        width: 28px;
+        height: 30px;
+        border-radius: 4px;
         background-color: var(--xc-gray-100);
         border: none;
         color: var(--xc-gray-500);
@@ -642,8 +642,9 @@
         window.open("/stream/player?app="+stream_app+"&name="+stream_name);
     }
     function f_downloadCameraTemplate() {
-        //let url= "/static/resource/camera20240418.xlsx"//v4.639以前的导入模板
-        let url= "/static/resource/camera20250713_4.639.xlsx";//v4.639新的导入模板
+        //let url= "/static/resource/camera20240418.xlsx"//v4.0 ~ v4.639导入模板
+        //let url= "/static/resource/camera20250713_4.639.xlsx";//v4.639升级导入模板
+        let url= "/static/resource/camera20250713_4.641.xlsx";//v4.641升级导入模板（和4.639模板一样，主要是4.639的导入模板被限制可读了，升级程序会导致权限出错，没办法只能再新增一个导入模板了）
         window.open(url);
     }
     function f_edit(code) {

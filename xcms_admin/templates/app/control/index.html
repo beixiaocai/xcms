@@ -340,9 +340,9 @@
     }
 
     .xc_action_btn {
-        width: 32px;
-        height: 32px;
-        border-radius: 6px;
+        width: 28px;
+        height: 30px;
+        border-radius: 4px;
         background-color: var(--xc-gray-100);
         border: none;
         color: var(--xc-gray-500);
@@ -475,6 +475,7 @@
         font-size: 14px;
         color: #7f8c8d;
     }
+
 </style>
 {% endblock stylesheets %}
 
@@ -542,7 +543,7 @@
     </div>
 
       <!--日志弹窗start -->
-      <div id="controlLogDialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <div id="control_log_dialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
 
@@ -560,7 +561,7 @@
                         <th>时间</th>
                       </tr>
                     </thead>
-                    <tbody id="controlLogData">
+                    <tbody id="control_log_data">
                     <!--
                     <tr>
                         <th scope="row">1</th>
@@ -578,7 +579,7 @@
       <!--日志弹窗end -->
 
        <!--复制弹窗start -->
-      <div id="copyDialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <div id="copy_dialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
 
@@ -590,12 +591,18 @@
               <div class="modal-body">
                 <div style="padding: 5px 20px;">
                   <form class="form-horizontal calender" role="form">
+                    <div class="form-group">
+                          <label class="col-sm-3 control-label">布控编号</label>
+                          <div class="col-sm-9">
+                            <input type="text" readonly class="form-control" id="copy_code_input"/>
+                          </div>
+                    </div>
 
                    <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12">摄像头 <span class="required">*</span></label>
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">视频流</label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                        <select id="copySelectStreams" style="height: 200px;"  class="select2_multiple form-control" required="required"  multiple="multiple" >
-                            <option value="0">---请选择摄像头(可多选)---</option>
+                        <select id="copy_streams_select" style="height: 200px;"  class="select2_multiple form-control" required="required"  multiple="multiple" >
+                            <option value="0">---请选择视频流(可多选)---</option>
                         </select>
                       </div>
                     </div>
@@ -603,7 +610,7 @@
                     <div class="form-group">
                       <label class="col-sm-3 control-label">备注</label>
                       <div class="col-sm-9">
-                        <textarea class="form-control" style="height:40px;" id="copyRemark"></textarea>
+                        <textarea class="form-control" style="height:40px;" id="copy_remark_textarea"></textarea>
                       </div>
                     </div>
                   </form>
@@ -617,6 +624,71 @@
           </div>
        </div>
       <!--复制弹窗end -->
+
+      <!--快捷设置弹窗start -->
+      <div id="settings_dialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h4 class="modal-title" >快捷设置</h4>
+              </div>
+
+              <div class="modal-body">
+                <div style="padding: 5px 20px;">
+                  <form class="form-horizontal calender" role="form">
+                   <div class="form-group">
+                          <label class="col-sm-3 control-label">布控编号</label>
+                          <div class="col-sm-9">
+                            <input type="text" readonly class="form-control" id="settings_code_input"/>
+                          </div>
+                    </div>
+
+                   <div class="form-group">
+                      <label class="col-sm-3 control-label">报警间隔</label>
+                      <div class="col-sm-9">
+                        <input type="number" class="form-control" id="min_interval_input"/>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-sm-3 control-label">OSD参数</label>
+                      <div class="col-sm-9">
+                        <textarea class="form-control" style="height:40px;" id="osd_params_textarea"></textarea>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-sm-3 control-label">扩展参数</label>
+                      <div class="col-sm-9">
+                        <textarea class="form-control" style="height:60px;" id="extend_params_textarea"></textarea>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-sm-3 control-label">修改范围</label>
+                      <div class="col-sm-9">
+                          <select id="modify_range_select"  class="form-control">
+                            <option value="0">当前布控</option>
+                            <option value="1">相同视频所有布控</option>
+                            <option value="2">相同算法所有布控</option>
+                            <option value="3">所有布控</option>
+                        </select>
+                      </div>
+                    </div>
+
+                  </form>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" onclick="f_postSettings()" class="btn btn-default">提交</button>
+              </div>
+            </div>
+          </div>
+       </div>
+      <!--快捷设置弹窗end -->
 
     </div>
   </div>
@@ -633,16 +705,22 @@
     let ele_top_msg= $("#top_msg");
     let eleControlInfo= $("#control_info");
     let eleSearchInput= $("#search_input");//v4.638新增
-
-    let ele_div_control_log_dialog = $("#controlLogDialog");
-    let ele_div_control_data = $("#controlLogData");
-
-    let ele_div_copy_dialog = $("#copyDialog");
-    let ele_copy_select_streams= $("#copySelectStreams");
-    let ele_copy_textarea_remark= $("#copyRemark");
-
-    let temp_cur_control_code = null;
-    let temp_cur_search_text = "";//v4.638新增
+    //布控日志弹窗
+    let eleControlLogDialog = $("#control_log_dialog");
+    let eleControlLogData = $("#control_log_data");
+    //复制布控弹窗
+    let eleCopyDialog = $("#copy_dialog");
+    let eleCopyCodeInput = $("#copy_code_input");
+    let eleCopyStreamsSelect= $("#copy_streams_select");
+    let eleCopyRemarkTextarea= $("#copy_remark_textarea");
+    //快捷设置弹窗
+    let eleSettingsDialog = $("#settings_dialog");
+    let eleSettingsCodeInput = $("#settings_code_input");
+    let eleMinIntervalInput = $("#min_interval_input");
+    let eleOsdParamsTextarea = $("#osd_params_textarea");
+    let eleExtendParamsTextarea = $("#extend_params_textarea");
+    let eleModifyRangeSelect = $("#modify_range_select");
+    //临时辅助参数
     let temp_cur_page = 1;//当前页面
     let temp_cur_page_size = 10;
 
@@ -693,10 +771,57 @@
                 });
         }
     }
+    function f_log(controlCode) {
+        ele_top_loading.show();
+        $.ajax({
+               url: '/control/getLog',
+               type: "get",
+               async: true,
+               data: {"controlCode":controlCode},
+               dataType: "json",
+               timeout: 0,
+               error: function () {
+                   ele_top_loading.hide();
+                   myAlert("网络异常，请确定网络正常！","error");
+               },
+               success: function (res) {
+                   ele_top_loading.hide();
+                   if(1000 === res.code){
+                        // BootStrap弹窗说明：https://www.genban.org/teach/teach-28585.html
+                        eleControlLogDialog.modal("toggle");
+                        //eleControlLogDialog.modal("show");
+                        //eleControlLogDialog.modal("hide");
+                        eleControlLogData.html("");
+                       let item_html;
+                       let data = res.data;
+                       let data_length = data.length;
+
+                       if(0===data_length){
+                           item_html = "";
+                          item_html += "<tr>";
+                          item_html += "<td colspan='3'>暂无日志</td>";
+                          item_html += "</tr>";
+                          eleControlLogData.append(item_html);
+                       }else{
+                           for (let i = 0; i < data_length; i++) {
+                               let d = data[i];
+                               item_html = "";
+                               item_html+="<tr>";
+                                item_html+="<th scope=\"row\">"+d["id"]+"</th>";
+                                item_html+="<td style='max-width: 200px;'>"+d["content"]+"</td>";
+                                item_html+="<td>"+d["create_time_str"]+"</td>";
+                                item_html+="</tr>";
+                                eleControlLogData.append(item_html);
+                           }
+                       }
+                   }else{
+                        myAlert(res.msg,"error");
+                   }
+
+                }
+            });
+    }
     function f_copy(controlCode) {
-        temp_cur_control_code = controlCode;
-        ele_copy_textarea_remark.val("copy from "+controlCode)
-        ele_div_copy_dialog.modal("toggle");
         ele_top_loading.show();
         $.ajax({
                url: '/open/getAllStreamData',
@@ -713,14 +838,17 @@
                    ele_top_loading.hide();
                    if(1000 === res.code){
                        let data = res.data;
-                       let html = "<option value=\"0\">---请选择摄像头(可多选)---</option>";
+                       let html = "<option value=\"0\">---请选择视频流(可多选)---</option>";
                        for (let i = 0; i < data.length; i++) {
                            let d = data[i];
                            let d_code = d["code"];
                            let d_nickname = d["nickname"];
                            html += "<option value=\""+d_code+"\">"+d_nickname+"</option>";
                        }
-                       ele_copy_select_streams.html(html);
+                       eleCopyDialog.modal("toggle");
+                       eleCopyCodeInput.val(controlCode)
+                       eleCopyRemarkTextarea.val("copy from "+controlCode)
+                       eleCopyStreamsSelect.html(html);
                    }else{
                        myAlert(res.msg,"error");
                    }
@@ -729,27 +857,29 @@
 
     }
     function f_postCopy() {
-        let temp1 = ele_copy_select_streams.val();//typeof object, array
-        if(temp1===null){
+        let val = eleCopyStreamsSelect.val();//typeof object, array
+        if(val===null){
             myAlert("请至少选择1个摄像头","error");
             return false;
         }else{
-            let temp2 = [];
-            for (let i = 0; i < temp1.length; i++) {
-                if("0"!==temp1[i]){
-                    temp2.push(temp1[i]);
+            let vals = [];
+            for (let i = 0; i < val.length; i++) {
+                if("0"!==val[i]){
+                    vals.push(val[i]);
                 }
             }
-            if(temp2.length > 0){
-                ele_div_copy_dialog.modal("toggle");
-                let stream_codes = temp2.join(",");
-                let remark = ele_copy_textarea_remark.val();
+            if(vals.length > 0){
+                eleCopyDialog.modal("toggle");
+
+                let controlCode = eleCopyCodeInput.val()
+                let stream_codes = vals.join(",");
+                let remark = eleCopyRemarkTextarea.val();
                 ele_top_loading.show();
                 $.ajax({
                        url: '/control/postCopy',
                        type: "post",
                        async: true,
-                       data: {"controlCode":temp_cur_control_code,"streamCodes":stream_codes,"remark":remark},
+                       data: {"controlCode":controlCode,"streamCodes":stream_codes,"remark":remark},
                        dataType: "json",
                        timeout: 0,
                        error: function () {
@@ -771,18 +901,13 @@
             }
         }
     }
-    function f_log(controlCode) {
-        // BootStrap弹窗说明：https://www.genban.org/teach/teach-28585.html
-        ele_div_control_log_dialog.modal("toggle");
-        //ele_div_control_log_dialog.modal("show");
-        //ele_div_control_log_dialog.modal("hide");
-
+    function f_settings(controlCode) {
         ele_top_loading.show();
         $.ajax({
-               url: '/control/getLog',
+               url: '/open/getControl',
                type: "get",
                async: true,
-               data: {"controlCode":controlCode},
+               data: {"code":controlCode},
                dataType: "json",
                timeout: 0,
                error: function () {
@@ -791,42 +916,62 @@
                },
                success: function (res) {
                    ele_top_loading.hide();
-
-                   let item_html;
-                    ele_div_control_data.html("");
-
                    if(1000 === res.code){
+                       let min_interval = res.info["min_interval"];
+                       let osd_params = res.info["osd_params"];
+                       let extend_params = res.info["extend_params"];
 
-                       let data = res.data;
-                       let data_length = data.length;
+                        eleSettingsDialog.modal("toggle");
+                        eleSettingsCodeInput.val(controlCode)
+                        eleMinIntervalInput.val(min_interval)
+                        eleOsdParamsTextarea.val(osd_params)
+                        eleExtendParamsTextarea.val(extend_params)
+                        eleModifyRangeSelect.find('option[value="0"]').prop('selected', true);
 
-                       if(0===data_length){
-                           item_html = "";
-                          item_html += "<tr>";
-                          item_html += "<td colspan='3'>暂无日志</td>";
-                          item_html += "</tr>";
-                          ele_div_control_data.append(item_html);
-                       }else{
-                           for (let i = 0; i < data_length; i++) {
-                               let d = data[i];
-                               item_html = "";
-                               item_html+="<tr>";
-                                item_html+="<th scope=\"row\">"+d["id"]+"</th>";
-                                item_html+="<td style='max-width: 200px;'>"+d["content"]+"</td>";
-                                item_html+="<td>"+d["create_time_str"]+"</td>";
-                                item_html+="</tr>";
-                                ele_div_control_data.append(item_html);
-                           }
-                       }
                    }else{
                         myAlert(res.msg,"error");
                    }
-
                 }
             });
+    }
+    function f_postSettings() {
+        eleSettingsDialog.modal("toggle");
+        let controlCode = eleSettingsCodeInput.val();
+        let min_interval = eleMinIntervalInput.val();
+        let osd_params = eleOsdParamsTextarea.val();
+        let extend_params = eleExtendParamsTextarea.val();
+        let modify_range = eleModifyRangeSelect.val()
+
+        ele_top_loading.show();
+        $.ajax({
+           url: '/control/postSettings',
+           type: "post",
+           async: true,
+           data: {
+               "code":controlCode,
+               "min_interval":min_interval,
+               "osd_params":osd_params,
+               "extend_params":extend_params,
+               "modify_range":modify_range
+           },
+           dataType: "json",
+           timeout: 0,
+           error: function () {
+               ele_top_loading.hide();
+               myAlert("网络异常，请确定网络正常！","error");
+           },
+           success: function (res) {
+               ele_top_loading.hide();
+               if(1000 === res.code){
+                    //成功
+               }else{
+                    myAlert(res.msg,"error");
+               }
+           }
+        });
+
 
     }
-
     function f_open_player(stream_app,stream_name){
         window.open("/stream/player?app="+stream_app+"&name="+stream_name);
     }
@@ -854,12 +999,13 @@
     function f_getIndex(page,page_size) {
         temp_cur_page = page;
         temp_cur_page_size = page_size;
+        let search_text = eleSearchInput.val().trim();
         ele_top_loading.show();
         $.ajax({
                url: '/control/getIndex',
                type: "get",
                async: true,
-               data: {"p":page,"ps":page_size,"search_text":temp_cur_search_text},
+               data: {"p":page,"ps":page_size,"search_text":search_text},
                dataType: "json",
                timeout: 0,
                error: function () {
@@ -874,6 +1020,7 @@
 
                        if(data.length === 0){
                             eleData.html("<div>暂无数据</div>");
+                            f_show_pageData(res.pageData)
                        }else{
                             eleData.html("");
                             const group_object = groupBy(data, "stream_name");
@@ -884,9 +1031,9 @@
 
                                 let title;
                                 if(d0["stream_active"] === 1){
-                                    title= "<span class='sun-state-success'><i class=\"fa fa-bar-chart\"></i> 在线</span><a class='xc_group_title_a' href=\"javascript:f_open_player('"+d0["stream_app"]+"','"+d0["stream_name"]+"')\" ><i class=\"fa fa-play-circle-o\"></i> "+d0["stream_nickname"]+"</a>";
+                                    title= "<span class='sun-state-success' style='cursor: pointer;' onclick=\"f_open_player('"+d0["stream_app"]+"','"+d0["stream_name"]+"')\" ><i class=\"fa fa-bar-chart\"></i> 在线 <i class=\"fa fa-play\"></i></span><a class='xc_group_title_a' href=\"javascript:f_search('"+d0["stream_nickname"]+"')\" >"+d0["stream_nickname"]+"</a>";
                                 }else{
-                                    title= "<span class='sun-state-error'>离线</span> "+d0["stream_nickname"];
+                                    title= "<span class='sun-state-error'>离线</span> <a class='xc_group_title_a' href=\"javascript:f_search('"+d0["stream_nickname"]+"')\" >"+d0["stream_nickname"]+"</a>";
                                 }
                                 let item_html = "<div class=\"xc_group\">";
                 item_html+="<div class=\"xc_group_header\">";
@@ -918,7 +1065,7 @@
                                 item_html+="<td>"+d["id"]+"</td>";
                                 item_html+="<td style='width:15%;'>"+d["code"]+"</td>";
                                 item_html+="<td><a class='sun-a-label' style='font-size: 12px;' href=\"javascript:f_open_player('"+d["push_stream_app"]+"','"+d["push_stream_name"]+"')\" ><i class=\"fa fa-play\"></i> 算法流</a></td>";
-                                item_html += "<td style='width:20%;'>";
+                                item_html+="<td style='width:20%;'>";
                                    if(d["flow_nickname"] === 0){//业务算法已被删除
                                         item_html += "<span class='sun-state-error'>已删除</span>";
                                     }else{
@@ -955,13 +1102,12 @@
                                     }
 
                                     item_html+="<button class=\"xc_action_btn view\" onclick=\"f_edit('"+d["code"]+"')\" title=\"编辑\"><i class=\"fa fa-edit\"></i></button>";
+                                    item_html+="<button class=\"xc_action_btn view\" onclick=\"f_settings('"+d["code"]+"')\" title=\"快捷设置\"><i class=\"fa fa-gear\"></i></button>";
+                                    item_html+="<button class=\"xc_action_btn view\" onclick=\"f_copy('"+d["code"]+"')\"  title=\"复制\"><i class=\"fa fa-copy\"></i></button>";
+                                    item_html+="<button class=\"xc_action_btn view\" onclick=\"f_log('"+d["code"]+"')\"  title=\"日志\"><i class=\"fa fa-chain\"></i></button>";
                                     item_html+="<button class=\"xc_action_btn delete\" onclick=\"f_del('"+d["code"]+"')\"  title=\"删除\">";
                                         item_html+="<svg class=\"xc-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"> <polyline points=\"3 6 5 6 21 6\"/><path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\"/></svg>";
                                     item_html+="</button>";
-
-                                    item_html+="<button class=\"xc_action_btn view\" onclick=\"f_copy('"+d["code"]+"')\"  title=\"复制\"><i class=\"fa fa-copy\"></i></button>";
-                                    item_html+="<button class=\"xc_action_btn view\" onclick=\"f_log('"+d["code"]+"')\"  title=\"日志\"><i class=\"fa fa-chain\"></i></button>";
-
 
                                 item_html+="</td>";
                             item_html+="</tr>";
@@ -1124,11 +1270,16 @@
         let url= "{{ settings.docs.controlAdd }}";
         window.open(url);
     }
+    function f_search(name) {
+        eleSearchInput.val(name);
+        temp_cur_page = 1;
+        f_getIndex(temp_cur_page,temp_cur_page_size);
+
+    }
     eleSearchInput.on("keydown",function(e){
         if (e.key === 'Enter' || e.keyCode === 13) {
             e.preventDefault(); // 阻止默认行为，例如表单提交
             temp_cur_page = 1;
-            temp_cur_search_text = eleSearchInput.val().trim();
             f_getIndex(temp_cur_page,temp_cur_page_size);
         }
     })
