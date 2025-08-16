@@ -172,13 +172,15 @@
                 <label for="password">密码</label>
                 <input type="password" name="password" class="form-control" placeholder="请输入密码">
             </div>
-            <div class="form-group">
-                <label for="captcha">验证码</label>
-                <div class="captcha-group">
-                    <input type="text" name="captcha" class="form-control" placeholder="请输入验证码">
-                    <img id="img_captcha" class="captcha-img" src="/static/images/loading.gif" alt="验证码">
-                </div>
-            </div>
+            {% if isEnableLoginCaptcha == 1 %}
+                        <div class="form-group">
+                            <label for="captcha">验证码</label>
+                            <div class="captcha-group">
+                                <input type="text" name="captcha" class="form-control" placeholder="请输入验证码">
+                                <img id="img_captcha" class="captcha-img" src="/static/images/loading.gif" alt="验证码">
+                            </div>
+                        </div>
+            {% endif %}
             <button type="button" class="btn" onclick="f_login()">登录</button>
             <!--<div class="login-tips">
                 <a href="#">忘记密码?</a>
@@ -202,16 +204,12 @@
         public_key += "3w4sbcasasmYLjOeFgyZFlPdKAhebNBdh7PBNenBXbbGK0+ivZxnYvRyIxCtibQZ";
         public_key += "AOhjy80Shk5QJCPmNQIDAQAB";
         public_key += "-----END PUBLIC KEY-----";
-
+    let isEnableLoginCaptcha = parseInt("{{ isEnableLoginCaptcha }}");
     let eleUsername = $("input[name='username']");
     let elePassword = $("input[name='password']");
-    let eleCaptcha= $("input[name='captcha']");
-    let eleImgCaptcha = document.getElementById('img_captcha');
-    function f_update_img_captcha(){
-        // 添加时间戳作为参数，确保浏览器重新加载图片
-        eleImgCaptcha.src = '/captcha?' + new Date().getTime();
-    }
-    eleImgCaptcha.addEventListener('click', f_update_img_captcha);
+
+    console.log(typeof isEnableLoginCaptcha,isEnableLoginCaptcha)
+
     function validate_email(val) {
         return val.match(/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/) != null;
     }
@@ -224,7 +222,7 @@
     function f_login() {
         let username = eleUsername.val().trim();
         let password = elePassword.val().trim();
-        let captcha = eleCaptcha.val().trim();
+
         if(username.length === 0){
             myAlert("请输入用户名","error");
             return false;
@@ -241,14 +239,18 @@
             myAlert("密码格式不正确","error");
             return false;
         }
-
-        if(captcha.length === 0){
-            myAlert("请输入验证码","error");
-            return false;
-        }
-        if(captcha.length < 4){
-            myAlert("验证码格式不正确","error");
-            return false;
+        let captcha = "";
+        if(isEnableLoginCaptcha === 1){
+            let eleCaptcha= $("input[name='captcha']");
+            captcha = eleCaptcha.val().trim();
+            if(captcha.length === 0){
+                myAlert("请输入验证码","error");
+                return false;
+            }
+            if(captcha.length < 4){
+                myAlert("验证码格式不正确","error");
+                return false;
+            }
         }
 
         const encryptor = new JSEncrypt();
@@ -287,10 +289,20 @@
             f_login();
         }
     }
-    window.onload = function (){
-        setTimeout(function () {
-           f_update_img_captcha()
-        }, 10);
-    };
+    if(isEnableLoginCaptcha === 1){
+
+        let eleImgCaptcha = document.getElementById('img_captcha');
+        function f_update_captcha(){
+            // 添加时间戳作为参数，确保浏览器重新加载图片
+            eleImgCaptcha.src = '/captcha?' + new Date().getTime();
+        }
+        eleImgCaptcha.addEventListener('click', f_update_captcha);
+
+        window.onload = function (){
+            setTimeout(function () {
+               f_update_captcha()
+            }, 10);
+        };
+    }
 </script>
 </html>

@@ -132,7 +132,7 @@
                             <i class="fa"></i>
                           </div>
                           <div class="right">
-                            <h3>视频流 <small>{{ alarm.stream_code }}</small></h3>
+                            <h3>关联视频 <small><a href="javascript:f_stream_edit('{{ alarm.stream_code }}')">前往</a></small></h3>
                           </div>
                         </div>
 
@@ -141,7 +141,7 @@
                             <i class="fa"></i>
                           </div>
                           <div class="right">
-                            <h3>关联布控 <small><a href="javascript:f_control_edit('{{ alarm.control_code }}')">{{ alarm.control_code }}</a></small></h3>
+                            <h3>关联布控 <small><a href="javascript:f_control_edit('{{ alarm.control_code }}')">前往</a></small></h3>
 
                           </div>
                         </div>
@@ -207,7 +207,10 @@
 <script src="/static/lib/jquery/fancybox/3.5.7/jquery.fancybox.min.js"></script>
 <script>
     let alarm_code = "{{ alarm.code }}";
-
+    function f_stream_edit(code) {
+        let url = "/stream/edit?code="+code;
+        window.location.href = url;
+    }
     function f_control_edit(code) {
         let url = "/control/edit?code="+code;
         window.location.href = url;
@@ -246,10 +249,12 @@
         });
 
     }
-    $('img').click(function() {
-        $.fancybox.open({
-            src  : $(this).attr('src'),
-            type : 'image'
+    $(function() {
+        $('img').click(function () {
+            $.fancybox.open({
+                src: $(this).attr('src'),
+                type: 'image'
+            });
         });
     });
 </script>

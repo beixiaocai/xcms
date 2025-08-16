@@ -281,70 +281,6 @@
         color: #7f8c8d;
     }
 </style>
-<style>
-    #bxc_dialog_mask {
-        background-color: rgba(0,0,0,0.5);   /* 设置半透明黑色背景 */
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: none;
-    }
-
-    #bxc_dialog {
-        position: absolute;
-        z-index: 999;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 640px;
-        height: 240px;
-        background-color: #ffffff;
-        border: 1px solid #c51515;
-        box-shadow: 0 0 5px rgba(245, 231, 231, 0.3);
-        border-radius: 5px;
-        padding: 10px;
-        display: none;
-    }
-
-    #bxc_dialog>.dialog_title{
-        margin-top: 10px;
-    }
-    #bxc_dialog>.dialog_title>.bxc_alarm_count{
-        color: #d50404;
-        font-weight: bold;
-    }
-    #bxc_dialog>.dialog_title>.close{
-        font-size: 14px;
-        float: right;
-        margin-right: 10px;
-        cursor: pointer;
-
-    }
-    #bxc_dialog>.dialog_content{
-        border-top: 1px solid #4b4848;
-        padding: 10px;
-        margin-top: 15px;
-    }
-    #bxc_dialog>.dialog_content>.content_top{
-        margin-top: 10px;
-    }
-    #bxc_dialog>.dialog_content>.content_list{
-        margin-top: 10px;
-    }
-    #bxc_dialog>.dialog_content>.content_list>.content_item{
-        display: inline;
-        padding: 1px;
-    }
-    #bxc_dialog>.dialog_content>.content_list>.content_item>img{
-        width: 102px;
-        height: 100%;
-        border: 1px solid #ffffff;
-        padding: 1px;
-        cursor: pointer;
-    }
-</style>
 {% endblock stylesheets %}
 
 {% block content %}
@@ -363,7 +299,6 @@
                         <div class="xc_action-buttons">
                             <button class="xc_btn xc_btn-secondary" onclick="f_handle('deleteAll')" >全部删除</button>
                             <button class="xc_btn xc_btn-secondary" onclick="f_handle('clearCache')" >清理缓存</button>
-                            <button class="xc_btn xc_btn-secondary" id="top_open_audio" ><i class="fa fa-bell-o"></i> 关闭声音</button>
                         </div>
 
                         <div class="xc_stats">
@@ -371,9 +306,6 @@
                             <span id="top_msg"></span>
                         </div>
 
-                        <audio id="top_audio"  controls style="display: none;float: right; position: relative;height: 34px; "  >
-                            浏览器不支持音频播放
-                        </audio>
                     </div>
                 </header>
 
@@ -440,31 +372,6 @@
         </div>
     </div>
 
-    <div id="bxc_dialog">
-        <div class="dialog_title">
-            <span class="bxc_alarm_count"></span>
-            <button class="close" onclick="f_closeDialog()">关闭</button>
-        </div>
-        <div class="dialog_content">
-            <div class="content_top">
-                <span class="bxc_alarm_time"></span>
-                <span style="margin-left: 5px;" class="bxc_alarm_control_code"></span>
-            </div>
-            <div class="content_list">
-                <!--
-                <div class="content_item"><img src="/static/images/user.png"></div>
-                <div class="content_item"><img src="/static/images/user.png"></div>
-                <div class="content_item"><img src="/static/images/user.png"></div>
-                <div class="content_item"><img src="/static/images/user.png"></div>
-                <div class="content_item"><img src="/static/images/user.png"></div>
-                <div class="content_item"><span>共6张</span></div>
-                -->
-            </div>
-
-        </div>
-    </div>
-    <div id="bxc_dialog_mask"></div>
-
     </div>
   </div>
 {% endblock content %}
@@ -472,38 +379,19 @@
 {% block javascripts %}
   {{ block.super }}
 
-<script src="/static/lib/jquery/fancybox/3.5.7/jquery.fancybox.min.js"></script>
     <!-- daterangepicker -->
 <script src="/static/vendors/moment/min/moment.min.js"></script>
 <script src="/static/lib/jquery/daterangepicker/jquery.daterangepicker.js"></script>
 
 <script>
-    let uploadAudioDir_www = '{{ uploadAudioDir_www }}';
 
-    let eleData = $("#data"); //列表数据
-    let elePageData = $("#pageData");//列表翻页数据
     let ele_top_loading = $("#top_loading");
     let ele_top_msg= $("#top_msg");
-
+    let eleData = $("#data"); //列表数据
+    let elePageData = $("#pageData");//列表翻页数据
     let eleCheckAll = $("#check_all");
-    let eleAudioPlayer = document.querySelector("#top_audio");
-    let eleTopOpenAudio = $("#top_open_audio");
-    let temp_audioPlayer_isOpen = true;
-
     let temp_cur_page = 1;//当前页面
-    let temp_cur_page_size = 10;//page size
-
-    //报警弹窗专用start
-    let eleBxcDialogMask = $("#bxc_dialog_mask")
-    let eleBxcDialog = $("#bxc_dialog")
-    let ele_bxc_alarm_img_list = $(".content_list");
-    let ele_bxc_alarm_count = $(".bxc_alarm_count"); //报警数量
-    let ele_bxc_alarm_time = $(".bxc_alarm_time"); //报警时间
-    let ele_bxc_alarm_control_code = $(".bxc_alarm_control_code");//报警布控编号
-    let temp_cur_alarm_count = 0;
-    let temp_cur_alarm_image_count = 0;
-    //报警弹窗专用end
-
+    let temp_cur_page_size = 12;//page size
 
     // 筛选条件 2024/7/4 新增
     let eleSelectDrawType = $("#select_draw_type");// select 选择画框类型（2025/5/28 v4.634新增）
@@ -519,40 +407,9 @@
     let temp_startDate = "";
     let temp_endDate = "";
 
-    function f_showDialog() {
-        eleBxcDialogMask.show();
-        eleBxcDialog.show();
-    }
-    function f_closeDialog() {
-         if (!eleAudioPlayer.paused) {//播放中
-             eleAudioPlayer.pause();
-         }
-         temp_cur_alarm_count = 0;
-         temp_cur_alarm_image_count = 0;
-
-        eleBxcDialog.hide();
-        eleBxcDialogMask.hide();
-    }
     eleCheckAll.click(function() {
         $(".check_item").prop("checked", $(this).prop("checked"));
     });
-    eleTopOpenAudio.click(function () {
-        if(temp_audioPlayer_isOpen){//当前开启，点击则关闭
-            $(this).html("<i class=\"fa fa-bell-slash-o\"></i> 开启声音");
-            temp_audioPlayer_isOpen = false;
-            try {
-                if(!eleAudioPlayer.paused){
-                    eleAudioPlayer.pause();
-                }
-            }catch (e) {
-                console.log("eleAudioPlayer.pause() error:",e)
-            }
-        }else{//当前关闭中，点击则开启
-            temp_audioPlayer_isOpen = true;
-            $(this).html("<i class=\"fa fa-bell-o\"></i> 关闭声音");
-        }
-    })
-
     function f_open_player(stream_app,stream_name){
         window.open("/player?app="+stream_app+"&name="+stream_name);
     }
@@ -584,7 +441,6 @@
         let url = "/alarm/edit?code="+code;
         window.open(url)
     }
-
     function f_openHandle(handle,alarm_ids_str,is_after_reload=true){
         ele_top_loading.show();
         $.ajax({
@@ -615,7 +471,6 @@
             }
         });
     }
-
     function f_openExport(export_format){
         let alarm_ids_str = __f_get_alarm_ids_str();
         if(alarm_ids_str === ""){
@@ -650,7 +505,6 @@
             }
         });
     }
-
     function f_handle(handle_type){
         if(handle_type === "clearCache"){
              f_openHandle(handle_type,"",false);//清理缓存（真实删除）
@@ -666,95 +520,6 @@
             }
         }
     }
-
-    function f_getCheckNewData() {
-        setTimeout(function () {
-            __f_getCheckNewDataTimeout();
-        }, 3000);
-    }
-    function __f_getCheckNewDataTimeout() {
-        //检查新数据
-       $.ajax({
-            url: '/alarm/getCheckNewData',
-            type: "get",
-            async: true,
-            dataType: "json",
-            timeout: 10000,
-            error: function () {
-                //myAlert("网络异常，请确定网络正常！", "error");
-                //网络异常也要继续检测
-                f_getCheckNewData();
-            },
-            success: function (res) {
-                if(1000===res.code) {//检测到新数据
-                    let info = res.info;
-
-                    //播放声音start
-                    if(temp_audioPlayer_isOpen) {//开启了播放声音
-                        let audio_path = info["audio_path"];
-                        let audio_url = uploadAudioDir_www + audio_path
-                        try {
-                            if (!eleAudioPlayer.paused) {//播放中
-                                eleAudioPlayer.pause();
-                            }
-                            eleAudioPlayer.setAttribute("src", audio_url)
-                            eleAudioPlayer.play();
-                        } catch (e) {
-                            console.log("eleAudioPlayer.play() error:", e)
-                        }
-                    }
-                    //播放声音end
-
-
-                    //弹窗显示报警数据start
-                    let alarm = info["alarm"];
-                    let imageUrlArray = info["imageUrlArray"];
-                    let imageUrlArrayLen = imageUrlArray.length;
-
-                    temp_cur_alarm_count +=1;
-                    temp_cur_alarm_image_count += imageUrlArrayLen;
-
-                    let show_len = imageUrlArrayLen;
-                    if(show_len > 5){
-                        show_len = 5;
-                    }
-                    let content_list_html="";
-                    for (let i = 0; i < show_len; i++) {
-                        content_list_html+="<div class=\"content_item\"><img src=\""+imageUrlArray[i]+"\"></div>";
-                    }
-                    content_list_html+="<div class=\"content_item\"><span style='margin-left:1px;'>共"+temp_cur_alarm_image_count+"张</span></div>"
-
-                    let alarm_count_html = "发现"+temp_cur_alarm_count+"条新的报警";
-                    let alarm_control_code_html = "<a href='javascript:f_edit(\""+alarm["code"]+"\")'>查看报警详情</a>";
-
-                    ele_bxc_alarm_count.html(alarm_count_html);
-                    ele_bxc_alarm_time.html(alarm["create_time_str"]);
-                    ele_bxc_alarm_control_code.html(alarm_control_code_html);
-                    ele_bxc_alarm_img_list.html(content_list_html);
-                    //弹窗显示报警数据end
-
-                    f_showDialog();
-
-                    $('img').click(function() {
-                        $.fancybox.open({
-                            src  : $(this).attr('src'),
-                            type : 'image'
-                        });
-                    });
-
-                    //刷新页面显示
-                    f_openIndex(1,temp_cur_page_size);
-
-                }else{
-                    //未检测到新数据
-                }
-
-                //无论是否检测到新数据都要继续检测
-                f_getCheckNewData();
-            }
-        });
-    }
-
     function f_show_pageData(pageData) {
         let page_size = pageData["page_size"];
         let html = "";
@@ -894,11 +659,9 @@
         f_openIndex(1,temp_cur_page_size);
     });
 
-    window.onload = function (){
+    $(function() {
         f_openIndex(1,temp_cur_page_size);//首次进入 刷新页面
-        f_getCheckNewData();//检测新报警
-
-    };
+    });
 
 
 </script>

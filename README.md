@@ -61,4 +61,5 @@
 <img width="720" alt="视频行为分析系统v4" src="https://gitee.com/Vanishi/images/raw/master/xcms/7.png">
 <img width="720" alt="视频行为分析系统v4" src="https://gitee.com/Vanishi/images/raw/master/xcms/8.png">
 <img width="720" alt="视频行为分析系统v4" src="https://gitee.com/Vanishi/images/raw/master/xcms/9.png">
+<img width="720" alt="视频行为分析系统v4" src="https://gitee.com/Vanishi/images/raw/master/xcms/10.png">
 

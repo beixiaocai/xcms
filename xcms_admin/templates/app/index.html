@@ -205,204 +205,222 @@
 {% block javascripts %}
   {{ block.super}}
 
-  <script src="/static/lib/highcharts/highcharts.js"></script>
-  <script src="/static/lib/highcharts/modules/exporting.js"></script>
-  <script src="/static/lib/highcharts-plugins/highcharts-zh_CN.js"></script>
-
-    <script>
+<script src="/static/lib/highcharts/highcharts.js"></script>
+<script src="/static/lib/highcharts/modules/exporting.js"></script>
+<script src="/static/lib/highcharts-plugins/highcharts-zh_CN.js"></script>
+<script>
         let eleCheckVersionDialog = $("#checkVersionDialog");
         let eleCheckVersionData = $("#checkVersionData");
         let downloadNewVersionUrl = "";
 
-    Highcharts.setOptions({
+        Highcharts.setOptions({
             global: {
                     useUTC: false
             }
-    });
-    function activeLastPointToolip(chart) {
-        let points = chart.series[0].points;
-        chart.tooltip.refresh(points[points.length -1]);
-    }
-    let cpuCharts = Highcharts.chart('cpuCharts', {
-		chart: {
-				type: 'spline',
-				marginRight: 10,
-				events: {
+        });
+        function activeLastPointToolip(chart) {
+            let points = chart.series[0].points;
+            chart.tooltip.refresh(points[points.length -1]);
+        }
+        let cpuCharts = Highcharts.chart('cpuCharts', {
+            exporting:{
+                enabled:false //隐藏右上角菜单
+            },
+            credits:{
+                enabled:false//隐藏右下角logo
+            },
+            chart: {
+                type: 'spline',
+                marginRight: 10,
+                events: {
                     load: function () {
                         let chart = this;
                         activeLastPointToolip(chart);
                     }
-				}
-		},
-		title: {
-				text: null
-		},
-		xAxis: {
-				type: 'datetime',
-				tickPixelInterval: 150
-		},
-		 yAxis: [{
-            min:0,
-            title: {
-                text: null
+                }
             },
-            showFirstLabel: true
-        }],
-		tooltip: {
-				formatter: function () {
-						return '<b>' + this.series.name + '</b><br/>' +
-								Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-								Highcharts.numberFormat(this.y, 2);
+            title: {
+                    text: null
+            },
+            xAxis: {
+                    type: 'datetime',
+                    tickPixelInterval: 150
+            },
+             yAxis: [{
+                min:0,
+                title: {
+                    text: null
+                },
+                showFirstLabel: true
+            }],
+            tooltip: {
+                    formatter: function () {
+                            return '<b>' + this.series.name + '</b><br/>' +
+                                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                                    Highcharts.numberFormat(this.y, 2);
 
 
-				}
-		},
-		legend: {
-				enabled: false
-		},
-		series: [{
-				name: 'CPU利用率',
-				data: (function () {
-						// 生成随机值
-						var data = [],
-								time = (new Date()).getTime(),
-								i;
-						for (i = -9; i <= 0; i += 1) {
-								data.push({
-										x: time + i * 1000,
-										y: 0 //Math.random()
-								});
-						}
+                    }
+            },
+            legend: {
+                    enabled: false //隐藏底部类别名称
+            },
+            series: [{
+                    name: 'CPU利用率',
+                    data: (function () {
+                            // 生成随机值
+                            var data = [],
+                                    time = (new Date()).getTime(),
+                                    i;
+                            for (i = -9; i <= 0; i += 1) {
+                                    data.push({
+                                            x: time + i * 1000,
+                                            y: 0 //Math.random()
+                                    });
+                            }
 
-						return data;
-				}())
-		}]
-    });
-    let memoryCharts = Highcharts.chart('memoryCharts', {
-		chart: {
-				type: 'spline',
-				marginRight: 10,
-				events: {
+                            return data;
+                    }())
+            }]
+        });
+        let memoryCharts = Highcharts.chart('memoryCharts', {
+            exporting:{
+                enabled:false //隐藏右上角菜单
+            },
+            credits:{
+                enabled:false//隐藏右下角logo
+            },
+            chart: {
+                type: 'spline',
+                marginRight: 10,
+                events: {
                     load: function () {
                         let chart = this;
                         activeLastPointToolip(chart);
                     }
-				}
-		},
-		title: {
-		    text: null
-		},
-		xAxis: {
-				type: 'datetime',
-				tickPixelInterval: 150
-		},
-		 yAxis: [{ // 第一个 Y 轴，放置在左边（默认在坐标）
+                }
+            },
             title: {
                 text: null
             },
-            showFirstLabel: true
-        }],
-		tooltip: {
-				formatter: function () {
-						return '<b>' + this.series.name + '</b><br/>' +
-								Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-								Highcharts.numberFormat(this.y, 2);
-				}
-		},
-		legend: {
-				enabled: false
-		},
-		series: [{
-				name: '内存利用率',
-				data: (function () {
-						// 生成随机值
-						var data = [],
-								time = (new Date()).getTime(),
-								i;
-						for (i = -9; i <= 0; i += 1) {
-								data.push({
-										x: time + i * 1000,
-										y: 0 //Math.random()
-								});
-						}
+            xAxis: {
+                    type: 'datetime',
+                    tickPixelInterval: 150
+            },
+             yAxis: [{ // 第一个 Y 轴，放置在左边（默认在坐标）
+                title: {
+                    text: null
+                },
+                showFirstLabel: true
+            }],
+            tooltip: {
+                    formatter: function () {
+                            return '<b>' + this.series.name + '</b><br/>' +
+                                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                                    Highcharts.numberFormat(this.y, 2);
+                    }
+            },
+            legend: {
+                    enabled: false
+            },
+            series: [{
+                    name: '内存利用率',
+                    data: (function () {
+                            // 生成随机值
+                            let data = [],
+                            time = (new Date()).getTime(),
+                            i;
 
-						return data;
-				}())
-		}]
-    });
-    let diskCharts = Highcharts.chart('diskCharts', {
-		chart: {
-				type: 'spline',
-				marginRight: 10,
-				events: {
+                            for (i = -9; i <= 0; i += 1) {
+                                    data.push({
+                                            x: time + i * 1000,
+                                            y: 0 //Math.random()
+                                    });
+                            }
+                            return data;
+                    }())
+            }]
+        });
+        let diskCharts = Highcharts.chart('diskCharts', {
+            exporting:{
+                enabled:false //隐藏右上角菜单
+            },
+            credits:{
+                enabled:false//隐藏右下角logo
+            },
+            chart: {
+                type: 'spline',
+                marginRight: 10,
+                events: {
                     load: function () {
                         let chart = this;
                         activeLastPointToolip(chart);
                     }
-				}
-		},
-		title: {
-				text: null
-		},
-		xAxis: {
-				type: 'datetime',
-				tickPixelInterval: 150
-		},
-		 yAxis: [{
-            min:0,
-            title: {
-                text: null
+                }
             },
-            showFirstLabel: true
-        }],
-		tooltip: {
-				formatter: function () {
-						return '<b>' + this.series.name + '</b><br/>' +
-								Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-								Highcharts.numberFormat(this.y, 2);
+            title: {
+                    text: null
+            },
+            xAxis: {
+                    type: 'datetime',
+                    tickPixelInterval: 150
+            },
+             yAxis: [{
+                min:0,
+                title: {
+                    text: null
+                },
+                showFirstLabel: true
+            }],
+            tooltip: {
+                    formatter: function () {
+                            return '<b>' + this.series.name + '</b><br/>' +
+                                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                                    Highcharts.numberFormat(this.y, 2);
 
 
-				}
-		},
-		legend: {
-				enabled: false
-		},
-		series: [{
-				name: '磁盘利用率',
-				data: (function () {
-						// 生成随机值
-						var data = [],
-								time = (new Date()).getTime(),
-								i;
-						for (i = -9; i <= 0; i += 1) {
-								data.push({
-										x: time + i * 1000,
-										y: 0 //Math.random()
-								});
-						}
+                    }
+            },
+            legend: {
+                    enabled: false
+            },
+            series: [{
+                    name: '磁盘利用率',
+                    data: (function () {
+                            // 生成随机值
+                            let data = [],
+                            time = (new Date()).getTime(),
+                            i;
 
-						return data;
-				}())
-		}]
-    });
+                            for (i = -9; i <= 0; i += 1) {
+                                    data.push({
+                                            x: time + i * 1000,
+                                            y: 0 //Math.random()
+                                    });
+                            }
 
-    let eleCoreProcessData = $("#coreProcessData");
+                            return data;
+                    }())
+            }]
+        });
 
-    //系统信息
-    let eleProjectVersion = $("#project_version");
-    let eleOsMachineNode = $("#os_machine_node");
-    let eleOsSystemName = $("#os_system_name");
-    let ele_os_run_date_str = $("#os_run_date_str");
-    let ele_os_cpu_used_rate = $("#os_cpu_used_rate");
-    let ele_os_virtual_mem_used_rate = $("#os_virtual_mem_used_rate");
-    let ele_os_disk_used_rate = $("#os_disk_used_rate ");
-    //授权信息
-    let eleStateStr= $("#active_code_state_str");
-    //let eleRemark= $("#active_code_remark");
-    let eleExpireHour= $("#active_code_expire_hour");
-    let eleCreateDate= $("#active_code_create_date");
-    let eleExpireDate= $("#active_code_expire_date");
-    function f_showMachineVerifyInfo(verify,remark,expire_hour,create_date_str,expire_date_str) {
+        let eleCoreProcessData = $("#coreProcessData");
+
+        //系统信息
+        let eleProjectVersion = $("#project_version");
+        let eleOsMachineNode = $("#os_machine_node");
+        let eleOsSystemName = $("#os_system_name");
+        let ele_os_run_date_str = $("#os_run_date_str");
+        let ele_os_cpu_used_rate = $("#os_cpu_used_rate");
+        let ele_os_virtual_mem_used_rate = $("#os_virtual_mem_used_rate");
+        let ele_os_disk_used_rate = $("#os_disk_used_rate ");
+        //授权信息
+        let eleStateStr= $("#active_code_state_str");
+        //let eleRemark= $("#active_code_remark");
+        let eleExpireHour= $("#active_code_expire_hour");
+        let eleCreateDate= $("#active_code_create_date");
+        let eleExpireDate= $("#active_code_expire_date");
+        function f_showMachineVerifyInfo(verify,remark,expire_hour,create_date_str,expire_date_str) {
         let state_str;
         if(-2===verify){
             state_str = "<span class='sun-state-error'>未授权</span";
@@ -423,7 +441,7 @@
         }else{
             eleRemark.html(remark)
         }
-       */
+        */
 
         if(-1===expire_hour){
             eleExpireHour.html("无")
@@ -445,9 +463,9 @@
         }else{
             eleExpireDate.html(expire_date_str)
         }
-    }
+        }
 
-    function f_getIndex() {
+        function f_getIndex() {
         $.ajax({
            url: '/open/getIndex',
            type: "get",
@@ -504,8 +522,8 @@
                }, 6000);
            }
         });
-    }
-    function f_getAuthInfo() {
+        }
+        function f_getAuthInfo() {
         $.ajax({
                url: '/auth/getAuthInfo',
                type: "get",
@@ -542,8 +560,8 @@
                    }
                }
             });
-    }
-    function f_getAllCoreProcessData() {
+        }
+        function f_getAllCoreProcessData() {
         $.ajax({
            url: '/open/getAllCoreProcessData',
            type: "get",
@@ -592,12 +610,12 @@
 
            }
         });
-    }
+        }
 
-    function f_downloadNewVersion(){
+        function f_downloadNewVersion(){
         window.open(downloadNewVersionUrl);
-    }
-    function f_getCheckVersion() {
+        }
+        function f_getCheckVersion() {
 
         $.ajax({
                url: '/version/getCheckVersion',
@@ -633,13 +651,13 @@
                }
             });
 
-    }
-    window.onload = function (){
-        f_getIndex();
-        f_getAuthInfo();
-        f_getAllCoreProcessData();
-        f_getCheckVersion();
-    };
+        }
+        $(function() {
+            f_getIndex();
+            f_getAuthInfo();
+            f_getAllCoreProcessData();
+            f_getCheckVersion();
+        });
 
 
 </script>
