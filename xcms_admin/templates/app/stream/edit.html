@@ -46,6 +46,8 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                          {% if stream.forward_state == 1 %}
                                 <span class="sun-state-success"><i class="fa fa-bar-chart"></i> 在线</span>
+                             <a href="javascript:f_open_player('{{ stream.app }}','{{ stream.name }}')" class="sun-a-label">播放</a>
+
                              {% else %}
                                 <span class="sun-state-error">离线</span>
                              {% endif %}
@@ -230,6 +232,9 @@
     function f_docs() {
         let url= "{{ settings.docs.streamAdd }}";
         window.open(url);
+    }
+    function f_open_player(stream_app,stream_name){
+        window.open("/stream/player?app="+stream_app+"&name="+stream_name);
     }
     function f_validate_ip(ip) {
       const pattern = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;

@@ -198,12 +198,7 @@
 <!-- jsencrypt -->
 <script src="/static/lib/jsencrypt/3.3.1/jsencrypt.min.js"></script>
 <script>
-    let public_key = "-----BEGIN PUBLIC KEY-----";
-        public_key += "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1F6HjUxO4O0dJdVwjESIGFeXL";
-        public_key += "MkLQocJjo1DKdy4GX6uL5xfUAHK6TNSydOcMmSWFqwxYBxqZazGlCSx72jwzo5Qu";
-        public_key += "3w4sbcasasmYLjOeFgyZFlPdKAhebNBdh7PBNenBXbbGK0+ivZxnYvRyIxCtibQZ";
-        public_key += "AOhjy80Shk5QJCPmNQIDAQAB";
-        public_key += "-----END PUBLIC KEY-----";
+    let public_key = '{{ loginPublicKey }}';
     let isEnableLoginCaptcha = parseInt("{{ isEnableLoginCaptcha }}");
     let eleUsername = $("input[name='username']");
     let elePassword = $("input[name='password']");

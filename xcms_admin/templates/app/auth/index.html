@@ -205,10 +205,10 @@
         eleDongleRemark.html(dongle_remark)
 
     }
-    function f_getAuthInfo() {
+    function f_getAuthIndex() {
         ele_top_loading.show();
         $.ajax({
-               url: '/auth/getAuthInfo',
+               url: '/auth/getIndex',
                type: "get",
                async: true,
                data: {},
@@ -265,7 +265,7 @@
 
 
     $(function () {
-        f_getAuthInfo();
+        f_getAuthIndex();
     });
 </script>
 

@@ -9,22 +9,37 @@
 
 {% block content %}
 <style>
-      #input_address {
-            -webkit-appearance: none;
-            background-color: #fff;
-            background-image: none;
-            border-radius: 4px;
-            border: 1px solid #dcdfe6;
-            box-sizing: border-box;
+        .xc_input_group {
+            padding: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .xc_input_field {
+            flex: 1;
+            padding: 8px 20px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
             font-size: 13px;
-            font-weight: normal;
-            height: 35px;
-            line-height: 35px;
-            width: 400px;
-            margin-left: 15px;
-            padding: 1px 10px;
-            transition: border-color .2s cubic-bezier(.645,.045,.355,1);
-      }
+            transition: all 0.3s ease;
+            background-color: white;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .xc_input_field:focus {
+            outline: none;
+            border-color: #4dabf7;
+            box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.2);
+            transform: translateY(-1px);
+        }
+        .xc_video_player{
+            background-color: black;
+            min-height: 500px;
+            border-radius: 6px;
+        }
+
         .control-panel {
             margin-top: 20px;
             display: grid;
@@ -66,6 +81,71 @@
         .ptz-button-gray{
             color: #aca3a3;
         }
+
+        .xc_protocols {
+            margin-top: 10px;
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .xc_protocols:hover {
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .xc_protocols h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: black;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .xc_protocol_list {
+            list-style-type: none;
+            padding-inline-start: 0;
+        }
+
+        .xc_protocol_item {
+            padding: 10px 12px;
+            border-bottom: 1px solid #f0f4f8;
+            font-size: 14px;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background-color: #f8fafc;
+            transition: all 0.2s ease;
+        }
+
+        .xc_protocol_item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .xc_protocol_item:hover {
+            background-color: #edf2f7;
+            transform: translateX(5px);
+        }
+
+        .xc_protocol_item:before {
+            content: '➤';
+            color: #4a5568;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        /* 全屏适配 */
+        @media (max-width: 768px) {
+            .xc_video_player{
+                background-color: black;
+                min-height: 300px;
+            }
+        }
     </style>
   <div class="right_col" role="main">
     <div class="">
@@ -73,11 +153,15 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="x_panel">
             <div class="x_title">
-                  <label>
-                      <input id="input_address" type="text" placeholder="请输入播放地址（支持ws-fmp4/http-fmp4）">
-                  </label>
-                  <button style="margin-left: 10px;"  type="button" class="btn btn-dark btn-sm" onclick="f_clickPlayStart()">播放</button>
-                  <button type="button" class="btn btn-default btn-sm" onclick="f_clickPlayStop()">停止</button>
+                <div class="xc_input_group">
+                    <input id="input_address" type="text" class="xc_input_field" placeholder="请输入播放地址（支持ws-fmp4/http-fmp4）">
+                    <button class="btn btn-dark" onclick="f_clickPlayStart()">
+                        播放
+                    </button>
+                    <button class="btn btn-default" onclick="f_clickPlayStop()">
+                        停止
+                    </button>
+                </div>
 
                  <!--
                   <ul class="nav navbar-right panel_toolbox">
@@ -93,7 +177,7 @@
 
             <div class="x_content">
                <div class="col-md-10 col-sm-10 col-xs-12">
-                    <div id="video_player" style="background-color: black;min-height: 500px;"></div>
+                    <div id="video_player" class="xc_video_player"></div>
                </div>
                <div class="col-md-2 col-sm-2 col-xs-12" >
                           <div class="control-panel">
@@ -128,18 +212,22 @@
                </div>
 
 
-              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="col-md-12 col-sm-12 col-xs-12">
 
                  <div class="form-horizontal form-label-left">
-
-                    {% if stream.is_online %}
-                        <p style="margin-top:10px;font-size: 16px;">视频流支持的所有转发协议</p>
-                        <p>{{ stream.wsMp4Url }}</p>
-                        <!--<p>{{ stream.wsFlvUrl }}</p>-->
-                        <p>{{ stream.httpMp4Url }}</p>
-                        <!--<p>{{ stream.httpFlvUrl }}</p>-->
-                        <p>{{ stream.rtspUrl }}</p>
-                     {% endif %}
+                 {% if stream.is_online %}
+                        <section class="xc_protocols">
+                            <h3>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                视频流支持的所有转发协议
+                            </h3>
+                            <ul class="xc_protocol_list">
+                                <li class="xc_protocol_item">{{ stream.wsMp4Url }}</li>
+                                <li class="xc_protocol_item">{{ stream.httpMp4Url }}</li>
+                                <li class="xc_protocol_item">{{ stream.rtspUrl }}</li>
+                            </ul>
+                        </section>
+                  {% endif %}
                   </div>
 
               </div>
@@ -410,7 +498,7 @@
             });
         }
     });
-    
+
     $(function() {
         if(stream_is_online === 1){
             let is_online = parseInt("{{ stream.is_online }}");

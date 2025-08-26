@@ -421,203 +421,203 @@
         let eleCreateDate= $("#active_code_create_date");
         let eleExpireDate= $("#active_code_expire_date");
         function f_showMachineVerifyInfo(verify,remark,expire_hour,create_date_str,expire_date_str) {
-        let state_str;
-        if(-2===verify){
-            state_str = "<span class='sun-state-error'>未授权</span";
-        }else if(-1===verify){
-            state_str = "<span class='sun-state-error'>格式不正确</span";
-        }else if(0===verify){
-            state_str = "<span class='sun-state-error'>已过期</span";
-        }else if(1===verify){
-            state_str = "<span class='sun-state-success'>授权中</span>";
-        }else{
-            state_str ="<span class='sun-state-error'>授权失败</span>";
-        }
-        eleStateStr.html(state_str)
+            let state_str;
+            if(-2===verify){
+                state_str = "<span class='sun-state-error'>未授权</span";
+            }else if(-1===verify){
+                state_str = "<span class='sun-state-error'>格式不正确</span";
+            }else if(0===verify){
+                state_str = "<span class='sun-state-error'>已过期</span";
+            }else if(1===verify){
+                state_str = "<span class='sun-state-success'>授权中</span>";
+            }else{
+                state_str ="<span class='sun-state-error'>授权失败</span>";
+            }
+            eleStateStr.html(state_str)
 
-        /*
-        if(-1===remark){
-            eleRemark.html("无")
-        }else{
-            eleRemark.html(remark)
-        }
-        */
+            /*
+            if(-1===remark){
+                eleRemark.html("无")
+            }else{
+                eleRemark.html(remark)
+            }
+            */
 
-        if(-1===expire_hour){
-            eleExpireHour.html("无")
-        }
-        else if(0===expire_hour){
-            eleExpireHour.html("永久")
-        }else{
-            // expire_hour单位是int
-            let expire_day = expire_hour/24;
-            eleExpireHour.html(expire_day+" (天)")
-        }
-        if(-1===create_date_str){
-            eleCreateDate.html("无")
-        }else{
-            eleCreateDate.html(create_date_str)
-        }
-        if(-1===expire_date_str){
-            eleExpireDate.html("无")
-        }else{
-            eleExpireDate.html(expire_date_str)
-        }
+            if(-1===expire_hour){
+                eleExpireHour.html("无")
+            }
+            else if(0===expire_hour){
+                eleExpireHour.html("永久")
+            }else{
+                // expire_hour单位是int
+                let expire_day = expire_hour/24;
+                eleExpireHour.html(expire_day+" (天)")
+            }
+            if(-1===create_date_str){
+                eleCreateDate.html("无")
+            }else{
+                eleCreateDate.html(create_date_str)
+            }
+            if(-1===expire_date_str){
+                eleExpireDate.html("无")
+            }else{
+                eleExpireDate.html(expire_date_str)
+            }
         }
 
         function f_getIndex() {
-        $.ajax({
-           url: '/open/getIndex',
-           type: "get",
-           async: true,
-           data: {},
-           dataType: "json",
-           timeout: 0,
-           error: function () {
-                myAlert("网络异常，请确定网络正常！","error");
-           },
-           success: function (res) {
-               if(res.code === 1000){
-                    try {
-                        let osInfo = res["osInfo"];
-                        let appInfo = res["appInfo"];
-
-                        let project_version = appInfo["project_version"]
-                        let project_flag = appInfo["project_flag"]
-
-                        let system_name = osInfo["system_name"];
-                        let machine_node = osInfo["machine_node"];
-                        let os_cpu_used_rate = osInfo["os_cpu_used_rate"];
-                        let os_virtual_mem_used_rate = osInfo["os_virtual_mem_used_rate"];
-                        let os_disk_used_rate = osInfo["os_disk_used_rate"];
-                        let os_cpu_used_rate_str = osInfo["os_cpu_used_rate_str"];
-                        let os_virtual_mem_used_rate_str = osInfo["os_virtual_mem_used_rate_str"];
-                        let os_disk_used_rate_str = osInfo["os_disk_used_rate_str"];
-                        let os_run_date_str = osInfo["os_run_date_str"];
-
-                        eleProjectVersion.html("v"+project_version);
-                        eleOsMachineNode.html(machine_node);
-                        eleOsSystemName.html(system_name);
-                        ele_os_run_date_str.html(os_run_date_str);
-                        ele_os_cpu_used_rate.html(os_cpu_used_rate_str);
-                        ele_os_virtual_mem_used_rate.html(os_virtual_mem_used_rate_str);
-                        ele_os_disk_used_rate.html(os_disk_used_rate_str);
-
-                       //设置图表数据
-                        let x = (new Date()).getTime();
-                        cpuCharts.series[0].addPoint([x, os_cpu_used_rate], true, true);
-                        activeLastPointToolip(cpuCharts);
-                        memoryCharts.series[0].addPoint([x, os_virtual_mem_used_rate], true, true);
-                        activeLastPointToolip(memoryCharts);
-                        diskCharts.series[0].addPoint([x, os_disk_used_rate], true, true);
-                        activeLastPointToolip(diskCharts);
-                    }catch (e) {
-                        console.log(e)
-                    }
-               }else{
-                    console.log(res.msg);
-               }
-               setTimeout(function () {
-                   f_getIndex();
-               }, 6000);
-           }
-        });
-        }
-        function f_getAuthInfo() {
-        $.ajax({
-               url: '/auth/getAuthInfo',
+            $.ajax({
+               url: '/open/getIndex',
                type: "get",
                async: true,
                data: {},
                dataType: "json",
                timeout: 0,
                error: function () {
-                   myAlert("网络异常，请确定网络正常！","error");
+                    myAlert("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
                    if(res.code === 1000){
-                        let info = res.info;
-                        let dongle_status = info.dongle_status;//加密锁授权状态
-                        let verify = parseInt(info["verify"]);//机器授权码授权状态
-                        if(dongle_status===1){
-                            eleStateStr.html("<span class='sun-state-success'>加密锁授权中</span>");
-                            eleExpireHour.html("永久有效");
-                        }else if(verify === 1){
-                            let verify_expire_hour = parseInt(info["verify_expire_hour"]);
-                            let create_date_str = info["create_date_str"];
-                            let expire_date_str = info["expire_date_str"];
-                            if(isNaN(verify)||isNaN(verify_expire_hour)||create_date_str===""||expire_date_str===""){
-                                f_showMachineVerifyInfo(-1,-1,-1,-1,-1)
-                            }else{
-                                f_showMachineVerifyInfo(verify,info["verify_remark"],verify_expire_hour,create_date_str,expire_date_str);
-                            }
-                        }
-                        else{
-                            f_showMachineVerifyInfo(-2,-1,-1,-1,-1)
+                        try {
+                            let osInfo = res["osInfo"];
+                            let appInfo = res["appInfo"];
+
+                            let project_version = appInfo["project_version"]
+                            let project_flag = appInfo["project_flag"]
+
+                            let system_name = osInfo["system_name"];
+                            let machine_node = osInfo["machine_node"];
+                            let os_cpu_used_rate = osInfo["os_cpu_used_rate"];
+                            let os_virtual_mem_used_rate = osInfo["os_virtual_mem_used_rate"];
+                            let os_disk_used_rate = osInfo["os_disk_used_rate"];
+                            let os_cpu_used_rate_str = osInfo["os_cpu_used_rate_str"];
+                            let os_virtual_mem_used_rate_str = osInfo["os_virtual_mem_used_rate_str"];
+                            let os_disk_used_rate_str = osInfo["os_disk_used_rate_str"];
+                            let os_run_date_str = osInfo["os_run_date_str"];
+
+                            eleProjectVersion.html("v"+project_version);
+                            eleOsMachineNode.html(machine_node);
+                            eleOsSystemName.html(system_name);
+                            ele_os_run_date_str.html(os_run_date_str);
+                            ele_os_cpu_used_rate.html(os_cpu_used_rate_str);
+                            ele_os_virtual_mem_used_rate.html(os_virtual_mem_used_rate_str);
+                            ele_os_disk_used_rate.html(os_disk_used_rate_str);
+
+                           //设置图表数据
+                            let x = (new Date()).getTime();
+                            cpuCharts.series[0].addPoint([x, os_cpu_used_rate], true, true);
+                            activeLastPointToolip(cpuCharts);
+                            memoryCharts.series[0].addPoint([x, os_virtual_mem_used_rate], true, true);
+                            activeLastPointToolip(memoryCharts);
+                            diskCharts.series[0].addPoint([x, os_disk_used_rate], true, true);
+                            activeLastPointToolip(diskCharts);
+                        }catch (e) {
+                            console.log(e)
                         }
                    }else{
-                        f_showMachineVerifyInfo(-2,-1,-1,-1,-1)
+                        console.log(res.msg);
                    }
+                   setTimeout(function () {
+                       f_getIndex();
+                   }, 6000);
                }
             });
         }
+        function f_getAuthIndex() {
+            $.ajax({
+                   url: '/auth/getIndex',
+                   type: "get",
+                   async: true,
+                   data: {},
+                   dataType: "json",
+                   timeout: 0,
+                   error: function () {
+                       myAlert("网络异常，请确定网络正常！","error");
+                   },
+                   success: function (res) {
+                       if(res.code === 1000){
+                            let info = res.info;
+                            let dongle_status = info.dongle_status;//加密锁授权状态
+                            let verify = parseInt(info["verify"]);//机器授权码授权状态
+                            if(dongle_status===1){
+                                eleStateStr.html("<span class='sun-state-success'>加密锁授权中</span>");
+                                eleExpireHour.html("永久有效");
+                            }else if(verify === 1){
+                                let verify_expire_hour = parseInt(info["verify_expire_hour"]);
+                                let create_date_str = info["create_date_str"];
+                                let expire_date_str = info["expire_date_str"];
+                                if(isNaN(verify)||isNaN(verify_expire_hour)||create_date_str===""||expire_date_str===""){
+                                    f_showMachineVerifyInfo(-1,-1,-1,-1,-1)
+                                }else{
+                                    f_showMachineVerifyInfo(verify,info["verify_remark"],verify_expire_hour,create_date_str,expire_date_str);
+                                }
+                            }
+                            else{
+                                f_showMachineVerifyInfo(-2,-1,-1,-1,-1)
+                            }
+                       }else{
+                            f_showMachineVerifyInfo(-2,-1,-1,-1,-1)
+                       }
+                   }
+            });
+        }
         function f_getAllCoreProcessData() {
-        $.ajax({
-           url: '/open/getAllCoreProcessData',
-           type: "get",
-           async: true,
-           data: {},
-           dataType: "json",
-           timeout: 0,
-           error: function () {
-                myAlert("网络异常，请确定网络正常！","error");
-           },
-           success: function (res) {
-                let config = res["config"];
-                let processNum = config["processNum"]
-                let processMode = config["processMode"]
-                let maxCount = config["maxCount"]
-                let isMultiProcess = config["isMultiProcess"]
-                let isMultiProcessStr;
-                if(isMultiProcess===1){
-                    isMultiProcessStr = "是";
-                }else {
-                    isMultiProcessStr = "否";
-                }
-
-                let data = res["data"];
-                let html = "<tr><th scope=\"row\">进程模式</th><th scope=\"row\">"+processMode+"</th></tr>";
-                html += "<tr><th scope=\"row\">进程数量</th><th scope=\"row\">"+processNum+"</th></tr>";
-
-                html += "<tr><th scope=\"row\">高级版授权</th><th scope=\"row\">"+isMultiProcessStr+"</th></tr>";
-                html += "<tr><th scope=\"row\">视频上限</th><th scope=\"row\">"+maxCount+"(路)</th></tr>";
-
-                for (let i = 0; i < data.length; i++) {
-                    let __status = data[i]["status"]
-                    let __port = data[i]["port"]
-                    if(__status === 1){
-                        let __controlCount = data[i]["controlCount"]
-                        let __streamCount = data[i]["streamCount"]
-
-                        html+="<tr><th scope=\"row\">"+__port+"</th><th scope=\"row\">"+__streamCount+"("+__controlCount+")(路)</th></tr>";
-                    }else{
-                        html+="<tr><th scope=\"row\">"+__port+"</th><th scope=\"row\">重启中</th></tr>";
+            $.ajax({
+               url: '/open/getAllCoreProcessData',
+               type: "get",
+               async: true,
+               data: {},
+               dataType: "json",
+               timeout: 0,
+               error: function () {
+                    myAlert("网络异常，请确定网络正常！","error");
+               },
+               success: function (res) {
+                    let config = res["config"];
+                    let processNum = config["processNum"]
+                    let processMode = config["processMode"]
+                    let maxCount = config["maxCount"]
+                    let isMultiProcess = config["isMultiProcess"]
+                    let isMultiProcessStr;
+                    if(isMultiProcess===1){
+                        isMultiProcessStr = "是";
+                    }else {
+                        isMultiProcessStr = "否";
                     }
 
-                }
+                    let data = res["data"];
+                    let html = "<tr><th scope=\"row\">进程模式</th><th scope=\"row\">"+processMode+"</th></tr>";
+                    html += "<tr><th scope=\"row\">进程数量</th><th scope=\"row\">"+processNum+"</th></tr>";
 
-                eleCoreProcessData.html(html);
+                    html += "<tr><th scope=\"row\">高级版授权</th><th scope=\"row\">"+isMultiProcessStr+"</th></tr>";
+                    html += "<tr><th scope=\"row\">视频上限</th><th scope=\"row\">"+maxCount+"(路)</th></tr>";
 
-           }
-        });
+                    for (let i = 0; i < data.length; i++) {
+                        let __status = data[i]["status"]
+                        let __port = data[i]["port"]
+                        if(__status === 1){
+                            let __controlCount = data[i]["controlCount"]
+                            let __streamCount = data[i]["streamCount"]
+
+                            html+="<tr><th scope=\"row\">"+__port+"</th><th scope=\"row\">"+__streamCount+"("+__controlCount+")(路)</th></tr>";
+                        }else{
+                            html+="<tr><th scope=\"row\">"+__port+"</th><th scope=\"row\">重启中</th></tr>";
+                        }
+
+                    }
+
+                    eleCoreProcessData.html(html);
+
+               }
+            });
         }
 
         function f_downloadNewVersion(){
-        window.open(downloadNewVersionUrl);
+            window.open(downloadNewVersionUrl);
         }
         function f_getCheckVersion() {
 
-        $.ajax({
+            $.ajax({
                url: '/version/getCheckVersion',
                type: "get",
                async: true,
@@ -654,7 +654,7 @@
         }
         $(function() {
             f_getIndex();
-            f_getAuthInfo();
+            f_getAuthIndex();
             f_getAllCoreProcessData();
             f_getCheckVersion();
         });
