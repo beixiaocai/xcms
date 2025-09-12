@@ -4,6 +4,23 @@
 
 {% block stylesheets %}
   {{ block.super }}
+<style>
+    /*导入弹窗*/
+    input[type="file"]{
+      color: #8d2f2f;
+      font-size: 12px;
+    }
+    ::file-selector-button{
+      font-size: 12px;
+      color: #fff;
+      border-radius: 4px;
+      border: 1px solid #091f35;
+      padding: 2px 4px;
+      background-color: #091f35;
+      cursor: pointer;
+    }
+
+</style>
 {% endblock stylesheets %}
 
 {% block content %}
@@ -16,7 +33,8 @@
               <div class="x_title">
                <h2>业务算法管理
                     <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
-                    <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-dark btn-sm">文档</button>
+                    <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-default btn-sm">文档</button>
+                    <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#ImportFileDialog" ><i class="fa fa-plus"></i> 导入</button>
                    <span id="top_msg">{{top_msg}}</span>
   </h2>
                 <div class="clearfix"></div>
@@ -50,9 +68,10 @@
                           <td>{{ d.deploy_process_index }}</td>
                           <td>{{ d.max_concurrency }}</td>
                           <td>{{ d.last_update_time }}</td>
-                               <td>
+                          <td>
                               <div class="btn-group">
                               <button onclick="f_edit('{{ d.code }}')" class="btn btn-sm btn-default" type="button"><i class="fa fa-edit"></i> 编辑</button>
+                              <button onclick="f_export('{{ d.code }}')" class="btn btn-sm btn-default" type="button"><i class="fa fa-share"></i> 导出</button>
                               <button onclick="f_del('{{ d.code }}')" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="删除"><i class="fa fa-remove"></i></button>
                             </div>
                         </td>
@@ -100,7 +119,44 @@
           </div>
        </div>
 
+    <!--导入业务算法弹窗start -->
+    <div id="ImportFileDialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
 
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" >导入业务算法</h4>
+          </div>
+          <div class="modal-body">
+            <div style="padding: 5px 20px;">
+              <form class="form-horizontal calender" role="form">
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">导入文件</label>
+                  <div class="col-sm-9">
+                    <input type="file" class="form-control" accept=".xcflow" name="file"  >
+                  </div>
+                </div>
+                  <!--
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">导入备注</label>
+                  <div class="col-sm-9">
+                    <textarea class="form-control" style="height:55px;" name="import_remark"></textarea>
+                  </div>
+                </div>
+                  -->
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" onclick="f_import()" class="btn btn-dark">提交</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--导入业务算法弹窗end -->
     </div>
   </div>
 
@@ -112,7 +168,13 @@
 <script>
     let ele_top_loading = $("#top_loading");
     let ele_top_msg= $("#top_msg");
+    let eleFile = $("input[name='file']");
+    //let eleTextareaImportRemark= $("textarea[name='import_remark']");
 
+    function f_docs() {
+        let url= "{{ settings.docs.algorithmFlowAdd }}";
+        window.open(url);
+    }
     function f_del(code){
         ele_top_loading.show();
         $.ajax({
@@ -137,13 +199,88 @@
             });
 
     }
-    function f_docs() {
-        let url= "{{ settings.docs.algorithmFlowAdd }}";
-        window.open(url);
-    }
     function f_edit(code) {
         let url = "/algorithmFlow/edit?code="+code;
         window.location.href = url;
+    }
+    function f_export(code) {
+        //导出业务算法
+        ele_top_loading.show();
+        $.ajax({
+           url: "/algorithmFlow/postExport",
+           type: "post",
+           async: true,
+           data: {"code":code},
+           dataType: "json",
+           timeout: 0,
+           error: function () {
+               ele_top_loading.hide();
+               myAlert("网络异常，请确定网络正常！","error");
+           },
+           success: function (res) {
+               ele_top_loading.hide();
+               if(res.code === 1000){
+                    let info = res.info;
+                    let export_filename = info["export_filename"]
+                    let download_url = "/storage/download?filename="+export_filename;
+                    window.open(download_url);
+               }else{
+                    myAlert(res.msg,"error");
+               }
+           }
+        });
+
+    }
+    function f_import() {
+        //导入业务算法
+        if (eleFile[0].files.length > 0){
+          let file = eleFile[0].files[0];
+           //let importRemark = eleTextareaImportRemark.val().trim();
+
+          let fs_name = file.name;
+          let fs_size = file.size;//文件字节大小
+          let fs_size_m = parseInt(fs_size / 1024 / 1024); //换算成M单位
+
+          if (fs_size_m <= 200){
+                let formData = new FormData();
+                formData.append('file',file)
+                //formData.append('importRemark',importRemark)
+
+                $.ajax({
+                  url:'/algorithmFlow/postImport',
+                  type:'post',
+                  async: true,
+                  contentType:false,
+                  processData:false,
+                  data:formData,
+                  dataType: "json",
+                  timeout: 0,
+                  error: function () {
+                    myAlert("网络异常，请确定网络正常！","error");
+                  },
+                  success: function (res) {
+                    if (1000 === res.code) {
+                        myAlert(res.msg,"success");
+                        // data-toggle="modal" data-target="#ImportFileDialog"
+                        //$("#ImportFileDialog").modal("show");
+                        $("#ImportFileDialog").modal("hide");
+                          myAlert(res.msg,"success",1000);
+                           setTimeout(function () {
+                              window.location.reload();
+                           }, 1000);
+
+                    }else{
+                        myAlert(res.msg,"error");
+                    }
+                  }
+                });
+          }else{
+               myAlert("上传文件大小不能超过200M！","error");
+          }
+        }else{
+            myAlert("未选择上传文件！","error");
+        }
+        return false;
     }
 </script>
 

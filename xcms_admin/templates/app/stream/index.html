@@ -477,6 +477,7 @@
     }
 </style>
 <style>
+    /*导入弹窗*/
     input[type="file"]{
       color: #8d2f2f;
       font-size: 12px;
@@ -595,7 +596,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" onclick="f_postImportFile()" class="btn btn-dark">提交</button>
+            <button type="button" onclick="f_openImportFile()" class="btn btn-dark">提交</button>
           </div>
         </div>
       </div>
@@ -609,17 +610,15 @@
 {% block javascripts %}
   {{ block.super }}
 <script>
+    let eleTopLoading = $("#top_loading");
+    let eleTopMsg= $("#top_msg");
     let eleData = $("#data");
     let elePageData = $("#pageData");
-    let ele_top_loading = $("#top_loading");
-    let ele_top_msg= $("#top_msg");
+    let eleSearchInput= $("#search_input");//v4.638新增
     let eleFile = $("input[name='file']");
     let eleTextareaImportRemark= $("textarea[name='import_remark']");
-    let eleSearchInput= $("#search_input");//v4.638新增
-
-    let temp_cur_search_text = "";//v4.638新增
-    let temp_cur_page = 1;//当前页面
-    let temp_cur_page_size = 10;
+    let curPage = 1;//当前页面
+    let curPageSize = 10;
 
     function toggleGroup(actionsElement) {
         const headerElement = actionsElement.parentNode;
@@ -630,14 +629,6 @@
         toggleIcon.classList.toggle('expanded');
     }
 
-    const groupBy = (arr, keyFunc) => {
-      return arr.reduce((groups, item) => {
-        const key = typeof keyFunc === 'function' ? keyFunc(item) : item[keyFunc]; // 支持函数或属性名
-        groups[key] = groups[key] || []; // 初始化分组数组
-        groups[key].push(item);
-        return groups;
-      }, {});
-    };
     function f_open_player(stream_app,stream_name){
         window.open("/stream/player?app="+stream_app+"&name="+stream_name);
     }
@@ -654,13 +645,13 @@
     function f_delAll(){
         let ret = confirm("确认全部删除吗？");
         if (ret) {
-            f_postDel("all","");
+            f_openDel("all","");
         }
     }
     function f_del(code){
         let ret = confirm("确认删除吗？");
         if (ret) {
-            f_postDel("one",code);
+            f_openDel("one",code);
         }
     }
     function f_docs() {
@@ -668,24 +659,24 @@
         window.open(url);
     }
 
-    function f_postDel(handle,code) {
-        ele_top_loading.show();
+    function f_openDel(handle,code) {
+        eleTopLoading.show();
         $.ajax({
-            url: '/stream/postDel',
+            url: '/stream/openDel',
             type: "post",
             async: true,
             data: {"handle":handle,"code": code},
             dataType: "json",
             timeout: 0,
             error: function () {
-                ele_top_loading.hide();
+                eleTopLoading.hide();
                 myAlert("网络异常，请确定网络正常！", "error");
             },
             success: function (res) {
-                ele_top_loading.hide();
+                eleTopLoading.hide();
                 if (1000 === res.code) {
-                    temp_cur_page = 1;
-                    f_openIndex(temp_cur_page,temp_cur_page_size);
+                    curPage = 1;
+                    f_openIndex(curPage,curPageSize);
                 } else {
                     myAlert(res.msg, "error");
                 }
@@ -693,15 +684,11 @@
         });
     }
 
-    function f_postImportFile() {
+    function f_openImportFile() {
 
         if (eleFile[0].files.length > 0){
           let file = eleFile[0].files[0];
            let importRemark = eleTextareaImportRemark.val().trim();
-            if(importRemark === ""){
-                myAlert("请输入导入备注！","error");
-                return false;
-            }
 
           let fs_name = file.name;
           let fs_size = file.size;//文件字节大小
@@ -713,7 +700,7 @@
                 formData.append('importRemark',importRemark)
 
                 $.ajax({
-                  url:'/stream/postImportFile',
+                  url:'/stream/openImportFile',
                   type:'post',
                   async: true,
                   contentType:false,
@@ -731,8 +718,8 @@
                         //$("#ImportFileDialog").modal("show");
                         $("#ImportFileDialog").modal("hide");
 
-                        temp_cur_page = 1;
-                        f_openIndex(temp_cur_page,temp_cur_page_size);
+                        curPage = 1;
+                        f_openIndex(curPage,curPageSize);
 
                     }else{
                         myAlert(res.msg,"error");
@@ -747,7 +734,7 @@
         }
         return false;
     }
-    function f_postHandleForward(handle,code,pull_stream_type){
+    function f_openHandleStreamProxy(handle,code,pull_stream_type){
 
         let url;
         if(handle === "add"){
@@ -759,7 +746,7 @@
         }
         pull_stream_type = parseInt(pull_stream_type);
 
-        ele_top_loading.show();
+        eleTopLoading.show();
         $.ajax({
                url: url,
                type: "post",
@@ -768,25 +755,25 @@
                dataType: "json",
                timeout: 0,
                error: function () {
-                   ele_top_loading.hide();
+                   eleTopLoading.hide();
                    myAlert("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
-                      ele_top_loading.hide();
+                      eleTopLoading.hide();
                     if(1000 === res.code){
                         if(handle === "add"){
                             if(pull_stream_type === 21){
                                 myAlert(res.msg,"success",1000);
-                                f_openIndex(temp_cur_page,temp_cur_page_size);
+                                f_openIndex(curPage,curPageSize);
 
                             }else{
                                 myAlert(res.msg,"success",1000);
-                                f_openIndex(temp_cur_page,temp_cur_page_size);
+                                f_openIndex(curPage,curPageSize);
                             }
 
                         }else if(handle === "del"){
                             myAlert(res.msg,"success",1000);
-                            f_openIndex(temp_cur_page,temp_cur_page_size);
+                            f_openIndex(curPage,curPageSize);
                         }
                    }else{
                         myAlert(res.msg,"error");
@@ -797,24 +784,24 @@
     }
     function f_postHandleAllForward(handle) {
         //全部开启转发
-         ele_top_loading.show();
+         eleTopLoading.show();
         $.ajax({
-               url: '/stream/postHandleAllForward',
+               url: '/stream/openHandleAllStreamProxy',
                type: "post",
                async: true,
                data: {"handle":handle},
                dataType: "json",
                timeout: 0,
                error: function () {
-                   ele_top_loading.hide();
+                   eleTopLoading.hide();
                    myAlert("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
-                   ele_top_loading.hide();
+                   eleTopLoading.hide();
                     if(1000 === res.code){
                         myAlert(res.msg,"success");
-                        temp_cur_page = 1;
-                        f_openIndex(temp_cur_page,temp_cur_page_size);
+                        curPage = 1;
+                        f_openIndex(curPage,curPageSize);
                    }else{
                         myAlert(res.msg,"error");
                    }
@@ -840,22 +827,25 @@
         elePageData.html(html);
     }
     function f_openIndex(page,page_size) {
-        temp_cur_page = page;
-        temp_cur_page_size = page_size;
-        ele_top_loading.show();
+        curPage = page;
+        curPageSize = page_size;
+        let search_text = eleSearchInput.val().trim();
+
+        eleTopLoading.show();
+
         $.ajax({
                url: '/stream/openIndex',
                type: "get",
                async: true,
-               data: {"p":page,"ps":page_size,"search_text":temp_cur_search_text},
+               data: {"p":page,"ps":page_size,"search_text":search_text},
                dataType: "json",
                timeout: 0,
                error: function () {
-                   ele_top_loading.hide();
+                   eleTopLoading.hide();
                    myAlert("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
-                   ele_top_loading.hide();
+                   eleTopLoading.hide();
                    if(res.code === 1000)
                    {
                        let data = res.data;
@@ -884,13 +874,11 @@
                                 return audio_type;
                             }
 
-                            const group_object = groupBy(data, "camera_device_id");
-                            for (const camera_device_id in group_object) {
-                                let dd = group_object[camera_device_id];
+                            for (let k = 0; k < data.length ; k++) {
+                                let dd = data[k];
                                 let dd_length = dd.length;
-
-                                let title = camera_device_id;
-
+                                let d0 = dd[0];
+                                let title = d0.camera_device_id;
                                 let item_html = "<div class=\"xc_group\">";
                 item_html+="<div class=\"xc_group_header\">";
                     item_html+="<div class=\"xc_group_title\">"+title+"<span class=\"xc_group_count\">"+dd_length.toString()+"</span>";
@@ -919,6 +907,7 @@
                             item_html+="</tr>";
                         item_html+="</thead>";
                         item_html+="<tbody>";
+
                                for (let i = 0; i < dd_length; i++) {
                                     let d = dd[i];
                                    item_html+="<tr>";
@@ -932,9 +921,9 @@
                                 item_html+="<td style='width:8%;'>"+get_audio_type(d["is_audio"])+"</td>";
                                 item_html+="<td style='width:15%;'>";
                                    if(d["forward_state"] === 1){
-                                       item_html+="<span class=\"sun-state-success\"><i class=\"fa fa-bar-chart\"></i> 转发中</span><a href=\"javascript:f_open_player('"+d["app"]+"','"+d["name"]+"')\" class=\"sun-a-label\">播放</a><a href=\"javascript:f_postHandleForward('del','"+d["code"]+"','"+d["pull_stream_type"]+"')\" class=\"sun-a-label\">停止</a>";
+                                       item_html+="<span class=\"sun-state-success\"><i class=\"fa fa-bar-chart\"></i> 转发中</span><a href=\"javascript:f_open_player('"+d["app"]+"','"+d["name"]+"')\" class=\"sun-a-label\">播放</a><a href=\"javascript:f_openHandleStreamProxy('del','"+d["code"]+"','"+d["pull_stream_type"]+"')\" class=\"sun-a-label\">停止</a>";
                                    }else{
-                                       item_html+="<span class=\"sun-state-error\">未转发</span><a href=\"javascript:f_postHandleForward('add','"+d["code"]+"','"+d["pull_stream_type"]+"')\" class=\"sun-a-label\">开启</a>";
+                                       item_html+="<span class=\"sun-state-error\">未转发</span><a href=\"javascript:f_openHandleStreamProxy('add','"+d["code"]+"','"+d["pull_stream_type"]+"')\" class=\"sun-a-label\">开启</a>";
                                    }
                                 item_html+="</td>";
                                 item_html += "<td>"+d["last_update_time"]+"</td>";
@@ -971,14 +960,13 @@
     eleSearchInput.on("keydown",function(e){
         if (e.key === 'Enter' || e.keyCode === 13) {
             e.preventDefault(); // 阻止默认行为，例如表单提交
-            temp_cur_page = 1;
-            temp_cur_search_text = eleSearchInput.val().trim();
-            f_openIndex(temp_cur_page,temp_cur_page_size);
+            curPage = 1;
+            f_openIndex(curPage,curPageSize);
         }
     })
 
     window.onload = function (){
-        f_openIndex(temp_cur_page,temp_cur_page_size);
+        f_openIndex(curPage,curPageSize);
 
     };
 </script>

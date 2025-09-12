@@ -173,8 +173,7 @@
                          {% else %}
                                 <!-- 编辑 -->
                               <select id="select_stream"  disabled="disabled"  class="select2_single form-control" >
-                              <!--streamCode的组成格式是 app_name -->
-                                <option selected value="{{ control.stream_app }}_{{ control.stream_name }}">{{ control_stream_nickname}}</option>
+                                <option selected value="{{ control_stream.code }}">{{ control_stream.nickname}}</option>
                               </select>
                          {% endif %}
                        </div>
@@ -361,7 +360,7 @@
                         <div class="form-group">
                           <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                             <button type="button" onclick="window.history.go(-1)" class="btn btn-default">返回</button>
-                            <button type="button" onclick="f_postHandle()" class="btn btn-dark">提交</button>
+                            <button type="button" onclick="f_openHandle()" class="btn btn-dark">提交</button>
                           </div>
                         </div>
 
@@ -377,7 +376,7 @@
 
 {% block javascripts %}
   {{ block.super }}
-<script src="/static/lib/easyPlayer/js/easyplayer-pro.js"></script>
+<script src="/static/lib/easyPlayer/js/easyplayer-pro.js?02"></script>
 <script src="/static/vendors/canvas_select/canvas-select.min.js"></script>
 <script>
     let controlCode= '{{ control.code }}';// 布控编号
@@ -748,7 +747,7 @@
         f_playStop();
         f_adjustVideoCanvas();
     }
-    function f_postHandle() {
+    function f_openHandle() {
         streamCode = eleSelectStream.val().trim();//typeof string
         if(streamCode==="-1"){
             myAlert("暂无视频流","error");
@@ -942,7 +941,7 @@
 
         let handleUrl;
         if("add" === handle){
-            handleUrl = "/control/add";
+            handleUrl = "/control/openAdd";
             let stream = streamCodeDict[streamCode];
             if (stream){
                 data["streamApp"] = stream["app"]
@@ -952,9 +951,11 @@
             }else{
                 return;
             }
-        }else if("edit" === handle){
-            handleUrl = "/control/edit";
-        }else{
+        }
+        else if("edit" === handle){
+            handleUrl = "/control/openEdit";
+        }
+        else{
             return;
         }
         $.ajax({
@@ -1079,11 +1080,11 @@
         if(handle==="edit"){
             //编辑 start
             let is_online = parseInt("{{ control_stream.is_online }}");
+            let app = "{{ control_stream.app }}";
+            let name = "{{ control_stream.name }}";
             let video_codec_name = "{{ control_stream.video_codec_name }}";
             let video_width = parseInt("{{ control_stream.video_width }}");
             let video_height = parseInt("{{ control_stream.video_height }}");
-            let app = "{{ control_stream.app }}";
-            let name = "{{ control_stream.name }}";
             let wsHost = "{{ control_stream.wsHost }}";
             let wsMp4Url = "{{ control_stream.wsMp4Url }}";
             //let httpMp4Url = "{{ control_stream.httpMp4Url }}";

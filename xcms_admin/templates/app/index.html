@@ -127,29 +127,17 @@
                 <tbody>
                    <tr>
                     <th scope="row">授权状态</th>
-                    <th scope="row" id="active_code_state_str">未授权</th>
+                    <th scope="row" id="is_auth">未授权</th>
                   </tr>
                  <tr>
-                    <th scope="row">授权码生效时间</th>
-                    <th scope="row" id="active_code_create_date">无</th>
-                  </tr>
-               <tr>
-                    <th scope="row">授权码过期时间</th>
-                    <th scope="row" id="active_code_expire_date">无</th>
+                    <th scope="row">授权方式</th>
+                    <th scope="row" id="auth_method">无</th>
                   </tr>
 
                  <tr>
-                    <th scope="row">授权码有效时长</th>
-                    <th scope="row" id="active_code_expire_hour">无</th>
+                    <th scope="row">授权类型</th>
+                    <th scope="row" id="auth_type">无</th>
                   </tr>
-
-
-                   <!--
-                   <tr>
-                    <th scope="row">授权码备注</th>
-                    <th scope="row" id="active_code_remark">无</th>
-                  </tr>
-                   -->
 
                 </tbody>
               </table>
@@ -414,56 +402,11 @@
         let ele_os_cpu_used_rate = $("#os_cpu_used_rate");
         let ele_os_virtual_mem_used_rate = $("#os_virtual_mem_used_rate");
         let ele_os_disk_used_rate = $("#os_disk_used_rate ");
+        
         //授权信息
-        let eleStateStr= $("#active_code_state_str");
-        //let eleRemark= $("#active_code_remark");
-        let eleExpireHour= $("#active_code_expire_hour");
-        let eleCreateDate= $("#active_code_create_date");
-        let eleExpireDate= $("#active_code_expire_date");
-        function f_showMachineVerifyInfo(verify,remark,expire_hour,create_date_str,expire_date_str) {
-            let state_str;
-            if(-2===verify){
-                state_str = "<span class='sun-state-error'>未授权</span";
-            }else if(-1===verify){
-                state_str = "<span class='sun-state-error'>格式不正确</span";
-            }else if(0===verify){
-                state_str = "<span class='sun-state-error'>已过期</span";
-            }else if(1===verify){
-                state_str = "<span class='sun-state-success'>授权中</span>";
-            }else{
-                state_str ="<span class='sun-state-error'>授权失败</span>";
-            }
-            eleStateStr.html(state_str)
-
-            /*
-            if(-1===remark){
-                eleRemark.html("无")
-            }else{
-                eleRemark.html(remark)
-            }
-            */
-
-            if(-1===expire_hour){
-                eleExpireHour.html("无")
-            }
-            else if(0===expire_hour){
-                eleExpireHour.html("永久")
-            }else{
-                // expire_hour单位是int
-                let expire_day = expire_hour/24;
-                eleExpireHour.html(expire_day+" (天)")
-            }
-            if(-1===create_date_str){
-                eleCreateDate.html("无")
-            }else{
-                eleCreateDate.html(create_date_str)
-            }
-            if(-1===expire_date_str){
-                eleExpireDate.html("无")
-            }else{
-                eleExpireDate.html(expire_date_str)
-            }
-        }
+        let eleIsAuth = $("#is_auth");
+        let eleAuthMethod = $("#auth_method");
+        let eleAuthType = $("#auth_type");
 
         function f_getIndex() {
             $.ajax({
@@ -523,9 +466,9 @@
                }
             });
         }
-        function f_getAuthIndex() {
+        function f_authOpenIndex() {
             $.ajax({
-                   url: '/auth/getIndex',
+                   url: '/auth/openIndex',
                    type: "get",
                    async: true,
                    data: {},
@@ -537,26 +480,37 @@
                    success: function (res) {
                        if(res.code === 1000){
                             let info = res.info;
-                            let dongle_status = info.dongle_status;//加密锁授权状态
-                            let verify = parseInt(info["verify"]);//机器授权码授权状态
-                            if(dongle_status===1){
-                                eleStateStr.html("<span class='sun-state-success'>加密锁授权中</span>");
-                                eleExpireHour.html("永久有效");
-                            }else if(verify === 1){
-                                let verify_expire_hour = parseInt(info["verify_expire_hour"]);
-                                let create_date_str = info["create_date_str"];
-                                let expire_date_str = info["expire_date_str"];
-                                if(isNaN(verify)||isNaN(verify_expire_hour)||create_date_str===""||expire_date_str===""){
-                                    f_showMachineVerifyInfo(-1,-1,-1,-1,-1)
+                            let acStatus = parseInt(info.acStatus);
+                            let dongleStatus = parseInt(info.dongleStatus);
+
+                            let isAuth = parseInt(info.isAuth);
+                            let isMultiProcess = parseInt(info.isMultiProcess);
+                            let maxCount = parseInt(info.maxCount);
+
+                            if(isAuth===1){
+                                eleIsAuth.html("<span class='sun-state-success'>已授权</span>");
+                                let authMethod;
+                                if(dongleStatus===1){
+                                    authMethod="加密锁";
+                                } else if(acStatus===1){
+                                    authMethod="授权码";
                                 }else{
-                                    f_showMachineVerifyInfo(verify,info["verify_remark"],verify_expire_hour,create_date_str,expire_date_str);
+                                     authMethod="未知";
                                 }
-                            }
-                            else{
-                                f_showMachineVerifyInfo(-2,-1,-1,-1,-1)
+                                eleAuthMethod.html(authMethod);
+
+                                let authType;
+                                if(isMultiProcess===1){
+                                    authType = "高级版授权("+maxCount+")路";
+                                }else {
+                                    authType = "普通版授权";
+                                }
+                                eleAuthType.html(authType);
+                            }else{
+                                eleIsAuth.html("<span class='sun-state-error'>未授权</span>");
                             }
                        }else{
-                            f_showMachineVerifyInfo(-2,-1,-1,-1,-1)
+                            eleIsAuth.html("<span class='sun-state-error'>程序异常</span>");
                        }
                    }
             });
@@ -573,24 +527,11 @@
                     myAlert("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
-                    let config = res["config"];
-                    let processNum = config["processNum"]
-                    let processMode = config["processMode"]
-                    let maxCount = config["maxCount"]
-                    let isMultiProcess = config["isMultiProcess"]
-                    let isMultiProcessStr;
-                    if(isMultiProcess===1){
-                        isMultiProcessStr = "是";
-                    }else {
-                        isMultiProcessStr = "否";
-                    }
-
                     let data = res["data"];
+                    let processNum = res["processNum"]
+                    let processMode = res["processMode"]
                     let html = "<tr><th scope=\"row\">进程模式</th><th scope=\"row\">"+processMode+"</th></tr>";
                     html += "<tr><th scope=\"row\">进程数量</th><th scope=\"row\">"+processNum+"</th></tr>";
-
-                    html += "<tr><th scope=\"row\">高级版授权</th><th scope=\"row\">"+isMultiProcessStr+"</th></tr>";
-                    html += "<tr><th scope=\"row\">视频上限</th><th scope=\"row\">"+maxCount+"(路)</th></tr>";
 
                     for (let i = 0; i < data.length; i++) {
                         let __status = data[i]["status"]
@@ -654,7 +595,7 @@
         }
         $(function() {
             f_getIndex();
-            f_getAuthIndex();
+            f_authOpenIndex();
             f_getAllCoreProcessData();
             f_getCheckVersion();
         });

@@ -59,7 +59,7 @@
                       <div class="form-group">
                          <div class="col-md-6 col-sm-6 col-md-offset-3">
                                 <h4 style="font-weight: bold">日志</h4>
-                             <button type="button" onclick="f_export_logs()" class="btn btn-dark btn-sm" >导出日志</button> 导出日志，提供给开发者排查问题
+                             <button type="button" onclick="f_exportLogs()" class="btn btn-dark btn-sm" >导出日志</button> 导出日志，提供给开发者排查问题
                           </div>
                     </div>
 
@@ -71,7 +71,7 @@
                                 <p>
                                     <input type="file" name="xcupdate_file" accept=".xcupdate" class="form-control" placeholder="浏览升级安装包" >
                                 </p>
-                               <button type="button" onclick="f_import_update()" class="btn btn-dark btn-sm"  >升级版本</button> 升级过程需要1-5分钟，请不要关闭电源，完成升级后将自动重启
+                               <button type="button" onclick="f_importUpdate()" class="btn btn-dark btn-sm"  >升级版本</button> 升级过程需要1-5分钟，请不要关闭电源，完成升级后将自动重启
                           </div>
                     </div>
 
@@ -79,7 +79,7 @@
                       <div class="form-group">
                           <div class="col-md-6 col-sm-6 col-md-offset-3">
                               <h4>导出配置</h4>
-                             <button type="button" onclick="f_export_settings()" class="btn btn-dark btn-sm"  >导出配置</button> 导出软件配置参数，不包括报警数据
+                             <button type="button" onclick="f_exportSettings()" class="btn btn-dark btn-sm"  >导出配置</button> 导出软件配置参数，不包括报警数据
                           </div>
 
                           <div style="margin-top: 20px;" class="col-md-6 col-sm-6 col-md-offset-3">
@@ -87,7 +87,7 @@
                                 <p>
                                     <input type="file" name="xcsettings_file" accept=".xcsettings" class="form-control" placeholder="浏览配置文件" >
                                 </p>
-                                <button type="button" onclick="f_import_settings()" class="btn btn-dark btn-sm"  >导入配置</button>
+                                <button type="button" onclick="f_importSettings()" class="btn btn-dark btn-sm"  >导入配置</button>
                           </div>
                     </div>
 
@@ -161,7 +161,7 @@
             });
         }
     }
-    function f_export_settings() {
+    function f_exportSettings() {
         //导出配置
         ele_top_loading.show();
         $.ajax({
@@ -189,7 +189,7 @@
         });
 
     }
-    function f_export_logs(){
+    function f_exportLogs(){
         //导出日志
         ele_top_loading.show();
         $.ajax({
@@ -217,7 +217,7 @@
         });
 
     }
-    function f_import_settings() {
+    function f_importSettings() {
         //导入配置
         if (eleXcSettingsFile[0].files.length > 0){
            let file = eleXcSettingsFile[0].files[0];
@@ -258,7 +258,7 @@
         }
 
     }
-    function f_import_update(){
+    function f_importUpdate(){
         //导入安装包
         if (eleXcUpdateFile[0].files.length > 0){
            let file = eleXcUpdateFile[0].files[0];

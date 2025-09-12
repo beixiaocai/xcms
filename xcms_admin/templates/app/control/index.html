@@ -618,7 +618,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" onclick="f_postCopy()" class="btn btn-default">提交</button>
+                <button type="button" onclick="f_openCopy()" class="btn btn-default">提交</button>
               </div>
             </div>
           </div>
@@ -683,7 +683,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" onclick="f_postSettings()" class="btn btn-default">提交</button>
+                <button type="button" onclick="f_openSettings()" class="btn btn-default">提交</button>
               </div>
             </div>
           </div>
@@ -699,10 +699,10 @@
   {{ block.super }}
 
 <script>
+    let eleTopLoading = $("#top_loading");
+    let eleTopMsg= $("#top_msg");
     let eleData = $("#data");
     let elePageData = $("#pageData");
-    let ele_top_loading = $("#top_loading");
-    let ele_top_msg= $("#top_msg");
     let eleControlInfo= $("#control_info");
     let eleSearchInput= $("#search_input");//v4.638新增
     //布控日志弹窗
@@ -721,8 +721,8 @@
     let eleExtendParamsTextarea = $("#extend_params_textarea");
     let eleModifyRangeSelect = $("#modify_range_select");
     //临时辅助参数
-    let temp_cur_page = 1;//当前页面
-    let temp_cur_page_size = 10;
+    let curPage = 1;//当前页面
+    let curPageSize = 10;
 
     function toggleGroup(actionsElement) {
         const headerElement = actionsElement.parentNode;
@@ -732,38 +732,30 @@
         listElement.classList.toggle('expanded');
         toggleIcon.classList.toggle('expanded');
     }
-    const groupBy = (arr, keyFunc) => {
-      return arr.reduce((groups, item) => {
-        const key = typeof keyFunc === 'function' ? keyFunc(item) : item[keyFunc]; // 支持函数或属性名
-        groups[key] = groups[key] || []; // 初始化分组数组
-        groups[key].push(item);
-        return groups;
-      }, {});
-    };
 
     function f_edit(controlCode) {
         let url = "/control/edit?code="+controlCode;
         window.location.href = url;
     }
-    function f_del(controlCode) {
+    function f_openDel(controlCode) {
         let ret = confirm("确认删除吗？");
         if (ret){
-            ele_top_loading.show();
+            eleTopLoading.show();
             $.ajax({
-                   url: '/control/postDel',
+                   url: '/control/openDel',
                    type: "post",
                    async: true,
                    data: {"code":controlCode},
                    dataType: "json",
                    timeout: 0,
                    error: function () {
-                       ele_top_loading.hide();
+                       eleTopLoading.hide();
                        myAlert("网络异常，请确定网络正常！","error");
                    },
                    success: function (res) {
-                          ele_top_loading.hide();
+                          eleTopLoading.hide();
                        if(1000 === res.code){
-                           f_getIndex(temp_cur_page,temp_cur_page_size);
+                           f_openIndex(curPage,curPageSize);
                        }else{
                             myAlert(res.msg,"error");
                        }
@@ -771,21 +763,21 @@
                 });
         }
     }
-    function f_log(controlCode) {
-        ele_top_loading.show();
+    function f_openLog(controlCode) {
+        eleTopLoading.show();
         $.ajax({
-               url: '/control/getLog',
+               url: '/control/openLog',
                type: "get",
                async: true,
                data: {"controlCode":controlCode},
                dataType: "json",
                timeout: 0,
                error: function () {
-                   ele_top_loading.hide();
+                   eleTopLoading.hide();
                    myAlert("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
-                   ele_top_loading.hide();
+                   eleTopLoading.hide();
                    if(1000 === res.code){
                         // BootStrap弹窗说明：https://www.genban.org/teach/teach-28585.html
                         eleControlLogDialog.modal("toggle");
@@ -822,7 +814,7 @@
             });
     }
     function f_copy(controlCode) {
-        ele_top_loading.show();
+        eleTopLoading.show();
         $.ajax({
                url: '/open/getAllStreamData',
                type: "get",
@@ -831,11 +823,11 @@
                dataType: "json",
                timeout: 0,
                error: function () {
-                   ele_top_loading.hide();
+                   eleTopLoading.hide();
                    myAlert("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
-                   ele_top_loading.hide();
+                   eleTopLoading.hide();
                    if(1000 === res.code){
                        let data = res.data;
                        let html = "<option value=\"0\">---请选择视频流(可多选)---</option>";
@@ -856,7 +848,7 @@
             });
 
     }
-    function f_postCopy() {
+    function f_openCopy() {
         let val = eleCopyStreamsSelect.val();//typeof object, array
         if(val===null){
             myAlert("请至少选择1个摄像头","error");
@@ -874,22 +866,22 @@
                 let controlCode = eleCopyCodeInput.val()
                 let stream_codes = vals.join(",");
                 let remark = eleCopyRemarkTextarea.val();
-                ele_top_loading.show();
+                eleTopLoading.show();
                 $.ajax({
-                       url: '/control/postCopy',
+                       url: '/control/openCopy',
                        type: "post",
                        async: true,
                        data: {"controlCode":controlCode,"streamCodes":stream_codes,"remark":remark},
                        dataType: "json",
                        timeout: 0,
                        error: function () {
-                           ele_top_loading.hide();
+                           eleTopLoading.hide();
                            myAlert("网络异常，请确定网络正常！","error");
                        },
                        success: function (res) {
-                           ele_top_loading.hide();
+                           eleTopLoading.hide();
                            if(1000 === res.code){
-                               f_getIndex(temp_cur_page,temp_cur_page_size);
+                               f_openIndex(curPage,curPageSize);
                            }else{
                                 myAlert(res.msg,"error");
                            }
@@ -902,7 +894,7 @@
         }
     }
     function f_settings(controlCode) {
-        ele_top_loading.show();
+        eleTopLoading.show();
         $.ajax({
                url: '/open/getControl',
                type: "get",
@@ -911,11 +903,11 @@
                dataType: "json",
                timeout: 0,
                error: function () {
-                   ele_top_loading.hide();
+                   eleTopLoading.hide();
                    myAlert("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
-                   ele_top_loading.hide();
+                   eleTopLoading.hide();
                    if(1000 === res.code){
                        let min_interval = res.info["min_interval"];
                        let osd_params = res.info["osd_params"];
@@ -934,7 +926,7 @@
                 }
             });
     }
-    function f_postSettings() {
+    function f_openSettings() {
         eleSettingsDialog.modal("toggle");
         let controlCode = eleSettingsCodeInput.val();
         let min_interval = eleMinIntervalInput.val();
@@ -942,9 +934,9 @@
         let extend_params = eleExtendParamsTextarea.val();
         let modify_range = eleModifyRangeSelect.val()
 
-        ele_top_loading.show();
+        eleTopLoading.show();
         $.ajax({
-           url: '/control/postSettings',
+           url: '/control/openSettings',
            type: "post",
            async: true,
            data: {
@@ -957,11 +949,11 @@
            dataType: "json",
            timeout: 0,
            error: function () {
-               ele_top_loading.hide();
+               eleTopLoading.hide();
                myAlert("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
-               ele_top_loading.hide();
+               eleTopLoading.hide();
                if(1000 === res.code){
                     //成功
                }else{
@@ -991,29 +983,29 @@
             if(cur === 1){
                 html+="<div class=\"xc_page-btn xc_active\">"+pageLabels[i]["name"]+"</div>";
             }else{
-                html+="<div class=\"xc_page-btn\" onclick=\"f_getIndex("+pageLabels[i]["page"]+","+page_size+")\" >"+pageLabels[i]["name"]+"</div>";
+                html+="<div class=\"xc_page-btn\" onclick=\"f_openIndex("+pageLabels[i]["page"]+","+page_size+")\" >"+pageLabels[i]["name"]+"</div>";
             }
         }
         elePageData.html(html);
     }
-    function f_getIndex(page,page_size) {
-        temp_cur_page = page;
-        temp_cur_page_size = page_size;
+    function f_openIndex(page,page_size) {
+        curPage = page;
+        curPageSize = page_size;
         let search_text = eleSearchInput.val().trim();
-        ele_top_loading.show();
+        eleTopLoading.show();
         $.ajax({
-               url: '/control/getIndex',
+               url: '/control/openIndex',
                type: "get",
                async: true,
                data: {"p":page,"ps":page_size,"search_text":search_text},
                dataType: "json",
                timeout: 0,
                error: function () {
-                   ele_top_loading.hide();
+                   eleTopLoading.hide();
                    myAlert("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
-                   ele_top_loading.hide();
+                   eleTopLoading.hide();
                    if(res.code === 1000)
                    {
                        let data = res.data;
@@ -1023,9 +1015,8 @@
                             f_show_pageData(res.pageData)
                        }else{
                             eleData.html("");
-                            const group_object = groupBy(data, "stream_name");
-                            for (const stream_name in group_object) {
-                                let dd = group_object[stream_name];
+                            for (let k = 0; k < data.length ; k++) {
+                                let dd = data[k];
                                 let dd_length = dd.length;
                                 let d0 = dd[0];
 
@@ -1092,6 +1083,7 @@
                                         item_html += "<span class='sun-state-error'>未知状态</span>";
                                    }
                                   item_html += "</td>";
+
                                   item_html += "<td>"+d["last_update_time"]+"</td>";
 
                                 item_html+="<td class=\"xc_action_buttons\">";
@@ -1104,8 +1096,8 @@
                                     item_html+="<button class=\"xc_action_btn view\" onclick=\"f_edit('"+d["code"]+"')\" title=\"编辑\"><i class=\"fa fa-edit\"></i></button>";
                                     item_html+="<button class=\"xc_action_btn view\" onclick=\"f_settings('"+d["code"]+"')\" title=\"快捷设置\"><i class=\"fa fa-gear\"></i></button>";
                                     item_html+="<button class=\"xc_action_btn view\" onclick=\"f_copy('"+d["code"]+"')\"  title=\"复制\"><i class=\"fa fa-copy\"></i></button>";
-                                    item_html+="<button class=\"xc_action_btn view\" onclick=\"f_log('"+d["code"]+"')\"  title=\"日志\"><i class=\"fa fa-chain\"></i></button>";
-                                    item_html+="<button class=\"xc_action_btn delete\" onclick=\"f_del('"+d["code"]+"')\"  title=\"删除\">";
+                                    item_html+="<button class=\"xc_action_btn view\" onclick=\"f_openLog('"+d["code"]+"')\"  title=\"日志\"><i class=\"fa fa-chain\"></i></button>";
+                                    item_html+="<button class=\"xc_action_btn delete\" onclick=\"f_openDel('"+d["code"]+"')\"  title=\"删除\">";
                                         item_html+="<svg class=\"xc-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"> <polyline points=\"3 6 5 6 21 6\"/><path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\"/></svg>";
                                     item_html+="</button>";
 
@@ -1173,7 +1165,7 @@
         }
         let ret = confirm(msg);
         if (ret) {
-            ele_top_loading.show();
+            eleTopLoading.show();
             $.ajax({
                    url: '/control/openHandleAllControl',
                    type: "post",
@@ -1182,17 +1174,17 @@
                    dataType: "json",
                    timeout: 0,
                    error: function () {
-                       ele_top_loading.hide();
+                       eleTopLoading.hide();
                        myAlert("网络异常，请确定网络正常！","error");
                    },
                    success: function (res) {
-                        ele_top_loading.hide();
+                        eleTopLoading.hide();
                         f_getAllCoreProcessData2();
 
                         if(1000 === res.code){
                             myAlert(res.msg,"success",1000);
                             setTimeout(function () {
-                                f_getIndex(temp_cur_page,temp_cur_page_size);
+                                f_openIndex(curPage,curPageSize);
                             }, 1000);
                        }else{
                             myAlert(res.msg,"error");
@@ -1218,7 +1210,7 @@
         }else{
             return;
         }
-        ele_top_loading.show();
+        eleTopLoading.show();
         $.ajax({
            url: url,
            type: "post",
@@ -1227,11 +1219,11 @@
            dataType: "json",
            timeout: 0,
            error: function () {
-                ele_top_loading.hide();
+                eleTopLoading.hide();
                 myAlert("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
-               ele_top_loading.hide();
+               eleTopLoading.hide();
 
                f_getAllCoreProcessData2();
 
@@ -1264,7 +1256,7 @@
         });
     }
     function f_reload() {
-        f_getIndex(temp_cur_page,temp_cur_page_size);
+        f_openIndex(curPage,curPageSize);
     }
     function f_docs() {
         let url= "{{ settings.docs.controlAdd }}";
@@ -1272,19 +1264,19 @@
     }
     function f_search(name) {
         eleSearchInput.val(name);
-        temp_cur_page = 1;
-        f_getIndex(temp_cur_page,temp_cur_page_size);
+        curPage = 1;
+        f_openIndex(curPage,curPageSize);
 
     }
     eleSearchInput.on("keydown",function(e){
         if (e.key === 'Enter' || e.keyCode === 13) {
             e.preventDefault(); // 阻止默认行为，例如表单提交
-            temp_cur_page = 1;
-            f_getIndex(temp_cur_page,temp_cur_page_size);
+            curPage = 1;
+            f_openIndex(curPage,curPageSize);
         }
     })
     window.onload = function (){
-        f_getIndex(temp_cur_page,temp_cur_page_size);
+        f_openIndex(curPage,curPageSize);
         f_getAllCoreProcessData2();
 
     };

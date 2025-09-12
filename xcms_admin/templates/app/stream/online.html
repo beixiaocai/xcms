@@ -63,10 +63,10 @@
   {{ block.super }}
 
 <script>
+    let eleTopLoading = $("#top_loading");
+    let eleTopMsg= $("#top_msg");
     let eleData = $("#data");
-    let ele_top_loading = $("#top_loading");
-    let ele_top_msg= $("#top_msg");
-
+    
     function f_reload(){
         window.location.reload();
     }
@@ -77,21 +77,21 @@
     function f_open_player(stream_app,stream_name){
         window.open("/stream/player?app="+stream_app+"&name="+stream_name);
     }
-    function f_getOnlineStream() {
-        ele_top_loading.show();
+    function f_openOnline() {
+        eleTopLoading.show();
         $.ajax({
-               url: '/stream/getOnlineStream',
+               url: '/stream/openOnline',
                type: "get",
                async: true,
                data: {},
                dataType: "json",
                timeout: 0,
                error: function () {
-                   ele_top_loading.hide();
+                   eleTopLoading.hide();
                    myAlert("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
-                   ele_top_loading.hide();
+                   eleTopLoading.hide();
 
                     eleData.html("");
 
@@ -127,10 +127,10 @@
                                eleData.append(item_html);
                            }
                         }
-                        //setTimeout(function () {f_getOnlineStream();}, 6000);
+                        //setTimeout(function () {f_openOnline();}, 6000);
 
                    }else{
-                        //ele_top_msg.html(res.msg);
+                        //eleTopMsg.html(res.msg);
                         myAlert(res.msg,"error");
                    }
                }
@@ -138,7 +138,7 @@
 
     }
     window.onload = function (){
-        f_getOnlineStream();
+        f_openOnline();
     };
 
 

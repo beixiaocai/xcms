@@ -22,10 +22,10 @@
 
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-md-offset-3">
-                      <span>本机MAC：</span> <span id="machine_mac" style="color: #c9302c;font-size: 12px ;">获取中...</span>
+                      <span>本机MAC：</span> <span id="machine_mac">...</span>
                     </div>
                     <div class="col-md-6 col-sm-6 col-md-offset-3">
-                      <span>软件标记：</span><span style="color: green;font-size: 15px ;">{{ project_flag }}</span>
+                      <span>软件标记：</span><span id="project_flag" style="font-size: 14px ;">...</span>
                     </div>
                 </div>
 
@@ -33,14 +33,14 @@
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">授权码 <span class="required">*</span>
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                      <textarea id="active_code" name="active_code" class="form-control" rows="6" placeholder="请输入授权码"></textarea>
+                      <textarea id="ac_active_code" name="active_code" class="form-control" rows="6" placeholder="请输入授权码"></textarea>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <div class="col-md-6 col-sm-6 col-md-offset-3" style="border: 1px solid #169F85;border-radius: 3px;">
 
-                      <h5>授权码状态：<small id="machine_verify_msg">未授权</small></h5>
+                      <h5>授权码状态：<small id="ac_status">未授权</small></h5>
                     <div>
                         <div class="starrr stars"></div>
                         授权码生效时间： <span id="create_date">无</span>
@@ -57,24 +57,24 @@
 
                       <div>
                         <div class="starrr stars"></div>
-                        授权码绑定MAC： <span id="active_code_mac">无</span>
+                        授权码绑定MAC： <span id="ac_mac">无</span>
                       </div>
 
                       <div>
                         <div class="starrr stars"></div>
-                        授权码绑定标记： <span id="active_code_flag">无</span>
+                        授权码绑定标记： <span id="ac_flag">无</span>
                       </div>
 
                       <div>
                         <div class="starrr stars"></div>
-                        授权码备注： <span id="active_code_remark">无</span>
+                        授权码备注： <span id="ac_remark">无</span>
                       </div>
 
                   </div>
                 </div>
                 <div class="form-group">
                   <div class="col-md-6 col-sm-6 col-md-offset-3" style="border: 1px solid #169F85;border-radius: 3px;">
-                      <h5>加密锁授权状态：<small id="dongle_verify_msg">未授权</small></h5>
+                      <h5>加密锁状态：<small id="dongle_status">未授权</small></h5>
                       <h5>加密锁备注：<small style="font-size: 14px;color: black;" id="dongle_remark">无</small></h5>
                   </div>
                 </div>
@@ -82,7 +82,6 @@
 
                   <div class="form-group">
                   <div class="col-md-6 col-md-offset-3">
-                             <button type="submit" class="btn btn-dark">激活授权码</button>
 
                     {% if settings.auth_online_link != "" %}
                           <button type="button" onclick="f_link('{{ settings.auth_online_link }}')" class="btn btn-default">申请试用授权</button>
@@ -90,7 +89,7 @@
                     {% if settings.auth_buy_link != "" %}
                           <button type="button" onclick="f_link('{{ settings.auth_buy_link }}')" class="btn btn-default">购买永久授权</button>
                     {% endif %}
-
+                     <button type="submit" class="btn btn-dark">激活授权码</button>
 
                   </div>
                 </div>
@@ -111,52 +110,54 @@
 <script>
     let ele_top_loading = $("#top_loading");
     let ele_top_msg= $("#top_msg");
-
     let eleMachineMac= $("#machine_mac");
-    let eleTextareaActiveCode= $("#active_code");
+    let eleProjectFlag= $("#project_flag");
 
-    let eleDongleVerifyMsg= $("#dongle_verify_msg");//加密锁授权状态
-    let eleDongleRemark= $("#dongle_remark");//加密锁备注
-    let eleMachineVerifyMsg= $("#machine_verify_msg");
-    let eleActiveCodeMac= $("#active_code_mac");
-    let eleActiveCodeFlag= $("#active_code_flag");
-    let eleActiveCodeRemark= $("#active_code_remark");
+    let eleAcStatus= $("#ac_status");
+    let eleAcActiveCode= $("#ac_active_code");
+    let eleAcMac= $("#ac_mac");
+    let eleAcFlag= $("#ac_flag");
+    let eleAcRemark= $("#ac_remark");
     let eleExpireHour= $("#expire_hour");
     let eleCreateDate= $("#create_date");
     let eleExpireDate= $("#expire_date");
+
+    let eleDongleStatus= $("#dongle_status");//加密锁授权状态
+    let eleDongleRemark= $("#dongle_remark");//加密锁备注
+
     function f_link(url) {
         window.open(url);
     }
-    function f_showMachineVerifyInfo(verify,mac,flag,remark,expire_hour,create_date_str,expire_date_str) {
+    function f_showAcInfo(status,mac,flag,remark,expire_hour,create_date_str,expire_date_str) {
         let verifyMsg;
-        if(-2===verify){
+        if(-2===status){
             verifyMsg = "<span class='sun-state-error'>未授权</span";
-        }else if(-1===verify){
+        }else if(-1===status){
             verifyMsg = "<span class='sun-state-error'>格式不正确</span";
-        }else if(0===verify){
+        }else if(0===status){
             verifyMsg = "<span class='sun-state-error'>已过期</span";
-        }else if(1===verify){
-            verifyMsg = "<span class='sun-state-success'>授权中</span>";
+        }else if(1===status){
+            verifyMsg = "<span class='sun-state-success'>已授权</span>";
         }else{
             verifyMsg ="<span class='sun-state-error'>授权失败</span>";
         }
-        eleMachineVerifyMsg.html(verifyMsg)
+        eleAcStatus.html(verifyMsg)
 
         if(-1===mac){
-            eleActiveCodeMac.html("无")
+            eleAcMac.html("无")
         }else{
-            eleActiveCodeMac.html(mac)
+            eleAcMac.html(mac)
         }
         if(-1===flag){
-            eleActiveCodeFlag.html("无")
+            eleAcFlag.html("无")
         }else{
-            eleActiveCodeFlag.html(flag)
+            eleAcFlag.html(flag)
         }
 
         if(-1===remark){
-            eleActiveCodeRemark.html("无")
+            eleAcRemark.html("无")
         }else{
-            eleActiveCodeRemark.html(remark)
+            eleAcRemark.html(remark)
         }
 
 
@@ -181,14 +182,12 @@
             eleExpireDate.html(expire_date_str)
         }
     }
-    function f_showDongleVerifyInfo(dongle_status,dongle_remark) {
+    function f_showDongleInfo(dongle_status,dongle_remark) {
         let verifyMsg;
-        if(-1===dongle_status){
-            verifyMsg = "<span class='sun-state-error'>检测加密锁失败！原因：未正常运行</span";
-        } else if(0===dongle_status){
+        if(0===dongle_status){
             verifyMsg = "<span class='sun-state-error'>未发现加密锁设备</span";
         }else if(1===dongle_status){
-            verifyMsg = "<span class='sun-state-success'>授权中</span>";
+            verifyMsg = "<span class='sun-state-success'>已授权</span>";
         }else if(2===dongle_status){
             verifyMsg = "<span class='sun-state-error'>已过期</span";
         }else if(3===dongle_status){
@@ -201,14 +200,14 @@
             verifyMsg ="<span class='sun-state-error'>未知错误</span>";
         }
 
-        eleDongleVerifyMsg.html(verifyMsg)
+        eleDongleStatus.html(verifyMsg)
         eleDongleRemark.html(dongle_remark)
 
     }
-    function f_getAuthIndex() {
+    function f_authOpenIndex() {
         ele_top_loading.show();
         $.ajax({
-               url: '/auth/getIndex',
+               url: '/auth/openIndex',
                type: "get",
                async: true,
                data: {},
@@ -218,44 +217,48 @@
                    ele_top_loading.hide();
                },
                success: function (res) {
-                   ele_top_loading.hide();
-                    let info = res.info;
+                    ele_top_loading.hide();
+                    //let project_version = res.project_version;
+                    let project_flag = res.project_flag;
+                    eleProjectFlag.html(project_flag);
 
-                    //显示加密锁授权验证结果start
-                    f_showDongleVerifyInfo(info.dongle_status,info.dongle_remark);
-                    //显示加密锁授权验证结果end
+                    if(res.code === 1000){
+                        let info = res.info;
+                        eleMachineMac.html(info.machineMac);
+                        eleAcActiveCode.val(info.acActiveCode)
 
-                   //显示机器授权验证结果start
-                    let machine_mac = info.machine_mac;
-                    if (machine_mac === "00-00-00-00-00-00"){
-                        eleMachineMac.html("<span style=\"color:#c9302c;font-size: 13px ;\">读取本机MAC失败！原因：未正常运行</span>");
+                        f_showDongleInfo(info.dongleStatus,info.dongleRemark);
+
+                        let acStatus = parseInt(info["acStatus"]);
+
+                        if(acStatus === 1){
+                            //授权码已授权
+
+                            let create_date_str = info["acCreateTimestampStr"];
+                            let expire_date_str = info["acExpireHourStr"];
+                            f_showAcInfo(
+                                  acStatus,
+                                  info["acMac"],
+                                  info["acFlag"],
+                                  info["acRemark"],
+                                  parseInt(info["acExpireHour"]),
+                                  create_date_str,
+                                  expire_date_str);
+                        }else{
+                           f_showAcInfo(-2,-1,-1,-1,-1,-1,-1)
+                        }
+                        //显示机器授权验证结果end
                     }else{
-                        eleMachineMac.html("<span style=\"color: green;font-size: 15px ;\">"+machine_mac+"</span>");
+                        eleMachineMac.html("<span class='sun-state-error'>程序异常</span>");
+                        myAlert(res.msg,"error");
                     }
 
-                    eleTextareaActiveCode.val(info.active_code)
-
-                   if(info.active_code_parse_status === 1){//机器授权码解析成功
-                        let verify = parseInt(info["verify"]);
-                        let verify_expire_hour = parseInt(info["verify_expire_hour"]);
-                        let create_date_str = info["create_date_str"];
-                        let expire_date_str = info["expire_date_str"];
-
-                        if(isNaN(verify)||isNaN(verify_expire_hour)||create_date_str===""||expire_date_str===""){
-                            f_showMachineVerifyInfo(-1,-1,-1,-1,-1,-1,-1)
-                        }else{
-                            f_showMachineVerifyInfo(verify,info["verify_mac"],info["verify_flag"],info["verify_remark"],verify_expire_hour,create_date_str,expire_date_str);
-                        }
-                   }else{
-                       f_showMachineVerifyInfo(-2,-1,-1,-1,-1,-1,-1)
-                   }
-                    //显示机器授权验证结果end
                }
             });
     }
 
     $("form").submit(function () {
-        let active_code = eleTextareaActiveCode.val().trim();
+        let active_code = eleAcActiveCode.val().trim();
         if(active_code === ""){
             myAlert("请输入授权码", "error");
             return false;
@@ -263,9 +266,8 @@
          return true;
     });
 
-
     $(function () {
-        f_getAuthIndex();
+        f_authOpenIndex();
     });
 </script>
 

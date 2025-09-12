@@ -28,7 +28,7 @@
           <div class="x_panel">
             <div class="x_title">
                 <h2>{% if  "add" == handle %}添加{% else %}编辑{% endif %}报警接口
-                <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-dark btn-sm">文档</button>
+                <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-default btn-sm">文档</button>
                  <span id="top_msg">{{top_msg}}</span>
                 </h2>
 
@@ -39,18 +39,18 @@
               <form class="form-horizontal form-label-left"  method="post" enctype="multipart/form-data" data-parsley-validate  >
 
                      <input type="hidden" name="handle"  value="{{ handle }}">
-                     <input type="hidden" name="code"  value="{{ obj.code }}">
+                     <input type="hidden" name="code"  value="{{ alarm_interface.code }}">
 
                 <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12">编号 </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="text"  value="{{ obj.code }}" class="form-control" disabled="disabled">
+                     <input type="text"  value="{{ alarm_interface.code }}" class="form-control" disabled="disabled">
                   </div>
                 </div>
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12">名称 <span class="required" style="color: red;">*</span></label>
               <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input type="text" name="name" value="{{ obj.name }}" required="required"  class="form-control">
+                    <input type="text" name="name" value="{{ alarm_interface.name }}" required="required"  class="form-control">
                   </div>
                 </div>
 
@@ -59,13 +59,13 @@
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="radio">
                       <label>
-                        <input type="radio" {% if obj.is_save_local == 0 %} checked="checked" {% endif %} value="0" name="is_save_local"> 不保存本地
+                        <input type="radio" {% if alarm_interface.is_save_local == 0 %} checked="checked" {% endif %} value="0" name="is_save_local"> 不保存本地
                       </label>
                     </div>
 
                     <div class="radio">
                       <label>
-                        <input type="radio" {% if obj.is_save_local == 1 %} checked="checked" {% endif %} value="1" name="is_save_local"> 保存本地
+                        <input type="radio" {% if alarm_interface.is_save_local == 1 %} checked="checked" {% endif %} value="1" name="is_save_local"> 保存本地
                       </label>
                     </div>
 
@@ -79,32 +79,32 @@
                          <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="radio">
                               <label>
-                                <input type="radio" {% if obj.request_server_type == 0 %} checked="checked" {% endif %} value="0" name="request_server_type"> 不上传服务器
+                                <input type="radio" {% if alarm_interface.request_server_type == 0 %} checked="checked" {% endif %} value="0" name="request_server_type"> 不上传服务器
                               </label>
                             </div>
 
                             <div class="radio">
                               <label>
-                                <input type="radio" {% if obj.request_server_type == 1 %} checked="checked" {% endif %} value="1" name="request_server_type"> 上传http
+                                <input type="radio" {% if alarm_interface.request_server_type == 1 %} checked="checked" {% endif %} value="1" name="request_server_type"> 上传http
                               </label>
                             </div>
 
                             <div class="radio">
                               <label>
-                                <input type="radio" {% if obj.request_server_type == 2 %} checked="checked" {% endif %} value="2" name="request_server_type"> 上传redis
+                                <input type="radio" {% if alarm_interface.request_server_type == 2 %} checked="checked" {% endif %} value="2" name="request_server_type"> 上传redis
                               </label>
                             </div>
 
                          <!--
                               <div class="radio">
                               <label>
-                                <input type="radio" {% if obj.request_server_type == 3 %} checked="checked" {% endif %} value="3" name="request_server_type"> 上传kafka
+                                <input type="radio" {% if alarm_interface.request_server_type == 3 %} checked="checked" {% endif %} value="3" name="request_server_type"> 上传kafka
                               </label>
                             </div>-->
 
                               <div class="radio">
                               <label>
-                                <input type="radio" {% if obj.request_server_type == 4 %} checked="checked" {% endif %} value="4" name="request_server_type"> 上传mongodb
+                                <input type="radio" {% if alarm_interface.request_server_type == 4 %} checked="checked" {% endif %} value="4" name="request_server_type"> 上传mongodb
                               </label>
                             </div>
                           </div>
@@ -114,14 +114,14 @@
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12">上传服务器地址 </label>
              <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input type="text" name="request_address" value="{{ obj.request_address }}"  class="form-control">
+                    <input type="text" name="request_address" value="{{ alarm_interface.request_address }}"  class="form-control">
                   </div>
                 </div>
 
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12">上传服务器参数 </label>
               <div class="col-md-6 col-sm-6 col-xs-12">
-                 <textarea name="request_params" class="form-control" rows="2" >{{ obj.request_params }}</textarea>
+                 <textarea name="request_params" class="form-control" rows="2" >{{ alarm_interface.request_params }}</textarea>
                   </div>
                 </div>
 
@@ -129,7 +129,7 @@
             <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12">上传服务器内容扩展参数</label>
                    <div class="col-md-6 col-sm-6 col-xs-12">
-                    <textarea name="request_content_extend_params" class="form-control" rows="2" >{{ obj.request_content_extend_params }}</textarea>
+                    <textarea name="request_content_extend_params" class="form-control" rows="2" >{{ alarm_interface.request_content_extend_params }}</textarea>
                   </div>
                 </div>
 
@@ -138,7 +138,7 @@
                   <label class="control-label col-md-3 col-sm-3 col-xs-12">备注
                   </label>
                    <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input type="text" name="remark" value="{{ obj.remark }}"  class="form-control">
+                    <input type="text" name="remark" value="{{ alarm_interface.remark }}"  class="form-control">
                   </div>
                 </div>
 

@@ -45,7 +45,7 @@
                 </li>
               </ul>
             -->
-                <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-dark btn-sm">文档</button>
+                <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-default btn-sm">文档</button>
                 </h2>
               <div class="clearfix"></div>
             </div>
@@ -269,7 +269,7 @@ function f_log() {
 
 ele_select_algorithm_type.change(function () {
     selectedAlgorithmTypeCode = $(this).val();
-    f_select_algorithm_type()
+    f_openAlgorithmTypeAttrs()
 });
 function f_show_algorithm_type(info) {
     //设置算法框架下拉框
@@ -294,10 +294,10 @@ function f_show_algorithm_type(info) {
 
 
 }
-function f_select_algorithm_type() {
+function f_openAlgorithmTypeAttrs() {
     $.ajax({
-       url: "/algorithm/postAlgorithmTypeAttrs",
-       type: "post",
+       url: "/algorithm/openAlgorithmTypeAttrs",
+       type: "get",
        async: true,
        data: {
            "algorithm_type_code":selectedAlgorithmTypeCode

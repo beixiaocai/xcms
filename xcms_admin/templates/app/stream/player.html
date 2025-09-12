@@ -242,13 +242,14 @@
 
 {% block javascripts %}
   {{ block.super }}
-<script src="/static/lib/easyPlayer/js/easyplayer-pro.js"></script>
+<script src="/static/lib/easyPlayer/js/easyplayer-pro.js?02"></script>
 <script>
     let stream_app = "{{ stream.app }}";
     let stream_name = "{{ stream.name }}";
     let stream_code = "{{ stream.code }}";
     let stream_pull_stream_type = parseInt("{{ stream.pull_stream_type }}");
     let stream_is_online = parseInt("{{ stream.is_online }}")
+    let streamTotalReaderCount = parseInt("{{ stream.totalReaderCount }}")
 
     let eleInputAddress= $("#input_address");
     let eleHandleSnapshot = $("#handle_snapshot");
