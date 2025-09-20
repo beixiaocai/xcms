@@ -56,7 +56,7 @@
               <table class="table table-hover">
                 <tbody id="coreProcessData">
                  <tr>
-                    <th scope="row">分析进程数据</th>
+                    <th scope="row">分析器数据</th>
                     <th scope="row">加载中</th>
                   </tr>
                 </tbody>
@@ -408,7 +408,7 @@
         let eleAuthMethod = $("#auth_method");
         let eleAuthType = $("#auth_type");
 
-        function f_getIndex() {
+        function f_openGetIndex() {
             $.ajax({
                url: '/open/getIndex',
                type: "get",
@@ -461,7 +461,7 @@
                         console.log(res.msg);
                    }
                    setTimeout(function () {
-                       f_getIndex();
+                       f_openGetIndex();
                    }, 6000);
                }
             });
@@ -528,8 +528,10 @@
                },
                success: function (res) {
                     let data = res["data"];
-                    let processNum = res["processNum"]
-                    let processMode = res["processMode"]
+                    let info = res["info"];
+
+                    let processMode = info["processMode"]
+                    let processNum = info["processNum"]
                     let html = "<tr><th scope=\"row\">进程模式</th><th scope=\"row\">"+processMode+"</th></tr>";
                     html += "<tr><th scope=\"row\">进程数量</th><th scope=\"row\">"+processNum+"</th></tr>";
 
@@ -544,9 +546,7 @@
                         }else{
                             html+="<tr><th scope=\"row\">"+__port+"</th><th scope=\"row\">重启中</th></tr>";
                         }
-
                     }
-
                     eleCoreProcessData.html(html);
 
                }
@@ -591,15 +591,14 @@
                    }
                }
             });
-
         }
+
         $(function() {
-            f_getIndex();
+            f_openGetIndex();
             f_authOpenIndex();
             f_getAllCoreProcessData();
             f_getCheckVersion();
         });
-
 
 </script>
 {% endblock javascripts %}

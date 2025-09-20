@@ -71,8 +71,8 @@
                           <td>
                               <div class="btn-group">
                               <button onclick="f_edit('{{ d.code }}')" class="btn btn-sm btn-default" type="button"><i class="fa fa-edit"></i> 编辑</button>
-                              <button onclick="f_export('{{ d.code }}')" class="btn btn-sm btn-default" type="button"><i class="fa fa-share"></i> 导出</button>
-                              <button onclick="f_del('{{ d.code }}')" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="删除"><i class="fa fa-remove"></i></button>
+                              <button onclick="f_openExport('{{ d.code }}')" class="btn btn-sm btn-default" type="button"><i class="fa fa-share"></i> 导出</button>
+                              <button onclick="f_openDel('{{ d.code }}')" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="删除"><i class="fa fa-remove"></i></button>
                             </div>
                         </td>
                       </tr>
@@ -151,7 +151,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" onclick="f_import()" class="btn btn-dark">提交</button>
+            <button type="button" onclick="f_openImport()" class="btn btn-dark">提交</button>
           </div>
         </div>
       </div>
@@ -175,10 +175,10 @@
         let url= "{{ settings.docs.algorithmFlowAdd }}";
         window.open(url);
     }
-    function f_del(code){
+    function f_openDel(code){
         ele_top_loading.show();
         $.ajax({
-               url: '/algorithmFlow/postDel',
+               url: '/algorithmFlow/openDel',
                type: "post",
                async: true,
                data: {"code":code},
@@ -203,11 +203,11 @@
         let url = "/algorithmFlow/edit?code="+code;
         window.location.href = url;
     }
-    function f_export(code) {
+    function f_openExport(code) {
         //导出业务算法
         ele_top_loading.show();
         $.ajax({
-           url: "/algorithmFlow/postExport",
+           url: "/algorithmFlow/openExport",
            type: "post",
            async: true,
            data: {"code":code},
@@ -231,7 +231,7 @@
         });
 
     }
-    function f_import() {
+    function f_openImport() {
         //导入业务算法
         if (eleFile[0].files.length > 0){
           let file = eleFile[0].files[0];
@@ -247,7 +247,7 @@
                 //formData.append('importRemark',importRemark)
 
                 $.ajax({
-                  url:'/algorithmFlow/postImport',
+                  url:'/algorithmFlow/openImport',
                   type:'post',
                   async: true,
                   contentType:false,

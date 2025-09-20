@@ -25,7 +25,7 @@
                       <span>本机MAC：</span> <span id="machine_mac">...</span>
                     </div>
                     <div class="col-md-6 col-sm-6 col-md-offset-3">
-                      <span>软件标记：</span><span id="project_flag" style="font-size: 14px ;">...</span>
+                      <span>软件标记：</span><span style="font-size: 14px ;">{{ info.project_flag }}</span>
                     </div>
                 </div>
 
@@ -111,8 +111,6 @@
     let ele_top_loading = $("#top_loading");
     let ele_top_msg= $("#top_msg");
     let eleMachineMac= $("#machine_mac");
-    let eleProjectFlag= $("#project_flag");
-
     let eleAcStatus= $("#ac_status");
     let eleAcActiveCode= $("#ac_active_code");
     let eleAcMac= $("#ac_mac");
@@ -129,20 +127,41 @@
         window.open(url);
     }
     function f_showAcInfo(status,mac,flag,remark,expire_hour,create_date_str,expire_date_str) {
-        let verifyMsg;
+        let statusMsg;
         if(-2===status){
-            verifyMsg = "<span class='sun-state-error'>未授权</span";
+            statusMsg = "<span class='sun-state-error'>未授权</span";
         }else if(-1===status){
-            verifyMsg = "<span class='sun-state-error'>格式不正确</span";
+            statusMsg = "<span class='sun-state-error'>格式不正确</span";
         }else if(0===status){
-            verifyMsg = "<span class='sun-state-error'>已过期</span";
+            statusMsg = "<span class='sun-state-error'>已过期</span";
         }else if(1===status){
-            verifyMsg = "<span class='sun-state-success'>已授权</span>";
+            statusMsg = "<span class='sun-state-success'>已授权</span>";
         }else{
-            verifyMsg ="<span class='sun-state-error'>授权失败</span>";
+            statusMsg ="<span class='sun-state-error'>授权失败</span>";
         }
-        eleAcStatus.html(verifyMsg)
+        eleAcStatus.html(statusMsg)
 
+        if(-1===create_date_str){
+            eleCreateDate.html("无")
+        }else{
+            eleCreateDate.html(create_date_str)
+        }
+        if(-1===expire_date_str){
+            eleExpireDate.html("无")
+        }else{
+            eleExpireDate.html(expire_date_str)
+        }
+
+        if(-1===expire_hour){
+            eleExpireHour.html("无")
+        }
+        else if(0===expire_hour){
+            eleExpireHour.html("永久")
+        }else{
+            // expire_hour单位是int
+            let expire_day = expire_hour/24;
+            eleExpireHour.html(expire_day+" (天)")
+        }
         if(-1===mac){
             eleAcMac.html("无")
         }else{
@@ -160,27 +179,6 @@
             eleAcRemark.html(remark)
         }
 
-
-        if(-1===expire_hour){
-            eleExpireHour.html("无")
-        }
-        else if(0===expire_hour){
-            eleExpireHour.html("永久")
-        }else{
-            // expire_hour单位是int
-            let expire_day = expire_hour/24;
-            eleExpireHour.html(expire_day+" (天)")
-        }
-        if(-1===create_date_str){
-            eleCreateDate.html("无")
-        }else{
-            eleCreateDate.html(create_date_str)
-        }
-        if(-1===expire_date_str){
-            eleExpireDate.html("无")
-        }else{
-            eleExpireDate.html(expire_date_str)
-        }
     }
     function f_showDongleInfo(dongle_status,dongle_remark) {
         let verifyMsg;
@@ -218,9 +216,6 @@
                },
                success: function (res) {
                     ele_top_loading.hide();
-                    //let project_version = res.project_version;
-                    let project_flag = res.project_flag;
-                    eleProjectFlag.html(project_flag);
 
                     if(res.code === 1000){
                         let info = res.info;
@@ -234,8 +229,8 @@
                         if(acStatus === 1){
                             //授权码已授权
 
-                            let create_date_str = info["acCreateTimestampStr"];
-                            let expire_date_str = info["acExpireHourStr"];
+                            let create_date_str = info["create_date_str"];
+                            let expire_date_str = info["expire_date_str"];
                             f_showAcInfo(
                                   acStatus,
                                   info["acMac"],

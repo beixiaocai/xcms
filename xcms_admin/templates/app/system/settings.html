@@ -71,7 +71,7 @@
                                 <p>
                                     <input type="file" name="xcupdate_file" accept=".xcupdate" class="form-control" placeholder="浏览升级安装包" >
                                 </p>
-                               <button type="button" onclick="f_importUpdate()" class="btn btn-dark btn-sm"  >升级版本</button> 升级过程需要1-5分钟，请不要关闭电源，完成升级后将自动重启
+                               <button type="button" onclick="f_openImportUpdate()" class="btn btn-dark btn-sm"  >升级版本</button> 升级过程需要1-5分钟，请不要关闭电源，完成升级后将自动重启
                           </div>
                     </div>
 
@@ -87,7 +87,7 @@
                                 <p>
                                     <input type="file" name="xcsettings_file" accept=".xcsettings" class="form-control" placeholder="浏览配置文件" >
                                 </p>
-                                <button type="button" onclick="f_importSettings()" class="btn btn-dark btn-sm"  >导入配置</button>
+                                <button type="button" onclick="f_postImportSettings()" class="btn btn-dark btn-sm"  >导入配置</button>
                           </div>
                     </div>
 
@@ -217,7 +217,7 @@
         });
 
     }
-    function f_importSettings() {
+    function f_postImportSettings() {
         //导入配置
         if (eleXcSettingsFile[0].files.length > 0){
            let file = eleXcSettingsFile[0].files[0];
@@ -258,7 +258,7 @@
         }
 
     }
-    function f_importUpdate(){
+    function f_openImportUpdate(){
         //导入安装包
         if (eleXcUpdateFile[0].files.length > 0){
            let file = eleXcUpdateFile[0].files[0];
@@ -272,7 +272,7 @@
             ele_top_loading.show();
 
             $.ajax({
-              url:"/system/postImportUpdate",
+              url:"/system/openImportUpdate",
               type:'post',
               async: true,
               contentType:false,
