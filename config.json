@@ -1,10 +1,12 @@
 {
+	"code": "xcms",
 	"name": "xcms",
     "describe": "describe",
     "host": "127.0.0.1",
     "adminPort": 9001,
     "mediaHttpPort": 9002,
 	"mediaRtspPort": 9554,
+	"mediaSecret": "aqxY9ps21fyhyKNRyYpGvJCTp1JBeGOM",
     "analyzerPort": 9004,
     "analyzerProcessNum": 1,
     "analyzerProcessMode": 0,
@@ -16,7 +18,6 @@
     "trtexec": "xcms_core\\trtexec.exe",
     "ffmpeg": "xcms_core\\ffmpeg.exe",
     "fontPath": "xcms_core\\fonts\\tsimhei.ttf",
-    "mappingPath": "xcms_core\\mapping",
     "uploadDir": "xcms_admin\\static\\upload",
     "storageDir": "xcms_admin\\static\\storage",
     "storageAlarmMaxSize": 20,
@@ -24,8 +25,14 @@
     "autoManagePatrolForward": false,
     "autoStart": false,
     "logDebug": false,
-    "algorithmStreamMaxCount": 16,
+    "algorithmStreamMaxCount": 6,
     "flowInstanceMaxDuration": 120000,
+	"isEnableSipRegNoAlgorithm": false,
+	"isEnableLoginCaptcha": true,
+	"isEnableCheckAlarm": true,
+	"isEnableDashboardLoginLimit": true,
+	"controlMaxCpuRate": 0.86,
+    "controlMaxMemRate": 0.92,
     "nvsServer": {
         "nvsServerIp": "127.0.0.1",
         "nvsServerPort": 9824,
@@ -45,6 +52,7 @@
         "sipServerPass": "123456",
         "sipServerTimeout": 1800,
         "sipServerExpiry": 600,
-        "rtpTransferMode": 0
+        "rtpTransferMode": 0,
+        "rtpTransferAudioType": 0
     }
 }

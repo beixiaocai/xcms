@@ -680,7 +680,7 @@
               <div class="xc_control-button" onclick="f_createGridVideoContainer(4)" title="4分屏">4</div>
               <div class="xc_control-button" onclick="f_createGridVideoContainer(9)" title="9分屏">9</div>
               <div class="xc_control-button" onclick="f_createGridVideoContainer(16)" title="16分屏">16</div>
-               <div class="xc_control-button" onclick="f_updateDashboardData()"><i class="fa fa-save" title="保存配置"></i></div>
+               <div class="xc_control-button" onclick="f_openUpdateDashboardData()"><i class="fa fa-save" title="保存配置"></i></div>
                 <div class="xc_control-button" onclick="f_clickFullScreen()"><i class="fa fa-retweet"  title="全屏播放"></i></div>
                 <div class="xc_control-button" ><div id="handle_audio_player"><i class="fa fa-bell-o" title="关闭声音" ></i></div></div>
                 <div><audio id="audio_player"  controls style="display: none;" >
@@ -1224,8 +1224,8 @@
         $("#today_alarm_unhandle_count").html(todayAlarmUnHandleCount)
     }
 
-    function f_updateDashboardData() {
-        //console.log("f_updateDashboardData()",mSelectedGridVideoCount,mSelectedVideoPlayerMap)
+    function f_openUpdateDashboardData() {
+        //console.log("f_openUpdateDashboardData()",mSelectedGridVideoCount,mSelectedVideoPlayerMap)
 
         let gridVideoUrlArray = [];
         for (let i = 0; i < mSelectedGridVideoCount; i++) {
@@ -1243,7 +1243,7 @@
         let gridVideoUrls = gridVideoUrlArray.join("#");
 
         $.ajax({
-           url: '/index/updateDashboardData',
+           url: '/index/openUpdateDashboardData',
            type: "post",
            async: true,
            data: {
@@ -1266,9 +1266,9 @@
 
     }
 
-    function f_getDashboardData() {
+    function f_openDashboardData() {
         $.ajax({
-           url: '/index/getDashboardData',
+           url: '/index/openDashboardData',
            type: "get",
            async: true,
            data: {
@@ -1322,9 +1322,9 @@
         });
 
     }
-    function f_getDashboardPlayerData() {
+    function f_openDashboardPlayerData() {
         $.ajax({
-           url: '/index/getDashboardPlayerData',
+           url: '/index/openDashboardPlayerData',
            type: "get",
            async: true,
            data: {},
@@ -1359,13 +1359,13 @@
 
     function f_getNewAlarm() {
         setTimeout(function () {
-            __f_handleGetNewAlarm();
+            __f_handleOpenNewAlarm();
         }, 3000);
     }
-    function __f_handleGetNewAlarm() {
+    function __f_handleOpenNewAlarm() {
         //检查新数据
        $.ajax({
-            url: '/index/getNewAlarm',
+            url: '/index/openNewAlarm',
             type: "get",
             async: true,
             dataType: "json",
@@ -1429,7 +1429,7 @@
                     });
 
                     //刷新其他数据
-                    f_getDashboardData();
+                    f_openDashboardData();
 
                 }else{
                     //未检测到新数据，无需刷新其他数据
@@ -1442,8 +1442,8 @@
     }
 
     $(function() {
-        f_getDashboardData();
-        f_getDashboardPlayerData();
+        f_openDashboardData();
+        f_openDashboardPlayerData();
         f_getNewAlarm();
     });
 
