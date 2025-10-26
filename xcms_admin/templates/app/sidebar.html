@@ -8,11 +8,18 @@
   <!-- menu profile quick info -->
   <div class="profile clearfix">
     <div class="profile_pic">
-      <img src="{{ settings.logo_url }}" alt="..." class="img-circle profile_img">
+      <img src="{{ settings.logo_url }}?v1026" alt="user" class="img-circle profile_img">
     </div>
     <div class="profile_info">
       <span>{{ settings.welcome }},</span>
       <h2>{{request.session.user.username }}</h2>
+        {% if request.session.logDebug == 1 %}
+          <!-- debug 模式小标签 -->
+          <div class="debug-badge-inline">
+            <i class="fa fa-bug"></i>
+            <span>debug</span>
+          </div>
+        {% endif %}
     </div>
   </div>
   <!-- /menu profile quick info -->
@@ -33,11 +40,8 @@
           </li>
           <li><a><i class="fa fa-bullhorn"></i> 报警管理 <span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu">
-                  <li><a href="/alarm/index">报警视频管理</a></li>
-                  <li><a href="/alarm/edit">查看报警详情</a></li>
-                  <li><a href="/alarmInterface/index">报警接口管理</a></li>
-                  <li><a href="/alarmInterface/add">添加报警接口</a></li>
-                  <li><a href="/alarmInterface/edit">编辑报警接口</a></li>
+                  <li><a href="/alarm/index">报警管理</a></li>
+                  <li><a href="/alarmInterface/index">接口管理</a></li>
               </ul>
            </li>
           <li><a><i class="fa fa-eye"></i> 算法管理 <span class="fa fa-chevron-down"></span></a>
@@ -69,8 +73,6 @@
                  <li><a href="/stream/player">单屏播放器</a></li>
 
                   <li><a href="/streamRecord/index">录像计划管理</a></li>
-                 <li><a href="/streamRecord/add">添加录像计划</a></li>
-                 <li><a href="/streamRecord/edit">编辑录像计划</a></li>
                  <li><a href="/streamRecord/timeplayer">录像播放器</a></li>
 
               </ul>
@@ -87,8 +89,6 @@
            <li><a><i class="fa fa-music"></i> 音频管理 <span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu">
                   <li><a href="/audio/index">音频管理</a></li>
-                  <li><a href="/audio/add">添加音频</a></li>
-                  <li><a href="/audio/edit">编辑音频</a></li>
               </ul>
            </li>
 		   
@@ -96,24 +96,18 @@
            <li><a><i class="fa fa-user-plus"></i> 人脸管理 <span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu">
                   <li><a href="/face/index">人脸管理</a></li>
-                  <li><a href="/face/add">添加人脸</a></li>
-                  <li><a href="/face/edit">编辑人脸</a></li>
               </ul>
            </li>
 
           <li><a><i class="fa fa-user"></i> 用户管理 <span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu">
                   <li><a href="/user/index">用户管理</a></li>
-                  <li><a href="/user/add">添加用户</a></li>
-                  <li><a href="/user/edit">编辑用户</a></li>
               </ul>
            </li>
 
           <li><a><i class="fa fa-folder-open"></i> 计划任务 <span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu">
                   <li><a href="/plan/index">计划任务</a></li>
-                  <li><a href="/plan/add">添加计划</a></li>
-                  <li><a href="/plan/edit">编辑计划</a></li>
               </ul>
            </li>
 

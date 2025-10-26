@@ -31,8 +31,7 @@
           <div class="x_panel">
             <div class="x_title">
               <h2>{% if  "add" == handle %}添加{% else %}编辑{% endif %}业务算法
-                <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-dark btn-sm">文档</button>
-              </h2>
+                </h2>
               <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -528,7 +527,7 @@
                 break;
             }
             default:{
-                //myAlert("不支持的流程模式","error");
+                //myToast2025("不支持的流程模式","error");
                 eleFlowBoxDetect.hide();
                 eleFlowBoxDetectClass.hide();
                 eleFlowBoxDetect2.hide();
@@ -600,12 +599,12 @@
     function f_submit() {
         let name_s = eleInputName.val().trim();
         if(name_s === ""){
-            myAlert("请输入算法名称","error");
+            myToast2025("请输入算法名称","error");
             return false;
          }
         let mode = eleSelectFlow.val().trim();
         if(mode==="0" || mode ===""){
-            myAlert("请选择算法模式","error");
+            myToast2025("请选择算法模式","error");
             return;
         }
         mode = parseInt(mode)
@@ -624,19 +623,19 @@
                 //检测算法
                 algorithmDetectCode = eleSelectAlgorithmDetect.val().trim();
                 if(algorithmDetectCode==="0"){
-                    myAlert("请选择检测算法","error");
+                    myToast2025("请选择检测算法","error");
                     return;
                 }
                 //检测算法目标option
                 detectClassNames = f_calcuOptionStr(eleSelectDetectClassName.val());// eleSelectDetectClassName.val();//typeof object, array
                 if(detectClassNames === ""){
-                    myAlert("请至少选择1个检测目标","error");
+                    myToast2025("请至少选择1个检测目标","error");
                     return;
                 }
                 //行为算法
                 behaviourCode = eleSelectBehaviour.val().trim();//typeof string
                 if(behaviourCode==="0"){
-                    myAlert("请选择行为算法","error");
+                    myToast2025("请选择行为算法","error");
                     return;
                 }
                 break
@@ -646,27 +645,27 @@
                 //检测算法
                 algorithmDetectCode = eleSelectAlgorithmDetect.val().trim();
                 if(algorithmDetectCode==="0"){
-                    myAlert("请选择检测算法","error");
+                    myToast2025("请选择检测算法","error");
                     return;
                 }
 
                 //检测算法目标option
                 detectClassNames = f_calcuOptionStr(eleSelectDetectClassName.val());// eleSelectDetectClassName.val();//typeof object, array
                 if(detectClassNames === ""){
-                    myAlert("请至少选择1个检测目标","error");
+                    myToast2025("请至少选择1个检测目标","error");
                     return;
                 }
                 //特征算法
                 algorithmTrackCode = eleSelectAlgorithmTrack.val().trim();
                 if(algorithmTrackCode==="0"){
-                    myAlert("请选择特征算法","error");
+                    myToast2025("请选择特征算法","error");
                     return;
                 }
 
                 //行为算法
                 behaviourCode = eleSelectBehaviour.val().trim();//typeof string
                 if(behaviourCode==="0"){
-                    myAlert("请选择行为算法","error");
+                    myToast2025("请选择行为算法","error");
                     return;
                 }
 
@@ -677,31 +676,31 @@
                 //检测算法
                 algorithmDetectCode = eleSelectAlgorithmDetect.val().trim();
                 if(algorithmDetectCode==="0"){
-                    myAlert("请选择检测算法","error");
+                    myToast2025("请选择检测算法","error");
                     return;
                 }
                 //检测算法目标option
                 detectClassNames = f_calcuOptionStr(eleSelectDetectClassName.val());// eleSelectDetectClassName.val();//typeof object, array
                 if(detectClassNames === ""){
-                    myAlert("请至少选择1个检测目标","error");
+                    myToast2025("请至少选择1个检测目标","error");
                     return;
                 }
                 //分类算法
                 algorithmClassifyCode= eleSelectAlgorithmClassify.val().trim();
                 if(algorithmClassifyCode==="0"){
-                    myAlert("请选择分类算法","error");
+                    myToast2025("请选择分类算法","error");
                     return;
                 }
                 //分类算法目标option
                 classifyClassNames = f_calcuOptionStr(eleSelectClassifyClassName.val());
                 if(classifyClassNames === ""){
-                    myAlert("请至少选择1个分类目标","error");
+                    myToast2025("请至少选择1个分类目标","error");
                     return;
                 }
                 //行为算法
                 behaviourCode = eleSelectBehaviour.val().trim();//typeof string
                 if(behaviourCode==="0"){
-                    myAlert("请选择行为算法","error");
+                    myToast2025("请选择行为算法","error");
                     return;
                 }
                 break
@@ -711,20 +710,20 @@
                 //分类算法
                 algorithmClassifyCode= eleSelectAlgorithmClassify.val().trim();
                 if(algorithmClassifyCode==="0"){
-                    myAlert("请选择分类算法","error");
+                    myToast2025("请选择分类算法","error");
                     return;
                 }
                 //分类算法目标option
                 classifyClassNames = f_calcuOptionStr(eleSelectClassifyClassName.val());
                 if(classifyClassNames === ""){
-                    myAlert("请至少选择1个分类目标","error");
+                    myToast2025("请至少选择1个分类目标","error");
                     return;
                 }
 
                 //行为算法
                 behaviourCode = eleSelectBehaviour.val().trim();//typeof string
                 if(behaviourCode==="0"){
-                    myAlert("请选择行为算法","error");
+                    myToast2025("请选择行为算法","error");
                     return;
                 }
                 break
@@ -735,7 +734,7 @@
                 //行为算法
                 behaviourCode = eleSelectBehaviour.val().trim();//typeof string
                 if(behaviourCode==="0"){
-                    myAlert("请选择行为算法","error");
+                    myToast2025("请选择行为算法","error");
                     return;
                 }
                 break
@@ -745,32 +744,32 @@
                 //分类算法
                 algorithmClassifyCode= eleSelectAlgorithmClassify.val().trim();
                 if(algorithmClassifyCode==="0"){
-                    myAlert("请选择分类算法","error");
+                    myToast2025("请选择分类算法","error");
                     return;
                 }
                 //分类算法目标option
                 classifyClassNames = f_calcuOptionStr(eleSelectClassifyClassName.val());
                 if(classifyClassNames === ""){
-                    myAlert("请至少选择1个分类目标","error");
+                    myToast2025("请至少选择1个分类目标","error");
                     return;
                 }
                 //检测算法
                 algorithmDetectCode = eleSelectAlgorithmDetect.val().trim();
                 if(algorithmDetectCode==="0"){
-                    myAlert("请选择检测算法","error");
+                    myToast2025("请选择检测算法","error");
                     return;
                 }
                 //检测算法目标option
                 detectClassNames = f_calcuOptionStr(eleSelectDetectClassName.val());// eleSelectDetectClassName.val();//typeof object, array
                 if(detectClassNames === ""){
-                    myAlert("请至少选择1个检测目标","error");
+                    myToast2025("请至少选择1个检测目标","error");
                     return;
                 }
 
                 //行为算法
                 behaviourCode = eleSelectBehaviour.val().trim();//typeof string
                 if(behaviourCode==="0"){
-                    myAlert("请选择行为算法","error");
+                    myToast2025("请选择行为算法","error");
                     return;
                 }
                 break
@@ -780,38 +779,38 @@
                 //检测算法
                 algorithmDetectCode = eleSelectAlgorithmDetect.val().trim();
                 if(algorithmDetectCode==="0"){
-                    myAlert("请选择检测算法","error");
+                    myToast2025("请选择检测算法","error");
                     return;
                 }
                 //检测算法目标option
                 detectClassNames = f_calcuOptionStr(eleSelectDetectClassName.val());// eleSelectDetectClassName.val();//typeof object, array
                 if(detectClassNames === ""){
-                    myAlert("请至少选择1个检测目标","error");
+                    myToast2025("请至少选择1个检测目标","error");
                     return;
                 }
                 //分类算法
                 algorithmClassifyCode= eleSelectAlgorithmClassify.val().trim();
                 if(algorithmClassifyCode==="0"){
-                    myAlert("请选择分类算法","error");
+                    myToast2025("请选择分类算法","error");
                     return;
                 }
                 //分类算法目标option
                 classifyClassNames = f_calcuOptionStr(eleSelectClassifyClassName.val());
                 if(classifyClassNames === ""){
-                    myAlert("请至少选择1个分类目标","error");
+                    myToast2025("请至少选择1个分类目标","error");
                     return;
                 }
                 //特征算法
                 algorithmTrackCode = eleSelectAlgorithmTrack.val().trim();
                 if(algorithmTrackCode==="0"){
-                    myAlert("请选择特征算法","error");
+                    myToast2025("请选择特征算法","error");
                     return;
                 }
 
                 //行为算法
                 behaviourCode = eleSelectBehaviour.val().trim();//typeof string
                 if(behaviourCode==="0"){
-                    myAlert("请选择行为算法","error");
+                    myToast2025("请选择行为算法","error");
                     return;
                 }
 
@@ -822,40 +821,40 @@
                 //检测算法
                 algorithmDetectCode = eleSelectAlgorithmDetect.val().trim();
                 if(algorithmDetectCode==="0"){
-                    myAlert("请选择检测算法","error");
+                    myToast2025("请选择检测算法","error");
                     return;
                 }
                 //检测算法目标option
                 detectClassNames = f_calcuOptionStr(eleSelectDetectClassName.val());// eleSelectDetectClassName.val();//typeof object, array
                 if(detectClassNames === ""){
-                    myAlert("请至少选择1个检测目标","error");
+                    myToast2025("请至少选择1个检测目标","error");
                     return;
                 }
 
                 //第2步检测算法
                 algorithmDetect2Code = eleSelectAlgorithmDetect2.val().trim();
                 if(algorithmDetect2Code==="0"){
-                    myAlert("请选择检测算法","error");
+                    myToast2025("请选择检测算法","error");
                     return;
                 }
                 //第2步检测算法目标option
                 detect2ClassNames = f_calcuOptionStr(eleSelectDetect2ClassName.val());// eleSelectDetectClassName.val();//typeof object, array
                 if(detect2ClassNames === ""){
-                    myAlert("请至少选择1个检测目标","error");
+                    myToast2025("请至少选择1个检测目标","error");
                     return;
                 }
 
                 //行为算法判断
                 behaviourCode = eleSelectBehaviour.val().trim();//typeof string
                 if(behaviourCode==="0"){
-                    myAlert("请选择行为算法","error");
+                    myToast2025("请选择行为算法","error");
                     return;
                 }
                 break
             }
             default: {
                 //其他类型
-                myAlert("请选择正确的算法流程模式","error");
+                myToast2025("请选择正确的算法流程模式","error");
                 return;
             }
         }
@@ -906,28 +905,24 @@
            dataType: "json",
            timeout: 0,
            error: function () {
-                myAlert("网络异常，请确定网络正常！","error");
+                myToast2025("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
                if(1000 === res.code){
-                   myAlert(res.msg,"success",1000);
+                   myToast2025(res.msg,"success",1000);
 
                   setTimeout(function () {
                       window.location.href= "/algorithmFlow/index";
                   }, 1000);
 
                }else{
-                    myAlert(res.msg,"error");
+                    myToast2025(res.msg,"error");
                }
            }
         });
 
     }
 
-    function f_docs() {
-        let url= "{{ settings.docs.algorithmFlowAdd }}";
-        window.open(url);
-    }
 
     $(function() {
         if(handle==="add"){

@@ -122,13 +122,13 @@ let ele_select_control_codes = $("#control_codes");
 $(document).ready(function () {
    $("form").submit(function () {
         if(ele_input_name.val().trim() === ""){
-            myAlert("请输入名称","error");
+            myToast2025("请输入名称","error");
             return false;
         }
 
         let temp1 = ele_select_control_codes.val();//typeof object, array
         if(temp1===null){
-            myAlert("请至少选择1个布控","error");
+            myToast2025("请至少选择1个布控","error");
             return false;
         }else{
             let temp2 = [];
@@ -141,7 +141,7 @@ $(document).ready(function () {
                 let control_codes = temp2.join(",");
                 ele_input_control_codes.val(control_codes);
             }else{
-                myAlert("请至少选择1个布控","error");
+                myToast2025("请至少选择1个布控","error");
                 return false;
             }
         }

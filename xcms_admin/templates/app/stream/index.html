@@ -510,9 +510,6 @@
              <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
             </h2>
 
-            <button class="xc_btn xc_btn_default" onclick="f_docs()" >
-                文档
-            </button>
             <button class="xc_btn xc_btn_default" data-toggle="modal" data-target="#ImportFileDialog" >
                 批量导入
             </button>
@@ -654,10 +651,6 @@
             f_openDel("one",code);
         }
     }
-    function f_docs() {
-        let url= "{{ settings.docs.streamAdd }}";
-        window.open(url);
-    }
 
     function f_openDel(handle,code) {
         eleTopLoading.show();
@@ -670,7 +663,7 @@
             timeout: 0,
             error: function () {
                 eleTopLoading.hide();
-                myAlert("网络异常，请确定网络正常！", "error");
+                myToast2025("网络异常，请确定网络正常！", "error");
             },
             success: function (res) {
                 eleTopLoading.hide();
@@ -678,7 +671,7 @@
                     curPage = 1;
                     f_openIndex(curPage,curPageSize);
                 } else {
-                    myAlert(res.msg, "error");
+                    myToast2025(res.msg, "error");
                 }
             }
         });
@@ -709,11 +702,11 @@
                   dataType: "json",
                   timeout: 0,
                   error: function () {
-                    myAlert("网络异常，请确定网络正常！","error");
+                    myToast2025("网络异常，请确定网络正常！","error");
                   },
                   success: function (res) {
                     if (1000 === res.code) {
-                        myAlert(res.msg,"success");
+                        myToast2025(res.msg,"success");
                         // data-toggle="modal" data-target="#ImportFileDialog"
                         //$("#ImportFileDialog").modal("show");
                         $("#ImportFileDialog").modal("hide");
@@ -722,15 +715,15 @@
                         f_openIndex(curPage,curPageSize);
 
                     }else{
-                        myAlert(res.msg,"error");
+                        myToast2025(res.msg,"error");
                     }
                   }
                 });
           }else{
-               myAlert("上传文件大小不能超过10M！","error");
+               myToast2025("上传文件大小不能超过10M！","error");
           }
         }else{
-            myAlert("未选择上传文件！","error");
+            myToast2025("未选择上传文件！","error");
         }
         return false;
     }
@@ -756,27 +749,27 @@
                timeout: 0,
                error: function () {
                    eleTopLoading.hide();
-                   myAlert("网络异常，请确定网络正常！","error");
+                   myToast2025("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
                       eleTopLoading.hide();
                     if(1000 === res.code){
                         if(handle === "add"){
                             if(pull_stream_type === 21){
-                                myAlert(res.msg,"success",1000);
+                                myToast2025(res.msg,"success",1000);
                                 f_openIndex(curPage,curPageSize);
 
                             }else{
-                                myAlert(res.msg,"success",1000);
+                                myToast2025(res.msg,"success",1000);
                                 f_openIndex(curPage,curPageSize);
                             }
 
                         }else if(handle === "del"){
-                            myAlert(res.msg,"success",1000);
+                            myToast2025(res.msg,"success",1000);
                             f_openIndex(curPage,curPageSize);
                         }
                    }else{
-                        myAlert(res.msg,"error");
+                        myToast2025(res.msg,"error");
                    }
                }
             });
@@ -794,16 +787,16 @@
                timeout: 0,
                error: function () {
                    eleTopLoading.hide();
-                   myAlert("网络异常，请确定网络正常！","error");
+                   myToast2025("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
                    eleTopLoading.hide();
                     if(1000 === res.code){
-                        myAlert(res.msg,"success");
+                        myToast2025(res.msg,"success");
                         curPage = 1;
                         f_openIndex(curPage,curPageSize);
                    }else{
-                        myAlert(res.msg,"error");
+                        myToast2025(res.msg,"error");
                    }
                }
             });
@@ -842,7 +835,7 @@
                timeout: 0,
                error: function () {
                    eleTopLoading.hide();
-                   myAlert("网络异常，请确定网络正常！","error");
+                   myToast2025("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
                    eleTopLoading.hide();
@@ -951,7 +944,7 @@
                    else
                    {
                        eleData.html("<div>"+res.msg+"</div>");
-                       myAlert(res.msg,"error");
+                       myToast2025(res.msg,"error");
                    }
                }
             });

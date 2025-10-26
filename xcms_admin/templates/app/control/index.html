@@ -493,10 +493,6 @@
              <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
             </h2>
 
-            <button class="xc_btn xc_btn_default" onclick="f_docs()" >
-                文档
-            </button>
-
             <button class="xc_btn xc_btn_default" onclick="f_openHandleAllControl('add')">
                 <svg class="xc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polygon points="5 3 19 12 5 21 5 3"/>
@@ -750,14 +746,14 @@
                    timeout: 0,
                    error: function () {
                        eleTopLoading.hide();
-                       myAlert("网络异常，请确定网络正常！","error");
+                       myToast2025("网络异常，请确定网络正常！","error");
                    },
                    success: function (res) {
                           eleTopLoading.hide();
                        if(1000 === res.code){
                            f_openIndex(curPage,curPageSize);
                        }else{
-                            myAlert(res.msg,"error");
+                            myToast2025(res.msg,"error");
                        }
                    }
                 });
@@ -774,7 +770,7 @@
                timeout: 0,
                error: function () {
                    eleTopLoading.hide();
-                   myAlert("网络异常，请确定网络正常！","error");
+                   myToast2025("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
                    eleTopLoading.hide();
@@ -807,7 +803,7 @@
                            }
                        }
                    }else{
-                        myAlert(res.msg,"error");
+                        myToast2025(res.msg,"error");
                    }
 
                 }
@@ -824,7 +820,7 @@
                timeout: 0,
                error: function () {
                    eleTopLoading.hide();
-                   myAlert("网络异常，请确定网络正常！","error");
+                   myToast2025("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
                    eleTopLoading.hide();
@@ -842,7 +838,7 @@
                        eleCopyRemarkTextarea.val("copy from "+controlCode)
                        eleCopyStreamsSelect.html(html);
                    }else{
-                       myAlert(res.msg,"error");
+                       myToast2025(res.msg,"error");
                    }
                 }
             });
@@ -851,7 +847,7 @@
     function f_openCopy() {
         let val = eleCopyStreamsSelect.val();//typeof object, array
         if(val===null){
-            myAlert("请至少选择1个摄像头","error");
+            myToast2025("请至少选择1个摄像头","error");
             return false;
         }else{
             let vals = [];
@@ -876,19 +872,19 @@
                        timeout: 0,
                        error: function () {
                            eleTopLoading.hide();
-                           myAlert("网络异常，请确定网络正常！","error");
+                           myToast2025("网络异常，请确定网络正常！","error");
                        },
                        success: function (res) {
                            eleTopLoading.hide();
                            if(1000 === res.code){
                                f_openIndex(curPage,curPageSize);
                            }else{
-                                myAlert(res.msg,"error");
+                                myToast2025(res.msg,"error");
                            }
                        }
                     });
             }else{
-                myAlert("请至少选择1个摄像头","error");
+                myToast2025("请至少选择1个摄像头","error");
                 return false;
             }
         }
@@ -904,7 +900,7 @@
                timeout: 0,
                error: function () {
                    eleTopLoading.hide();
-                   myAlert("网络异常，请确定网络正常！","error");
+                   myToast2025("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
                    eleTopLoading.hide();
@@ -921,7 +917,7 @@
                         eleModifyRangeSelect.find('option[value="0"]').prop('selected', true);
 
                    }else{
-                        myAlert(res.msg,"error");
+                        myToast2025(res.msg,"error");
                    }
                 }
             });
@@ -950,14 +946,14 @@
            timeout: 0,
            error: function () {
                eleTopLoading.hide();
-               myAlert("网络异常，请确定网络正常！","error");
+               myToast2025("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
                eleTopLoading.hide();
                if(1000 === res.code){
                     //成功
                }else{
-                    myAlert(res.msg,"error");
+                    myToast2025(res.msg,"error");
                }
            }
         });
@@ -1002,7 +998,7 @@
                timeout: 0,
                error: function () {
                    eleTopLoading.hide();
-                   myAlert("网络异常，请确定网络正常！","error");
+                   myToast2025("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
                    eleTopLoading.hide();
@@ -1118,7 +1114,7 @@
                    else
                    {
                        eleData.html("<div>"+res.msg+"</div>");
-                       myAlert(res.msg,"error");
+                       myToast2025(res.msg,"error");
                    }
                }
             });
@@ -1134,7 +1130,7 @@
                dataType: "json",
                timeout: 0,
                error: function () {
-                   myAlert("网络异常，请确定网络正常！","error");
+                   myToast2025("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
                    if(1000 === res.code) {
@@ -1175,19 +1171,19 @@
                    timeout: 0,
                    error: function () {
                        eleTopLoading.hide();
-                       myAlert("网络异常，请确定网络正常！","error");
+                       myToast2025("网络异常，请确定网络正常！","error");
                    },
                    success: function (res) {
                         eleTopLoading.hide();
                         f_getAllCoreProcessData2();
 
                         if(1000 === res.code){
-                            myAlert(res.msg,"success",1000);
+                            myToast2025(res.msg,"success",1000);
                             setTimeout(function () {
                                 f_openIndex(curPage,curPageSize);
                             }, 1000);
                        }else{
-                            myAlert(res.msg,"error");
+                            myToast2025(res.msg,"error");
                        }
                    }
                 });
@@ -1220,7 +1216,7 @@
            timeout: 0,
            error: function () {
                 eleTopLoading.hide();
-                myAlert("网络异常，请确定网络正常！","error");
+                myToast2025("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
                eleTopLoading.hide();
@@ -1228,7 +1224,7 @@
                f_getAllCoreProcessData2();
 
                if(res.code === 1000){
-                   myAlert(res.msg,"success",2000);
+                   myToast2025(res.msg,"success",2000);
 
                    if(handle === "add"){
                        jqueryObj.removeClass("btn-default")
@@ -1250,17 +1246,13 @@
                        //$(".menu_"+code).show();
                    }
                }else{
-                   myAlert(res.msg,"error");
+                   myToast2025(res.msg,"error");
                }
            }
         });
     }
     function f_reload() {
         f_openIndex(curPage,curPageSize);
-    }
-    function f_docs() {
-        let url= "{{ settings.docs.controlAdd }}";
-        window.open(url);
     }
     function f_search(name) {
         eleSearchInput.val(name);

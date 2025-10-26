@@ -69,6 +69,60 @@
       /*font-weight: bold;*/
       color: #FFFFFF;
     }
+    
+  /* 美化 ion-rangeSlider 时间进度条 */
+  .irs--round .irs-bar {
+      background: linear-gradient(to right, #3b82f6 0%, #2563eb 100%);
+      height: 6px;
+  }
+  
+  .irs--round .irs-line {
+      background: #e5e7eb;
+      border-radius: 3px;
+      height: 6px;
+  }
+  
+  .irs--round .irs-handle {
+      width: 18px;
+      height: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: white;
+      border: 3px solid #3b82f6;
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  }
+  
+  .irs--round .irs-handle:hover {
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
+  }
+  
+  .irs--round .irs-from,
+  .irs--round .irs-to,
+  .irs--round .irs-single {
+      background: #3b82f6;
+      color: white;
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 4px;
+  }
+  
+  .irs--round .irs-grid-pol {
+      background: #d1d5db;
+  }
+  
+  .irs--round .irs-grid-text {
+      color: #6b7280;
+      font-size: 11px;
+  }
+  
+  .irs--round .irs-min,
+  .irs--round .irs-max {
+      background: #f3f4f6;
+      color: #6b7280;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 11px;
+  }
   </style>
 
 
@@ -157,6 +211,37 @@
     let eleVideoPlayerJqueryObj = $("#video_player")
     let eleTimelineContainer = $(".timeline-container");
     let eleInputRecordVideoAddress = $("#record_video_address");
+    
+    // 连续播放相关变量
+    let currentTimestamp = 0; // 当前播放的时间戳
+    let isAutoContinue = true; // 是否启用连续播放
+    let recordTimelineData = []; // 当前日期的录像时间线数据
+    
+    // 监听视频播放结束事件，实现连续播放
+    eleVideoPlayerJsObj.addEventListener('ended', function() {
+        if (isAutoContinue && currentTimestamp > 0) {
+            console.log('视频播放结束，准备播放下一个片段...');
+            // 下一个片段时间戳：当前时间 + 60秒
+            let nextTimestamp = currentTimestamp + 60;
+            
+            // 获取当前日期的最大时间戳（23:59:59）
+            let currentDateObj = new Date(currentTimestamp * 1000);
+            let maxTimestamp = new Date(
+                currentDateObj.getFullYear(),
+                currentDateObj.getMonth(),
+                currentDateObj.getDate(),
+                23, 59, 59
+            ).valueOf() / 1000;
+            
+            // 如果下一个时间戳没有超出当天，则继续播放
+            if (nextTimestamp <= maxTimestamp) {
+                console.log('播放下一个片段:', new Date(nextTimestamp * 1000));
+                f_openRecordFilename(nextTimestamp);
+            } else {
+                console.log('已达当天最后一个片段，停止播放');
+            }
+        }
+    });
 
     eleInputRecordDate.val(current_date.toLocaleDateString())
 
@@ -165,11 +250,14 @@
         if(url.startsWith("/storage/access?filename=")){
             window.open(url);
         }else{
-               myAlert("录像播放地址不正确！","error");
+               myToast2025("录像播放地址不正确！","error");
         }
     }
     function f_openRecordFilename(timestamp){
         eleInputRecordVideoAddress.val("");
+        
+        // 保存当前时间戳，用于连续播放
+        currentTimestamp = timestamp;
 
         $.ajax({
            url: "/streamRecord/openRecordFilename",
@@ -181,7 +269,7 @@
            },
            timeout: 0,
            error: function () {
-                myAlert("网络异常，请确定网络正常！","error");
+                myToast2025("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
                if(1000 === res.code){
@@ -223,7 +311,26 @@
                    }catch (e) {
                        console.log("eleVideoPlayerJqueryObj.removeAttr():",e)
                    }
-                   myAlert(res.msg,"error");
+                   myToast2025(res.msg,"error");
+                   
+                   // 如果当前片段不存在，尝试播放下一个片段
+                   if (isAutoContinue && currentTimestamp > 0) {
+                       console.log('当前片段不存在，尝试下一个...');
+                       let nextTimestamp = currentTimestamp + 60;
+                       let currentDateObj = new Date(currentTimestamp * 1000);
+                       let maxTimestamp = new Date(
+                           currentDateObj.getFullYear(),
+                           currentDateObj.getMonth(),
+                           currentDateObj.getDate(),
+                           23, 59, 59
+                       ).valueOf() / 1000;
+                       
+                       if (nextTimestamp <= maxTimestamp) {
+                           setTimeout(function() {
+                               f_openRecordFilename(nextTimestamp);
+                           }, 500); // 稍微延迟后再试
+                       }
+                   }
                }
            }
         });
@@ -238,6 +345,9 @@
        }catch (e) {
            console.log("f_openRecordTimeline error:",e)
        }
+       
+       // 重置当前时间戳
+       currentTimestamp = 0;
 
         let timestamp = parseInt(date.valueOf() / 1000);//秒级时间戳
         $.ajax({
@@ -250,12 +360,15 @@
            },
            timeout: 0,
            error: function () {
-                myAlert("网络异常，请确定网络正常！","error");
+                myToast2025("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
 
                if(1000 === res.code){
                     let data = res.data;
+                    // 保存录像时间线数据
+                    recordTimelineData = data;
+                    
                     let html = "";
                     for (let i = 0; i < data.length; i++) {
                         let record = data[i].record;
@@ -318,7 +431,7 @@
                     });
 
                }else{
-                    myAlert(res.msg,"error");
+                    myToast2025(res.msg,"error");
                }
            }
         });

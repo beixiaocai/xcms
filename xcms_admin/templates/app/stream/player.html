@@ -43,43 +43,117 @@
         .control-panel {
             margin-top: 20px;
             display: grid;
-            grid-template-columns: repeat(3, 40px);
-            grid-template-rows: repeat(3, 40px);
-            gap: 10px;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 8px;
+            max-width: 140px;
         }
         .control-panel>button {
-            width: 40px;
-            height: 40px;
-            font-size: 20px;
+            width: 100%;
+            aspect-ratio: 1;
+            min-height: 40px;
+            font-size: 18px;
             cursor: pointer;
+            border: 1px solid #d1d5db;
+            background: white;
+            border-radius: 6px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .control-panel>button:hover:not(.ptz-button-gray) {
+            background: #f9fafb;
+            border-color: #3b82f6;
+            color: #3b82f6;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+        }
+        .control-panel>button:active:not(.ptz-button-gray) {
+            transform: translateY(0);
+            box-shadow: 0 1px 3px rgba(59, 130, 246, 0.2);
         }
         .zoom-control {
-            margin-top: 10px;
-            margin-left: 25px;
+            margin-top: 12px;
+            display: flex;
+            gap: 8px;
         }
         .zoom-control>button {
-            width: 40px;
+            flex: 1;
+            max-width: 66px;
             height: 40px;
-            font-size: 14px;
-            font-weight: bold;
+            font-size: 13px;
+            font-weight: 600;
             cursor: pointer;
+            border: 1px solid #d1d5db;
+            background: white;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .zoom-control>button:hover:not(.ptz-button-gray) {
+            background: #f9fafb;
+            border-color: #3b82f6;
+            color: #3b82f6;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+        }
+        .zoom-control>button:active:not(.ptz-button-gray) {
+            transform: translateY(0);
+            box-shadow: 0 1px 3px rgba(59, 130, 246, 0.2);
         }
         .snap-control {
-            margin-top: 10px;
-            margin-left: 25px;
+            margin-top: 12px;
+            display: flex;
+            gap: 8px;
         }
         .snap-control > .video_is_recording{
             background: #f10505;
+            color: white;
+            border-color: #f10505;
         }
         .snap-control>button {
-            width: 40px;
+            flex: 1;
+            max-width: 66px;
             height: 40px;
             font-size: 14px;
             font-weight: bold;
             cursor: pointer;
+            border: 1px solid #d1d5db;
+            background: white;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .snap-control>button:hover {
+            background: #f9fafb;
+            border-color: #3b82f6;
+            color: #3b82f6;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+        }
+        .snap-control>button:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 3px rgba(59, 130, 246, 0.2);
+        }
+        .snap-control > .video_is_recording:hover {
+            background: #dc2626;
+            border-color: #dc2626;
+            color: white;
         }
         .ptz-button-gray{
-            color: #aca3a3;
+            color: #d1d5db;
+            cursor: not-allowed;
+        }
+        .ptz-button-gray:hover {
+            background: white !important;
+            border-color: #d1d5db !important;
+            color: #d1d5db !important;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* 控制区域容器 */
+        .control-container {
+            padding: 10px;
         }
 
         .xc_protocols {
@@ -140,10 +214,68 @@
             margin-right: 8px;
         }
         /* 全屏适配 */
+        @media (max-width: 1200px) {
+            .control-panel {
+                max-width: 120px;
+                gap: 6px;
+            }
+            .control-panel>button {
+                min-height: 36px;
+                font-size: 16px;
+            }
+            .zoom-control>button,
+            .snap-control>button {
+                max-width: 56px;
+                height: 36px;
+                font-size: 12px;
+            }
+        }
+        
         @media (max-width: 768px) {
             .xc_video_player{
                 background-color: black;
                 min-height: 300px;
+            }
+            .control-container {
+                margin-top: 20px;
+            }
+            .control-panel {
+                max-width: 160px;
+                gap: 10px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .control-panel>button {
+                min-height: 50px;
+                font-size: 20px;
+            }
+            .zoom-control,
+            .snap-control {
+                max-width: 160px;
+                margin-left: auto;
+                margin-right: auto;
+                justify-content: center;
+            }
+            .zoom-control>button,
+            .snap-control>button {
+                max-width: 75px;
+                height: 44px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .control-panel {
+                max-width: 140px;
+            }
+            .control-panel>button {
+                min-height: 44px;
+                font-size: 18px;
+            }
+            .zoom-control>button,
+            .snap-control>button {
+                max-width: 66px;
+                height: 40px;
             }
         }
     </style>
@@ -180,35 +312,36 @@
                     <div id="video_player" class="xc_video_player"></div>
                </div>
                <div class="col-md-2 col-sm-2 col-xs-12" >
+                   <div class="control-container">
                           <div class="control-panel">
                             <!-- 上 -->
-                            <button class="ptz-button" onmousedown="f_openPtz(3,250)" onmouseup="f_openPtz(0,0)" style="grid-column: 2 / 3; grid-row: 1 / 2;"><i class="fa fa-chevron-up"></i></button>
+                            <button class="ptz-button" onmousedown="f_openPtz(3,250)" onmouseup="f_openPtz(0,0)" style="grid-column: 2 / 3; grid-row: 1 / 2;" title="上"><i class="fa fa-chevron-up"></i></button>
                             <!-- 左 -->
-                            <button class="ptz-button"  onmousedown="f_openPtz(5,250)" onmouseup="f_openPtz(0,0)" style="grid-column: 1 / 2; grid-row: 2 / 3;"><i class="fa fa-chevron-left"></i></button>
+                            <button class="ptz-button"  onmousedown="f_openPtz(5,250)" onmouseup="f_openPtz(0,0)" style="grid-column: 1 / 2; grid-row: 2 / 3;" title="左"><i class="fa fa-chevron-left"></i></button>
                             <!-- 中间 -->
-                            <button class="ptz-button"  style="grid-column: 2 / 3; grid-row: 2 / 3;">○</button>
+                            <button class="ptz-button"  style="grid-column: 2 / 3; grid-row: 2 / 3;" title="中心">○</button>
                             <!-- 右 -->
-                            <button class="ptz-button"  onmousedown="f_openPtz(1,250)" onmouseup="f_openPtz(0,0)"  style="grid-column: 3 / 4; grid-row: 2 / 3;"><i class="fa fa-chevron-right"></i></button>
+                            <button class="ptz-button"  onmousedown="f_openPtz(1,250)" onmouseup="f_openPtz(0,0)"  style="grid-column: 3 / 4; grid-row: 2 / 3;" title="右"><i class="fa fa-chevron-right"></i></button>
                             <!-- 下 -->
-                            <button class="ptz-button"  onmousedown="f_openPtz(7,250)" onmouseup="f_openPtz(0,0)"  style="grid-column: 2 / 3; grid-row: 3 / 4;"><i class="fa fa-chevron-down"></i></button>
-                        </div>
-                        <div style="margin-top: 20px;" class="zoom-control">
-                            <button class="ptz-button"  onmousedown="f_openPtz(9,200)" onmouseup="f_openPtz(0,0)" title="调焦">Z+</button>
-                            <button class="ptz-button"  onmousedown="f_openPtz(9,-200)" onmouseup="f_openPtz(0,0)"  title="调焦">Z-</button>
+                            <button class="ptz-button"  onmousedown="f_openPtz(7,250)" onmouseup="f_openPtz(0,0)"  style="grid-column: 2 / 3; grid-row: 3 / 4;" title="下"><i class="fa fa-chevron-down"></i></button>
                         </div>
                         <div class="zoom-control">
-                            <button class="ptz-button"  onmousedown="f_openPtz(11,200)" onmouseup="f_openPtz(0,0)"  title="聚焦">F+</button>
-                            <button class="ptz-button"  onmousedown="f_openPtz(11,-200)" onmouseup="f_openPtz(0,0)"  title="聚焦">F-</button>
+                            <button class="ptz-button"  onmousedown="f_openPtz(9,200)" onmouseup="f_openPtz(0,0)" title="调焦+">Z+</button>
+                            <button class="ptz-button"  onmousedown="f_openPtz(9,-200)" onmouseup="f_openPtz(0,0)"  title="调焦-">Z-</button>
+                        </div>
+                        <div class="zoom-control">
+                            <button class="ptz-button"  onmousedown="f_openPtz(11,200)" onmouseup="f_openPtz(0,0)"  title="聚焦+">F+</button>
+                            <button class="ptz-button"  onmousedown="f_openPtz(11,-200)" onmouseup="f_openPtz(0,0)"  title="聚焦-">F-</button>
                         </div>
                        <div class="zoom-control">
-                            <button class="ptz-button"  onmousedown="f_openPtz(10,250)" onmouseup="f_openPtz(0,0)"  title="光圈">I+</button>
-                            <button class="ptz-button"  onmousedown="f_openPtz(10,-250)" onmouseup="f_openPtz(0,0)"  title="光圈">I-</button>
+                            <button class="ptz-button"  onmousedown="f_openPtz(10,250)" onmouseup="f_openPtz(0,0)"  title="光圈+">I+</button>
+                            <button class="ptz-button"  onmousedown="f_openPtz(10,-250)" onmouseup="f_openPtz(0,0)"  title="光圈-">I-</button>
                         </div>
                          <div class="snap-control">
-                            <button id="handle_snapshot" ><i class="fa fa-camera"></i></button>
-                            <button id="handle_record" ><i class="fa fa-video-camera"></i></button>
+                            <button id="handle_snapshot" title="截图"><i class="fa fa-camera"></i></button>
+                            <button id="handle_record" title="录像"><i class="fa fa-video-camera"></i></button>
                         </div>
-
+                   </div>
                </div>
 
 
@@ -328,11 +461,11 @@
     };
     function f_playStart(video_url) {
         if(video_url === "" || typeof video_url === "undefined"){
-            myAlert("请输入播放地址（支持ws-fmp4/http-fmp4）！","error");
+            myToast2025("请输入播放地址（支持ws-fmp4/http-fmp4）！","error");
             return false;
         }
         if(!video_url.endsWith(".mp4")){
-            myAlert("视频流地址格式不正确！","error");
+            myToast2025("视频流地址格式不正确！","error");
             return false;
         }
         if(video_url.startsWith("ws://") || video_url.startsWith("http://")){
@@ -346,7 +479,7 @@
                 ePlayer.play(video_url);
             }
         }else{
-             myAlert("视频流地址格式不正确！","error");
+             myToast2025("视频流地址格式不正确！","error");
              return false;
         }
     }
@@ -380,13 +513,13 @@
            dataType: "json",
            timeout: 0,
            error: function () {
-               myAlert("网络异常，请确定网络正常！","error");
+               myToast2025("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
                if(1000 === res.code){
-                   //myAlert(res.msg,"success");
+                   //myToast2025(res.msg,"success");
                }else{
-                    //myAlert(res.msg,"error");
+                    //myToast2025(res.msg,"error");
                }
            }
         });
@@ -402,7 +535,7 @@
                dataType: "json",
                timeout: 0,
                error: function () {
-                   myAlert("网络异常，请确定网络正常！","error");
+                   myToast2025("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
                    if(1000 === res.code){
@@ -422,7 +555,7 @@
            dataType: "json",
            timeout: 0,
            error: function () {
-               myAlert("网络异常，请确定网络正常！","error");
+               myToast2025("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
                if(1000 === res.code){
@@ -431,7 +564,7 @@
                    let download_url = "/storage/download?filename="+snapshot_filename;
                    window.open(download_url);
                }else{
-                    myAlert(res.msg,"error");
+                    myToast2025(res.msg,"error");
                }
            }
         });
@@ -451,7 +584,7 @@
                dataType: "json",
                timeout: 0,
                error: function () {
-                   myAlert("网络异常，请确定网络正常！","error");
+                   myToast2025("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
                    if(1000 === res.code){
@@ -467,10 +600,10 @@
                            let download_url = "/storage/download?filename="+record_video_filename;
                            window.open(download_url);
                        }else{
-                           myAlert(record_msg,"error");
+                           myToast2025(record_msg,"error");
                        }
                    }else{
-                        myAlert(res.msg,"error");
+                        myToast2025(res.msg,"error");
                    }
                }
             });
@@ -485,7 +618,7 @@
                dataType: "json",
                timeout: 0,
                error: function () {
-                   myAlert("网络异常，请确定网络正常！","error");
+                   myToast2025("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
                    if(1000 === res.code){
@@ -493,7 +626,7 @@
                         mCurrentIsRecording = true;
 
                    }else{
-                        myAlert(res.msg,"error");
+                        myToast2025(res.msg,"error");
                    }
                }
             });

@@ -4,163 +4,967 @@
 
 {% block stylesheets %}
   {{ block.super }}
+<style>
+    .xc_plan-container {
+        /*background: #f5f7fa;*/
+    }
+    
+    .xc_modern-card {
+        background: white;
+        border-radius: 6px;
+        padding: 10px 14px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        margin-bottom: 12px;
+    }
+    
+    .xc_page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 4px 0;
+        margin-bottom: 8px;
+        min-height: 32px;
+    }
+    
+    .xc_page-title {
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        font-weight: 400;
+    }
+    
+    .xc_page-title i {
+        margin-right: 6px;
+        font-size: 16px;
+        color: #3b82f6;
+    }
+    
+    .xc_header-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: nowrap;
+    }
+    
+    .xc_header-actions {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+    }
+    
+    .xc_loading-spinner {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border: 2px solid #e5e7eb;
+        border-top: 2px solid #3b82f6;
+        border-radius: 50%;
+        animation: xc_spin 1s linear infinite;
+        margin-right: 5px;
+    }
+    
+    @keyframes xc_spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .xc_loading-text {
+        color: #6b7280;
+        font-size: 12px;
+    }
+    
+    .xc_btn-modern {
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: 400;
+        border-radius: 3px;
+        border: 1px solid #d1d5db;
+        background: white;
+        color: #374151;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+        text-decoration: none;
+    }
+    
+    .xc_btn-modern:hover {
+        background: #f9fafb;
+        border-color: #3b82f6;
+        color: #3b82f6;
+    }
+    
+    .xc_btn-secondary {
+        background: white;
+        color: #6b7280;
+        border: 1px solid #d1d5db;
+    }
+    
+    .xc_btn-secondary:hover {
+        background: #f9fafb;
+        color: #374151;
+        border-color: #9ca3af;
+    }
+    
+    .xc_stats-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        background: #f9fafb;
+        border-radius: 3px;
+        font-size: 11px;
+        color: #6b7280;
+        white-space: nowrap;
+    }
+    
+    .xc_stats-badge span {
+        color: #374151;
+        font-weight: 500;
+    }
+    
+    .xc_table-container {
+        overflow-x: auto;
+        border-radius: 6px;
+        border: 1px solid #e5e7eb;
+    }
+    
+    .xc_table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+    }
+    
+    .xc_table-header {
+        background: #fafafa;
+        border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .xc_table-header th {
+        padding: 10px 12px;
+        text-align: left;
+        font-weight: 500;
+        color: #374151;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+    
+    .xc_table-body tr {
+        border-bottom: 1px solid #f3f4f6;
+        transition: background 0.2s;
+    }
+    
+    .xc_table-body tr:last-child {
+        border-bottom: none;
+    }
+    
+    .xc_table-body tr:hover {
+        background: #f9fafb;
+    }
+    
+    .xc_table-body td {
+        padding: 10px 12px;
+        color: #374151;
+        vertical-align: middle;
+    }
+    
+    .xc_plan-id {
+        display: inline-block;
+        padding: 2px 6px;
+        background: #f3f4f6;
+        border: 1px solid #e5e7eb;
+        border-radius: 3px;
+        font-size: 11px;
+        color: #6b7280;
+        font-family: monospace;
+    }
+    
+    .xc_plan-code {
+        font-weight: 500;
+        color: #374151;
+        font-family: monospace;
+        font-size: 11px;
+    }
+    
+    .xc_badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 3px;
+        font-size: 11px;
+        font-weight: 500;
+    }
+    
+    .xc_badge-task {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+    
+    .xc_badge-cycle {
+        background: #e9d5ff;
+        color: #6b21a8;
+    }
+    
+    .xc_badge-active {
+        background: #d1fae5;
+        color: #065f46;
+    }
+    
+    .xc_badge-inactive {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+    
+    .xc_params-text {
+        font-size: 11px;
+        color: #6b7280;
+        font-family: monospace;
+        background: #f9fafb;
+        padding: 2px 6px;
+        border-radius: 3px;
+        display: inline-block;
+    }
+    
+    .xc_actions {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+    }
+    
+    .xc_btn-icon {
+        padding: 4px 8px;
+        font-size: 11px;
+        border-radius: 3px;
+        border: 1px solid #d1d5db;
+        background: white;
+        color: #374151;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        text-decoration: none;
+    }
+    
+    .xc_btn-icon:hover {
+        background: #f9fafb;
+        border-color: #3b82f6;
+        color: #3b82f6;
+    }
+    
+    .xc_btn-icon.delete:hover {
+        border-color: #ef4444;
+        color: #ef4444;
+    }
+    
+    .xc_pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        padding: 16px 0;
+        background: white;
+        border-radius: 6px;
+    }
+    
+    .xc_page-btn {
+        min-width: 36px;
+        height: 36px;
+        padding: 0 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #d1d5db;
+        background: white;
+        color: #6b7280;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 13px;
+        transition: all 0.2s;
+        text-decoration: none;
+    }
+    
+    .xc_page-btn:hover:not(.active) {
+        border-color: #3b82f6;
+        color: #3b82f6;
+    }
+    
+    .xc_page-btn.active {
+        background: #3b82f6;
+        color: white;
+        border-color: #3b82f6;
+    }
+    
+    .xc_page-info {
+        font-size: 13px;
+        color: #9ca3af;
+        margin: 0 8px;
+    }
+    
+    .xc_empty-state {
+        text-align: center;
+        padding: 80px 20px;
+        color: #9ca3af;
+    }
+    
+    .xc_empty-state i {
+        font-size: 64px;
+        color: #d1d5db;
+        margin-bottom: 16px;
+    }
+    
+    .xc_empty-state p {
+        font-size: 14px;
+        margin: 0;
+    }
+    
+    /* 弹窗样式 */
+    .xc_modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+    
+    .xc_modal-overlay.active {
+        display: block;
+        animation: xc_fadeIn 0.2s ease;
+    }
+    
+    @keyframes xc_fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    .xc_modal-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        border-radius: 6px;
+        width: 90%;
+        max-width: 550px;
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        animation: xc_slideIn 0.3s ease;
+    }
+    
+    @keyframes xc_slideIn {
+        from {
+            transform: translate(-50%, -48%);
+            opacity: 0;
+        }
+        to {
+            transform: translate(-50%, -50%);
+            opacity: 1;
+        }
+    }
+    
+    .xc_modal-header {
+        position: relative;
+        padding: 10px 14px;
+        border-bottom: 1px solid #e5e7eb;
+        background: #fafafa;
+        border-radius: 6px 6px 0 0;
+    }
+    
+    .xc_modal-title {
+        font-size: 14px;
+        font-weight: 500;
+        color: #374151;
+    }
+    
+    .xc_modal-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 24px;
+        height: 24px;
+        border: none;
+        background: white;
+        color: #6b7280;
+        font-size: 16px;
+        line-height: 1;
+        cursor: pointer;
+        padding: 0;
+        border-radius: 3px;
+        border: 1px solid #d1d5db;
+        transition: all 0.2s;
+    }
+    
+    .xc_modal-close:hover {
+        background: #f3f4f6;
+        color: #374151;
+        border-color: #9ca3af;
+    }
+    
+    .xc_modal-body {
+        flex: 1;
+        padding: 12px 14px;
+        overflow-y: auto;
+    }
+    
+    .xc_form-group {
+        margin-bottom: 10px;
+    }
+    
+    .xc_form-label {
+        display: block;
+        font-size: 12px;
+        color: #374151;
+        margin-bottom: 4px;
+        font-weight: 500;
+    }
+    
+    .xc_form-label .required {
+        color: #ef4444;
+        margin-left: 2px;
+    }
+    
+    .xc_form-input {
+        width: 100%;
+        padding: 5px 8px;
+        font-size: 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 3px;
+        background: white;
+        color: #374151;
+        transition: all 0.2s;
+        box-sizing: border-box;
+    }
+    
+    .xc_form-input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    }
+    
+    .xc_form-input:disabled {
+        background: #f9fafb;
+        color: #9ca3af;
+        cursor: not-allowed;
+    }
+    
+    .xc_form-select {
+        width: 100%;
+        padding: 5px 8px;
+        font-size: 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 3px;
+        background: white;
+        color: #374151;
+        transition: all 0.2s;
+        box-sizing: border-box;
+    }
+    
+    .xc_form-select:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    }
+    
+    .xc_form-textarea {
+        width: 100%;
+        padding: 5px 8px;
+        font-size: 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 3px;
+        background: white;
+        color: #374151;
+        transition: all 0.2s;
+        resize: vertical;
+        min-height: 60px;
+        box-sizing: border-box;
+        font-family: inherit;
+    }
+    
+    .xc_form-textarea:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    }
+    
+    .xc_radio-group {
+        display: flex;
+        gap: 12px;
+    }
+    
+    .xc_radio-item {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+    
+    .xc_radio-item input[type="radio"] {
+        width: 14px;
+        height: 14px;
+        cursor: pointer;
+    }
+    
+    .xc_radio-item label {
+        font-size: 12px;
+        color: #374151;
+        cursor: pointer;
+        margin: 0;
+    }
+    
+    .xc_modal-footer {
+        padding: 10px 14px;
+        border-top: 1px solid #e5e7eb;
+        text-align: right;
+        background: #fafafa;
+        border-radius: 0 0 6px 6px;
+    }
+    
+    .xc_modal-btn {
+        padding: 5px 12px;
+        font-size: 12px;
+        border-radius: 3px;
+        border: 1px solid #d1d5db;
+        cursor: pointer;
+        margin-left: 8px;
+        transition: all 0.2s;
+        font-weight: 400;
+        background: white;
+        color: #374151;
+    }
+    
+    .xc_modal-btn:hover {
+        background: #f9fafb;
+        border-color: #9ca3af;
+    }
+    
+    .xc_modal-btn-primary {
+        background: #3b82f6;
+        color: white;
+        border-color: #3b82f6;
+    }
+    
+    .xc_modal-btn-primary:hover {
+        background: #2563eb;
+        border-color: #2563eb;
+    }
+    
+    .xc_form-hint {
+        font-size: 11px;
+        color: #9ca3af;
+        margin-top: 3px;
+    }
+    
+    .right_col {
+        background: #f5f7fa !important;
+    }
+    
+    @media (max-width: 1200px) {
+        .xc_btn-modern {
+            padding: 3px 8px;
+            font-size: 11px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .xc_page-header {
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .xc_header-right {
+            width: 100%;
+            justify-content: flex-start;
+        }
+        
+        .xc_table-container {
+            overflow-x: scroll;
+        }
+    }
+</style>
 {% endblock stylesheets %}
 
 {% block content %}
-
-  <div class="right_col" role="main">
-    <div class="">
-      <div class="row">
-          <div class="col-md-12 col-sm-12 col-xs-12">
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-12">
             <div class="x_panel">
-              <div class="x_title">
-               <h2>计划任务
-                    <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
-                    <span id="top_msg">{{top_msg}}</span>
-               </h2>
-                <div class="clearfix"></div>
-              </div>
-              <div class="x_content">
-
-               <div class="table-responsive">
-           <table class="table table-bordered">
-                    <thead>
-                      <tr class="headings">
-                        <th class="column-title">ID</th>
-                        <th class="column-title">编号</th>
-                        <th class="column-title">任务</th>
-                        <th class="column-title">任务扩展参数</th>
-                        <th class="column-title">执行周期</th>
-                        <th class="column-title">周期扩展参数</th>
-                        <th class="column-title">状态</th>
-                        <th class="column-title no-link last"><span class="nobr">操作</span></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    {%  for d  in data %}
-                      <tr class="even pointer">
-                        <td>{{ d.id }}<!--{{forloop.counter}}--></td>
-                        <td>{{ d.code }}</td>
-
-                        <td>
-                            {% for task in tasks %}
-                                {% if task.code == d.task_code %}
-                                    <span style="color: #304630!important;font-weight: 300">{{ task.name }}</span>
-                                {% endif %}
-                            {% endfor %}
-                        </td>
-                        <td>{{ d.task_params }}</td>
-
-                          <td>
-                              {% for cycle in cycles %}
-                                {% if cycle.code == d.cycle_code %}
-                                    <span style="color: #1e2634!important;font-weight: 300">{{ cycle.name }}</span>
-                                {% endif %}
-                            {% endfor %}
-                          </td>
-
-                          <td>{{ d.cycle_params }}</td>
-                              <td>
-                                  {% if d.state == 1 %}
-                                      <span class="sun-state-success">开启</span>
-                                   {% else %}
-                                      <span class="sun-state-error">关闭</span>
-                                  {% endif %}
-                              </td>
-
-                          <td>
-                              <div class="btn-group">
-                                 <button onclick="f_edit('{{ d.code }}')" class="btn btn-sm btn-default" type="button"><i class="fa fa-edit"></i> 编辑</button>
-                                 <button onclick="f_del('{{ d.code }}')" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="删除"><i class="fa fa-remove"></i></button>
+                <!-- xc page start -->
+                <div class="xc_plan-container">
+                    <div class="xc_modern-card">
+                        <div class="xc_page-header">
+                            <div class="xc_page-title">
+                                <i class="fa fa-calendar"></i>
+                                计划任务
                             </div>
-                         </td>
+                            <div class="xc_header-right">
+                                <div class="xc_header-actions">
 
-                      </tr>
-                    {% endfor %}
+                                    <button class="xc_btn-modern xc_btn-secondary" onclick="openAddModal()">
+                                        <i class="fa fa-plus"></i> 添加计划
+                                    </button>
 
-                    </tbody>
-                  </table>
+                                    <button class="xc_btn-modern xc_btn-secondary" onclick="f_reload()">
+                                        <i class="fa fa-refresh"></i> 刷新
+                                    </button>
+                                </div>
+                                <div class="xc_stats-badge">
+                                    <span id="top_loading" style="display: none;">
+                                        <span class="xc_loading-spinner"></span>
+                                        <span class="xc_loading-text">加载中...</span>
+                                    </span>
+                                    <span id="top_msg">{{top_msg}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="xc_table-container">
+                            <table class="xc_table">
+                                <thead class="xc_table-header">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>编号</th>
+                                        <th>任务类型</th>
+                                        <th>任务参数</th>
+                                        <th>执行周期</th>
+                                        <th>周期参数</th>
+                                        <th>状态</th>
+                                        <th style="text-align: center;">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="xc_table-body">
+                                    {%  for d  in data %}
+                                    <tr>
+                                        <td><span class="xc_plan-id">{{ d.id }}</span></td>
+                                        <td><span class="xc_plan-code">{{ d.code }}</span></td>
+                                        <td>
+                                            {% for task in tasks %}
+                                                {% if task.code == d.task_code %}
+                                                    <span class="xc_badge xc_badge-task">{{ task.name }}</span>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                        <td><span class="xc_params-text">{{ d.task_params }}</span></td>
+                                        <td>
+                                            {% for cycle in cycles %}
+                                                {% if cycle.code == d.cycle_code %}
+                                                    <span class="xc_badge xc_badge-cycle">{{ cycle.name }}</span>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                        <td><span class="xc_params-text">{{ d.cycle_params }}</span></td>
+                                        <td>
+                                            {% if d.state == 1 %}
+                                                <span class="xc_badge xc_badge-active">● 开启</span>
+                                            {% else %}
+                                                <span class="xc_badge xc_badge-inactive">● 关闭</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <div class="xc_actions">
+                                                <button onclick="openEditModal('{{ d.code }}')" class="xc_btn-icon">
+                                                    <i class="fa fa-edit"></i> 编辑
+                                                </button>
+                                                <button onclick="f_del('{{ d.code }}')" class="xc_btn-icon delete">
+                                                    <i class="fa fa-trash"></i> 删除
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            
+                            {% if data|length == 0 %}
+                            <div class="xc_empty-state">
+                                <i class="fa fa-calendar"></i>
+                                <p>暂无计划任务</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="xc_pagination">
+                        <span class="xc_page-info">共 {{ pageData.page_num }} 页 / {{ pageData.count }} 条</span>
+                        {%  for d  in pageData.pageLabels%}
+                          {% if d.cur == 1 %}
+                            <div class="xc_page-btn active">{{ d.name }}</div>
+                          {% else %}
+                            <a href="/plan/index?p={{d.page}}&ps={{pageData.page_size}}" class="xc_page-btn">{{ d.name }}</a>
+                          {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
-
-
-              </div>
+                <!-- xc page end -->
             </div>
-          </div>
-      </div>
-
-      <div class="row">
-          <div class="col-md-12 col-sm-12 col-xs-12">
-            <ul class="pagination">
-                <li>
-                    <span style="margin-right:10px;color:#000;">共<span>{{ pageData.page_num}}</span>页 / <span>{{pageData.count}}</span >条</span>
-                </li>
-
-                {%  for d  in pageData.pageLabels%}
-                  {% if d.cur == 1 %}
-                    <li class="paginate_button active"><a href="#"  >{{ d.name }}</a></li>
-                  {% else %}
-                    <li class="paginate_button "><a href="/plan/index?p={{d.page}}&ps={{pageData.page_size}}" >{{ d.name }}</a></li>
-                  {% endif %}
-                {% endfor %}
-
-              <!--
-              <li class="paginate_button previous" ><a href="#" data-dt-idx="0" >上一页</a></li>
-              <li class="paginate_button active"><a href="#" data-dt-idx="1" >1</a></li>
-
-              <li class="paginate_button "><a href="#" data-dt-idx="2">2</a></li>
-              <li class="paginate_button "><a href="#" data-dt-idx="3">3</a></li>
-              <li class="paginate_button "><a href="#" data-dt-idx="4">4</a></li>
-              <li class="paginate_button "><a href="#" data-dt-idx="5" >5</a></li>
-              <li class="paginate_button "><a href="#" data-dt-idx="6" >6</a></li>
-              <li class="paginate_button next"><a href="#" data-dt-idx="7" >下一页</a></li>
-              -->
-            </ul>
-
-          </div>
-       </div>
-
-
+        </div>
     </div>
-  </div>
+</div>
 
+<!-- 计划任务添加/编辑弹窗 -->
+<div class="xc_modal-overlay" id="planModal">
+    <div class="xc_modal-container">
+        <div class="xc_modal-header">
+            <div class="xc_modal-title" id="modalTitle">添加计划任务</div>
+            <button class="xc_modal-close" onclick="closePlanModal()">×</button>
+        </div>
+        <div class="xc_modal-body">
+            <div class="xc_form-group">
+                <label class="xc_form-label">计划编号</label>
+                <input type="text" id="input_code" class="xc_form-input" disabled>
+            </div>
+            
+            <div class="xc_form-group">
+                <label class="xc_form-label">选择任务<span class="required">*</span></label>
+                <select id="input_task_code" class="xc_form-select">
+                    <option value="0">请选择</option>
+                    {% for task in tasks %}
+                    <option value="{{ task.code }}">{{ task.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="xc_form-group">
+                <label class="xc_form-label">任务扩展参数<span class="required">*</span></label>
+                <textarea id="input_task_params" class="xc_form-textarea" placeholder="请输入任务扩展参数"></textarea>
+            </div>
+            
+            <div class="xc_form-group">
+                <label class="xc_form-label">执行周期<span class="required">*</span></label>
+                <select id="input_cycle_code" class="xc_form-select">
+                    <option value="0">请选择</option>
+                    {% for cycle in cycles %}
+                    <option value="{{ cycle.code }}" data-params="{{ cycle.params }}">{{ cycle.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="xc_form-group">
+                <label class="xc_form-label">周期扩展参数<span class="required">*</span></label>
+                <input type="text" id="input_cycle_params" class="xc_form-input" placeholder="请输入周期扩展参数">
+                <div class="xc_form-hint">选择周期后将自动填充默认参数</div>
+            </div>
+            
+            <div class="xc_form-group">
+                <label class="xc_form-label">状态<span class="required">*</span></label>
+                <div class="xc_radio-group">
+                    <div class="xc_radio-item">
+                        <input type="radio" id="state_active" name="state" value="1" checked>
+                        <label for="state_active">开启</label>
+                    </div>
+                    <div class="xc_radio-item">
+                        <input type="radio" id="state_inactive" name="state" value="0">
+                        <label for="state_inactive">关闭</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="xc_modal-footer">
+            <button class="xc_modal-btn" onclick="closePlanModal()">取消</button>
+            <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitPlanForm()">提交</button>
+        </div>
+    </div>
+</div>
 {% endblock content %}
 
 {% block javascripts %}
   {{ block.super }}
-
 <script>
     let ele_top_loading = $("#top_loading");
-    let ele_top_msg= $("#top_msg");
-    function f_edit(code) {
-        let url = "/plan/edit?code="+code;
-        window.location.href = url;
+    let ele_top_msg = $("#top_msg");
+    
+    let currentHandle = 'add'; // add or edit
+    let currentCode = '';
+
+    function f_reload() {
+        window.location.reload();
     }
-    function f_del(code){
+    
+    // 生成计划编号（与gen_random_code_s函数保持一致）
+    function generatePlanCode() {
+        // 生成4位随机数（1000-9999）
+        let randomNum = Math.floor(Math.random() * 9000) + 1000;
+        
+        // 生成6位随机字符串（模拟UUID的前6位）
+        let chars = '0123456789abcdef';
+        let randomStr = '';
+        for(let i = 0; i < 6; i++) {
+            randomStr += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        
+        return 'plan' + randomNum + randomStr;
+    }
+    
+    // 周期选择变化事件
+    $('#input_cycle_code').change(function() {
+        let selectedOption = $(this).find('option:selected');
+        let params = selectedOption.data('params');
+        if(params) {
+            $('#input_cycle_params').val(params);
+        }
+    });
+    
+    // 打开添加弹窗
+    function openAddModal() {
+        currentHandle = 'add';
+        currentCode = generatePlanCode();
+        
+        $('#modalTitle').text('添加计划任务');
+        $('#input_code').val(currentCode);
+        $('#input_task_code').val('0');
+        $('#input_task_params').val('all');
+        $('#input_cycle_code').val('0');
+        $('#input_cycle_params').val('');
+        $('input[name="state"][value="1"]').prop('checked', true);
+        
+        $('#planModal').addClass('active');
+    }
+    
+    // 打开编辑弹窗
+    function openEditModal(code) {
+        currentHandle = 'edit';
+        currentCode = code;
+        
+        $('#modalTitle').text('编辑计划任务');
+        
+        // 加载数据
         ele_top_loading.show();
         $.ajax({
-               url: '/plan/postDel',
-               type: "post",
-               async: true,
-               data: {"code":code},
-               dataType: "json",
-               timeout: 0,
-               error: function () {
-                   ele_top_loading.hide();
-                   myAlert("网络异常，请确定网络正常！","error");
-               },
-               success: function (res) {
-                      ele_top_loading.hide();
-                   if(1000 === res.code){
-                        window.location.reload();
-                   }else{
-                        myAlert(res.msg,"error");
-                   }
-               }
-            });
-
+            url: '/plan/openInfo',
+            type: 'get',
+            data: {code: code},
+            dataType: 'json',
+            success: function(res) {
+                ele_top_loading.hide();
+                
+                if(res.code === 1000 && res.info) {
+                    let plan = res.info;
+                    
+                    // 填充表单
+                    $('#input_code').val(plan.code);
+                    $('#input_task_code').val(plan.task_code);
+                    $('#input_task_params').val(plan.task_params);
+                    $('#input_cycle_code').val(plan.cycle_code);
+                    $('#input_cycle_params').val(plan.cycle_params);
+                    $('input[name="state"][value="' + plan.state + '"]').prop('checked', true);
+                    
+                    $('#planModal').addClass('active');
+                } else {
+                    myToast2025(res.msg || '计划任务不存在', 'error');
+                }
+            },
+            error: function() {
+                ele_top_loading.hide();
+                myToast2025('加载数据失败，请重试！', 'error');
+            }
+        });
     }
-
+    
+    // 关闭弹窗
+    function closePlanModal() {
+        $('#planModal').removeClass('active');
+    }
+    
+    // 提交表单
+    function submitPlanForm() {
+        let task_code = $('#input_task_code').val().trim();
+        let task_params = $('#input_task_params').val().trim();
+        let cycle_code = $('#input_cycle_code').val().trim();
+        let cycle_params = $('#input_cycle_params').val().trim();
+        let state = $('input[name="state"]:checked').val();
+        
+        // 验证
+        if(task_code === '0') {
+            myToast2025('请选择任务！', 'error');
+            return;
+        }
+        if(task_params === '') {
+            myToast2025('请输入任务扩展参数！', 'error');
+            return;
+        }
+        if(cycle_code === '0') {
+            myToast2025('请选择执行周期！', 'error');
+            return;
+        }
+        if(cycle_params === '') {
+            myToast2025('请输入周期扩展参数！', 'error');
+            return;
+        }
+        
+        let handleUrl = currentHandle === 'add' ? '/plan/openAdd' : '/plan/openEdit';
+        
+        let formData = {
+            handle: currentHandle,
+            code: currentCode,
+            task_code: task_code,
+            task_params: task_params,
+            cycle_code: cycle_code,
+            cycle_params: cycle_params,
+            extend_params: '',
+            remark: '',
+            state: state
+        };
+        
+        ele_top_loading.show();
+        $.ajax({
+            url: handleUrl,
+            type: 'post',
+            data: formData,
+            dataType: 'json',
+            success: function(res) {
+                ele_top_loading.hide();
+                if(res.code === 1000) {
+                    myToast2025(res.msg, 'success', 1000);
+                    setTimeout(function() {
+                        closePlanModal();
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    myToast2025(res.msg, 'error');
+                }
+            },
+            error: function() {
+                ele_top_loading.hide();
+                myToast2025('网络异常，请确定网络正常！', 'error');
+            }
+        });
+    }
+    
+    function f_del(code){
+        if(!confirm('确定要删除这个计划任务吗？')) {
+            return;
+        }
+        
+        ele_top_loading.show();
+        $.ajax({
+            url: '/plan/openDel',
+            type: "post",
+            async: true,
+            data: {"code":code},
+            dataType: "json",
+            timeout: 0,
+            error: function () {
+                ele_top_loading.hide();
+                myToast2025("网络异常，请确定网络正常！","error");
+            },
+            success: function (res) {
+                ele_top_loading.hide();
+                if(1000 === res.code){
+                    myToast2025("删除成功", "success", 1000);
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 1000);
+                }else{
+                    myToast2025(res.msg, "error");
+                }
+            }
+        });
+    }
 </script>
-
 {% endblock javascripts %}
-

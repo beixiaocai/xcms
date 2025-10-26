@@ -14,7 +14,6 @@
           <div class="x_panel">
             <div class="x_title">
                 <h2>编辑摄像头 <span id="top_msg">{{top_msg}}</span>
-                <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-dark btn-sm">文档</button>
                     </h2>
               <div class="clearfix"></div>
             </div>
@@ -229,10 +228,6 @@
     let ele_input_pull_stream_ip = $("input[name='pull_stream_ip']");
     //let eleSelectIsAudio = $("select[name='is_audio']");
 
-    function f_docs() {
-        let url= "{{ settings.docs.streamAdd }}";
-        window.open(url);
-    }
     function f_open_player(stream_app,stream_name){
         window.open("/stream/player?app="+stream_app+"&name="+stream_name);
     }
@@ -243,7 +238,7 @@
     $(document).ready(function () {
        $("form").submit(function () {
            if(ele_input_nickname.val().trim() === ""){
-                myAlert("请输入名称","error");
+                myToast2025("请输入名称","error");
                 return false;
             }
 
@@ -252,14 +247,14 @@
            }else{
                 let pull_stream_url = ele_input_pull_stream_url.val().trim();
                 if(pull_stream_url === ""){
-                    myAlert("请输入直播流地址","error");
+                    myToast2025("请输入直播流地址","error");
                     return false;
                 }
                 if(pull_stream_type === 1 ){
                     if(pull_stream_url.startsWith("rtsp://") || pull_stream_url.startsWith("rtsps://")){
                         //ok
                     }else{
-                        myAlert("直播流地址格式不正确","error");
+                        myToast2025("直播流地址格式不正确","error");
                         return false;
                     }
                 }
@@ -267,7 +262,7 @@
                     if(pull_stream_url.startsWith("rtmp://") || pull_stream_url.startsWith("rtmps://")){
                         //ok
                     }else{
-                        myAlert("直播流地址格式不正确","error");
+                        myToast2025("直播流地址格式不正确","error");
                         return false;
                     }
                 }
@@ -275,7 +270,7 @@
                     if(pull_stream_url.startsWith("http://") || pull_stream_url.startsWith("https://")){
                         //ok
                     }else{
-                        myAlert("直播流地址格式不正确","error");
+                        myToast2025("直播流地址格式不正确","error");
                         return false;
                     }
                 }
@@ -283,7 +278,7 @@
                     if(pull_stream_url.startsWith("http://") || pull_stream_url.startsWith("https://")){
                         //ok
                     }else{
-                        myAlert("直播流地址格式不正确","error");
+                        myToast2025("直播流地址格式不正确","error");
                         return false;
                     }
                 }

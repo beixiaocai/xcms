@@ -7,11 +7,11 @@
     <ul class="nav navbar-nav navbar-right">
       <li class="">
         <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-          <img src="{{ settings.logo_url }}" alt="">{{request.session.user.username }}
+          <img src="{{ settings.logo_url }}?v1026" alt="">{{request.session.user.username }}
           <span class="fa fa-angle-down"></span>
         </a>
         <ul class="dropdown-menu dropdown-usermenu pull-right">
-          <li><a href="/logout"><i class="fa fa-sign-out pull-right"></i> 注销登录</a></li>
+          <li><a href="/logout"><i class="fa fa-sign-out pull-right"></i> 注销</a></li>
         </ul>
       </li>
 

@@ -16,7 +16,6 @@
               <div class="x_title">
                <h2>基础算法管理
                     <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
-                        <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-default btn-sm">文档</button>
                           <span id="top_msg">{{top_msg}}</span>
                        </h2>
                 <div class="clearfix"></div>
@@ -123,22 +122,18 @@
                timeout: 0,
                error: function () {
                    ele_top_loading.hide();
-                   myAlert("网络异常，请确定网络正常！","error");
+                   myToast2025("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
                       ele_top_loading.hide();
                    if(1000 === res.code){
                         window.location.reload();
                    }else{
-                        myAlert(res.msg,"error");
+                        myToast2025(res.msg,"error");
                    }
                }
             });
 
-    }
-    function f_docs() {
-        let url= "{{ settings.docs.algorithmAdd }}";
-        window.open(url);
     }
     function f_edit(code) {
         let url = "/algorithm/edit?code="+code;

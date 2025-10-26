@@ -508,79 +508,445 @@
         border: 1px #fff solid;
     }
     /*新报警弹窗*/
+   /* 新报警通知弹窗样式 - 使用 xcn_ 前缀避免冲突 */
    #bxc_dialog_mask {
-        background-color: rgba(0,0,0,0.5);   /* 设置半透明黑色背景 */
-        position: absolute;
+        background-color: rgba(0,0,0,0.4);
+        position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         display: none;
+        z-index: 9998;
     }
+    
     #bxc_dialog {
-        position: absolute;
-        z-index: 999;
+        position: fixed;
+        z-index: 9999;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 640px;
-        height: 240px;
-        background-color: #ffffff;
-        border: 1px solid #c51515;
-        box-shadow: 0 0 5px rgba(245, 231, 231, 0.3);
-        border-radius: 5px;
-        padding: 10px;
+        width: 680px;
+        max-width: 90%;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         display: none;
+        overflow: hidden;
     }
 
     #bxc_dialog>.dialog_title{
-        margin-top: 10px;
+        background: linear-gradient(135deg, #fdba74 0%, #fb923c 100%);
+        padding: 14px 20px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
+    
     #bxc_dialog>.dialog_title>.dialog_alarm_count{
-        color: #d50404;
-        font-weight: bold;
+        color: white;
+        font-weight: 600;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
+    
+    #bxc_dialog>.dialog_title>.dialog_alarm_count::before {
+        content: "🔔";
+        font-size: 16px;
+    }
+    
     #bxc_dialog>.dialog_title>.close{
-        font-size: 14px;
-        float: right;
-        margin-right: 10px;
+        background: rgba(255, 255, 255, 0.25);
+        color: white;
+        border: none;
+        padding: 5px 14px;
+        border-radius: 4px;
+        font-size: 13px;
+        font-weight: 500;
         cursor: pointer;
-
+        transition: background 0.2s;
     }
+    
+    #bxc_dialog>.dialog_title>.close:hover{
+        background: rgba(255, 255, 255, 0.35);
+    }
+    
     #bxc_dialog>.dialog_content{
-        border-top: 1px solid #001233;
-        padding: 10px;
-        margin-top: 15px;
+        padding: 16px;
+        background: #f9fafb;
     }
+    
     #bxc_dialog>.dialog_content>.content_top{
-        margin-top: 10px;
+        background: white;
+        padding: 12px 14px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+        border-left: 3px solid #fdba74;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
     }
+    
     .dialog_alarm_time{
         font-size: 13px;
-        color: #001233;
+        color: #4b5563;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-right: 12px;
     }
+    
+    .dialog_alarm_time::before {
+        content: "🕒";
+        font-size: 14px;
+    }
+    
     .dialog_alarm_link{
-        margin-left: 2px;
+        margin-left: 0;
     }
+    
     .dialog_alarm_link>a{
         text-decoration: none;
-        font-size: 14px;
-        color: #001233;
-        
+        font-size: 13px;
+        color: #3b82f6;
+        font-weight: 500;
+        padding: 4px 10px;
+        border-radius: 4px;
+        background: #eff6ff;
+        border: 1px solid #dbeafe;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        transition: all 0.15s;
     }
+    
+    .dialog_alarm_link>a:hover {
+        background: #dbeafe;
+        border-color: #bfdbfe;
+    }
+    
+    .dialog_alarm_link>a::after {
+        content: "→";
+        font-size: 12px;
+    }
+    
     #bxc_dialog>.dialog_content>.content_list{
-        margin-top: 10px;
+        background: white;
+        padding: 12px;
+        border-radius: 6px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
     }
+    
     #bxc_dialog>.dialog_content>.content_list>.content_item{
-        display: inline;
-        padding: 1px;
+        display: inline-block;
+        border-radius: 6px;
+        overflow: hidden;
+        transition: transform 0.15s, box-shadow 0.15s;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
     }
+    
+    #bxc_dialog>.dialog_content>.content_list>.content_item:hover{
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
     #bxc_dialog>.dialog_content>.content_list>.content_item>img{
-        width: 102px;
-        height: 100%;
-        border: 1px solid #ffffff;
-        padding: 1px;
+        width: 108px;
+        height: 108px;
+        object-fit: cover;
+        border: 2px solid #f9fafb;
         cursor: pointer;
+        display: block;
+    }
+    
+    #bxc_dialog>.dialog_content>.content_list>.content_item>span{
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 14px;
+        background: #f3f4f6;
+        color: #6b7280;
+        font-size: 13px;
+        font-weight: 500;
+        border-radius: 6px;
+        min-width: 108px;
+        height: 108px;
+    }
+
+    /* 大屏报警详情弹窗样式 - 使用 xcd_ 前缀避免冲突 */
+    .xcd_modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+    
+    .xcd_modal-overlay.active {
+        display: block;
+        animation: xcd_fadeIn 0.2s ease;
+    }
+    
+    @keyframes xcd_fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    .xcd_modal-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        border-radius: 8px;
+        width: 80%;
+        max-width: 900px;
+        max-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.05);
+        animation: xcd_slideIn 0.3s ease;
+    }
+    
+    @keyframes xcd_slideIn {
+        from {
+            transform: translate(-50%, -48%);
+            opacity: 0;
+        }
+        to {
+            transform: translate(-50%, -50%);
+            opacity: 1;
+        }
+    }
+    
+    .xcd_modal-header {
+        position: relative;
+        padding: 10px 14px;
+        border-bottom: 1px solid #e5e7eb;
+        background: linear-gradient(to bottom, #fafafa 0%, #ffffff 100%);
+        border-radius: 8px 8px 0 0;
+    }
+    
+    .xcd_modal-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1f2937;
+    }
+    
+    .xcd_modal-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 26px;
+        height: 26px;
+        border: none;
+        background: #f3f4f6;
+        color: #6b7280;
+        font-size: 18px;
+        line-height: 1;
+        cursor: pointer;
+        padding: 0;
+        border-radius: 4px;
+        transition: all 0.2s;
+    }
+    
+    .xcd_modal-close:hover {
+        background: #e5e7eb;
+        color: #374151;
+        transform: rotate(90deg);
+    }
+    
+    .xcd_modal-body {
+        flex: 1;
+        padding: 12px;
+        overflow-y: auto;
+        color: #333;
+    }
+    
+    /* 关键：左右布局 Grid */
+    .xcd_modal-content-grid {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: 12px;
+    }
+    
+    .xcd_modal-media-section {
+        background: #f8f9fa;
+        border-radius: 6px;
+        padding: 12px;
+        border: 1px solid #e9ecef;
+    }
+    
+    .xcd_modal-section-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .xcd_modal-section-title i {
+        color: #6b7280;
+    }
+    
+    .xcd_modal-video-player {
+        width: 100%;
+        border-radius: 4px;
+        margin-bottom: 12px;
+    }
+    
+    .xcd_modal-image-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 8px;
+    }
+    
+    .xcd_modal-image-item {
+        border-radius: 6px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .xcd_modal-image-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .xcd_modal-image-thumb {
+        width: 100%;
+        height: 80px;
+        object-fit: cover;
+    }
+    
+    .xcd_modal-image-info {
+        padding: 4px 6px;
+        background: white;
+        font-size: 11px;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .xcd_modal-info-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .xcd_modal-info-card {
+        background: #f8f9fa;
+        border-radius: 6px;
+        padding: 10px;
+        border: 1px solid #e9ecef;
+    }
+    
+    .xcd_modal-info-item {
+        padding: 4px 0;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 3px;
+    }
+    
+    .xcd_modal-info-item:last-child {
+        border-bottom: none;
+    }
+    
+    .xcd_modal-info-label {
+        color: #999;
+        margin: 0;
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+    
+    .xcd_modal-info-value {
+        color: #333;
+        text-align: right;
+        flex: 1;
+        word-break: break-all;
+    }
+    
+    .xcd_modal-info-value a {
+        color: #3b82f6;
+        text-decoration: none;
+    }
+    
+    .xcd_modal-radio-item {
+        padding: 2px 0;
+        font-size: 12px;
+        line-height: 1.4;
+    }
+    
+    .xcd_modal-radio-item input {
+        margin-right: 6px;
+    }
+    
+    .xcd_modal-radio-item label {
+        margin: 0;
+    }
+    
+    .xcd_modal-form-input {
+        width: 100%;
+        padding: 6px 8px;
+        font-size: 12px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        margin-top: 8px;
+    }
+    
+    .xcd_modal-footer {
+        padding: 10px 14px;
+        border-top: 1px solid #e5e7eb;
+        text-align: right;
+        background: linear-gradient(to top, #fafafa 0%, #ffffff 100%);
+        border-radius: 0 0 8px 8px;
+    }
+    
+    .xcd_modal-btn {
+        padding: 6px 14px;
+        font-size: 12px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        margin-left: 6px;
+        transition: all 0.2s;
+        font-weight: 500;
+    }
+    
+    .xcd_modal-btn-cancel {
+        background: #f3f4f6;
+        color: #6b7280;
+    }
+    
+    .xcd_modal-btn-cancel:hover {
+        background: #e5e7eb;
+        color: #374151;
+    }
+    
+    .xcd_modal-btn-submit {
+        background: #3b82f6;
+        color: white;
+        box-shadow: 0 1px 3px rgba(59, 130, 246, 0.3);
+    }
+    
+    .xcd_modal-btn-submit:hover {
+        background: #2563eb;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        transform: translateY(-1px);
     }
 </style>
 </head>
@@ -798,13 +1164,27 @@
     <div id="bxc_dialog_mask"></div>
 <!--报警弹窗 end -->
 
+<!-- 报警详情弹窗 -->
+<div class="xcd_modal-overlay" id="alarmDetailModal">
+    <div class="xcd_modal-container">
+        <div class="xcd_modal-header">
+            <div class="xcd_modal-title">查看报警详情</div>
+            <button class="xcd_modal-close" onclick="closeAlarmDetailModal()">×</button>
+        </div>
+        <div class="xcd_modal-body" id="alarmModalBody">
+            <!-- 动态加载内容 -->
+        </div>
+        <div class="xcd_modal-footer">
+            <button class="xcd_modal-btn xcd_modal-btn-cancel" onclick="closeAlarmDetailModal()">取消</button>
+            <button class="xcd_modal-btn xcd_modal-btn-submit" onclick="submitAlarmReview()">提交</button>
+        </div>
+    </div>
+</div>
+
   </body>
 
 <!-- jQuery -->
 <script src="/static/lib/jquery/jquery.min.js"></script>
-<link href="/static/lib/jquery/toast/1.3.2/jquery.toast.css?v=2" rel="stylesheet">
-<script src="/static/lib/jquery/toast/1.3.2/jquery.toast.min.js"></script>
-<script src="/static/lib/jquery/toast/1.3.2/toast.js"></script>
 <!-- Select2 -->
 <script src="/static/vendors/select2/dist/js/select2.full.min.js"></script>
 <!-- easyplayer -->
@@ -815,6 +1195,8 @@
 <script src="/static/lib/highcharts-plugins/highcharts-zh_CN.js"></script>
 <!-- fancybox -->
 <script src="/static/lib/jquery/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+<script src="/static/build/js/toast.js"></script>
+
 <script>
     let uploadAudioDir_www = '{{ uploadAudioDir_www }}';
     let eleSelectStream = $("#select_stream");// select  选择视频流
@@ -859,8 +1241,12 @@
 
     
     function f_show_newAlarmDialog() {
-        eleBxcDialogMask.show();
-        eleBxcDialog.show();
+        // 如果弹窗未显示，才显示弹窗；如果已显示，仅更新内容，避免闪烁
+        if(!eleBxcDialog.is(':visible')) {
+            eleBxcDialogMask.show();
+            eleBxcDialog.show();
+        }
+        // 弹窗已显示时，内容已经通过 eleDialogAlarmCount.html() 等更新，无需重复显示
     }
 
     function f_close_newAlarmDialog() {
@@ -1032,15 +1418,15 @@
     function f_clickPlayStart() {
         console.log("f_clickPlayStart()",mSelectedGridVideoCount,mSelectedGridItemClass,mSelectedVideoId,mSelectedVideoPlayerMap)
         if(mSelectedVideoId===null){
-            myAlert("请选中一个窗口！","error");
+            myToast2025("请选中一个窗口！","error");
             return false;
         }
         streamCode = eleSelectStream.val().trim();//typeof string
         if(streamCode==="-1"){
-            myAlert("暂无视频流","error");
+            myToast2025("暂无视频流","error");
             return false;
         }else if(streamCode==="0"){
-            myAlert("请选择视频流","error");
+            myToast2025("请选择视频流","error");
             return false;
         }
         let stream = streamCodeDict[streamCode];
@@ -1053,7 +1439,7 @@
 
         let video_url = stream["wsMp4Url"];
         if(typeof video_url === "undefined" || !video_url.startsWith("ws://") || !video_url.endsWith(".mp4")){
-            myAlert("视频流地址格式不正确！","error");
+            myToast2025("视频流地址格式不正确！","error");
             return false;
         }
         f_playStart(mSelectedVideoId,video_url);
@@ -1084,8 +1470,8 @@
         window.location.href = "/";
     }
     function f_open_alarm_edit(code){
-        let url = "/alarm/edit?code="+code;
-        window.open(url)
+        // 打开报警详情弹窗
+        openAlarmDetailModal(code);
     }
     function f_show_alarmChart(data) {
 
@@ -1253,13 +1639,13 @@
            dataType: "json",
            timeout: 0,
            error: function () {
-               myAlert("网络异常，请确定网络正常！","error");
+               myToast2025("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
                if(res.code === 1000){
-                   myAlert(res.msg,"success");
+                   myToast2025(res.msg,"success");
                }else{
-                   myAlert(res.msg,"error");
+                   myToast2025(res.msg,"error");
                }
            }
         });
@@ -1278,7 +1664,7 @@
            dataType: "json",
            timeout: 0,
            error: function () {
-               myAlert("网络异常，请确定网络正常！","error");
+               myToast2025("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
                if(res.code === 1000){
@@ -1331,7 +1717,7 @@
            dataType: "json",
            timeout: 0,
            error: function () {
-               myAlert("网络异常，请确定网络正常！","error");
+               myToast2025("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
                if(res.code === 1000){
@@ -1371,7 +1757,7 @@
             dataType: "json",
             timeout: 10000,
             error: function () {
-                //myAlert("网络异常，请确定网络正常！", "error");
+                //myToast2025("网络异常，请确定网络正常！", "error");
                 //网络异常也要继续检测
                 f_getNewAlarm();
             },
@@ -1446,6 +1832,148 @@
         f_openDashboardPlayerData();
         f_getNewAlarm();
     });
+
+    // 报警详情弹窗功能
+    let currentAlarmCode = '';
+    
+    function openAlarmDetailModal(code) {
+        currentAlarmCode = code;
+        $('#alarmDetailModal').addClass('active');
+        loadAlarmInfo(code);
+    }
+    
+    function closeAlarmDetailModal() {
+        $('#alarmDetailModal').removeClass('active');
+        currentAlarmCode = '';
+    }
+    
+    function loadAlarmInfo(code) {
+        // 复用报警管理页面的接口
+        $.ajax({
+            url: '/alarm/openInfo',
+            type: 'get',
+            data: {code: code},
+            dataType: 'json',
+            success: function(res) {
+                if(res.code === 1000) {
+                    renderModalContent(res.info);
+                } else {
+                    myToast2025(res.msg || '报警不存在', 'error');
+                    closeAlarmDetailModal();
+                }
+            },
+            error: function() {
+                myToast2025('加载失败，请稍后重试', 'error');
+                closeAlarmDetailModal();
+            }
+        });
+    }
+    
+    function renderModalContent(alarm) {
+        let html = '<div class="xcd_modal-content-grid">';
+        
+        // 左侧媒体区域
+        html += '<div class="xcd_modal-media-section">';
+        
+        // 视频
+        if(alarm.video_count > 0) {
+            html += '<div class="xcd_modal-section-title"><i class="fa fa-video-camera"></i> 报警视频（' + alarm.video_count + '）</div>';
+            html += '<video controls muted loop preload="none" class="xcd_modal-video-player" poster="' + alarm.imageUrl + '" src="' + alarm.videoUrl + '"></video>';
+        }
+        
+        // 图片
+        html += '<div class="xcd_modal-section-title"><i class="fa fa-image"></i> 报警图片（' + alarm.image_count + '）</div>';
+        html += '<div class="xcd_modal-image-grid">';
+        for(let i = 0; i < alarm.imageUrlArray.length; i++) {
+            let imageUrl = alarm.imageUrlArray[i];
+            html += '<div class="xcd_modal-image-item">';
+            html += '<img class="xcd_modal-image-thumb" src="' + imageUrl + '" onclick="viewImage(\'' + imageUrl + '\')">';
+            html += '<div class="xcd_modal-image-info">';
+            html += '<span>第' + (i+1) + '张</span>';
+            html += '<a href="' + imageUrl + '" target="_blank" download><i class="fa fa-download"></i></a>';
+            html += '</div></div>';
+        }
+        html += '</div></div>';
+        
+        // 右侧信息区域
+        html += '<div class="xcd_modal-info-sidebar">';
+        
+        // 基本信息
+        html += '<div class="xcd_modal-info-card">';
+        html += '<div class="xcd_modal-section-title">基本信息</div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">报警ID：</span><span class="xcd_modal-info-value">' + alarm.id + '</span></div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">报警编号：</span><span class="xcd_modal-info-value">' + alarm.code + '</span></div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">画框类型：</span><span class="xcd_modal-info-value">' + (alarm.draw_type === 1 ? '画框' : '不画框') + '</span></div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">报警时间：</span><span class="xcd_modal-info-value">' + alarm.create_time + '</span></div>';
+        html += '</div>';
+        
+        // 关联信息
+        html += '<div class="xcd_modal-info-card">';
+        html += '<div class="xcd_modal-section-title">关联信息</div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">关联视频：</span><span class="xcd_modal-info-value"><a href="/stream/edit?code=' + alarm.stream_code + '" target="_blank">前往查看</a></span></div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">关联布控：</span><span class="xcd_modal-info-value"><a href="/control/edit?code=' + alarm.control_code + '" target="_blank">前往查看</a></span></div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">关联算法：</span><span class="xcd_modal-info-value"><a href="/algorithmFlow/edit?code=' + alarm.flow_code + '" target="_blank">' + alarm.flow_name + '</a></span></div>';
+        html += '</div>';
+        
+        // 审核操作
+        html += '<div class="xcd_modal-info-card">';
+        html += '<div class="xcd_modal-section-title">审核操作</div>';
+        html += '<div class="xcd_modal-radio-item">';
+        html += '<input type="radio" ' + (alarm.state === 0 ? 'checked' : '') + ' value="0" name="modal_state" id="modal_state_0">';
+        html += '<label for="modal_state_0">未处理</label></div>';
+        html += '<div class="xcd_modal-radio-item">';
+        html += '<input type="radio" ' + (alarm.state === 1 ? 'checked' : '') + ' value="1" name="modal_state" id="modal_state_1">';
+        html += '<label for="modal_state_1">审核确认为正常报警</label></div>';
+        html += '<div class="xcd_modal-radio-item">';
+        html += '<input type="radio" ' + (alarm.state === 2 ? 'checked' : '') + ' value="2" name="modal_state" id="modal_state_2">';
+        html += '<label for="modal_state_2">审核确认为误报</label></div>';
+        html += '<input type="text" name="modal_review_remark" value="' + (alarm.review_remark || '') + '" placeholder="请输入审核备注" class="xcd_modal-form-input">';
+        html += '</div>';
+        
+        html += '</div></div>';
+        
+        $('#alarmModalBody').html(html);
+    }
+    
+    function submitAlarmReview() {
+        if(!currentAlarmCode) return;
+        
+        let state = parseInt($('input[name="modal_state"]:checked').val());
+        let review_remark = $('input[name="modal_review_remark"]').val();
+        
+        // 复用报警管理页面的接口
+        $.ajax({
+            url: '/alarm/openEdit',
+            type: 'post',
+            data: {
+                code: currentAlarmCode,
+                state: state,
+                review_remark: review_remark
+            },
+            dataType: 'json',
+            success: function(res) {
+                if(res.code === 1000) {
+                    myToast2025(res.msg, 'success', 1000);
+                    setTimeout(function() {
+                        closeAlarmDetailModal();
+                        f_openDashboardData(); // 刷新报警列表
+                    }, 1000);
+                } else {
+                    myToast2025(res.msg, 'error');
+                }
+            },
+            error: function() {
+                myToast2025('网络异常，请确定网络正常！', 'error');
+            }
+        });
+    }
+    
+    function viewImage(url) {
+        $.fancybox.open({
+            src: url,
+            type: 'image'
+        });
+    }
 
 </script>
 

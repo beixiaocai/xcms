@@ -13,7 +13,6 @@
           <div class="x_panel">
             <div class="x_title">
                 <h2>{% if  "add" == handle %}添加{% else %}编辑{% endif %}行为算法
-                <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-default btn-sm">文档</button>
                  <span id="top_msg">{{top_msg}}</span>
                 </h2>
               <div class="clearfix"></div>
@@ -113,25 +112,21 @@ $(document).ready(function () {
    $("form").submit(function () {
 
         if(ele_input_name.val().trim() === ""){
-            myAlert("请输入算法名称","error");
+            myToast2025("请输入算法名称","error");
             return false;
         }
         if(ele_select_way_code.val().trim()==="0"){
-            myAlert("请选择接入方式","error");
+            myToast2025("请选择接入方式","error");
             return false;
         }
        let way_value = ele_textarea_way_value.val().trim();
        if(way_value==="0" || way_value===""){
-            myAlert("请输入接入参数","error");
+            myToast2025("请输入接入参数","error");
             return false;
         }
 
    });
 });
-function f_docs() {
-    let url= "{{ settings.docs.behaviourAdd }}";
-    window.open(url);
-}
 </script>
 
 {% endblock javascripts %}

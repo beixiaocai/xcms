@@ -30,10 +30,8 @@
             <div class="x_title">
               <h2>系统设置
                 <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
-              <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-dark btn-sm">文档</button>
-                       <span id="top_msg">{{top_msg}}</span>
-
-                          </h2>
+                <span id="top_msg">{{top_msg}}</span>
+              </h2>
               <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -109,10 +107,6 @@
     let eleXcSettingsFile = $("input[name='xcsettings_file']");
     let eleXcUpdateFile = $("input[name='xcupdate_file']");
 
-    function f_docs() {
-        let url= "{{ settings.docs.systemSettings }}";
-        window.open(url);
-    }
     function f_restartApp() {
         let ret = confirm("确定重启软件吗？");
         if (ret) {
@@ -125,13 +119,13 @@
                dataType: "json",
                timeout: 0,
                error: function () {
-                    myAlert("网络异常，请确定网络正常！","error");
+                    myToast2025("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
                    if(res.code === 1000){
-                       myAlert(res.msg,"success");
+                       myToast2025(res.msg,"success");
                    }else{
-                       myAlert(res.msg,"error");
+                       myToast2025(res.msg,"error");
                    }
                }
             });
@@ -149,13 +143,13 @@
                 dataType: "json",
                 timeout: 0,
                 error: function () {
-                    myAlert("网络异常，请确定网络正常！", "error");
+                    myToast2025("网络异常，请确定网络正常！", "error");
                 },
                 success: function (res) {
                     if(res.code === 1000){
-                        myAlert(res.msg, "success");
+                        myToast2025(res.msg, "success");
                     } else {
-                        myAlert(res.msg, "error");
+                        myToast2025(res.msg, "error");
                     }
                 }
             });
@@ -173,7 +167,7 @@
            timeout: 0,
            error: function () {
                ele_top_loading.hide();
-               myAlert("网络异常，请确定网络正常！","error");
+               myToast2025("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
                ele_top_loading.hide();
@@ -183,7 +177,7 @@
                     let download_url = "/storage/download?filename="+export_filename;
                     window.open(download_url);
                }else{
-                    myAlert(res.msg,"error");
+                    myToast2025(res.msg,"error");
                }
            }
         });
@@ -201,7 +195,7 @@
            timeout: 0,
            error: function () {
                ele_top_loading.hide();
-               myAlert("网络异常，请确定网络正常！","error");
+               myToast2025("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
                ele_top_loading.hide();
@@ -211,7 +205,7 @@
                     let download_url = "/storage/download?filename="+export_filename;
                     window.open(download_url);
                }else{
-                   myAlert(res.msg,"error");
+                   myToast2025(res.msg,"error");
                }
            }
         });
@@ -241,20 +235,20 @@
               timeout: 0,
               error: function () {
                   ele_top_loading.hide();
-                  myAlert("网络异常，请确定网络正常！","error");
+                  myToast2025("网络异常，请确定网络正常！","error");
               },
               success: function (res) {
                   ele_top_loading.hide();
                     if(res.code === 1000){
-                        myAlert(res.msg,"success");
+                        myToast2025(res.msg,"success");
                     }else{
-                        myAlert(res.msg,"error");
+                        myToast2025(res.msg,"error");
                     }
               }
             });
 
         }else{
-            myAlert("请选择配置文件！","error");
+            myToast2025("请选择配置文件！","error");
         }
 
     }
@@ -282,20 +276,20 @@
               timeout: 0,
               error: function () {
                   ele_top_loading.hide();
-                  //myAlert("网络异常，请确定网络正常！","error");
+                  //myToast2025("网络异常，请确定网络正常！","error");
               },
               success: function (res) {
                   ele_top_loading.hide();
                     if(res.code === 1000){
-                        myAlert(res.msg,"success");
+                        myToast2025(res.msg,"success");
                     }else{
-                        myAlert(res.msg,"error");
+                        myToast2025(res.msg,"error");
                     }
               }
             });
 
         }else{
-            myAlert("请选择升级包文件！","error");
+            myToast2025("请选择升级包文件！","error");
         }
 
     }

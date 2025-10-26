@@ -86,7 +86,6 @@
           <div class="x_panel">
             <div class="x_title">
               <h2>{% if  "add" == handle %}添加{% else %}编辑{% endif %}布控
-                <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-dark btn-sm">文档</button>
               </h2>
               <div class="clearfix"></div>
             </div>
@@ -111,13 +110,13 @@
                   </div>
                 </div>
 
-                    <div class="div_left_bottom_draw" >
+                    <!--<div class="div_left_bottom_draw" >
                         <div class="item">绘制图像参考</div>
                         <div class="item">
                             <img class="img" src="/static/images/demo.jpg"/>
                         </div>
-                        <div class="item"><button type="button" onclick="f_docs()" class="btn btn-default btn-sm">查看更多>></button></div>
-                    </div>
+                        <div class="item"><button type="button" class="btn btn-default btn-sm">>></button></div>
+                    </div>-->
 
               </div>
 
@@ -542,7 +541,7 @@
         window.shape = shape;
     });
     instance.on("updated", (result) => {
-      //   myAlert("请选择视频流", "error");
+      //   myToast2025("请选择视频流", "error");
         const list = [...result];
 
         list.sort((a, b) => a.index - b.index);
@@ -698,11 +697,11 @@
 
     function f_playStart(video_url){
         if(video_url === "" || typeof video_url === "undefined"){
-            myAlert("请输入播放地址（支持ws-fmp4/http-fmp4）！","error");
+            myToast2025("请输入播放地址（支持ws-fmp4/http-fmp4）！","error");
             return false;
         }
         if(!video_url.endsWith(".mp4")){
-            myAlert("视频流地址格式不正确！","error");
+            myToast2025("视频流地址格式不正确！","error");
             return false;
         }
         if(video_url.startsWith("ws://") || video_url.startsWith("http://")){
@@ -717,7 +716,7 @@
             }
             f_resetPolygon()
         }else{
-             myAlert("视频流地址格式不正确！","error");
+             myToast2025("视频流地址格式不正确！","error");
              return false;
         }
 
@@ -727,7 +726,7 @@
             //ePlayer.pause();
             ePlayer.destroy();
         }else{
-            myAlert("播放器未启动！","error");
+            myToast2025("播放器未启动！","error");
         }
         f_clearVideoCanvas()
 
@@ -750,66 +749,66 @@
     function f_openHandle() {
         streamCode = eleSelectStream.val().trim();//typeof string
         if(streamCode==="-1"){
-            myAlert("暂无视频流","error");
+            myToast2025("暂无视频流","error");
             return;
         }else if(streamCode==="0"){
-            myAlert("请选择视频流","error");
+            myToast2025("请选择视频流","error");
             return;
         }
         flowCode = eleSelectFlow.val().trim();//typeof string
         if(flowCode==="0"){
-            myAlert("请选择算法","error");
+            myToast2025("请选择算法","error");
             return;
         }
 
         audioCode = eleSelectAudio.val().trim();//typeof string
         if(audioCode==="0"){
-            myAlert("请选择音频","error");
+            myToast2025("请选择音频","error");
             return;
         }
 
         m_alarmInterfaceCode = eleSelectAlarmInterface.val().trim();//typeof string
         if(m_alarmInterfaceCode==="0"){
-            myAlert("请选择报警接口","error");
+            myToast2025("请选择报警接口","error");
             return;
         }
 
         let minInterval = parseInt(eleInputMinInterval.val());
         if(isNaN(minInterval)){
-            myAlert("报警间隔时间不能为空","error");
+            myToast2025("报警间隔时间不能为空","error");
             return;
         }
         if(minInterval<0){
-            myAlert("报警间隔时间不能小于0秒","error");
+            myToast2025("报警间隔时间不能小于0秒","error");
             return;
         }
 
         let overlapThresh = parseFloat(eleInputOverlapThresh.val());
         if(isNaN(overlapThresh)){
-            myAlert("重叠阈值不能为空","error");
+            myToast2025("重叠阈值不能为空","error");
             return;
         }
 
         if(overlapThresh<=0){
-            myAlert("重叠阈值不能小于等于0","error");
+            myToast2025("重叠阈值不能小于等于0","error");
             return;
         }
         if(overlapThresh>1){
-            myAlert("重叠阈值不能大于1","error");
+            myToast2025("重叠阈值不能大于1","error");
             return;
         }
         //报警合成图片数量start
         let alarmImageCount = parseInt(eleInputAlarmImageCount.val());
         if(isNaN(alarmImageCount)){
-            myAlert("报警图片数量不能为空","error");
+            myToast2025("报警图片数量不能为空","error");
             return;
         }
         if(alarmImageCount<=0){
-            myAlert("报警图片数量不能小于等于0","error");
+            myToast2025("报警图片数量不能小于等于0","error");
             return;
         }
         if(alarmImageCount>50){
-            myAlert("报警图片数量不能大于50","error");
+            myToast2025("报警图片数量不能大于50","error");
             return;
         }
          //报警合成图片数量end
@@ -885,7 +884,7 @@
 
                 polygon_array.push(item.join(","))
             }else{
-                myAlert("方向线类型必须是两条直线","error");
+                myToast2025("方向线类型必须是两条直线","error");
                 return;
             }
         }else if(mPolygonType === 3){//多边形
@@ -915,7 +914,7 @@
                 polygon_array.push(item.join(","))
             }
         }else{
-            myAlert("绘制类型错误:"+mPolygonType.toString(),"error");
+            myToast2025("绘制类型错误:"+mPolygonType.toString(),"error");
             return;
         }
         console.log("polygon_array.length->",polygon_array.length)
@@ -966,13 +965,13 @@
            dataType: "json",
            timeout: "3000",
            error: function () {
-                myAlert("网络异常，请确定网络正常！","error",3000);
+                myToast2025("网络异常，请确定网络正常！","error",3000);
            },
            success: function (res) {
                if(1000 === res.code){
-                    myAlert(res.msg,"success");
+                    myToast2025(res.msg,"success");
                }else{
-                    myAlert(res.msg,"error",3000);
+                    myToast2025(res.msg,"error",3000);
                }
            }
         });
@@ -983,10 +982,6 @@
         f_adjustVideoCanvas();
     }
 
-    function f_docs() {
-        let url= "{{ settings.docs.controlAdd }}";
-        window.open(url);
-    }
     function f_resetPolygon(){
         if (mPolygon !== "") {//编辑布控
             f_adjustVideoCanvas();

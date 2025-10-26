@@ -33,7 +33,6 @@
               <div class="x_title">
                <h2>业务算法管理
                     <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
-                    <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-default btn-sm">文档</button>
                     <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#ImportFileDialog" ><i class="fa fa-plus"></i> 导入</button>
                    <span id="top_msg">{{top_msg}}</span>
   </h2>
@@ -171,10 +170,6 @@
     let eleFile = $("input[name='file']");
     //let eleTextareaImportRemark= $("textarea[name='import_remark']");
 
-    function f_docs() {
-        let url= "{{ settings.docs.algorithmFlowAdd }}";
-        window.open(url);
-    }
     function f_openDel(code){
         ele_top_loading.show();
         $.ajax({
@@ -186,14 +181,14 @@
                timeout: 0,
                error: function () {
                    ele_top_loading.hide();
-                   myAlert("网络异常，请确定网络正常！","error");
+                   myToast2025("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
                       ele_top_loading.hide();
                    if(1000 === res.code){
                         window.location.reload();
                    }else{
-                        myAlert(res.msg,"error");
+                        myToast2025(res.msg,"error");
                    }
                }
             });
@@ -215,7 +210,7 @@
            timeout: 0,
            error: function () {
                ele_top_loading.hide();
-               myAlert("网络异常，请确定网络正常！","error");
+               myToast2025("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
                ele_top_loading.hide();
@@ -225,7 +220,7 @@
                     let download_url = "/storage/download?filename="+export_filename;
                     window.open(download_url);
                }else{
-                    myAlert(res.msg,"error");
+                    myToast2025(res.msg,"error");
                }
            }
         });
@@ -256,29 +251,29 @@
                   dataType: "json",
                   timeout: 0,
                   error: function () {
-                    myAlert("网络异常，请确定网络正常！","error");
+                    myToast2025("网络异常，请确定网络正常！","error");
                   },
                   success: function (res) {
                     if (1000 === res.code) {
-                        myAlert(res.msg,"success");
+                        myToast2025(res.msg,"success");
                         // data-toggle="modal" data-target="#ImportFileDialog"
                         //$("#ImportFileDialog").modal("show");
                         $("#ImportFileDialog").modal("hide");
-                          myAlert(res.msg,"success",1000);
+                          myToast2025(res.msg,"success",1000);
                            setTimeout(function () {
                               window.location.reload();
                            }, 1000);
 
                     }else{
-                        myAlert(res.msg,"error");
+                        myToast2025(res.msg,"error");
                     }
                   }
                 });
           }else{
-               myAlert("上传文件大小不能超过200M！","error");
+               myToast2025("上传文件大小不能超过200M！","error");
           }
         }else{
-            myAlert("未选择上传文件！","error");
+            myToast2025("未选择上传文件！","error");
         }
         return false;
     }

@@ -4,97 +4,408 @@
 
 {% block stylesheets %}
   {{ block.super }}
+  <style>
+    .version-container {
+      padding: 12px;
+      background: #f5f7fa;
+      min-height: calc(100vh - 100px);
+    }
+    
+    .modern-card {
+      background: white;
+      border-radius: 6px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      transition: all 0.3s ease;
+    }
+    
+    .modern-card:hover {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .card-header i {
+      margin-right: 8px;
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+      text-align: center;
+      border-radius: 6px;
+      font-size: 16px;
+      background: #f0f9ff;
+      color: #0284c7;
+    }
+    
+    .card-header h3 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .system-info-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      background: #f9fafb;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    
+    .system-info-item:hover {
+      background: #f3f4f6;
+    }
+    
+    .info-icon {
+      width: 36px;
+      height: 36px;
+      line-height: 36px;
+      text-align: center;
+      border-radius: 6px;
+      margin-right: 12px;
+      font-size: 16px;
+    }
+    
+    .icon-app {
+      background: #f0f9ff;
+      color: #0284c7;
+    }
+    
+    .icon-version {
+      background: #f0fdf4;
+      color: #16a34a;
+    }
+    
+    .icon-flag {
+      background: #fefce8;
+      color: #ca8a04;
+    }
+    
+    .info-content {
+      flex: 1;
+    }
+    
+    .info-label {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 2px;
+    }
+    
+    .info-value {
+      font-size: 14px;
+      color: #1f2937;
+      font-weight: 600;
+    }
+    
+    .btn-check {
+      width: 100%;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+      background: #3b82f6;
+      color: white;
+    }
+    
+    .btn-check:hover {
+      background: #2563eb;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+    }
+    
+    .btn-check i {
+      margin-right: 6px;
+    }
+    
+    .author-section {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #e5e7eb;
+    }
+    
+    .author-link {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      font-size: 13px;
+      color: #475569;
+      text-decoration: none;
+      background: #f8fafc;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    
+    .author-link:hover {
+      background: #f1f5f9;
+      color: #334155;
+      text-decoration: none;
+    }
+    
+    .author-link i {
+      margin-right: 6px;
+    }
+    
+    .version-result {
+      min-height: 300px;
+    }
+    
+    .version-item {
+      background: #fffef5;
+      border: 1px solid #fef08a;
+      border-radius: 6px;
+      padding: 16px;
+      margin-bottom: 12px;
+      transition: all 0.2s;
+    }
+    
+    .version-item:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    
+    .version-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #fef08a;
+    }
+    
+    .version-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      background: #eab308;
+      color: white;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-right: 10px;
+    }
+    
+    .version-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #713f12;
+      flex: 1;
+    }
+    
+    .version-date {
+      font-size: 12px;
+      color: #a16207;
+      display: flex;
+      align-items: center;
+    }
+    
+    .version-date i {
+      margin-right: 4px;
+    }
+    
+    .update-list {
+      margin: 0;
+      padding-left: 20px;
+    }
+    
+    .update-item {
+      padding: 4px 0;
+      font-size: 13px;
+      color: #57534e;
+      line-height: 1.6;
+    }
+    
+    .version-actions {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #fef08a;
+      display: flex;
+      gap: 8px;
+    }
+    
+    .btn-link {
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .btn-link:hover {
+      text-decoration: none;
+    }
+    
+    .btn-download {
+      background: #3b82f6;
+      color: white;
+      text-decoration: none;
+    }
+    
+    .btn-download:hover {
+      background: #2563eb;
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
+      text-decoration: none;
+    }
+    
+    .btn-history {
+      background: white;
+      color: #6b7280;
+      border: 1px solid #d1d5db;
+      text-decoration: none;
+    }
+    
+    .btn-history:hover {
+      background: #f9fafb;
+      color: #374151;
+      border-color: #9ca3af;
+      text-decoration: none;
+    }
+    
+    .no-update {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    
+    .no-update-icon {
+      width: 80px;
+      height: 80px;
+      line-height: 80px;
+      margin: 0 auto 16px;
+      background: #f0fdf4;
+      border-radius: 50%;
+      color: #22c55e;
+      font-size: 36px;
+    }
+    
+    .no-update-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 6px;
+    }
+    
+    .no-update-desc {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 16px;
+    }
+    
+    .loading-state {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    
+    .loading-spinner {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 3px solid #e5e7eb;
+      border-top: 3px solid #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 16px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .loading-text {
+      font-size: 13px;
+      color: #6b7280;
+    }
+    
+    .right_col {
+      background: #f5f7fa !important;
+    }
+  </style>
 {% endblock stylesheets %}
 
-
 {% block content %}
-
   <div class="right_col" role="main">
-    <div class="">
-
-        <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-          <div class="x_panel">
-            <div class="x_title">
-             <h2>关于系统
-                 <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
-                 <span id="top_msg">{{top_msg}}</span>
-              </h2>
-              <div class="clearfix"></div>
+    <div class="version-container">
+      <div class="row">
+        <!-- 左侧：关于系统 -->
+        <div class="col-md-4 col-sm-12">
+          <div class="modern-card">
+            <div class="card-header">
+              <!--<i class="fa fa-cube"></i>-->
+              <h3>关于系统</h3>
             </div>
-            <div class="x_content">
-              <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
-                <h3>{{ settings.name }}</h3>
-                        <div style="margin-top: 6px;"  class="col-md-12 col-sm-12">
-                          <span>软件版本：</span><span style="color: green;font-size: 15px ;margin-right: 10px;">{{ project_version }}</span>
-                      </div>
-                     <div style="margin-top: 4px;" class="col-md-12 col-sm-12">
-                          <span>软件标记：</span><span style="color: green;font-size: 15px ;margin-right: 10px;">{{ project_flag }}</span>
-                      </div>
-{% if settings.is_show_author == 1 %}
-                    <div style="margin-top: 4px;"  class="col-md-12 col-sm-12">
-                        <a href="{{ settings.author_link }}" target="_blank">{{ settings.author }}</a>
-                    </div>
-{% endif %}
-                <div style="margin-top: 20px;"  class="col-md-12 col-sm-12">
-                         <button onclick="f_getCheckVersion()" class="btn btn-default">检测新版本</button>
-                </div>
+            
+            <div class="system-info-item">
+              <div class="info-icon icon-app">
+                <i class="fa fa-desktop"></i>
               </div>
-              <div class="col-md-9 col-sm-9 col-xs-12">
-
-                <div class="" role="tabpanel" data-example-id="togglable-tabs">
-                  <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                    <li role="presentation" class="active">
-                        <a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"  >版本检测结果</a>
-                    </li>
-
-                  </ul>
-                  <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
-
-                      <ul class="messages" id="data">
-                          <!--
-                        <li>
-                          <img src="/static/images/logo.png" class="avatar" alt="Avatar">
-                          <div class="message_date">
-                            <h3 class="date text-info">24</h3>
-                            <p class="month">May</p>
-                          </div>
-                          <div class="message_wrapper">
-                            <h4 class="heading">发现新版本：V4.2.1</h4>
-                            <blockquote class="message">
-                            （1）优化解码和分析以及推流的队列内存复用
-                            </blockquote>
-                              <blockquote class="message">
-                            （2）优化算法推流的流畅性
-                            </blockquote>
-                            <br>
-                            <p class="url">
-                              <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
-                              <a href="#"><i class="fa fa-download"></i> 历史版本 </a>
-                              &nbsp;<a href="#"><i class="fa fa-download"></i> 新版本 </a>
-                            </p>
-                          </div>
-                        </li>
-
-                        <li>
-                          <img src="/static/images/logo.png" class="avatar" alt="Avatar">
-                          <div class="message_wrapper">
-                            <h4 class="heading">未发现新版本</h4>
-                            <p class="url">
-                              <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
-                              <a href="#"><i class="fa fa-download"></i> 历史版本 </a>
-                            </p>
-                          </div>
-                        </li>
-                        -->
-                      </ul>
-
-                    </div>
-
-
-                  </div>
-                </div>
+              <div class="info-content">
+                <div class="info-label">应用名称</div>
+                <div class="info-value">{{ settings.name }}</div>
+              </div>
+            </div>
+            
+            <div class="system-info-item">
+              <div class="info-icon icon-version">
+                <i class="fa fa-tag"></i>
+              </div>
+              <div class="info-content">
+                <div class="info-label">软件版本</div>
+                <div class="info-value">v{{ project_version }}</div>
+              </div>
+            </div>
+            
+            <div class="system-info-item">
+              <div class="info-icon icon-flag">
+                <i class="fa fa-bookmark"></i>
+              </div>
+              <div class="info-content">
+                <div class="info-label">软件标记</div>
+                <div class="info-value">{{ project_flag }}</div>
+              </div>
+            </div>
+            
+            {% if settings.is_show_author == 1 %}
+            <div class="author-section">
+              <a href="{{ settings.author_link }}" target="_blank" class="author-link">
+                <i class="fa fa-user-circle"></i> {{ settings.author }}
+              </a>
+            </div>
+            {% endif %}
+            
+            <button onclick="f_getCheckVersion()" class="btn-check">
+              <i class="fa fa-refresh"></i> 检测新版本
+            </button>
+          </div>
+        </div>
+        
+        <!-- 右侧：版本检测结果 -->
+        <div class="col-md-8 col-sm-12">
+          <div class="modern-card">
+            <div class="card-header">
+              <!--<i class="fa fa-list-alt"></i>-->
+              <h3>版本检测结果</h3>
+            </div>
+            
+            <div class="version-result" id="versionResult">
+              <div class="loading-state">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">正在检测版本...</div>
               </div>
             </div>
           </div>
@@ -106,85 +417,107 @@
 
 {% block javascripts %}
   {{ block.super }}
-
-<script>
-    let eleData = $("#data");
-    let ele_top_loading = $("#top_loading");
-    let ele_top_msg= $("#top_msg");
-
+  <script>
+    let eleResult = $("#versionResult");
+    
     function f_getCheckVersion() {
-        ele_top_loading.show();
-        $.ajax({
-               url: '/version/getCheckVersion',
-               type: "get",
-               async: true,
-               data: {},
-               dataType: "json",
-               timeout: 0,
-               error: function () {
-                   ele_top_loading.hide();
-                   myAlert("网络异常，请确定网络正常！","error");
-               },
-               success: function (res) {
-                   ele_top_loading.hide();
-                       let item_html = "";
-              let info = res.info;
-              let historyVersionUrl = info.historyVersionUrl;//历史版本下载地址
-
-                   if(1000 === res.code){
-
-                       let version = info.version.toString();//新版本版本号
-                       let updateContent = info.updateContent;//array
-                       let pubdate = info.pubdate;//版本发布时间
-
-                       let url = info.url;//新版本下载地址
-
-                        item_html +="";
-                        item_html +="<li>";
-                          item_html +="<img src=\"/static/images/logo.png\" class=\"avatar\" alt=\"Avatar\">";
-                          item_html +="<div class=\"message_date\">";
-                            //item_html +="<h3 class=\"date text-info\">"+pubdate+"</h3>";
-                            item_html +="<p class=\"month\">"+pubdate+"</p>";
-                          item_html +="</div>";
-                          item_html +="<div class=\"message_wrapper\">";
-                            item_html +="<h4 class=\"heading\">发现新版本：v"+version+"</h4>";
-                           for (let i = 0; i < updateContent.length; i++) {
-                                   item_html +="<blockquote class=\"message\">"+updateContent[i]+"</blockquote>";
-                           }
-
-                            item_html +="<br>";
-                            item_html +="<p class=\"url\">";
-                              item_html +="<span class=\"fs1 text-info\" aria-hidden=\"true\" data-icon=\"\"></span>";
-                             item_html +=" <a href=\""+historyVersionUrl+"\" target='_blank'><i class=\"fa fa-download\"></i> 历史版本 </a>";
-                             item_html +=" &nbsp;<a href=\""+url+"\" target='_blank'><i class=\"fa fa-download\"></i> 新版本 </a>";
-                           item_html +=" </p>";
-                          item_html +="</div>";
-                       item_html +=" </li>";
-                        eleData.html(item_html);
-                        //setTimeout(function () {f_getStreams();}, 6000);
-
-                   }else{
-                       item_html+="<li>";
-                          item_html+="<img src=\"/static/images/logo.png\" class=\"avatar\" alt=\"Avatar\">";
-                          item_html+="<div class=\"message_wrapper\">";
-                            item_html+="<h4 class=\"heading\">"+res.msg+"</h4>";
-                            item_html+="<p class=\"url\">";
-                              item_html+="<span class=\"fs1 text-info\" aria-hidden=\"true\" data-icon=\"\"></span>";
-                           item_html +=" <a href=\""+historyVersionUrl+"\" target='_blank'><i class=\"fa fa-download\"></i> 历史版本 </a>";
-                            item_html+="</p>";
-                          item_html+="</div>";
-                        item_html+="</li>";
-                        eleData.html(item_html);
-                   }
-               }
-            });
-
+      eleResult.html(`
+        <div class="loading-state">
+          <div class="loading-spinner"></div>
+          <div class="loading-text">正在检测版本...</div>
+        </div>
+      `);
+      
+      $.ajax({
+        url: '/version/getCheckVersion',
+        type: "get",
+        async: true,
+        data: {},
+        dataType: "json",
+        timeout: 0,
+        error: function () {
+          eleResult.html(`
+            <div class="no-update">
+              <div class="no-update-icon">
+                <i class="fa fa-exclamation-circle"></i>
+              </div>
+              <div class="no-update-title">网络异常</div>
+              <div class="no-update-desc">请检查网络连接后重试</div>
+            </div>
+          `);
+          myToast2025("网络异常，请确定网络正常！", "error");
+        },
+        success: function (res) {
+          let info = res.info;
+          let historyVersionUrl = info.historyVersionUrl;
+          
+          if (1000 === res.code) {
+            // 发现新版本
+            let version = info.version.toString();
+            let updateContent = info.updateContent;
+            let pubdate = info.pubdate;
+            let url = info.url;
+            
+            let html = `
+              <div class="version-item">
+                <div class="version-header">
+                  <span class="version-badge">
+                    <i class="fa fa-rocket"></i> NEW
+                  </span>
+                  <span class="version-title">发现新版本 v${version}</span>
+                  <span class="version-date">
+                    <i class="fa fa-clock-o"></i>${pubdate}
+                  </span>
+                </div>
+                <ul class="update-list">
+            `;
+            
+            for (let i = 0; i < updateContent.length; i++) {
+              html += `<li class="update-item">${updateContent[i]}</li>`;
+            }
+            
+            html += `
+                </ul>
+                <div class="version-actions">
+                  <a href="${url}" target="_blank" class="btn-link btn-download">
+                    <i class="fa fa-download"></i> 下载新版本
+                  </a>
+                  <a href="${historyVersionUrl}" target="_blank" class="btn-link btn-history">
+                    <i class="fa fa-archive"></i> 历史版本
+                  </a>
+                </div>
+              </div>
+            `;
+            
+            eleResult.html(html);
+          } else {
+            // 未发现新版本
+            let html = `
+              <div class="no-update">
+                <div class="no-update-icon">
+                  <i class="fa fa-check-circle"></i>
+                </div>
+                <div class="no-update-title">${res.msg}</div>
+                <div class="no-update-desc">您已经使用最新版本</div>
+            `;
+            
+            if (historyVersionUrl) {
+              html += `
+                <a href="${historyVersionUrl}" target="_blank" class="btn-link btn-history">
+                  <i class="fa fa-archive"></i> 查看历史版本
+                </a>
+              `;
+            }
+            
+            html += `</div>`;
+            eleResult.html(html);
+          }
+        }
+      });
     }
-    window.onload = function (){
-        f_getCheckVersion();
+    
+    window.onload = function () {
+      f_getCheckVersion();
     };
-
-</script>
+  </script>
 {% endblock javascripts %}
-
-

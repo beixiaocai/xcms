@@ -4,602 +4,801 @@
 
 {% block stylesheets %}
   {{ block.super }}
+  <style>
+    .dashboard-modern {
+      padding: 20px;
+      background: #f5f7fa;
+    }
+    
+    .modern-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+    }
+    
+    .modern-card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      transform: translateY(-2px);
+    }
+    
+    .modern-card-title {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .modern-card-title i {
+      margin-right: 10px;
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+      text-align: center;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    
+    .icon-cpu {
+      background: #e8f4ff;
+      color: #3b82f6;
+    }
+    
+    .icon-memory {
+      background: #e8f8f0;
+      color: #10b981;
+    }
+    
+    .icon-disk {
+      background: #fff4e6;
+      color: #f97316;
+    }
+    
+    .icon-algorithm {
+      background: #f3e8ff;
+      color: #8b5cf6;
+    }
+    
+    .icon-system {
+      background: #e0f2fe;
+      color: #0ea5e9;
+    }
+    
+    .icon-auth {
+      background: #fef3c7;
+      color: #f59e0b;
+    }
+    
+    .chart-container {
+      height: 200px;
+      margin-top: 10px;
+    }
+    
+    .info-table {
+      width: 100%;
+    }
+    
+    .info-table tr {
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .info-table tr:last-child {
+      border-bottom: none;
+    }
+    
+    .info-table td {
+      padding: 8px 0;
+      font-size: 13px;
+      line-height: 1.3;
+    }
+    
+    .info-table td:first-child {
+      color: #666;
+      width: 100px;
+    }
+    
+    .info-table td:last-child {
+      color: #333;
+      font-weight: 500;
+      text-align: right;
+    }
+    
+    .status-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .status-success {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    
+    .status-warning {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    
+    .status-active {
+      background: #fef9c3;
+      color: #854d0e;
+    }
+    
+    .right_col {
+      background: #f5f7fa !important;
+    }
+    
+    /* 新版本弹窗样式 - 简洁版 */
+    #checkVersionDialog .modal-dialog {
+      max-width: 600px;
+    }
+    
+    #checkVersionDialog .modal-content {
+      border-radius: 8px;
+      border: none;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    #checkVersionDialog .modal-header {
+      background: #fafafa;
+      border-bottom: 1px solid #e5e7eb;
+      border-radius: 8px 8px 0 0;
+      padding: 16px 18px;
+    }
+    
+    #checkVersionDialog .modal-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #374151;
+      display: flex;
+      align-items: center;
+      line-height: 1.5;
+    }
+    
+    #checkVersionDialog .modal-title::before {
+      content: "🚀";
+      margin-right: 6px;
+      font-size: 16px;
+    }
+    
+    #checkVersionDialog .modal-body {
+      padding: 18px 20px;
+      background: white;
+    }
+    
+    .version-info-card {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 16px;
+    }
+    
+    .version-info-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .version-number {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      background: #3b82f6;
+      color: white;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .version-number i {
+      margin-right: 4px;
+      font-size: 11px;
+    }
+    
+    .version-date {
+      font-size: 11px;
+      color: #6b7280;
+      display: flex;
+      align-items: center;
+    }
+    
+    .version-date i {
+      margin-right: 3px;
+      font-size: 11px;
+    }
+    
+    .version-content {
+      margin: 0;
+      padding-left: 18px;
+    }
+    
+    .version-content li {
+      padding: 4px 0;
+      font-size: 13px;
+      color: #374151;
+      line-height: 1.6;
+    }
+    
+    #checkVersionDialog .modal-footer {
+      background: #fafafa;
+      border-top: 1px solid #e5e7eb;
+      border-radius: 0 0 8px 8px;
+      padding: 12px 18px;
+    }
+    
+    #checkVersionDialog .btn {
+      border-radius: 4px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    
+    #checkVersionDialog .btn-default {
+      background: white;
+      border: 1px solid #d1d5db;
+      color: #6b7280;
+    }
+    
+    #checkVersionDialog .btn-default:hover {
+      background: #f9fafb;
+      border-color: #9ca3af;
+      color: #374151;
+    }
+    
+    #checkVersionDialog .btn-primary {
+      background: #3b82f6;
+      border: none;
+      color: white;
+    }
+    
+    #checkVersionDialog .btn-primary:hover {
+      background: #2563eb;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(59, 130, 246, 0.25);
+    }
+    
+    #checkVersionDialog .btn-primary i {
+      margin-right: 4px;
+      font-size: 11px;
+    }
+    
+    #checkVersionDialog .close {
+      color: #6b7280;
+      opacity: 0.7;
+      font-size: 22px;
+      font-weight: 300;
+      text-shadow: none;
+      padding: 0;
+      margin: -2px 0 0 0;
+    }
+    
+    #checkVersionDialog .close:hover {
+      opacity: 1;
+      color: #374151;
+    }
+  </style>
 {% endblock stylesheets %}
 
 {% block content %}
   <div class="right_col" role="main">
-
-
-    <div class="row">
+    <div class="dashboard-modern">
+      <div class="row">
+        <!-- CPU利用率 -->
         <div class="col-md-4 col-sm-6 col-xs-12">
-          <div class="x_panel">
-            <div class="x_title">
-              <h2>CPU利用率</h2>
-              <div class="clearfix"></div>
+          <div class="modern-card">
+            <div class="modern-card-title">
+              <i class="fa fa-microchip icon-cpu"></i>
+              CPU利用率
             </div>
-            <div class="x_content">
-                <div id="cpuCharts" style="height:220px"></div>
-            </div>
+            <div class="chart-container" id="cpuCharts"></div>
           </div>
         </div>
+        
+        <!-- 内存利用率 -->
         <div class="col-md-4 col-sm-6 col-xs-12">
-          <div class="x_panel">
-            <div class="x_title">
-              <h2>内存利用率</h2>
-
-              <div class="clearfix"></div>
+          <div class="modern-card">
+            <div class="modern-card-title">
+              <i class="fa fa-database icon-memory"></i>
+              内存利用率
             </div>
-            <div class="x_content">
-                <div id="memoryCharts" style="height:220px"></div>
-            </div>
+            <div class="chart-container" id="memoryCharts"></div>
           </div>
         </div>
+        
+        <!-- 存储利用率 -->
         <div class="col-md-4 col-sm-6 col-xs-12">
-          <div class="x_panel">
-            <div class="x_title">
-              <h2>存储利用率</h2>
-              <div class="clearfix"></div>
+          <div class="modern-card">
+            <div class="modern-card-title">
+              <i class="fa fa-hdd-o icon-disk"></i>
+              存储利用率
             </div>
-            <div class="x_content">
-                <div id="diskCharts" style="height:220px"></div>
-            </div>
+            <div class="chart-container" id="diskCharts"></div>
           </div>
         </div>
-        <div class="clearfix"></div>
+      </div>
+      
+      <div class="row">
+        <!-- 分析器 -->
         <div class="col-md-4 col-sm-6 col-xs-12">
-          <div class="x_panel">
-            <div class="x_title">
-                <h2>分析器</h2>
-              <div class="clearfix"></div>
+          <div class="modern-card">
+            <div class="modern-card-title">
+              <i class="fa fa-cogs icon-algorithm"></i>
+              分析器
             </div>
-            <div class="x_content">
-              <table class="table table-hover">
-                <tbody id="coreProcessData">
-                 <tr>
-                    <th scope="row">分析器数据</th>
-                    <th scope="row">加载中</th>
-                  </tr>
-                </tbody>
-              </table>
-
-            </div>
+            <table class="info-table" id="coreProcessData">
+              <tbody>
+                <tr>
+                  <td>进程模式</td>
+                  <td>加载中...</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-
+        
+        <!-- 系统信息 -->
         <div class="col-md-4 col-sm-6 col-xs-12">
-          <div class="x_panel">
-            <div class="x_title">
-                <h2>系统信息</h2>
-              <div class="clearfix"></div>
+          <div class="modern-card">
+            <div class="modern-card-title">
+              <i class="fa fa-info-circle icon-system"></i>
+              系统信息
             </div>
-            <div class="x_content">
-              <table class="table table-hover">
-                <tbody>
-                  <tr>
-                    <th scope="row">版本</th>
-                    <th scope="row" id="project_version">Version</th>
-                  </tr>
-
-                  <tr>
-                    <th scope="row">机器</th>
-                    <th scope="row" id="os_machine_node">Machine</th>
-                  </tr>
-
-                  <tr>
-                    <th scope="row">系统</th>
-                    <th scope="row" id="os_system_name">System</th>
-                  </tr>
-
-                  <tr>
-                    <th scope="row">运行</th>
-                    <th scope="row" id="os_run_date_str">00:00:00</th>
-                  </tr>
-                    <tr>
-                    <th scope="row">CPU</th>
-                    <th scope="row" id="os_cpu_used_rate">0%</th>
-                  </tr>
-
-                  <tr>
-                    <th scope="row">内存</th>
-                    <th scope="row" id="os_virtual_mem_used_rate">0%</th>
-                  </tr>
-
-                   <tr>
-                    <th scope="row">存储</th>
-                    <th scope="row" id="os_disk_used_rate">0%</th>
-                  </tr>
-                </tbody>
-              </table>
-
-            </div>
+            <table class="info-table">
+              <tbody>
+                <tr>
+                  <td>版本</td>
+                  <td id="project_version">-</td>
+                </tr>
+                <tr>
+                  <td>机器</td>
+                  <td id="os_machine_node">-</td>
+                </tr>
+                <tr>
+                  <td>系统</td>
+                  <td id="os_system_name">-</td>
+                </tr>
+                <tr>
+                  <td>运行</td>
+                  <td id="os_run_date_str">00:00:00</td>
+                </tr>
+                <tr>
+                  <td>CPU</td>
+                  <td id="os_cpu_used_rate">0%</td>
+                </tr>
+                <tr>
+                  <td>内存</td>
+                  <td id="os_virtual_mem_used_rate">0%</td>
+                </tr>
+                <tr>
+                  <td>存储</td>
+                  <td id="os_disk_used_rate">0%</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-
+        
+        <!-- 授权信息 -->
         <div class="col-md-4 col-sm-6 col-xs-12">
-          <div class="x_panel">
-            <div class="x_title">
-                <h2>授权信息</h2>
-              </ul>
-              <div class="clearfix"></div>
+          <div class="modern-card">
+            <div class="modern-card-title">
+              <i class="fa fa-key icon-auth"></i>
+              授权信息
             </div>
-            <div class="x_content">
-              <table class="table table-hover">
-                <tbody>
-                   <tr>
-                    <th scope="row">授权状态</th>
-                    <th scope="row" id="is_auth">未授权</th>
-                  </tr>
-                 <tr>
-                    <th scope="row">授权方式</th>
-                    <th scope="row" id="auth_method">无</th>
-                  </tr>
-
-                 <tr>
-                    <th scope="row">授权类型</th>
-                    <th scope="row" id="auth_type">无</th>
-                  </tr>
-
-                </tbody>
-              </table>
-
-            </div>
+            <table class="info-table">
+              <tbody>
+                <tr>
+                  <td>授权状态</td>
+                  <td id="is_auth">-</td>
+                </tr>
+                <tr>
+                  <td>授权方式</td>
+                  <td id="auth_method">-</td>
+                </tr>
+                <tr>
+                  <td>授权类型</td>
+                  <td id="auth_type">-</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-
-        <div class="clearfix"></div>
-
-         <!--版本检测弹窗start -->
-          <div id="checkVersionDialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                  <h4 class="modal-title" >发现新版本</h4>
-              </div>
-              <div class="modal-body">
-                <div style="padding: 5px 20px;">
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                          <th>版本号</th>
-                        <th>更新时间</th>
-                        <th>更新内容</th>
-                      </tr>
-                    </thead>
-                    <tbody id="checkVersionData">
-
-                    </tbody>
-                  </table>
-                </div>
-
-              </div>
-               <div class="modal-footer">
-                    <button type="button"  class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" onclick="f_downloadNewVersion()" class="btn btn-primary">下载新版本</button>
-                  </div>
-
-            </div>
-          </div>
-        </div>
-      <!--版本检测弹窗end -->
-
+      </div>
     </div>
-
-
+    
+    <!-- 版本检测弹窗 -->
+    <div id="checkVersionDialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title">发现新版本</h4>
+          </div>
+          <div class="modal-body">
+            <div id="checkVersionContent"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" onclick="f_downloadNewVersion()" class="btn btn-primary">
+              <i class="fa fa-download"></i> 下载新版本
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock content %}
 
 {% block javascripts %}
-  {{ block.super}}
+  {{ block.super }}
+  <script src="/static/lib/highcharts/highcharts.js"></script>
+  <script src="/static/lib/highcharts/modules/exporting.js"></script>
+  <script src="/static/lib/highcharts-plugins/highcharts-zh_CN.js"></script>
+  <script>
+    let eleCheckVersionDialog = $("#checkVersionDialog");
+    let eleCheckVersionContent = $("#checkVersionContent");
+    let downloadNewVersionUrl = "";
 
-<script src="/static/lib/highcharts/highcharts.js"></script>
-<script src="/static/lib/highcharts/modules/exporting.js"></script>
-<script src="/static/lib/highcharts-plugins/highcharts-zh_CN.js"></script>
-<script>
-        let eleCheckVersionDialog = $("#checkVersionDialog");
-        let eleCheckVersionData = $("#checkVersionData");
-        let downloadNewVersionUrl = "";
-
-        Highcharts.setOptions({
-            global: {
-                    useUTC: false
+    Highcharts.setOptions({
+      global: {
+        useUTC: false
+      }
+    });
+    
+    // 创建现代化图表的通用配置
+    function createModernChart(containerId, seriesName, color) {
+      return Highcharts.chart(containerId, {
+        chart: {
+          type: 'area',
+          backgroundColor: 'transparent',
+          spacing: [10, 0, 10, 0],
+          events: {
+            load: function () {
+              let chart = this;
+              activeLastPointToolip(chart);
             }
-        });
-        function activeLastPointToolip(chart) {
-            let points = chart.series[0].points;
-            chart.tooltip.refresh(points[points.length -1]);
-        }
-        let cpuCharts = Highcharts.chart('cpuCharts', {
-            exporting:{
-                enabled:false //隐藏右上角菜单
+          }
+        },
+        exporting: {
+          enabled: false
+        },
+        credits: {
+          enabled: false
+        },
+        title: {
+          text: null
+        },
+        xAxis: {
+          type: 'datetime',
+          lineWidth: 0,
+          tickWidth: 0,
+          labels: {
+            style: {
+              color: '#999',
+              fontSize: '11px'
+            }
+          },
+          gridLineWidth: 1,
+          gridLineColor: '#f0f0f0'
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: null
+          },
+          labels: {
+            style: {
+              color: '#999',
+              fontSize: '11px'
+            }
+          },
+          gridLineColor: '#f0f0f0'
+        },
+        tooltip: {
+          backgroundColor: 'rgba(255, 255, 255, 0.95)',
+          borderWidth: 1,
+          borderColor: color,
+          borderRadius: 8,
+          shadow: true,
+          useHTML: true,
+          formatter: function () {
+            return '<div style="padding: 5px;">' +
+              '<b style="color: ' + color + ';">' + this.series.name + '</b><br/>' +
+              '<span style="color: #666; font-size: 12px;">' + 
+              Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + 
+              '</span><br/>' +
+              '<span style="font-size: 14px; font-weight: bold; color: #333;">' + 
+              Highcharts.numberFormat(this.y, 2) + 
+              '</span>' +
+              '</div>';
+          }
+        },
+        plotOptions: {
+          area: {
+            fillColor: {
+              linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+              stops: [
+                [0, Highcharts.color(color).setOpacity(0.3).get('rgba')],
+                [1, Highcharts.color(color).setOpacity(0.05).get('rgba')]
+              ]
             },
-            credits:{
-                enabled:false//隐藏右下角logo
+            marker: {
+              radius: 3,
+              fillColor: color,
+              lineWidth: 2,
+              lineColor: '#fff'
             },
-            chart: {
-                type: 'spline',
-                marginRight: 10,
-                events: {
-                    load: function () {
-                        let chart = this;
-                        activeLastPointToolip(chart);
-                    }
-                }
+            lineWidth: 2,
+            states: {
+              hover: {
+                lineWidth: 3
+              }
             },
-            title: {
-                    text: null
-            },
-            xAxis: {
-                    type: 'datetime',
-                    tickPixelInterval: 150
-            },
-             yAxis: [{
-                min:0,
-                title: {
-                    text: null
-                },
-                showFirstLabel: true
-            }],
-            tooltip: {
-                    formatter: function () {
-                            return '<b>' + this.series.name + '</b><br/>' +
-                                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                                    Highcharts.numberFormat(this.y, 2);
-
-
-                    }
-            },
-            legend: {
-                    enabled: false //隐藏底部类别名称
-            },
-            series: [{
-                    name: 'CPU利用率',
-                    data: (function () {
-                            // 生成随机值
-                            var data = [],
-                                    time = (new Date()).getTime(),
-                                    i;
-                            for (i = -9; i <= 0; i += 1) {
-                                    data.push({
-                                            x: time + i * 1000,
-                                            y: 0 //Math.random()
-                                    });
-                            }
-
-                            return data;
-                    }())
-            }]
-        });
-        let memoryCharts = Highcharts.chart('memoryCharts', {
-            exporting:{
-                enabled:false //隐藏右上角菜单
-            },
-            credits:{
-                enabled:false//隐藏右下角logo
-            },
-            chart: {
-                type: 'spline',
-                marginRight: 10,
-                events: {
-                    load: function () {
-                        let chart = this;
-                        activeLastPointToolip(chart);
-                    }
-                }
-            },
-            title: {
-                text: null
-            },
-            xAxis: {
-                    type: 'datetime',
-                    tickPixelInterval: 150
-            },
-             yAxis: [{ // 第一个 Y 轴，放置在左边（默认在坐标）
-                title: {
-                    text: null
-                },
-                showFirstLabel: true
-            }],
-            tooltip: {
-                    formatter: function () {
-                            return '<b>' + this.series.name + '</b><br/>' +
-                                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                                    Highcharts.numberFormat(this.y, 2);
-                    }
-            },
-            legend: {
-                    enabled: false
-            },
-            series: [{
-                    name: '内存利用率',
-                    data: (function () {
-                            // 生成随机值
-                            let data = [],
-                            time = (new Date()).getTime(),
-                            i;
-
-                            for (i = -9; i <= 0; i += 1) {
-                                    data.push({
-                                            x: time + i * 1000,
-                                            y: 0 //Math.random()
-                                    });
-                            }
-                            return data;
-                    }())
-            }]
-        });
-        let diskCharts = Highcharts.chart('diskCharts', {
-            exporting:{
-                enabled:false //隐藏右上角菜单
-            },
-            credits:{
-                enabled:false//隐藏右下角logo
-            },
-            chart: {
-                type: 'spline',
-                marginRight: 10,
-                events: {
-                    load: function () {
-                        let chart = this;
-                        activeLastPointToolip(chart);
-                    }
-                }
-            },
-            title: {
-                    text: null
-            },
-            xAxis: {
-                    type: 'datetime',
-                    tickPixelInterval: 150
-            },
-             yAxis: [{
-                min:0,
-                title: {
-                    text: null
-                },
-                showFirstLabel: true
-            }],
-            tooltip: {
-                    formatter: function () {
-                            return '<b>' + this.series.name + '</b><br/>' +
-                                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                                    Highcharts.numberFormat(this.y, 2);
-
-
-                    }
-            },
-            legend: {
-                    enabled: false
-            },
-            series: [{
-                    name: '磁盘利用率',
-                    data: (function () {
-                            // 生成随机值
-                            let data = [],
-                            time = (new Date()).getTime(),
-                            i;
-
-                            for (i = -9; i <= 0; i += 1) {
-                                    data.push({
-                                            x: time + i * 1000,
-                                            y: 0 //Math.random()
-                                    });
-                            }
-
-                            return data;
-                    }())
-            }]
-        });
-
-        let eleCoreProcessData = $("#coreProcessData");
-
-        //系统信息
-        let eleProjectVersion = $("#project_version");
-        let eleOsMachineNode = $("#os_machine_node");
-        let eleOsSystemName = $("#os_system_name");
-        let ele_os_run_date_str = $("#os_run_date_str");
-        let ele_os_cpu_used_rate = $("#os_cpu_used_rate");
-        let ele_os_virtual_mem_used_rate = $("#os_virtual_mem_used_rate");
-        let ele_os_disk_used_rate = $("#os_disk_used_rate ");
-        
-        //授权信息
-        let eleIsAuth = $("#is_auth");
-        let eleAuthMethod = $("#auth_method");
-        let eleAuthType = $("#auth_type");
-
-        function f_openGetIndex() {
-            $.ajax({
-               url: '/open/getIndex',
-               type: "get",
-               async: true,
-               data: {},
-               dataType: "json",
-               timeout: 0,
-               error: function () {
-                    myAlert("网络异常，请确定网络正常！","error");
-               },
-               success: function (res) {
-                   if(res.code === 1000){
-                        try {
-                            let osInfo = res["osInfo"];
-                            let appInfo = res["appInfo"];
-
-                            let project_version = appInfo["project_version"]
-                            let project_flag = appInfo["project_flag"]
-
-                            let system_name = osInfo["system_name"];
-                            let machine_node = osInfo["machine_node"];
-                            let os_cpu_used_rate = osInfo["os_cpu_used_rate"];
-                            let os_virtual_mem_used_rate = osInfo["os_virtual_mem_used_rate"];
-                            let os_disk_used_rate = osInfo["os_disk_used_rate"];
-                            let os_cpu_used_rate_str = osInfo["os_cpu_used_rate_str"];
-                            let os_virtual_mem_used_rate_str = osInfo["os_virtual_mem_used_rate_str"];
-                            let os_disk_used_rate_str = osInfo["os_disk_used_rate_str"];
-                            let os_run_date_str = osInfo["os_run_date_str"];
-
-                            eleProjectVersion.html("v"+project_version);
-                            eleOsMachineNode.html(machine_node);
-                            eleOsSystemName.html(system_name);
-                            ele_os_run_date_str.html(os_run_date_str);
-                            ele_os_cpu_used_rate.html(os_cpu_used_rate_str);
-                            ele_os_virtual_mem_used_rate.html(os_virtual_mem_used_rate_str);
-                            ele_os_disk_used_rate.html(os_disk_used_rate_str);
-
-                           //设置图表数据
-                            let x = (new Date()).getTime();
-                            cpuCharts.series[0].addPoint([x, os_cpu_used_rate], true, true);
-                            activeLastPointToolip(cpuCharts);
-                            memoryCharts.series[0].addPoint([x, os_virtual_mem_used_rate], true, true);
-                            activeLastPointToolip(memoryCharts);
-                            diskCharts.series[0].addPoint([x, os_disk_used_rate], true, true);
-                            activeLastPointToolip(diskCharts);
-                        }catch (e) {
-                            console.log(e)
-                        }
-                   }else{
-                        console.log(res.msg);
-                   }
-                   setTimeout(function () {
-                       f_openGetIndex();
-                   }, 6000);
-               }
-            });
-        }
-        function f_authOpenIndex() {
-            $.ajax({
-                   url: '/auth/openIndex',
-                   type: "get",
-                   async: true,
-                   data: {},
-                   dataType: "json",
-                   timeout: 0,
-                   error: function () {
-                       myAlert("网络异常，请确定网络正常！","error");
-                   },
-                   success: function (res) {
-                       if(res.code === 1000){
-                            let info = res.info;
-                            let acStatus = parseInt(info.acStatus);
-                            let dongleStatus = parseInt(info.dongleStatus);
-
-                            let isAuth = parseInt(info.isAuth);
-                            let isMultiProcess = parseInt(info.isMultiProcess);
-                            let maxCount = parseInt(info.maxCount);
-
-                            if(isAuth===1){
-                                eleIsAuth.html("<span class='sun-state-success'>已授权</span>");
-                                let authMethod;
-                                if(dongleStatus===1){
-                                    authMethod="加密锁";
-                                } else if(acStatus===1){
-                                    authMethod="授权码";
-                                }else{
-                                     authMethod="未知";
-                                }
-                                eleAuthMethod.html(authMethod);
-
-                                let authType;
-                                if(isMultiProcess===1){
-                                    authType = "高级版授权("+maxCount+")路";
-                                }else {
-                                    authType = "普通版授权";
-                                }
-                                eleAuthType.html(authType);
-                            }else{
-                                eleIsAuth.html("<span class='sun-state-error'>未授权</span>");
-                            }
-                       }else{
-                            eleIsAuth.html("<span class='sun-state-error'>程序异常</span>");
-                       }
-                   }
-            });
-        }
-        function f_getAllCoreProcessData() {
-            $.ajax({
-               url: '/open/getAllCoreProcessData',
-               type: "get",
-               async: true,
-               data: {},
-               dataType: "json",
-               timeout: 0,
-               error: function () {
-                    myAlert("网络异常，请确定网络正常！","error");
-               },
-               success: function (res) {
-                    let data = res["data"];
-                    let info = res["info"];
-
-                    let processMode = info["processMode"]
-                    let processNum = info["processNum"]
-                    let html = "<tr><th scope=\"row\">进程模式</th><th scope=\"row\">"+processMode+"</th></tr>";
-                    html += "<tr><th scope=\"row\">进程数量</th><th scope=\"row\">"+processNum+"</th></tr>";
-
-                    for (let i = 0; i < data.length; i++) {
-                        let __status = data[i]["status"]
-                        let __port = data[i]["port"]
-                        if(__status === 1){
-                            let __controlCount = data[i]["controlCount"]
-                            let __streamCount = data[i]["streamCount"]
-
-                            html+="<tr><th scope=\"row\">"+__port+"</th><th scope=\"row\">"+__streamCount+"("+__controlCount+")(路)</th></tr>";
-                        }else{
-                            html+="<tr><th scope=\"row\">"+__port+"</th><th scope=\"row\">重启中</th></tr>";
-                        }
-                    }
-                    eleCoreProcessData.html(html);
-
-               }
-            });
-        }
-
-        function f_downloadNewVersion(){
-            window.open(downloadNewVersionUrl);
-        }
-        function f_getCheckVersion() {
-
-            $.ajax({
-               url: '/version/getCheckVersion',
-               type: "get",
-               async: true,
-               data: {},
-               dataType: "json",
-               timeout: 0,
-               error: function () {
-                   myAlert("网络异常，请确定网络正常！","error");
-               },
-               success: function (res) {
-                  let info = res.info;
-                  let historyVersionUrl = info.historyVersionUrl;//历史版本下载地址
-                   if(1000 === res.code){//发现新版本
-                       let version = info.version.toString();//新版本版本号
-                       let updateContent = info.updateContent;//array
-                       let pubdate = info.pubdate;//版本发布时间
-                       downloadNewVersionUrl = info.url;//新版本下载地址
-                        let html = "";
-
-                        html+="<tr><th scope=\"row\">"+version+"</th>";
-                        html+="<td>"+pubdate+"</td>";
-                        html+="<td style='max-width: 250px;'>";
-                        for (let i = 0; i < updateContent.length; i++) {
-                            html +=updateContent[i]+"<br>";
-                        }
-                        html+="</td></tr>";
-                        eleCheckVersionData.html(html);
-                        eleCheckVersionDialog.modal("toggle");
-
-                   }
-               }
-            });
-        }
-
-        $(function() {
+            threshold: null
+          }
+        },
+        legend: {
+          enabled: false
+        },
+        series: [{
+          name: seriesName,
+          color: color,
+          data: (function () {
+            let data = [],
+              time = (new Date()).getTime(),
+              i;
+            for (i = -9; i <= 0; i += 1) {
+              data.push({
+                x: time + i * 1000,
+                y: 0
+              });
+            }
+            return data;
+          }())
+        }]
+      });
+    }
+    
+    function activeLastPointToolip(chart) {
+      let points = chart.series[0].points;
+      if (points.length > 0) {
+        chart.tooltip.refresh(points[points.length - 1]);
+      }
+    }
+    
+    // 创建三个图表
+    let cpuCharts = createModernChart('cpuCharts', 'CPU利用率', '#3b82f6');
+    let memoryCharts = createModernChart('memoryCharts', '内存利用率', '#10b981');
+    let diskCharts = createModernChart('diskCharts', '磁盘利用率', '#f97316');
+    
+    let eleCoreProcessData = $("#coreProcessData tbody");
+    
+    // 系统信息元素
+    let eleProjectVersion = $("#project_version");
+    let eleOsMachineNode = $("#os_machine_node");
+    let eleOsSystemName = $("#os_system_name");
+    let ele_os_run_date_str = $("#os_run_date_str");
+    let ele_os_cpu_used_rate = $("#os_cpu_used_rate");
+    let ele_os_virtual_mem_used_rate = $("#os_virtual_mem_used_rate");
+    let ele_os_disk_used_rate = $("#os_disk_used_rate");
+    
+    // 授权信息元素
+    let eleIsAuth = $("#is_auth");
+    let eleAuthMethod = $("#auth_method");
+    let eleAuthType = $("#auth_type");
+    
+    function f_openGetIndex() {
+      $.ajax({
+        url: '/open/getIndex',
+        type: "get",
+        async: true,
+        data: {},
+        dataType: "json",
+        timeout: 0,
+        error: function () {
+          myToast2025("网络异常，请确定网络正常！", "error");
+        },
+        success: function (res) {
+          if (res.code === 1000) {
+            try {
+              let osInfo = res["osInfo"];
+              let appInfo = res["appInfo"];
+              
+              let project_version = appInfo["project_version"];
+              let system_name = osInfo["system_name"];
+              let machine_node = osInfo["machine_node"];
+              let os_cpu_used_rate = osInfo["os_cpu_used_rate"];
+              let os_virtual_mem_used_rate = osInfo["os_virtual_mem_used_rate"];
+              let os_disk_used_rate = osInfo["os_disk_used_rate"];
+              let os_cpu_used_rate_str = osInfo["os_cpu_used_rate_str"];
+              let os_virtual_mem_used_rate_str = osInfo["os_virtual_mem_used_rate_str"];
+              let os_disk_used_rate_str = osInfo["os_disk_used_rate_str"];
+              let os_run_date_str = osInfo["os_run_date_str"];
+              
+              eleProjectVersion.html("v" + project_version);
+              eleOsMachineNode.html(machine_node);
+              eleOsSystemName.html(system_name);
+              ele_os_run_date_str.html(os_run_date_str);
+              ele_os_cpu_used_rate.html(os_cpu_used_rate_str);
+              ele_os_virtual_mem_used_rate.html(os_virtual_mem_used_rate_str);
+              ele_os_disk_used_rate.html(os_disk_used_rate_str);
+              
+              // 设置图表数据
+              let x = (new Date()).getTime();
+              cpuCharts.series[0].addPoint([x, os_cpu_used_rate], true, true);
+              activeLastPointToolip(cpuCharts);
+              memoryCharts.series[0].addPoint([x, os_virtual_mem_used_rate], true, true);
+              activeLastPointToolip(memoryCharts);
+              diskCharts.series[0].addPoint([x, os_disk_used_rate], true, true);
+              activeLastPointToolip(diskCharts);
+            } catch (e) {
+              console.log(e);
+            }
+          } else {
+            console.log(res.msg);
+          }
+          setTimeout(function () {
             f_openGetIndex();
-            f_authOpenIndex();
-            f_getAllCoreProcessData();
-            f_getCheckVersion();
-        });
-
-</script>
+          }, 6000);
+        }
+      });
+    }
+    
+    function f_authOpenIndex() {
+      $.ajax({
+        url: '/auth/openIndex',
+        type: "get",
+        async: true,
+        data: {},
+        dataType: "json",
+        timeout: 0,
+        error: function () {
+          myToast2025("网络异常，请确定网络正常！", "error");
+        },
+        success: function (res) {
+          if (res.code === 1000) {
+            let info = res.info;
+            let acStatus = parseInt(info.acStatus);
+            let dongleStatus = parseInt(info.dongleStatus);
+            let isAuth = parseInt(info.isAuth);
+            let isMultiProcess = parseInt(info.isMultiProcess);
+            let maxCount = parseInt(info.maxCount);
+            
+            if (isAuth === 1) {
+              eleIsAuth.html('<span class="status-badge status-success">已授权</span>');
+              let authMethod;
+              if (dongleStatus === 1) {
+                authMethod = "授权码";
+              } else if (acStatus === 1) {
+                authMethod = "授权码";
+              } else {
+                authMethod = "未知";
+              }
+              eleAuthMethod.html(authMethod);
+              
+              let authType;
+              if (isMultiProcess === 1) {
+                authType = "高级版授权(" + maxCount + ")路";
+              } else {
+                authType = "普通版授权";
+              }
+              eleAuthType.html(authType);
+            } else {
+              eleIsAuth.html('<span class="status-badge status-warning">未授权</span>');
+              eleAuthMethod.html("无");
+              eleAuthType.html("无");
+            }
+          } else {
+            eleIsAuth.html('<span class="status-badge status-warning">程序异常</span>');
+          }
+        }
+      });
+    }
+    
+    function f_getAllCoreProcessData() {
+      $.ajax({
+        url: '/open/getAllCoreProcessData',
+        type: "get",
+        async: true,
+        data: {},
+        dataType: "json",
+        timeout: 0,
+        error: function () {
+          myToast2025("网络异常，请确定网络正常！", "error");
+        },
+        success: function (res) {
+          let data = res["data"];
+          let info = res["info"];
+          
+          let processMode = info["processMode"];
+          let processNum = info["processNum"];
+          let html = "<tr><td>进程模式</td><td>" + processMode + "</td></tr>";
+          html += "<tr><td>进程数量</td><td>" + processNum + "</td></tr>";
+          
+          for (let i = 0; i < data.length; i++) {
+            let __status = data[i]["status"];
+            let __port = data[i]["port"];
+            if (__status === 1) {
+              let __controlCount = data[i]["controlCount"];
+              let __streamCount = data[i]["streamCount"];
+              html += "<tr><td>" + __port + "</td><td><span class='status-badge status-active'>" + 
+                      __streamCount + "(" + __controlCount + ")路</span></td></tr>";
+            } else {
+              html += "<tr><td>" + __port + "</td><td><span class='status-badge status-warning'>重启中</span></td></tr>";
+            }
+          }
+          eleCoreProcessData.html(html);
+        }
+      });
+    }
+    
+    function f_downloadNewVersion() {
+      window.open(downloadNewVersionUrl);
+    }
+    
+    function f_getCheckVersion() {
+      $.ajax({
+        url: '/version/getCheckVersion',
+        type: "get",
+        async: true,
+        data: {},
+        dataType: "json",
+        timeout: 0,
+        error: function () {
+          myToast2025("网络异常，请确定网络正常！", "error");
+        },
+        success: function (res) {
+          let info = res.info;
+          if (1000 === res.code) {
+            let version = info.version.toString();
+            let updateContent = info.updateContent;
+            let pubdate = info.pubdate;
+            downloadNewVersionUrl = info.url;
+            
+            let html = `
+              <div class="version-info-card">
+                <div class="version-info-header">
+                  <span class="version-number">
+                    <i class="fa fa-rocket"></i> v${version}
+                  </span>
+                  <span class="version-date">
+                    <i class="fa fa-clock-o"></i>${pubdate}
+                  </span>
+                </div>
+                <ul class="version-content">
+            `;
+            
+            for (let i = 0; i < updateContent.length; i++) {
+              html += `<li>${updateContent[i]}</li>`;
+            }
+            
+            html += `
+                </ul>
+              </div>
+            `;
+            
+            eleCheckVersionContent.html(html);
+            eleCheckVersionDialog.modal("toggle");
+          }
+        }
+      });
+    }
+    
+    $(function() {
+      f_openGetIndex();
+      f_authOpenIndex();
+      f_getAllCoreProcessData();
+      f_getCheckVersion();
+    });
+  </script>
 {% endblock javascripts %}
-

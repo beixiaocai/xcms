@@ -45,7 +45,6 @@
                 </li>
               </ul>
             -->
-                <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-default btn-sm">文档</button>
                 </h2>
               <div class="clearfix"></div>
             </div>
@@ -305,7 +304,7 @@ function f_openAlgorithmTypeAttrs() {
        dataType: "json",
        timeout: 0,
        error: function () {
-            myAlert("网络异常，请确定网络正常！","error");
+            myToast2025("网络异常，请确定网络正常！","error");
        },
        success: function (res) {
             if(res.code === 1000){
@@ -318,10 +317,7 @@ function f_openAlgorithmTypeAttrs() {
        }
     });
 }
-function f_docs() {
-    let url= "{{ settings.docs.algorithmAdd }}";
-    window.open(url);
-}
+
 function updateTimer() {
     mTimerSpendSecond++;
     eleTimerCounter.html("耗时"+mTimerSpendSecond.toString()+"秒")
@@ -347,11 +343,11 @@ function f_submit() {
 
     let name_s = ele_input_name.val().trim();
     if(name_s=== ""){
-        myAlert("请输入算法名称","error");
+        myToast2025("请输入算法名称","error");
        return false;
     }
     if(selectedAlgorithmTypeCode==="0" || selectedAlgorithmTypeCode === ""){
-        myAlert("请选择算法类型","error");
+        myToast2025("请选择算法类型","error");
        return false;
     }
     let formData = new FormData();
@@ -361,33 +357,33 @@ function f_submit() {
     formData.append('algorithm_type',selectedAlgorithmTypeCode);
     let framework_s = ele_select_framework.val().trim();
     if(framework_s==="0"){
-        myAlert("请选择算法框架","error");
+        myToast2025("请选择算法框架","error");
         return false;
     }
     let inference_s = ele_select_inference.val().trim();
     if(inference_s==="0"){
-        myAlert("请选择算法推理引擎","error");
+        myToast2025("请选择算法推理引擎","error");
         return false;
     }
     let inference_device_s = ele_input_inference_device.val().trim();
     if(inference_device_s === ""){
-        myAlert("请输入算法推理引擎设备","error");
+        myToast2025("请输入算法推理引擎设备","error");
         return false;
     }
     let extend_params_s = ele_textarea_extend_params.val().trim();
     if(extend_params_s === ""){
-        myAlert("请输入模型推理参数","error");
+        myToast2025("请输入模型推理参数","error");
         return false;
     }
    let model_class_names_s = ele_textarea_model_class_names.val().trim();
     if(model_class_names_s === ""){
-        myAlert("请输入模型目标参数","error");
+        myToast2025("请输入模型目标参数","error");
         return false;
     }
 
    let model_convert_params_s = ele_textarea_model_convert_params.val().trim();
    if(model_convert_params_s === ""){
-        myAlert("请输入模型转换参数","error");
+        myToast2025("请输入模型转换参数","error");
         return false;
     }
 
@@ -416,41 +412,41 @@ function f_submit() {
                 }else if(fs_name.endsWith(".engine")){
                     //支持
                 }else{
-                    myAlert("TensorRT仅支持onnx或engine格式的模型","error");
+                    myToast2025("TensorRT仅支持onnx或engine格式的模型","error");
                     return false;
                 }
             }
             else if(inference_s === "OpenVINO"){
                 if(!fs_name.endsWith(".tar")){
-                    myAlert("OpenVINO仅支持tar格式的模型","error");
+                    myToast2025("OpenVINO仅支持tar格式的模型","error");
                     return false;
                 }
             }
             else if(inference_s === "ONNXRuntime"){
                 if(!fs_name.endsWith(".onnx")){
-                    myAlert("ONNXRuntime仅支持onnx格式的模型","error");
+                    myToast2025("ONNXRuntime仅支持onnx格式的模型","error");
                     return false;
                 }
             }
             else if(inference_s === "Ascend"){
                 if(!fs_name.endsWith(".om")){
-                    myAlert("Ascend仅支持om格式的模型","error");
+                    myToast2025("Ascend仅支持om格式的模型","error");
                     return false;
                 }
             }
             else if(inference_s === "RKNPU"){
                 if(!fs_name.endsWith(".rknn")){
-                    myAlert("RKNPU仅支持rknn格式的模型","error");
+                    myToast2025("RKNPU仅支持rknn格式的模型","error");
                     return false;
                 }
             }
             if(fs_size_m > 1000){
-                myAlert("模型文件不能超过（1000）M："+String(fs_size_m),"error");
+                myToast2025("模型文件不能超过（1000）M："+String(fs_size_m),"error");
                 return false;
             }
             formData.append("model",file);
         }else{
-           myAlert("请上传模型文件","error");
+           myToast2025("请上传模型文件","error");
            return false;
         }
     }else if(handle === "edit"){
@@ -461,7 +457,7 @@ function f_submit() {
    }
 
     if(curIsPost){
-        myAlert("正在提交中，请勿重复提交！","error",500);
+        myToast2025("正在提交中，请勿重复提交！","error",500);
         return false;
     }
     curIsPost = true;
@@ -480,7 +476,7 @@ function f_submit() {
                curIsPost = false;
                eleTopLoading.hide();
                f_stopTimer();
-               myAlert("网络异常，请确定网络正常！","error");
+               myToast2025("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
                curIsPost = false;
@@ -503,13 +499,13 @@ function f_submit() {
                ele_submit_msg.show();
                ele_submit_msg.html(res.msg)
                if(1000 === res.code){
-                   //myAlert(res.msg,"success");
-                   myAlert(res.msg,"success",1000);
+                   //myToast2025(res.msg,"success");
+                   myToast2025(res.msg,"success",1000);
                    setTimeout(function () {
                         window.location.href= "/algorithm/index";
                    }, 1000);
                }else{
-                    myAlert(res.msg,"error");
+                    myToast2025(res.msg,"error");
                }
            }
     });

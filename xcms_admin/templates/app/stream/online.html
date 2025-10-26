@@ -88,7 +88,7 @@
                timeout: 0,
                error: function () {
                    eleTopLoading.hide();
-                   myAlert("网络异常，请确定网络正常！","error");
+                   myToast2025("网络异常，请确定网络正常！","error");
                },
                success: function (res) {
                    eleTopLoading.hide();
@@ -131,7 +131,7 @@
 
                    }else{
                         //eleTopMsg.html(res.msg);
-                        myAlert(res.msg,"error");
+                        myToast2025(res.msg,"error");
                    }
                }
             });

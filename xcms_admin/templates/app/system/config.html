@@ -24,11 +24,8 @@
             <div class="x_title">
               <h2>启动配置
                 <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
-
-              <button style="margin-left:5px;" onclick="f_docs()" class="btn btn-dark btn-sm">文档</button>
-                                  <span id="top_msg">{{top_msg}}</span>
-
-                         </h2>
+                <span id="top_msg">{{top_msg}}</span>
+              </h2>
               <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -319,10 +316,6 @@
     let eleAlarmFolderSize = $("#alarmFolderSize")
     let eleRecordFolderSize = $("#recordFolderSize")
 
-    function f_docs() {
-        let url= "{{ settings.docs.systemConfig }}";
-        window.open(url);
-    }
     function f_handle() {
         //基础参数
         let eleName = $("input[name='name']");
@@ -430,13 +423,13 @@
            dataType: "json",
            timeout: 0,
            error: function () {
-                myAlert("网络异常，请确定网络正常！","error");
+                myToast2025("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
                if(1000 === res.code){
-                   myAlert(res.msg,"success",2000);
+                   myToast2025(res.msg,"success",2000);
                }else{
-                    myAlert(res.msg,"error");
+                    myToast2025(res.msg,"error");
                }
            }
         });
@@ -451,7 +444,7 @@
            dataType: "json",
            timeout: 0,
            error: function () {
-                myAlert("网络异常，请确定网络正常！","error");
+                myToast2025("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
                if(1000 === res.code){
@@ -464,7 +457,7 @@
                    }
 
                }else{
-                   myAlert(res.msg,"error");
+                   myToast2025(res.msg,"error");
                }
            }
         });
