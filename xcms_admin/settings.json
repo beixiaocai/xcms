@@ -10,20 +10,5 @@
     "auth_buy_link": "https://item.taobao.com/item.htm?id=762119975982",
     "check_version_app_key": "public",
     "check_version_app_secret": "xc",
-    "check_version_download_url": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/e05dce83e5129785b9f316978a14b896",
-    "docs": {
-        "alarmIndex": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/fg97vrayt2pkke3w",
-        "alarmInterfaceAdd": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/bf833658041bb92238865077f0130fb2",
-        "alarmFilterAdd": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/ed60034a22322d0d3efa9355571b3872",
-        "streamAdd": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/cf41d9b53c35c8cb8850028261dfd4bc",
-        "algorithmFlowAdd": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/ktte3crgsfrklspa",
-        "algorithmAdd": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/e642113af5a2909261dd2ef2b59f7be3",
-        "behaviourAdd": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/bacded01cbb5107aa88a9df95750652d",
-        "controlAdd": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/081f8619171a157e75b4865b85e9f34d",
-        "controlPatrolAdd": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/832eeec10b0e066f6aeff8c43649c836",
-        "openIndex": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/ec891d588b66c36d2021613a8ff55c78",
-        "systemConfig": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/7ea49eddd8294dd0b66742647d76bb10",
-        "systemSettings": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/uwsog61noimutbm7",
-        "faceAdd": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/lbshv31ghc4brep5"
-    }
+    "check_version_download_url": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/e05dce83e5129785b9f316978a14b896"
 }
