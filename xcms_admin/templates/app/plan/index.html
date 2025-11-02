@@ -646,19 +646,23 @@
                                         <td>
                                             {% for task in tasks %}
                                                 {% if task.code == d.task_code %}
-                                                    <span class="xc_badge xc_badge-task">{{ task.name }}</span>
+                                                    <!--<span class="xc_badge xc_badge-task">{{ task.name }}</span>-->
+                                                    <span>{{ task.name }}</span>
                                                 {% endif %}
                                             {% endfor %}
                                         </td>
-                                        <td><span class="xc_params-text">{{ d.task_params }}</span></td>
+                                        <!--<td><span class="xc_params-text">{{ d.task_params }}</span></td>-->
+                                        <td><span>{{ d.task_params }}</span></td>
                                         <td>
                                             {% for cycle in cycles %}
                                                 {% if cycle.code == d.cycle_code %}
-                                                    <span class="xc_badge xc_badge-cycle">{{ cycle.name }}</span>
+                                                    <!--<span class="xc_badge xc_badge-cycle">{{ cycle.name }}</span>-->
+                                                    <span >{{ cycle.name }}</span>
                                                 {% endif %}
                                             {% endfor %}
                                         </td>
-                                        <td><span class="xc_params-text">{{ d.cycle_params }}</span></td>
+                                        <!--<td><span class="xc_params-text">{{ d.cycle_params }}</span></td>-->
+                                        <td><span>{{ d.cycle_params }}</span></td>
                                         <td>
                                             {% if d.state == 1 %}
                                                 <span class="xc_badge xc_badge-active">● 开启</span>
@@ -956,7 +960,7 @@
             success: function (res) {
                 ele_top_loading.hide();
                 if(1000 === res.code){
-                    myToast2025("删除成功", "success", 1000);
+                    myToast2025(res.msg, "success", 1000);
                     setTimeout(function() {
                         window.location.reload();
                     }, 1000);

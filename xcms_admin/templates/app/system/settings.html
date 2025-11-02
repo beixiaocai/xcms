@@ -4,20 +4,283 @@
 {% block stylesheets %}
   {{ block.super }}
 <style>
-    input[type="file"]{
-      color: #3a3636;
-      font-size: 12px;
-    }
-    ::file-selector-button{
-      font-size: 12px;
-      color: #fff;
-      border-radius: 4px;
-      border: 1px solid #8f9093;
-      padding: 2px 4px;
-      background-color: #8f9093;
-      cursor: pointer;
+    /* 配置卡片样式 */
+    .settings_card {
+        background: #fff;
+        border-radius: 8px;
+        padding: 20px 24px;
+        margin: 0 auto;
+        max-width: 900px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
 
+    .settings_card_title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #eef2f5;
+        position: relative;
+    }
+
+    .settings_card_title i {
+        margin-right: 8px;
+        color: #169F85;
+        font-size: 16px;
+    }
+
+    .settings_card_title .settings_loading {
+        margin-left: auto;
+        font-size: 12px;
+        color: #909399;
+        display: none;
+        align-items: center;
+    }
+
+    .settings_card_title .settings_loading img {
+        width: 16px;
+        height: 16px;
+        margin-right: 6px;
+    }
+
+    /* 左右两列布局 */
+    .settings_two_cols {
+        display: flex;
+        gap: 24px;
+        align-items: flex-start;
+    }
+
+    .settings_col {
+        flex: 1;
+        min-height: 0;
+    }
+
+    /* 表单组样式 */
+    .settings_group {
+        margin-bottom: 16px;
+    }
+
+    .settings_group:last-child {
+        margin-bottom: 0;
+    }
+
+    .settings_group_title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+    }
+
+    .settings_group_title .version {
+        font-size: 11px;
+        color: #9ca3af;
+        font-weight: 400;
+        margin-left: 8px;
+    }
+
+    .settings_actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .settings_btn {
+        padding: 4px 12px;
+        font-size: 12px;
+        border: 1px solid #e5e7eb;
+        border-radius: 3px;
+        background: #fff;
+        color: #6b7280;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .settings_btn:hover {
+        background: #f9fafb;
+        border-color: #d1d5db;
+        color: #374151;
+    }
+
+    /* 主要操作按钮 - 柔和绿色 */
+    .settings_btn_primary {
+        background: #f0f9f6;
+        border: 1px solid #b8dbd2;
+        color: #2c6e5e;
+    }
+
+    .settings_btn_primary:hover {
+        background: #e8f4f1;
+        border-color: #9fcfc2;
+        color: #1d4d42;
+    }
+
+    .settings_btn_primary i {
+        margin-right: 4px;
+    }
+
+    /* 警告性操作按钮 */
+    .settings_btn_warning {
+        background: #fff;
+        border: 1px solid #fecaca;
+        color: #dc2626;
+    }
+
+    .settings_btn_warning:hover {
+        background: #fef2f2;
+        border-color: #fca5a5;
+    }
+
+    .settings_btn_warning i {
+        margin-right: 4px;
+    }
+
+    .settings_file_input {
+        display: block;
+        width: 100%;
+        padding: 6px 10px;
+        font-size: 12px;
+        border: 1px solid #dcdfe6;
+        border-radius: 3px;
+        margin-bottom: 10px;
+        transition: border-color 0.2s;
+        background: #fff;
+    }
+
+    .settings_file_input:focus {
+        border-color: #409eff;
+        outline: none;
+    }
+
+    input[type="file"] {
+        color: #606266;
+        font-size: 12px;
+    }
+
+    ::file-selector-button {
+        font-size: 11px;
+        color: #606266;
+        border-radius: 3px;
+        border: 1px solid #dcdfe6;
+        padding: 3px 10px;
+        background-color: #f5f7fa;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-right: 8px;
+    }
+
+    ::file-selector-button:hover {
+        background-color: #ecf5ff;
+        border-color: #c6e2ff;
+        color: #409eff;
+    }
+
+    .settings_radio_group {
+        display: inline-flex;
+        gap: 0;
+        background: transparent;
+        vertical-align: middle;
+    }
+
+    .settings_radio_group input[type="radio"] {
+        display: none;
+    }
+
+    .settings_radio_option {
+        padding: 3px 10px;
+        font-size: 11px;
+        color: #6b7280;
+        background: #fafafa;
+        border: 1px solid #e5e7eb;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+        user-select: none;
+        margin-left: -1px;
+    }
+
+    .settings_radio_option:first-of-type {
+        border-radius: 3px 0 0 3px;
+        margin-left: 0;
+    }
+
+    .settings_radio_option:last-of-type {
+        border-radius: 0 3px 3px 0;
+    }
+
+    .settings_radio_option:hover {
+        background: #f5f5f5;
+        color: #4b5563;
+        z-index: 1;
+    }
+
+    .settings_radio_group input[type="radio"]:checked + .settings_radio_option {
+        background: #e8f4f1;
+        border-color: #b8dbd2;
+        color: #2c6e5e;
+        z-index: 2;
+    }
+
+    .settings_desc {
+        display: block;
+        margin-top: 8px;
+        font-size: 11px;
+        color: #9ca3af;
+        line-height: 1.5;
+    }
+
+    /* 日志导出选项单独布局 */
+    .settings_log_options {
+        margin-top: 10px;
+        padding: 8px 12px;
+        background: #f9fafb;
+        border-radius: 4px;
+        border: 1px solid #e5e7eb;
+    }
+
+    .settings_log_options_label {
+        font-size: 11px;
+        color: #6b7280;
+        margin-right: 8px;
+    }
+
+    /* 页面整体样式 */
+    .right_col {
+        background: #f5f7fa !important;
+    }
+
+    .x_panel {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+    }
+
+    .x_title {
+        display: none;
+    }
+
+    .x_content {
+        padding: 20px 0;
+    }
+
+    /* 加载提示 */
+    #top_loading {
+        display: none;
+        color: #909399;
+        font-size: 13px;
+    }
+
+    #top_loading img {
+        width: 16px;
+        height: 16px;
+        margin-right: 6px;
+        vertical-align: middle;
+    }
 </style>
 {% endblock stylesheets %}
 
@@ -36,60 +299,90 @@
             </div>
             <div class="x_content">
 
-                <div class="form-horizontal form-label-left" >
-                    <!--
-                    <p>For alternative validation library <code>parsleyJS</code> check out in the <a href="form.html">form page</a>
-                    </p>
-                    <span class="section">Personal Info</span>
-                    -->
-                        <div class="ln_solid"></div>
-                      <div class="form-group">
-                          <div class="col-md-6 col-sm-6 col-md-offset-3">
-                              <h4 style="font-weight: bold">重启</h4>
-
-                                    <button type="button" onclick="f_restartApp()"  class="btn btn-default btn-sm">重启软件</button>
-                                    <button type="button" onclick="f_restartOS()"  class="btn btn-default btn-sm">重启操作系统</button>
-
-                          </div>
-                    </div>
-
-    <div class="ln_solid"></div>
-                      <div class="form-group">
-                         <div class="col-md-6 col-sm-6 col-md-offset-3">
-                                <h4 style="font-weight: bold">日志</h4>
-                             <button type="button" onclick="f_exportLogs()" class="btn btn-dark btn-sm" >导出日志</button> 导出日志，提供给开发者排查问题
-                          </div>
-                    </div>
-
-
-    <div class="ln_solid"></div>
-                      <div class="form-group">
-                          <div class="col-md-6 col-sm-6 col-md-offset-3">
-                              <h4  style="font-weight: bold">升级版本 <small>v{{ project_version }} {{ project_flag }}</small></h4>
-                                <p>
-                                    <input type="file" name="xcupdate_file" accept=".xcupdate" class="form-control" placeholder="浏览升级安装包" >
-                                </p>
-                               <button type="button" onclick="f_openImportUpdate()" class="btn btn-dark btn-sm"  >升级版本</button> 升级过程需要1-5分钟，请不要关闭电源，完成升级后将自动重启
-                          </div>
-                    </div>
-
-                    <div class="ln_solid"></div>
-                      <div class="form-group">
-                          <div class="col-md-6 col-sm-6 col-md-offset-3">
-                              <h4>导出配置</h4>
-                             <button type="button" onclick="f_exportSettings()" class="btn btn-dark btn-sm"  >导出配置</button> 导出软件配置参数，不包括报警数据
-                          </div>
-
-                          <div style="margin-top: 20px;" class="col-md-6 col-sm-6 col-md-offset-3">
-                                <h4>导入配置</h4>
-                                <p>
-                                    <input type="file" name="xcsettings_file" accept=".xcsettings" class="form-control" placeholder="浏览配置文件" >
-                                </p>
-                                <button type="button" onclick="f_postImportSettings()" class="btn btn-dark btn-sm"  >导入配置</button>
-                          </div>
-                    </div>
-
+              <!-- 系统设置卡片 -->
+              <div class="settings_card">
+                <div class="settings_card_title">
+                  <i class="fa fa-cogs"></i>系统设置
+                  <span class="settings_loading" id="settings_loading">
+                    <img src="/static/images/load.gif" alt="loading">加载中
+                  </span>
                 </div>
+
+                <div class="settings_two_cols">
+                  <!-- 单列布局 -->
+                  <div class="settings_col" style="max-width: 600px; margin: 0 auto;">
+                    <!-- 重启 -->
+                    <div class="settings_group">
+                      <div class="settings_group_title">重启</div>
+                      <div class="settings_actions">
+                        <button type="button" onclick="f_restartApp()" class="settings_btn settings_btn_warning">
+                          <i class="fa fa-refresh"></i>重启软件
+                        </button>
+                        <button type="button" onclick="f_restartOS()" class="settings_btn settings_btn_warning">
+                          <i class="fa fa-power-off"></i>重启系统
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- 日志 -->
+                    <div class="settings_group">
+                      <div class="settings_group_title">日志</div>
+                      <div class="settings_actions">
+                        <button type="button" onclick="f_openExportLogs()" class="settings_btn settings_btn_primary">
+                          <i class="fa fa-download"></i>导出日志
+                        </button>
+                      </div>
+                      <div class="settings_log_options">
+                        <span class="settings_log_options_label">流日志：</span>
+                        <div class="settings_radio_group">
+                          <input type="radio" id="export_stream_yes" name="export_stream" value="1">
+                          <label for="export_stream_yes" class="settings_radio_option">导出</label>
+                          <input type="radio" id="export_stream_no" name="export_stream" value="0" checked>
+                          <label for="export_stream_no" class="settings_radio_option">不导出</label>
+                        </div>
+                      </div>
+                      <span class="settings_desc">导出日志，提供给开发者排查问题</span>
+                    </div>
+
+                    <!-- 导出配置 -->
+                    <div class="settings_group">
+                      <div class="settings_group_title">导出配置</div>
+                      <div class="settings_actions">
+                        <button type="button" onclick="f_openExportSettings()" class="settings_btn settings_btn_primary">
+                          <i class="fa fa-download"></i>导出配置
+                        </button>
+                      </div>
+                      <span class="settings_desc">导出软件配置参数，不包括报警数据</span>
+                    </div>
+
+                    <!-- 升级版本 -->
+                    <div class="settings_group">
+                      <div class="settings_group_title">
+                        升级版本
+                        <span class="version">v{{ project_version }} {{ project_flag }}</span>
+                      </div>
+                      <input type="file" name="xcupdate_file" accept=".xcupdate" class="settings_file_input">
+                      <div class="settings_actions">
+                        <button type="button" onclick="f_openImportUpdate()" class="settings_btn settings_btn_primary">
+                          <i class="fa fa-upload"></i>升级版本
+                        </button>
+                      </div>
+                      <span class="settings_desc">升级过程需要1-5分钟，请不要关闭电源，完成升级后将自动重启</span>
+                    </div>
+
+                    <!-- 导入配置 -->
+                    <div class="settings_group">
+                      <div class="settings_group_title">导入配置</div>
+                      <input type="file" name="xcsettings_file" accept=".xcsettings" class="settings_file_input">
+                      <div class="settings_actions">
+                        <button type="button" onclick="f_openImportSettings()" class="settings_btn settings_btn_primary">
+                          <i class="fa fa-upload"></i>导入配置
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
             </div>
           </div>
@@ -103,6 +396,7 @@
   {{ block.super }}
 <script>
     let ele_top_loading = $("#top_loading");
+    let ele_settings_loading = $("#settings_loading");
     let ele_top_msg= $("#top_msg");
     let eleXcSettingsFile = $("input[name='xcsettings_file']");
     let eleXcUpdateFile = $("input[name='xcupdate_file']");
@@ -155,22 +449,22 @@
             });
         }
     }
-    function f_exportSettings() {
+    function f_openExportSettings() {
         //导出配置
-        ele_top_loading.show();
+        ele_settings_loading.css('display', 'flex');
         $.ajax({
-           url: "/system/postExportSettings",
+           url: "/system/openExportSettings",
            type: "post",
            async: true,
            data: {},
            dataType: "json",
            timeout: 0,
            error: function () {
-               ele_top_loading.hide();
+               ele_settings_loading.hide();
                myToast2025("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
-               ele_top_loading.hide();
+               ele_settings_loading.hide();
                if(res.code === 1000){
                     let info = res.info;
                     let export_filename = info["export_filename"]
@@ -183,22 +477,26 @@
         });
 
     }
-    function f_exportLogs(){
-        //导出日志
-        ele_top_loading.show();
+    function f_openExportLogs(){
+        //导出日志，获取导出流日志选项
+        let isExportStream = $("input[name='export_stream']:checked").val();
+        
+        ele_settings_loading.css('display', 'flex');
         $.ajax({
-           url: "/system/postExportLogs",
+           url: "/system/openExportLogs",
            type: "post",
            async: true,
-           data: {},
+           data: {
+               isExportStream: isExportStream
+           },
            dataType: "json",
            timeout: 0,
            error: function () {
-               ele_top_loading.hide();
+               ele_settings_loading.hide();
                myToast2025("网络异常，请确定网络正常！","error");
            },
            success: function (res) {
-               ele_top_loading.hide();
+               ele_settings_loading.hide();
                if(res.code === 1000){
                     let info = res.info;
                     let export_filename = info["export_filename"]
@@ -211,7 +509,7 @@
         });
 
     }
-    function f_postImportSettings() {
+    function f_openImportSettings() {
         //导入配置
         if (eleXcSettingsFile[0].files.length > 0){
            let file = eleXcSettingsFile[0].files[0];
@@ -222,10 +520,10 @@
 
             let formData = new FormData();
             formData.append('file',file)
-            ele_top_loading.show();
+            ele_settings_loading.css('display', 'flex');
 
             $.ajax({
-              url:"/system/postImportSettings",
+              url:"/system/openImportSettings",
               type:'post',
               async: true,
               contentType:false,
@@ -234,11 +532,11 @@
               dataType: "json",
               timeout: 0,
               error: function () {
-                  ele_top_loading.hide();
+                  ele_settings_loading.hide();
                   myToast2025("网络异常，请确定网络正常！","error");
               },
               success: function (res) {
-                  ele_top_loading.hide();
+                  ele_settings_loading.hide();
                     if(res.code === 1000){
                         myToast2025(res.msg,"success");
                     }else{
@@ -263,7 +561,7 @@
 
             let formData = new FormData();
             formData.append('file',file)
-            ele_top_loading.show();
+            ele_settings_loading.css('display', 'flex');
 
             $.ajax({
               url:"/system/openImportUpdate",
@@ -275,11 +573,11 @@
               dataType: "json",
               timeout: 0,
               error: function () {
-                  ele_top_loading.hide();
+                  ele_settings_loading.hide();
                   //myToast2025("网络异常，请确定网络正常！","error");
               },
               success: function (res) {
-                  ele_top_loading.hide();
+                  ele_settings_loading.hide();
                     if(res.code === 1000){
                         myToast2025(res.msg,"success");
                     }else{

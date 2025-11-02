@@ -217,7 +217,7 @@
                if(res.code === 1000){
                     let info = res.info;
                     let export_filename = info["export_filename"]
-                    let download_url = "/storage/download?filename="+export_filename;
+                    let download_url = "/storage/openDownload?filename="+export_filename;
                     window.open(download_url);
                }else{
                     myToast2025(res.msg,"error");

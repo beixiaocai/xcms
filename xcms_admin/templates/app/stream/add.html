@@ -80,7 +80,7 @@
                 <div class="form-group onvif-item">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12"> </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <button type="button"  style="margin-top: 4px;margin-bottom: 6px;" onclick="f_checkOnvifDevice()" class="btn btn-dark">探测</button>
+                        <button type="button"  style="margin-top: 4px;margin-bottom: 6px;" onclick="f_openCheckDevice()" class="btn btn-dark">探测</button>
                       </div>
                 </div>
 
@@ -209,7 +209,7 @@
                 }
           }
     });
-    function f_checkOnvifDevice() {
+    function f_openCheckDevice() {
         let onvif_ip = ele_input_onvif_ip.val().trim();
         let onvif_username = ele_input_onvif_username.val().trim();
         let onvif_password = ele_input_onvif_password.val().trim();
@@ -230,7 +230,7 @@
             return false;
         }
         $.ajax({
-           url: "/onvif/postCheckOnvifDevice",
+           url: "/onvif/openCheckDevice",
            type: "post",
            async: true,
            data: {"ip":onvif_ip,"username":onvif_username,"password":onvif_password},

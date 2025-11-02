@@ -262,15 +262,16 @@
     }
     
     .xc_filter-btn.primary {
-        background: #3b82f6;
-        border-color: #3b82f6;
+        background: linear-gradient(135deg, #169F85 0%, #14b89a 100%);
+        border-color: #169F85;
         color: white;
+        box-shadow: 0 2px 4px rgba(22, 159, 133, 0.3);
     }
     
     .xc_filter-btn.primary:hover {
-        background: #2563eb;
-        border-color: #2563eb;
-        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        background: linear-gradient(135deg, #14b89a 0%, #129684 100%);
+        border-color: #14b89a;
+        box-shadow: 0 4px 12px rgba(22, 159, 133, 0.4);
     }
     
     .xc_video-grid {
@@ -391,25 +392,30 @@
     }
     
     .xc_status-badge {
-        padding: 2px 6px;
-        border-radius: 3px;
-        font-size: 11px;
-        font-weight: 600;
+        padding: 1px 5px;
+        border-radius: 2px;
+        font-size: 10px;
+        font-weight: 500;
+        display: inline-block;
+        line-height: 1.4;
     }
     
     .xc_status-unread {
-        background: #3b82f6;
-        color: white;
+        background: #d1fae5;
+        color: #065f46;
+        border: 1px solid #a7f3d0;
     }
     
     .xc_status-alarm {
-        background: #dc2626;
-        color: white;
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fecaca;
     }
     
     .xc_status-false {
-        background: #f59e0b;
-        color: white;
+        background: #fef3c7;
+        color: #92400e;
+        border: 1px solid #fde68a;
     }
     
     .xc_pagination {
@@ -1040,7 +1046,7 @@
                     myToast2025(res.msg, "success", 1000);
                     eleCheckAll.prop("checked", false);
                     let export_filename = info["export_filename"];
-                    let download_url = "/storage/download?filename=" + export_filename;
+                    let download_url = "/storage/openDownload?filename=" + export_filename;
                     window.open(download_url);
                 } else {
                     myToast2025(res.msg, "error");

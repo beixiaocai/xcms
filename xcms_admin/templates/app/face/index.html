@@ -97,15 +97,18 @@
     }
     
     .xc_btn-primary {
-        background: #3b82f6;
+        background: linear-gradient(135deg, #169F85 0%, #14b89a 100%);
         color: white;
-        border-color: #3b82f6;
+        border-color: #169F85;
+        box-shadow: 0 2px 4px rgba(22, 159, 133, 0.3);
     }
     
     .xc_btn-primary:hover {
-        background: #2563eb;
-        border-color: #2563eb;
+        background: linear-gradient(135deg, #14b89a 0%, #129684 100%);
+        border-color: #14b89a;
         color: white;
+        box-shadow: 0 4px 12px rgba(22, 159, 133, 0.4);
+        transform: translateY(-1px);
     }
     
     .xc_btn-secondary {
@@ -1145,7 +1148,7 @@
             success: function (res) {
                 ele_top_loading.hide();
                 if(1000 === res.code){
-                    myToast2025("删除成功", "success", 1000);
+                    myToast2025(res.msg, "success", 1000);
                     setTimeout(function() {
                         window.location.reload();
                     }, 1000);

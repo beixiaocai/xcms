@@ -288,7 +288,7 @@
         let eleImgCaptcha = document.getElementById('img_captcha');
         function f_update_captcha(){
             // 添加时间戳作为参数，确保浏览器重新加载图片
-            eleImgCaptcha.src = '/captcha?' + new Date().getTime();
+            eleImgCaptcha.src = '/user/openCaptcha?' + new Date().getTime();
         }
         eleImgCaptcha.addEventListener('click', f_update_captcha);
 

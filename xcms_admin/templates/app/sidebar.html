@@ -8,12 +8,12 @@
   <!-- menu profile quick info -->
   <div class="profile clearfix">
     <div class="profile_pic">
-      <img src="{{ settings.logo_url }}?v1026" alt="user" class="img-circle profile_img">
+      <img src="{{ settings.logo_url }}?v1030" alt="user" class="img-circle profile_img">
     </div>
     <div class="profile_info">
       <span>{{ settings.welcome }},</span>
       <h2>{{request.session.user.username }}</h2>
-        {% if request.session.logDebug == 1 %}
+        {% if request.session.user.log_debug == 1 %}
           <!-- debug 模式小标签 -->
           <div class="debug-badge-inline">
             <i class="fa fa-bug"></i>
@@ -23,102 +23,13 @@
     </div>
   </div>
   <!-- /menu profile quick info -->
-
   <br />
 
   <!-- sidebar menu -->
   <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
     <div class="menu_section">
       <h3>菜单</h3>
-      <ul class="nav side-menu">
-
-          <li ><a><i class="fa fa-home"></i> 主页 <span class="fa fa-chevron-down"></span></a>
-              <ul class="nav child_menu">
-                 <li><a href="/">控制面板</a></li>
-                 <li><a href="/dashboard">大屏管理</a></li>
-              </ul>
-          </li>
-          <li><a><i class="fa fa-bullhorn"></i> 报警管理 <span class="fa fa-chevron-down"></span></a>
-              <ul class="nav child_menu">
-                  <li><a href="/alarm/index">报警管理</a></li>
-                  <li><a href="/alarmInterface/index">接口管理</a></li>
-              </ul>
-           </li>
-          <li><a><i class="fa fa-eye"></i> 算法管理 <span class="fa fa-chevron-down"></span></a>
-              <ul class="nav child_menu">
-                 <li><a href="/tools/algorithm">测试工具</a></li>
-
-                 <li><a href="/algorithmFlow/index">业务算法管理</a></li>
-                 <li><a href="/algorithmFlow/add">添加业务算法</a></li>
-                 <li><a href="/algorithmFlow/edit">编辑业务算法</a></li>
-
-                 <li><a href="/algorithm/index">基础算法管理</a></li>
-                 <li><a href="/algorithm/add">添加基础算法</a></li>
-                 <li><a href="/algorithm/edit">编辑基础算法</a></li>
-
-                 <li><a href="/behaviour/index">行为算法管理</a></li>
-                 <li><a href="/behaviour/add">添加行为算法</a></li>
-                 <li><a href="/behaviour/edit">编辑行为算法</a></li>
-
-              </ul>
-           </li>
-
-           <li><a><i class="fa fa-video-camera"></i> 视频管理 <span class="fa fa-chevron-down"></span></a>
-              <ul class="nav child_menu">
-                  <li><a href="/stream/online">在线预览</a></li>
-
-                  <li><a href="/stream/index">摄像头管理</a></li>
-                 <li><a href="/stream/add">添加摄像头</a></li>
-                 <li><a href="/stream/edit">编辑摄像头</a></li>
-                 <li><a href="/stream/player">单屏播放器</a></li>
-
-                  <li><a href="/streamRecord/index">录像计划管理</a></li>
-                 <li><a href="/streamRecord/timeplayer">录像播放器</a></li>
-
-              </ul>
-           </li>
-
-            <li><a><i class="fa fa-cube"></i> 布控管理 <span class="fa fa-chevron-down"></span></a>
-              <ul class="nav child_menu">
-                <li><a href="/control/index">布控管理</a></li>
-                <li><a href="/control/add">添加布控</a></li>
-                <li><a href="/control/edit">编辑布控</a></li>
-              </ul>
-           </li>
-
-           <li><a><i class="fa fa-music"></i> 音频管理 <span class="fa fa-chevron-down"></span></a>
-              <ul class="nav child_menu">
-                  <li><a href="/audio/index">音频管理</a></li>
-              </ul>
-           </li>
-		   
-
-           <li><a><i class="fa fa-user-plus"></i> 人脸管理 <span class="fa fa-chevron-down"></span></a>
-              <ul class="nav child_menu">
-                  <li><a href="/face/index">人脸管理</a></li>
-              </ul>
-           </li>
-
-          <li><a><i class="fa fa-user"></i> 用户管理 <span class="fa fa-chevron-down"></span></a>
-              <ul class="nav child_menu">
-                  <li><a href="/user/index">用户管理</a></li>
-              </ul>
-           </li>
-
-          <li><a><i class="fa fa-folder-open"></i> 计划任务 <span class="fa fa-chevron-down"></span></a>
-              <ul class="nav child_menu">
-                  <li><a href="/plan/index">计划任务</a></li>
-              </ul>
-           </li>
-
-           <li><a><i class="fa fa-gear"></i> 系统功能 <span class="fa fa-chevron-down"></span></a>
-              <ul class="nav child_menu">
-                  <li><a href="/system/config">启动配置</a></li>
-                  <li><a href="/system/settings">系统设置</a></li>
-                  <li><a href="/auth/index">系统授权</a></li>
-                  <li><a href="/version/index">关于系统</a></li>
-              </ul>
-           </li>
+      <ul class="nav side-menu" id="sidebar_menus">
 
       </ul>
     </div>
@@ -132,3 +43,208 @@
   </div>
   <!-- /menu footer buttons -->
 </div>
+
+<script>
+    let is_superuser = 0;
+    let permissions = {};
+    try {
+        let _is_superuser = "{{ request.session.user.is_superuser }}";
+        if(_is_superuser  === "True"){
+            is_superuser = 1;
+        }else{
+            is_superuser = parseInt(_is_superuser)
+        }
+    }catch (e) {
+        console.log("sidebar.html error:",e)
+    }
+    try {
+        {% for p in request.session.user.permissions %}
+            permissions["{{ p.codename }}"] = {
+                "name":"{{ p.name }}",
+                "codename":"{{ p.codename }}"
+            }
+        {% endfor %}
+    }catch (e) {
+        console.log("sidebar.html error:",e)
+    }
+
+    let eleSidebarMenus= document.getElementById("sidebar_menus");
+    let html = "";
+    if(is_superuser || permissions["/"] || permissions["/dashboard"]) {
+        html += "<li ><a><i class=\"fa fa-home\"></i> 主页 <span class=\"fa fa-chevron-down\"></span></a>";
+            html += "<ul class=\"nav child_menu\">";
+            if (is_superuser || permissions["/"]) {
+                html += "<li><a href=\"/\">控制面板</a></li>";
+            }
+            if (is_superuser || permissions["/dashboard"]) {
+                html += "<li><a href=\"/dashboard\">大屏管理</a></li>";
+            }
+            html += "</ul>";
+        html += "</li>";
+    }
+    if(is_superuser || permissions["/alarm/index"] || permissions["/alarmInterface/index"]) {
+        html += "<li><a><i class=\"fa fa-bullhorn\"></i> 报警管理 <span class=\"fa fa-chevron-down\"></span></a>";
+            html += "<ul class=\"nav child_menu\">";
+            if (is_superuser || permissions["/alarm/index"]) {
+                html += "<li><a href=\"/alarm/index\">报警管理</a></li>";
+            }
+            if (is_superuser || permissions["/alarmInterface/index"]) {
+                html += "<li><a href=\"/alarmInterface/index\">接口管理</a></li>";
+            }
+            html += "</ul>";
+        html += "</li>";
+    }
+    if(is_superuser || permissions["/tools/algorithm"]
+        || permissions["/algorithmFlow/index"] || permissions["/algorithmFlow/add"] || permissions["/algorithmFlow/edit"]
+        || permissions["/algorithm/index"] || permissions["/algorithm/add"] || permissions["/algorithm/edit"]
+        || permissions["/behaviour/index"] || permissions["/behaviour/add"] || permissions["/behaviour/edit"]
+    ) {
+        html += "<li><a><i class=\"fa fa-eye\"></i> 算法管理 <span class=\"fa fa-chevron-down\"></span></a>";
+            html += "<ul class=\"nav child_menu\">";
+            if (is_superuser || permissions["/tools/algorithm"]) {
+                html += "<li><a href=\"/tools/algorithm\">测试工具</a></li>";
+            }
+
+            if (is_superuser || permissions["/algorithmFlow/index"]) {
+                html += "<li><a href=\"/algorithmFlow/index\">业务算法管理</a></li>";
+            }
+            if (is_superuser || permissions["/algorithmFlow/add"]) {
+                html += "<li><a href=\"/algorithmFlow/add\">添加业务算法</a></li>";
+            }
+            if (is_superuser || permissions["/algorithmFlow/edit"]) {
+                html += "<li><a href=\"/algorithmFlow/edit\">编辑业务算法</a></li>";
+            }
+
+            if (is_superuser || permissions["/algorithm/index"]) {
+                html += "<li><a href=\"/algorithm/index\">基础算法管理</a></li>";
+            }
+            if (is_superuser || permissions["/algorithm/add"]) {
+                html += "<li><a href=\"/algorithm/add\">添加基础算法</a></li>";
+            }
+            if (is_superuser || permissions["/algorithm/edit"]) {
+                html += "<li><a href=\"/algorithm/edit\">编辑基础算法</a></li>";
+            }
+
+            if (is_superuser || permissions["/behaviour/index"]) {
+                html += "<li><a href=\"/behaviour/index\">行为算法管理</a></li>";
+            }
+            if (is_superuser || permissions["/behaviour/add"]) {
+                html += "<li><a href=\"/behaviour/add\">添加行为算法</a></li>";
+            }
+            if (is_superuser || permissions["/behaviour/edit"]) {
+                html += "<li><a href=\"/behaviour/edit\">编辑行为算法</a></li>";
+            }
+            html += "</ul>";
+        html += "</li>";
+    }
+    if(is_superuser || permissions["/stream/online"] || permissions["/stream/index"] || permissions["/stream/add"] || permissions["/stream/edit"] || permissions["/stream/player"]
+        || permissions["/streamRecord/index"] || permissions["/streamRecord/timeplayer"]
+    ) {
+        html += "<li><a><i class=\"fa fa-video-camera\"></i> 视频管理 <span class=\"fa fa-chevron-down\"></span></a>";
+        html += "<ul class=\"nav child_menu\">";
+        if (is_superuser || permissions["/stream/online"]) {
+            html += "<li><a href=\"/stream/online\">在线预览</a></li>";
+        }
+        if (is_superuser || permissions["/stream/index"]) {
+            html += "<li><a href=\"/stream/index\">摄像头管理</a></li>";
+        }
+        if (is_superuser || permissions["/stream/add"]) {
+            html += "<li><a href=\"/stream/add\">添加摄像头</a></li>";
+        }
+        if (is_superuser || permissions["/stream/edit"]) {
+            html += "<li><a href=\"/stream/edit\">编辑摄像头</a></li>";
+        }
+        if (is_superuser || permissions["/stream/player"]) {
+            html += "<li><a href=\"/stream/player\">单屏播放器</a></li>";
+        }
+
+        if (is_superuser || permissions["/streamRecord/index"]) {
+            html += "<li><a href=\"/streamRecord/index\">录像计划管理</a></li>";
+        }
+        if (is_superuser || permissions["/streamRecord/timeplayer"]) {
+            html += "<li><a href=\"/streamRecord/timeplayer\">录像播放器</a></li>";
+        }
+        html += "</ul>";
+        html += "</li>";
+    }
+    if(is_superuser || permissions["/control/index"] || permissions["/control/add"] || permissions["/control/edit"]) {
+        html += "<li><a><i class=\"fa fa-cube\"></i> 布控管理 <span class=\"fa fa-chevron-down\"></span></a>";
+        html += "<ul class=\"nav child_menu\">";
+        if (is_superuser || permissions["/control/index"]) {
+            html += "<li><a href=\"/control/index\">布控管理</a></li>";
+        }
+        if (is_superuser || permissions["/control/add"]) {
+            html += "<li><a href=\"/control/add\">添加布控</a></li>";
+        }
+        if (is_superuser || permissions["/control/edit"]) {
+            html += "<li><a href=\"/control/edit\">编辑布控</a></li>";
+        }
+        html += "</ul>";
+        html += "</li>";
+        }
+        if(is_superuser || permissions["/audio/index"]) {
+            html += "<li><a><i class=\"fa fa-music\"></i> 音频管理 <span class=\"fa fa-chevron-down\"></span></a>";
+                html += "<ul class=\"nav child_menu\">";
+                if (is_superuser || permissions["/audio/index"]) {
+                    html += "<li><a href=\"/audio/index\">音频管理</a></li>";
+                }
+                html += "</ul>";
+            html += "</li>";
+        }
+        if(is_superuser || permissions["/face/index"]) {
+            html += "<li><a><i class=\"fa fa-user-plus\"></i> 人脸管理 <span class=\"fa fa-chevron-down\"></span></a>";
+                html += "<ul class=\"nav child_menu\">";
+                if (is_superuser || permissions["/face/index"]) {
+                    html += "<li><a href=\"/face/index\">人脸管理</a></li>";
+                }
+                html += "</ul>";
+            html += "</li>";
+        }
+        if(is_superuser || permissions["/user/index"] || permissions["/user/permission"] || permissions["/user/log"]) {
+            html += "<li><a><i class=\"fa fa-user\"></i> 用户管理 <span class=\"fa fa-chevron-down\"></span></a>";
+            html += "<ul class=\"nav child_menu\">";
+            if (is_superuser || permissions["/user/index"]) {
+                html += "<li><a href=\"/user/index\">用户管理</a></li>";
+            }
+            if (is_superuser || permissions["/user/permission"]) {
+                html += "<li><a href=\"/user/permission\">权限管理</a></li>";
+            }
+            if (is_superuser || permissions["/user/log"]) {
+                html += "<li><a href=\"/user/log\">日志管理</a></li>";
+            }
+            html += "</ul>";
+            html += "</li>";
+        }
+        if(is_superuser || permissions["/plan/index"]) {
+            html += "<li><a><i class=\"fa fa-folder-open\"></i> 计划任务 <span class=\"fa fa-chevron-down\"></span></a>";
+            html += "<ul class=\"nav child_menu\">";
+            if (is_superuser || permissions["/plan/index"]) {
+                html += "<li><a href=\"/plan/index\">计划任务</a></li>";
+            }
+            html += "</ul>";
+            html += "</li>";
+        }
+    if(is_superuser || permissions["/system/config"] || permissions["/system/settings"] || permissions["/auth/index"] || permissions["/version/index"]) {
+        html += "<li><a><i class=\"fa fa-gear\"></i> 系统功能 <span class=\"fa fa-chevron-down\"></span></a>";
+            html += "<ul class=\"nav child_menu\">";
+            if (is_superuser || permissions["/system/config"]) {
+                html += "<li><a href=\"/system/config\">启动配置</a></li>";
+            }
+            if (is_superuser || permissions["/system/settings"]) {
+                html += "<li><a href=\"/system/settings\">系统设置</a></li>";
+            }
+            if (is_superuser || permissions["/auth/index"]) {
+                html += "<li><a href=\"/auth/index\">系统授权</a></li>";
+            }
+            if (is_superuser || permissions["/version/index"]) {
+                html += "<li><a href=\"/version/index\">关于系统</a></li>";
+            }
+            html += "</ul>";
+        html += "</li>";
+    }
+
+    eleSidebarMenus.innerHTML = html
+
+
+
+</script>

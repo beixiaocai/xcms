@@ -189,7 +189,7 @@
         eleGridVideoContainer.html(html);
 
         if(isReload){
-            f_getPatrol();
+            f_openInfo();
         }
     }
 
@@ -216,10 +216,10 @@
         let msg = "轮巡周期:"+mCurPatrolCount.toString()+"，轮巡时长:"+control_duration.toString()+"s，轮巡并发:"+control_concurrency.toString()+"，轮巡并发第"+sameGroupCurPage.toString()+"页";
         ele_patrol_msg.html(msg);
     }
-    function f_getPatrol(isRecursive=false) {
+    function f_openInfo(isRecursive=false) {
         //ele_top_loading.show();
         $.ajax({
-               url: '/controlPatrol/getPatrol',
+               url: '/controlPatrol/openInfo',
                type: "get",
                async: true,
                data: {"code":mPatrolCode},
@@ -322,7 +322,7 @@
 
                    if(isRecursive){
                      setTimeout(function () {
-                        f_getPatrol(isRecursive);
+                        f_openInfo(isRecursive);
                      }, preview_refresh_duration);
                    }
                }
@@ -332,7 +332,7 @@
 
     $(function() {
         f_createGridVideoContainer(9,false);
-        f_getPatrol(true);
+        f_openInfo(true);
     });
 
 

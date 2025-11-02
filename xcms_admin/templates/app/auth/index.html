@@ -6,17 +6,18 @@
   {{ block.super }}
   <style>
     .auth-container {
-      padding: 12px;
+      padding: 20px;
       background: #f5f7fa;
       min-height: calc(100vh - 100px);
     }
     
     .modern-card {
       background: white;
-      border-radius: 6px;
-      padding: 12px;
-      margin-bottom: 12px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 0 auto 16px;
+      max-width: 900px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
       transition: all 0.3s ease;
     }
     
@@ -27,28 +28,22 @@
     .card-header {
       display: flex;
       align-items: center;
-      margin-bottom: 8px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #e5e7eb;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eef2f5;
     }
     
     .card-header i {
       margin-right: 8px;
-      width: 28px;
-      height: 28px;
-      line-height: 28px;
-      text-align: center;
-      border-radius: 5px;
-      font-size: 14px;
-      background: #e0e7ff;
-      color: #4f46e5;
+      color: #169F85;
+      font-size: 16px;
     }
     
     .card-header h3 {
       margin: 0;
       font-size: 14px;
       font-weight: 600;
-      color: #333;
+      color: #2c3e50;
     }
     
     .info-row {
@@ -103,15 +98,15 @@
     }
     
     .form-group-modern {
-      margin-bottom: 8px;
+      margin-bottom: 16px;
     }
     
     .form-label-modern {
       display: block;
       font-size: 12px;
-      font-weight: 600;
-      color: #374151;
-      margin-bottom: 5px;
+      font-weight: 500;
+      color: #606266;
+      margin-bottom: 6px;
     }
     
     .form-label-modern .required {
@@ -121,9 +116,9 @@
     
     .form-control-modern {
       width: 100%;
-      padding: 6px 10px;
-      font-size: 12px;
-      border: 1px solid #d1d5db;
+      padding: 8px 12px;
+      font-size: 13px;
+      border: 1px solid #dcdfe6;
       border-radius: 4px;
       transition: all 0.2s;
       resize: vertical;
@@ -132,49 +127,51 @@
     
     .form-control-modern:focus {
       outline: none;
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+      border-color: #169F85;
+      box-shadow: 0 0 0 2px rgba(22, 159, 133, 0.1);
     }
     
     .btn-modern {
-      padding: 6px 14px;
-      font-size: 12px;
+      padding: 8px 16px;
+      font-size: 13px;
       font-weight: 500;
-      border-radius: 5px;
+      border-radius: 4px;
       border: none;
       cursor: pointer;
       transition: all 0.2s;
-      margin-right: 6px;
+      margin-right: 8px;
     }
     
     .btn-primary-modern {
-      background: #3b82f6;
+      background: linear-gradient(135deg, #169F85 0%, #14b89a 100%);
       color: white;
     }
     
     .btn-primary-modern:hover {
-      background: #2563eb;
+      box-shadow: 0 3px 8px rgba(22, 159, 133, 0.3);
       transform: translateY(-1px);
-      box-shadow: 0 2px 6px rgba(59, 130, 246, 0.25);
     }
     
     .btn-secondary-modern {
       background: white;
-      color: #3b82f6;
-      border: 1px solid #3b82f6;
+      color: #169F85;
+      border: 1px solid #169F85;
     }
     
     .btn-secondary-modern:hover {
-      background: #f0f9ff;
+      background: #f0f9f6;
     }
     
     .btn-default-modern {
-      background: #f3f4f6;
-      color: #6b7280;
+      background: white;
+      color: #606266;
+      border: 1px solid #dcdfe6;
     }
     
     .btn-default-modern:hover {
-      background: #e5e7eb;
+      color: #169F85;
+      border-color: #169F85;
+      background: #f0f9f6;
     }
     
     .loading-spinner {
@@ -198,26 +195,19 @@
     }
     
     .icon-key {
-      background: #f0f9ff;
-      color: #0284c7;
+      color: #169F85;
     }
     
     .icon-lock {
-      background: #f0fdf4;
-      color: #16a34a;
-    }
-    
-    .icon-info {
-      background: #f8fafc;
-      color: #64748b;
+      color: #14b89a;
     }
     
     .auth-info-card {
       background: #fafafa;
       border: 1px solid #e5e7eb;
       border-radius: 4px;
-      padding: 8px;
-      margin-bottom: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
     }
     
     .auth-info-header {
@@ -231,7 +221,7 @@
       background: #fafafa;
       border: 1px solid #e5e7eb;
       border-radius: 4px;
-      padding: 8px;
+      padding: 12px;
     }
     
     .dongle-info-header {
@@ -244,10 +234,10 @@
     .section-title {
       font-size: 13px;
       font-weight: 600;
-      color: #374151;
-      margin-bottom: 6px;
-      padding-left: 4px;
-      border-left: 3px solid #3b82f6;
+      color: #2c3e50;
+      margin-bottom: 8px;
+      padding-left: 8px;
+      border-left: 3px solid #169F85;
     }
   </style>
 {% endblock stylesheets %}
@@ -346,7 +336,7 @@
               </div>
 
               <!-- 激活按钮 -->
-              <div style="padding-top: 8px; border-top: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center;">
+              <div style="padding-top: 16px; border-top: 1px solid #eef2f5; display: flex; justify-content: space-between; align-items: center;">
                 <div>
                   {% if settings.auth_online_link != "" %}
                     <button type="button" onclick="f_link('{{ settings.auth_online_link }}')" class="btn-modern btn-default-modern">
@@ -521,6 +511,9 @@
         return false;
       }
       
+      // 显示loading
+      ele_top_loading.show();
+      
       // 发起AJAX请求
       $.ajax({
         url: '/auth/openAdd',
@@ -532,9 +525,11 @@
         dataType: "json",
         timeout: 0,
         error: function () {
+          ele_top_loading.hide();
           myToast2025("网络异常，请确定网络正常！", "error");
         },
         success: function (res) {
+          ele_top_loading.hide();
           if (res.code === 1000) {
             myToast2025(res.msg, "success", 1000);
             // 成功后刷新授权信息

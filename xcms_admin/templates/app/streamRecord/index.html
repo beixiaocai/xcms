@@ -942,7 +942,7 @@
             success: function (res) {
                 ele_top_loading.hide();
                 if (1000 === res.code) {
-                    myToast2025("删除成功", "success", 1000);
+                    myToast2025(res.msg, "success", 1000);
                     setTimeout(function() {
                         window.location.reload();
                     }, 1000);

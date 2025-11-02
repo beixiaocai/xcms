@@ -969,10 +969,10 @@
         });
     }
 
-    function f_postTest(code, enable_base64) {
+    function f_openTest(code, enable_base64) {
         ele_top_loading.show();
         $.ajax({
-            url: '/alarmInterface/postTest',
+            url: '/alarmInterface/openTest',
             type: "post",
             async: true,
             data: {"code":code, "enable_base64":enable_base64},
@@ -1002,14 +1002,14 @@
                     text: "提交（开启base64）",
                     action: function(){
                         let enable_base64 = 1; //支持图片或视频的base64
-                        f_postTest(code, enable_base64);
+                        f_openTest(code, enable_base64);
                     }
                 },
                 test2: {
                     text: "提交(关闭base64)",
                     action: function(){
                         let enable_base64 = 0; //不支持图片或视频的base64
-                        f_postTest(code, enable_base64);
+                        f_openTest(code, enable_base64);
                     }
                 }
             }
@@ -1023,7 +1023,7 @@
         
         ele_top_loading.show();
         $.ajax({
-            url: '/alarmInterface/postDel',
+            url: '/alarmInterface/openDel',
             type: "post",
             async: true,
             data: {"code":code},
@@ -1036,7 +1036,7 @@
             success: function (res) {
                 ele_top_loading.hide();
                 if(1000 === res.code){
-                    myToast2025("删除成功", "success", 1000);
+                    myToast2025(res.msg, "success", 1000);
                     setTimeout(function() {
                         window.location.reload();
                     }, 1000);

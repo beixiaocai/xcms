@@ -541,6 +541,250 @@
             overflow-x: scroll;
         }
     }
+    
+    /* 权限管理样式 */
+    .xc_perm-item {
+        display: flex;
+        align-items: center;
+        padding: 6px 8px;
+        margin-bottom: 4px;
+        border: 1px solid #e5e7eb;
+        border-radius: 3px;
+        background: white;
+        transition: all 0.2s;
+    }
+    
+    .xc_perm-item:hover {
+        background: #f0f9ff;
+        border-color: #3b82f6;
+    }
+    
+    .xc_perm-checkbox {
+        margin-right: 8px;
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+    }
+    
+    .xc_perm-info {
+        flex: 1;
+    }
+    
+    .xc_perm-name {
+        font-size: 12px;
+        color: #374151;
+        font-weight: 500;
+        display: block;
+    }
+    
+    .xc_perm-codename {
+        font-size: 11px;
+        color: #9ca3af;
+        font-family: monospace;
+        margin-top: 2px;
+        display: block;
+    }
+    
+    .xc_perm-category {
+        font-size: 12px;
+        font-weight: 500;
+        color: #374151;
+        padding: 6px 8px;
+        background: #f3f4f6;
+        border-radius: 3px;
+        margin: 8px 0 4px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .xc_perm-category-actions {
+        display: flex;
+        gap: 8px;
+        font-size: 11px;
+        font-weight: normal;
+    }
+    
+    .xc_perm-category-actions a {
+        color: #3b82f6;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    
+    .xc_perm-category-actions a:hover {
+        text-decoration: underline;
+    }
+    
+    /* 穿梭框样式 */
+    .xc_transfer-container {
+        display: flex;
+        gap: 12px;
+        align-items: stretch;
+        height: 360px;
+    }
+    
+    .xc_transfer-panel {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #e5e7eb;
+        border-radius: 4px;
+        background: white;
+        overflow: hidden;
+    }
+    
+    .xc_transfer-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 12px;
+        background: #f9fafb;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 12px;
+        font-weight: 500;
+        color: #374151;
+    }
+    
+    .xc_transfer-header label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 0;
+        cursor: pointer;
+    }
+    
+    .xc_transfer-header input[type="checkbox"] {
+        width: 14px;
+        height: 14px;
+        cursor: pointer;
+    }
+    
+    .xc_transfer-count {
+        font-size: 11px;
+        color: #6b7280;
+        background: #e5e7eb;
+        padding: 2px 6px;
+        border-radius: 10px;
+    }
+    
+    .xc_transfer-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 8px;
+        background: #fafafa;
+    }
+    
+    .xc_transfer-item {
+        display: flex;
+        align-items: center;
+        padding: 6px 8px;
+        margin-bottom: 4px;
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .xc_transfer-item:hover {
+        background: #f0f9ff;
+        border-color: #3b82f6;
+    }
+    
+    .xc_transfer-item.selected {
+        background: #e0f2fe;
+        border-color: #0ea5e9;
+    }
+    
+    .xc_transfer-item input[type="checkbox"] {
+        margin-right: 8px;
+        width: 14px;
+        height: 14px;
+        cursor: pointer;
+    }
+    
+    .xc_transfer-item-content {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .xc_transfer-item-name {
+        font-size: 12px;
+        color: #374151;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .xc_transfer-item-code {
+        font-size: 10px;
+        color: #9ca3af;
+        font-family: monospace;
+        margin-top: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .xc_transfer-item-model {
+        font-size: 10px;
+        color: #3b82f6;
+        background: #eff6ff;
+        padding: 1px 4px;
+        border-radius: 2px;
+        margin-left: 4px;
+    }
+    
+    .xc_transfer-actions {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 8px;
+        padding: 0 4px;
+    }
+    
+    .xc_transfer-btn {
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        border: 1px solid #d1d5db;
+        background: white;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6b7280;
+        font-size: 14px;
+    }
+    
+    .xc_transfer-btn:hover {
+        background: #3b82f6;
+        border-color: #3b82f6;
+        color: white;
+    }
+    
+    .xc_transfer-empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: #9ca3af;
+    }
+    
+    .xc_transfer-empty i {
+        font-size: 48px;
+        margin-bottom: 8px;
+        color: #d1d5db;
+    }
+    
+    .xc_transfer-empty p {
+        font-size: 12px;
+        margin: 0;
+    }
 </style>
 {% endblock stylesheets %}
 
@@ -617,6 +861,11 @@
                                                 <button onclick="openEditModal('{{ d.id }}')" class="xc_btn-icon">
                                                     <i class="fa fa-edit"></i> 编辑
                                                 </button>
+                                                {% if d.is_superuser != 1 %}
+                                                <button onclick="openPermissionModal('{{ d.id }}', '{{ d.username }}')" class="xc_btn-icon">
+                                                    <i class="fa fa-key"></i> 权限
+                                                </button>
+                                                {% endif %}
                                                 <button onclick="f_del('{{ d.id }}')" class="xc_btn-icon delete">
                                                     <i class="fa fa-trash"></i> 删除
                                                 </button>
@@ -706,6 +955,85 @@
             <button class="xc_modal-btn" onclick="closeUserModal()">取消</button>
             <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitUserForm()">
                 <span id="submit_text">提交</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- 权限管理弹窗 -->
+<div class="xc_modal-overlay" id="permissionModal">
+    <div class="xc_modal-container" style="max-width: 850px; max-height: 600px;">
+        <div class="xc_modal-header">
+            <div class="xc_modal-title" id="permissionModalTitle">用户权限管理</div>
+            <button class="xc_modal-close" onclick="closePermissionModal()">×</button>
+        </div>
+        <div class="xc_modal-body" style="padding: 16px;">
+            <div class="xc_form-group" style="margin-bottom: 12px;">
+                <label class="xc_form-label">用户名</label>
+                <input type="text" id="perm_username" class="xc_form-input" disabled style="background: #f9fafb;">
+            </div>
+            
+            <!-- 搜索框 -->
+            <div class="xc_form-group" style="margin-bottom: 12px;">
+                <input type="text" id="perm_search" class="xc_form-input" placeholder="🔍 搜索权限名称或代码..." style="padding-left: 10px;">
+            </div>
+            
+            <!-- 穿梭框容器 -->
+            <div class="xc_transfer-container">
+                <!-- 可用权限 -->
+                <div class="xc_transfer-panel">
+                    <div class="xc_transfer-header">
+                        <label>
+                            <input type="checkbox" id="select_all_available" onchange="toggleAllAvailable()">
+                            <span>可用权限</span>
+                        </label>
+                        <span class="xc_transfer-count" id="available_count">0</span>
+                    </div>
+                    <div class="xc_transfer-body" id="available_list">
+                        <div style="text-align: center; padding: 40px; color: #9ca3af;">
+                            <i class="fa fa-spinner fa-spin"></i> 加载中...
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 操作按钮 -->
+                <div class="xc_transfer-actions">
+                    <button class="xc_transfer-btn" onclick="moveToSelected()" title="添加选中">
+                        <i class="fa fa-angle-right"></i>
+                    </button>
+                    <button class="xc_transfer-btn" onclick="moveAllToSelected()" title="添加全部">
+                        <i class="fa fa-angle-double-right"></i>
+                    </button>
+                    <button class="xc_transfer-btn" onclick="moveToAvailable()" title="移除选中">
+                        <i class="fa fa-angle-left"></i>
+                    </button>
+                    <button class="xc_transfer-btn" onclick="moveAllToAvailable()" title="移除全部">
+                        <i class="fa fa-angle-double-left"></i>
+                    </button>
+                </div>
+                
+                <!-- 已选权限 -->
+                <div class="xc_transfer-panel">
+                    <div class="xc_transfer-header">
+                        <label>
+                            <input type="checkbox" id="select_all_selected" onchange="toggleAllSelected()">
+                            <span>已选权限</span>
+                        </label>
+                        <span class="xc_transfer-count" id="selected_count">0</span>
+                    </div>
+                    <div class="xc_transfer-body" id="selected_list">
+                        <div class="xc_transfer-empty">
+                            <i class="fa fa-inbox"></i>
+                            <p>暂无已选权限</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="xc_modal-footer">
+            <button class="xc_modal-btn" onclick="closePermissionModal()">取消</button>
+            <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitPermissionForm()">
+                <span id="perm_submit_text">保存</span>
             </button>
         </div>
     </div>
@@ -922,7 +1250,7 @@
             success: function (res) {
                 ele_top_loading.hide();
                 if(1000 === res.code){
-                    myToast2025("删除成功", "success", 1000);
+                    myToast2025(res.msg, "success", 1000);
                     setTimeout(function() {
                         window.location.reload();
                     }, 1000);
@@ -952,12 +1280,276 @@
             success: function (res) {
                 ele_top_loading.hide();
                 if(1000 === res.code){
-                    myToast2025("删除成功", "success", 1000);
+                    myToast2025(res.msg, "success", 1000);
                     setTimeout(function() {
                         window.location.reload();
                     }, 1000);
                 }else{
                     myToast2025(res.msg,"error");
+                }
+            }
+        });
+    }
+    
+    // ============ 权限管理功能 ============
+    let currentPermUserId = '';
+    let curPermIsPost = false;
+    let allPermissions = []; // 所有权限数据
+    let availablePermissions = []; // 可用权限
+    let selectedPermissions = []; // 已选权限
+    
+    function openPermissionModal(user_id, username) {
+        currentPermUserId = user_id;
+        $('#perm_username').val(username);
+        $('#permissionModalTitle').text('编辑用户权限 - ' + username);
+        $('#perm_search').val('');
+        
+        // 显示弹窗
+        $('#permissionModal').addClass('active');
+        
+        // 加载权限列表
+        loadUserPermissions(user_id);
+    }
+    
+    function closePermissionModal() {
+        $('#permissionModal').removeClass('active');
+        currentPermUserId = '';
+        allPermissions = [];
+        availablePermissions = [];
+        selectedPermissions = [];
+    }
+    
+    // 点击遮罩层关闭
+    $('#permissionModal').click(function(e) {
+        if (e.target === this) {
+            closePermissionModal();
+        }
+    });
+    
+    function loadUserPermissions(user_id) {
+        $('#available_list').html('<div style="text-align: center; padding: 40px; color: #9ca3af;"><i class="fa fa-spinner fa-spin"></i> 加载中...</div>');
+        $('#selected_list').html('<div class="xc_transfer-empty"><i class="fa fa-inbox"></i><p>暂无已选权限</p></div>');
+        
+        $.ajax({
+            url: '/user/openGetPermissions',
+            type: 'get',
+            data: {user_id: user_id},
+            dataType: 'json',
+            success: function(res) {
+                if(res.code === 1000) {
+                    allPermissions = res.data.all_permissions;
+                    let userPermIds = res.data.user_permissions;
+                    
+                    // 分离已选和可用权限
+                    selectedPermissions = [];
+                    availablePermissions = [];
+                    
+                    allPermissions.forEach(function(perm) {
+                        if(userPermIds.indexOf(perm.id) !== -1) {
+                            selectedPermissions.push(perm);
+                        } else {
+                            availablePermissions.push(perm);
+                        }
+                    });
+                    
+                    renderTransferLists();
+                } else {
+                    $('#available_list').html('<div style="text-align: center; padding: 40px; color: #ef4444;">' + res.msg + '</div>');
+                }
+            },
+            error: function() {
+                $('#available_list').html('<div style="text-align: center; padding: 40px; color: #ef4444;">加载失败，请稍后重试</div>');
+            }
+        });
+    }
+    
+    function renderTransferLists() {
+        let searchText = $('#perm_search').val().toLowerCase();
+        
+        // 过滤
+        let filteredAvailable = availablePermissions;
+        let filteredSelected = selectedPermissions;
+        
+        if(searchText) {
+            filteredAvailable = availablePermissions.filter(function(p) {
+                return p.name.toLowerCase().indexOf(searchText) !== -1 || 
+                       p.codename.toLowerCase().indexOf(searchText) !== -1;
+            });
+            filteredSelected = selectedPermissions.filter(function(p) {
+                return p.name.toLowerCase().indexOf(searchText) !== -1 || 
+                       p.codename.toLowerCase().indexOf(searchText) !== -1;
+            });
+        }
+        
+        // 渲染可用权限
+        let availableHtml = '';
+        filteredAvailable.forEach(function(perm) {
+            availableHtml += renderTransferItem(perm, 'available');
+        });
+        
+        if(availableHtml === '') {
+            availableHtml = '<div class="xc_transfer-empty"><i class="fa fa-inbox"></i><p>无匹配权限</p></div>';
+        }
+        $('#available_list').html(availableHtml);
+        $('#available_count').text(filteredAvailable.length);
+        
+        // 渲染已选权限
+        let selectedHtml = '';
+        filteredSelected.forEach(function(perm) {
+            selectedHtml += renderTransferItem(perm, 'selected');
+        });
+        
+        if(selectedHtml === '') {
+            selectedHtml = '<div class="xc_transfer-empty"><i class="fa fa-inbox"></i><p>暂无已选权限</p></div>';
+        }
+        $('#selected_list').html(selectedHtml);
+        $('#selected_count').text(filteredSelected.length);
+        
+        // 重置全选状态
+        $('#select_all_available').prop('checked', false);
+        $('#select_all_selected').prop('checked', false);
+    }
+    
+    function renderTransferItem(perm, type) {
+        return '<div class="xc_transfer-item" onclick="toggleTransferItem(this, event)">' +
+               '<input type="checkbox" class="transfer-checkbox" data-id="' + perm.id + '" data-type="' + type + '" onclick="event.stopPropagation()">' +
+               '<div class="xc_transfer-item-content">' +
+               '<div class="xc_transfer-item-name">' + perm.name + '<span class="xc_transfer-item-model">' + perm.content_type__model + '</span></div>' +
+               '<div class="xc_transfer-item-code">' + perm.codename + '</div>' +
+               '</div>' +
+               '</div>';
+    }
+    
+    function toggleTransferItem(item, event) {
+        let checkbox = $(item).find('input[type="checkbox"]');
+        checkbox.prop('checked', !checkbox.prop('checked'));
+        
+        if(checkbox.prop('checked')) {
+            $(item).addClass('selected');
+        } else {
+            $(item).removeClass('selected');
+        }
+    }
+    
+    function toggleAllAvailable() {
+        let checked = $('#select_all_available').prop('checked');
+        $('#available_list .transfer-checkbox').prop('checked', checked);
+        if(checked) {
+            $('#available_list .xc_transfer-item').addClass('selected');
+        } else {
+            $('#available_list .xc_transfer-item').removeClass('selected');
+        }
+    }
+    
+    function toggleAllSelected() {
+        let checked = $('#select_all_selected').prop('checked');
+        $('#selected_list .transfer-checkbox').prop('checked', checked);
+        if(checked) {
+            $('#selected_list .xc_transfer-item').addClass('selected');
+        } else {
+            $('#selected_list .xc_transfer-item').removeClass('selected');
+        }
+    }
+    
+    function moveToSelected() {
+        let checkedIds = [];
+        $('#available_list .transfer-checkbox:checked').each(function() {
+            checkedIds.push(parseInt($(this).data('id')));
+        });
+        
+        if(checkedIds.length === 0) {
+            myToast2025('请先选择要添加的权限', 'warning', 1000);
+            return;
+        }
+        
+        // 移动权限
+        checkedIds.forEach(function(id) {
+            let index = availablePermissions.findIndex(p => p.id === id);
+            if(index !== -1) {
+                selectedPermissions.push(availablePermissions[index]);
+                availablePermissions.splice(index, 1);
+            }
+        });
+        
+        renderTransferLists();
+    }
+    
+    function moveAllToSelected() {
+        selectedPermissions = selectedPermissions.concat(availablePermissions);
+        availablePermissions = [];
+        renderTransferLists();
+    }
+    
+    function moveToAvailable() {
+        let checkedIds = [];
+        $('#selected_list .transfer-checkbox:checked').each(function() {
+            checkedIds.push(parseInt($(this).data('id')));
+        });
+        
+        if(checkedIds.length === 0) {
+            myToast2025('请先选择要移除的权限', 'warning', 1000);
+            return;
+        }
+        
+        // 移动权限
+        checkedIds.forEach(function(id) {
+            let index = selectedPermissions.findIndex(p => p.id === id);
+            if(index !== -1) {
+                availablePermissions.push(selectedPermissions[index]);
+                selectedPermissions.splice(index, 1);
+            }
+        });
+        
+        renderTransferLists();
+    }
+    
+    function moveAllToAvailable() {
+        availablePermissions = availablePermissions.concat(selectedPermissions);
+        selectedPermissions = [];
+        renderTransferLists();
+    }
+    
+    // 搜索功能
+    $('#perm_search').on('input', function() {
+        renderTransferLists();
+    });
+    
+    function submitPermissionForm() {
+        if(curPermIsPost) {
+            myToast2025('正在提交中，请勿重复提交！', 'error', 500);
+            return false;
+        }
+        
+        // 收集已选权限ID
+        let permissionIds = selectedPermissions.map(p => p.id);
+        
+        curPermIsPost = true;
+        $('#perm_submit_text').text('保存中...');
+        
+        $.ajax({
+            url: '/user/openSetPermissions',
+            type: 'post',
+            data: {
+                user_id: currentPermUserId,
+                permission_ids: permissionIds.join(',')
+            },
+            dataType: 'json',
+            error: function() {
+                curPermIsPost = false;
+                $('#perm_submit_text').text('保存');
+                myToast2025('网络异常，请确定网络正常！', 'error');
+            },
+            success: function(res) {
+                curPermIsPost = false;
+                $('#perm_submit_text').text('保存');
+                
+                if(res.code === 1000) {
+                    myToast2025(res.msg, 'success', 1000);
+                    setTimeout(function() {
+                        closePermissionModal();
+                    }, 1000);
+                } else {
+                    myToast2025(res.msg, 'error');
                 }
             }
         });

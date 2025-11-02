@@ -561,7 +561,7 @@
                if(1000 === res.code){
                    let info = res.info;
                    let snapshot_filename = info["snapshot_filename"]
-                   let download_url = "/storage/download?filename="+snapshot_filename;
+                   let download_url = "/storage/openDownload?filename="+snapshot_filename;
                    window.open(download_url);
                }else{
                     myToast2025(res.msg,"error");
@@ -597,7 +597,7 @@
                        let record_msg = info["record_msg"]
                        if(record_ret===true){
                            let record_video_filename = info["record_video_filename"]
-                           let download_url = "/storage/download?filename="+record_video_filename;
+                           let download_url = "/storage/openDownload?filename="+record_video_filename;
                            window.open(download_url);
                        }else{
                            myToast2025(record_msg,"error");

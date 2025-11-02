@@ -2,21 +2,230 @@
 {% block title %} {% if  "add" == handle %}添加{% else %}编辑{% endif %}基础算法 {% endblock title %}
 {% block stylesheets %}
   {{ block.super }}
-    <style>
-    input[type="file"]{
-      color: #8d2f2f;
-      font-size: 12px;
+<style>
+    /* 基础算法信息卡片 */
+    .alg_info_card {
+        background: #fff;
+        border-radius: 8px;
+        padding: 20px 24px;
+        margin: 0 auto 16px;
+        max-width: 900px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
-    ::file-selector-button{
-      font-size: 12px;
-      color: #fff;
-      border-radius: 4px;
-      border: 1px solid #091f35;
-      padding: 2px 4px;
-      background-color: #091f35;
-      cursor: pointer;
+    
+    .alg_card_title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #eef2f5;
     }
-
+    
+    .alg_card_title i {
+        margin-right: 8px;
+        color: #169F85;
+        font-size: 16px;
+    }
+    
+    /* 表单组优化 */
+    .alg_form_group {
+        margin-bottom: 16px;
+    }
+    
+    .alg_form_label {
+        font-size: 12px;
+        color: #606266;
+        font-weight: 500;
+        margin-bottom: 6px;
+        display: block;
+    }
+    
+    .alg_form_label .required {
+        color: #f56c6c;
+        margin-left: 2px;
+    }
+    
+    .alg_form_label .bxc_introduce {
+        margin-left: 4px;
+        color: #909399;
+        cursor: help;
+    }
+    
+    .alg_form_control {
+        width: 100%;
+    }
+    
+    .alg_input, .alg_select, .alg_textarea {
+        width: 100%;
+        padding: 8px 12px;
+        font-size: 13px;
+        border: 1px solid #dcdfe6;
+        border-radius: 4px;
+        transition: border-color 0.2s;
+        background: #fff;
+    }
+    
+    .alg_input {
+        height: 36px;
+    }
+    
+    .alg_select {
+        height: 36px;
+    }
+    
+    .alg_textarea {
+        resize: vertical;
+        font-family: inherit;
+    }
+    
+    .alg_input:focus, .alg_select:focus, .alg_textarea:focus {
+        border-color: #169F85;
+        outline: none;
+    }
+    
+    .alg_input:disabled, .alg_select:disabled, .alg_textarea:disabled,
+    .alg_input[readonly], .alg_select[readonly], .alg_textarea[readonly] {
+        background: #f5f7fa;
+        color: #909399;
+        cursor: not-allowed;
+    }
+    
+    /* 文件上传样式 - 基于默认样式简洁美化 */
+    .alg_file_wrapper {
+        position: relative;
+    }
+    
+    .alg_file_wrapper input[type="file"] {
+        width: 100%;
+        padding: 6px 12px;
+        font-size: 12px;
+        border: 1px solid #dcdfe6;
+        border-radius: 4px;
+        background: #fff;
+        cursor: pointer;
+        transition: all 0.2s;
+        height: 36px;
+    }
+    
+    .alg_file_wrapper input[type="file"]:hover {
+        border-color: #169F85;
+    }
+    
+    .alg_file_wrapper input[type="file"]:focus {
+        outline: none;
+        border-color: #169F85;
+        box-shadow: 0 0 0 2px rgba(22, 159, 133, 0.1);
+    }
+    
+    .alg_file_wrapper input[type="file"]::file-selector-button {
+        padding: 4px 12px;
+        margin-right: 12px;
+        font-size: 12px;
+        color: #606266;
+        background: #f5f7fa;
+        border: 1px solid #dcdfe6;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .alg_file_wrapper input[type="file"]::file-selector-button:hover {
+        color: #169F85;
+        border-color: #169F85;
+        background: #f0f9f6;
+    }
+    
+    /* 状态标签 */
+    .sun-state-success {
+        color: #169F85;
+        font-weight: 500;
+    }
+    
+    .sun-state-error {
+        color: #f56c6c;
+        font-weight: 500;
+    }
+    
+    /* 按钮组 */
+    .alg_actions {
+        text-align: center;
+        padding-top: 24px;
+        border-top: 1px solid #eef2f5;
+        margin-top: 8px;
+    }
+    
+    .alg_btn {
+        min-width: 100px;
+        height: 38px;
+        padding: 0 24px;
+        font-size: 14px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin: 0 8px;
+    }
+    
+    .alg_btn_cancel {
+        background: #fff;
+        border: 1px solid #dcdfe6;
+        color: #606266;
+    }
+    
+    .alg_btn_cancel:hover {
+        color: #169F85;
+        border-color: #169F85;
+        background: #f0f9f6;
+    }
+    
+    .alg_btn_submit {
+        background: linear-gradient(135deg, #169F85 0%, #14b89a 100%);
+        color: #fff;
+    }
+    
+    .alg_btn_submit:hover {
+        box-shadow: 0 3px 8px rgba(22, 159, 133, 0.3);
+        transform: translateY(-1px);
+    }
+    
+    .alg_btn_log {
+        background: #fff;
+        border: 1px solid #dcdfe6;
+        color: #606266;
+        font-size: 12px;
+        padding: 4px 12px;
+        height: auto;
+        min-width: auto;
+    }
+    
+    .alg_btn_log:hover {
+        color: #169F85;
+        border-color: #169F85;
+    }
+    
+    /* 加载提示 */
+    #top_loading {
+        display: none;
+        margin-left: 16px;
+        color: #909399;
+        font-size: 13px;
+    }
+    
+    #top_loading img {
+        width: 16px;
+        height: 16px;
+        margin-right: 6px;
+        vertical-align: middle;
+    }
+    
+    #timer_counter, #submit_msg {
+        font-size: 12px;
+        color: #606266;
+        margin-left: 8px;
+    }
 </style>
 {% endblock stylesheets %}
 
@@ -49,156 +258,153 @@
               <div class="clearfix"></div>
             </div>
             <div class="x_content">
-     <div class="form-horizontal form-label-left">
-                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12">算法编号 </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="text"  value="{{ algorithm.code }}" class="form-control" disabled="disabled">
+              
+              <!-- 基础算法配置卡片 -->
+              <div class="alg_info_card">
+                <div class="alg_card_title">
+                  <i class="fa fa-cube"></i>基础算法配置
+                </div>
+                
+                <div class="alg_form_group">
+                  <label class="alg_form_label">算法编号</label>
+                  <div class="alg_form_control">
+                    <input type="text" value="{{ algorithm.code }}" class="alg_input" disabled>
                   </div>
                 </div>
 
-            <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12">算法名称 <span class="required" style="color: red;">*</span></label>
-             <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input type="text" name="name" value="{{ algorithm.name }}" required="required"  class="form-control">
+                <div class="alg_form_group">
+                  <label class="alg_form_label">算法名称<span class="required">*</span></label>
+                  <div class="alg_form_control">
+                    <input type="text" name="name" value="{{ algorithm.name }}" class="alg_input" placeholder="请输入算法名称">
                   </div>
                 </div>
 
-            {% if "edit" == handle %}<input type="hidden" name="algorithm_type" value="{{ algorithm.algorithm_type }}">{% endif %}
-<div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12">请选择算法类型 <span class="required" style="color: red;">*</span></label>
-                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    <select name="algorithm_type" {% if "edit" == handle %}disabled="disabled"{% endif %} class="form-control">
-                        <option value="0">请选择</option>
-                        {% for algorithm_type in algorithm_types %}
-                            {% if algorithm.algorithm_type == algorithm_type.code %}
-                                <option selected value="{{ algorithm.algorithm_type }}">{{ algorithm_type.name }}</option>
-                            {% else %}
-                               <option value="{{ algorithm_type.code }}">{{ algorithm_type.name }}</option>
-                            {% endif %}
-                        {% endfor %}
+                {% if "edit" == handle %}<input type="hidden" name="algorithm_type" value="{{ algorithm.algorithm_type }}">{% endif %}
+                <div class="alg_form_group">
+                  <label class="alg_form_label">请选择算法类型<span class="required">*</span></label>
+                  <div class="alg_form_control">
+                    <select name="algorithm_type" {% if "edit" == handle %}disabled{% endif %} class="alg_select">
+                      <option value="0">请选择</option>
+                      {% for algorithm_type in algorithm_types %}
+                        {% if algorithm.algorithm_type == algorithm_type.code %}
+                          <option selected value="{{ algorithm.algorithm_type }}">{{ algorithm_type.name }}</option>
+                        {% else %}
+                          <option value="{{ algorithm_type.code }}">{{ algorithm_type.name }}</option>
+                        {% endif %}
+                      {% endfor %}
                     </select>
                   </div>
- </div>
+                </div>
 
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12">算法框架 <span class="required" style="color: red;">*</span></label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                     {% if "edit" == handle %}
-                        <select disabled="disabled" name="framework" class="form-control">
-                            <option >{{ algorithm.framework }}</option>
-                        </select>
-                     {% else %}
-                        <select name="framework" class="form-control"></select>
-                     {% endif %}
+                <div class="alg_form_group">
+                  <label class="alg_form_label">算法框架<span class="required">*</span></label>
+                  <div class="alg_form_control">
+                    {% if "edit" == handle %}
+                      <select disabled name="framework" class="alg_select">
+                        <option>{{ algorithm.framework }}</option>
+                      </select>
+                    {% else %}
+                      <select name="framework" class="alg_select"></select>
+                    {% endif %}
                   </div>
                 </div>
 
-
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12">推理引擎 <span class="required" style="color: red;">*</span></label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                      {% if "edit" == handle %}
-                        <select disabled="disabled" name="inference" class="form-control">
-                            <option >{{ algorithm.inference }}</option>
-                        </select>
-                     {% else %}
-                        <select name="inference" class="form-control"></select>
-                     {% endif %}
+                <div class="alg_form_group">
+                  <label class="alg_form_label">推理引擎<span class="required">*</span></label>
+                  <div class="alg_form_control">
+                    {% if "edit" == handle %}
+                      <select disabled name="inference" class="alg_select">
+                        <option>{{ algorithm.inference }}</option>
+                      </select>
+                    {% else %}
+                      <select name="inference" class="alg_select"></select>
+                    {% endif %}
                   </div>
                 </div>
 
-             <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12">推理引擎设备 <span class="required" style="color: red;">*</span> <i class="bxc_introduce fa fa-info-circle" title="推理引擎设备，比如CPU,GPU,GPU:0,GPU:1"></i></label>
-                 <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" name="inference_device" value="{{ algorithm.inference_device }}"  class="form-control">
-
-                  </div>
-                </div>
-
-            <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12">模型推理参数 <span class="required" style="color: red;">*</span><i class="bxc_introduce fa fa-info-circle" title="分析器基于模型计算时的自定义参数"></i></label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <textarea name="extend_params" class="form-control" rows="2">{{ algorithm.extend_params }}</textarea>
-                  </div>
-            </div>
-
-             <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12">模型转换参数 <span class="required" style="color: red;">*</span><i class="bxc_introduce fa fa-info-circle" title="trtexec在将onnx转换为engine的命令行扩展参数"></i></label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                    <textarea name="model_convert_params" {% if "edit" == handle %}disabled="disabled"{% endif %} class="form-control" rows="2"  placeholder="" >{{ algorithm.model_convert_params }}</textarea>
-                  </div>
-                </div>
-
-             <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12">模型目标 <span class="required" style="color: red;">*</span></label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                    <textarea name="model_class_names" {% if "edit" == handle %}disabled="disabled"{% endif %} class="form-control" rows="4"  placeholder="请填写模型支持的目标名称，如果多个名称请用英文逗号隔开。添加前，建议参考添加基础算法文档的示例" >{{ algorithm.model_class_names }}</textarea>
-                  </div>
-                </div>
-
-{% if "add" == handle %}
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">模型文件 <span class="required" style="color: red;">*</span></label>
-                   <div class="col-md-6 col-sm-6 col-xs-12">
-                        <!-- application/x-tar,application/octet-stream-->
-                      <input type="file" name="model" accept=".onnx,.engine,.tar,.om,.rknn" class="form-control" placeholder="模型文件" >
-                    </div>
-                </div>
-
-
-{% elif "edit" == handle %}
-                <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12">模型目标数量</label>
-                     <div class="col-md-6 col-sm-6 col-xs-12">
-                            <span class="sun-state-success">{{ model_class_names_len }}</span>
-                      </div>
-                </div>
-
-                  <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12">模型文件路径</label>
-                     <div class="col-md-6 col-sm-6 col-xs-12">
-                         <input type="text" value="{{ absolute_model_dir }}" readonly  class="form-control">
-                      </div>
-                </div>
-
-                <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12">模型文件状态</label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                            {% if absolute_model_dir_exist == 1 %}
-                             <span class="sun-state-success">正常</span>
-                            {% else %}
-                            <span class="sun-state-error">异常</span>
-                            {% endif %}
-                      </div>
-                </div>
-
-{% endif %}
-
-                <!--
-                  <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12">备注
+                <div class="alg_form_group">
+                  <label class="alg_form_label">
+                    推理引擎设备<span class="required">*</span>
+                    <i class="bxc_introduce fa fa-info-circle" title="推理引擎设备，比如CPU,GPU,GPU:0,GPU:1"></i>
                   </label>
-                  <div class="col-md-9 col-sm-9 col-xs-12">
-                    <textarea name="remark" class="form-control" rows="3" placeholder="">{{ algorithm.remark }}</textarea>
-                  </div>
-                </div>
-            -->
-                <div class="form-group">
-                  <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                        <button type="button" onclick="window.history.go(-1)" class="btn btn-default">返回</button>
-                        <button type="button" onclick="f_submit()" class="btn btn-dark">提交</button>
-
-                        <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">提交中</span>
-                        <span id="timer_counter" style="font-size:12px"></span>
-                        <span id="submit_msg" style="margin-left: 3px;font-size:12px;"></span>
-                        <button id="show_log_btn" style="margin-left: 3px;display: none;" onclick="f_log()" type="button" class="btn btn-default btn-xs">查看详细日志</button>
+                  <div class="alg_form_control">
+                    <input type="text" name="inference_device" value="{{ algorithm.inference_device }}" class="alg_input">
                   </div>
                 </div>
 
-            </div>
+                <div class="alg_form_group">
+                  <label class="alg_form_label">
+                    模型推理参数<span class="required">*</span>
+                    <i class="bxc_introduce fa fa-info-circle" title="分析器基于模型计算时的自定义参数"></i>
+                  </label>
+                  <div class="alg_form_control">
+                    <textarea name="extend_params" class="alg_textarea" rows="2">{{ algorithm.extend_params }}</textarea>
+                  </div>
+                </div>
 
+                <div class="alg_form_group">
+                  <label class="alg_form_label">
+                    模型转换参数<span class="required">*</span>
+                    <i class="bxc_introduce fa fa-info-circle" title="trtexec在将onnx转换为engine的命令行扩展参数"></i>
+                  </label>
+                  <div class="alg_form_control">
+                    <textarea name="model_convert_params" {% if "edit" == handle %}disabled{% endif %} class="alg_textarea" rows="2" placeholder="">{{ algorithm.model_convert_params }}</textarea>
+                  </div>
+                </div>
 
+                <div class="alg_form_group">
+                  <label class="alg_form_label">模型目标<span class="required">*</span></label>
+                  <div class="alg_form_control">
+                    <textarea name="model_class_names" {% if "edit" == handle %}disabled{% endif %} class="alg_textarea" rows="4" placeholder="请填写模型支持的目标名称，如果多个名称请用英文逗号隔开。添加前，建议参考添加基础算法文档的示例">{{ algorithm.model_class_names }}</textarea>
+                  </div>
+                </div>
+
+                {% if "add" == handle %}
+                <div class="alg_form_group">
+                  <label class="alg_form_label">模型文件<span class="required">*</span></label>
+                  <div class="alg_form_control">
+                    <div class="alg_file_wrapper">
+                      <input type="file" name="model" id="modelFileInput" accept=".onnx,.engine,.tar,.om,.rknn" placeholder="模型文件">
+                    </div>
+                  </div>
+                </div>
+                {% elif "edit" == handle %}
+                <div class="alg_form_group">
+                  <label class="alg_form_label">模型目标数量</label>
+                  <div class="alg_form_control">
+                    <span class="sun-state-success">{{ model_class_names_len }}</span>
+                  </div>
+                </div>
+
+                <div class="alg_form_group">
+                  <label class="alg_form_label">模型文件路径</label>
+                  <div class="alg_form_control">
+                    <input type="text" value="{{ absolute_model_dir }}" readonly class="alg_input">
+                  </div>
+                </div>
+
+                <div class="alg_form_group">
+                  <label class="alg_form_label">模型文件状态</label>
+                  <div class="alg_form_control">
+                    {% if absolute_model_dir_exist == 1 %}
+                      <span class="sun-state-success">正常</span>
+                    {% else %}
+                      <span class="sun-state-error">异常</span>
+                    {% endif %}
+                  </div>
+                </div>
+                {% endif %}
+
+                <div class="alg_actions">
+                  <button type="button" onclick="window.history.go(-1)" class="alg_btn alg_btn_cancel">返回</button>
+                  <button type="button" onclick="f_submit()" class="alg_btn alg_btn_submit">提交</button>
+                  <span id="top_loading"><img class="top_loading_img" src="/static/images/load.gif" alt="loading">提交中</span>
+                  <span id="timer_counter"></span>
+                  <span id="submit_msg"></span>
+                  <button id="show_log_btn" style="display: none;" onclick="f_log()" type="button" class="alg_btn alg_btn_log">查看详细日志</button>
+                </div>
+              </div>
+              
             </div>
               <!--日志弹窗start -->
               <div id="algorithmSubmitLogDialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">

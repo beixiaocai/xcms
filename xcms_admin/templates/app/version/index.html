@@ -6,17 +6,17 @@
   {{ block.super }}
   <style>
     .version-container {
-      padding: 12px;
+      padding: 20px;
       background: #f5f7fa;
       min-height: calc(100vh - 100px);
     }
     
     .modern-card {
       background: white;
-      border-radius: 6px;
-      padding: 16px;
-      margin-bottom: 12px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
       transition: all 0.3s ease;
     }
     
@@ -27,37 +27,31 @@
     .card-header {
       display: flex;
       align-items: center;
-      margin-bottom: 12px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #e5e7eb;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eef2f5;
     }
     
     .card-header i {
       margin-right: 8px;
-      width: 32px;
-      height: 32px;
-      line-height: 32px;
-      text-align: center;
-      border-radius: 6px;
+      color: #169F85;
       font-size: 16px;
-      background: #f0f9ff;
-      color: #0284c7;
     }
     
     .card-header h3 {
       margin: 0;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
-      color: #333;
+      color: #2c3e50;
     }
     
     .system-info-item {
       display: flex;
       align-items: center;
-      padding: 10px 12px;
-      margin-bottom: 8px;
+      padding: 5px 8px;
+      margin-bottom: 3px;
       background: #f9fafb;
-      border-radius: 6px;
+      border-radius: 4px;
       transition: all 0.2s;
     }
     
@@ -66,28 +60,14 @@
     }
     
     .info-icon {
-      width: 36px;
-      height: 36px;
-      line-height: 36px;
+      width: 28px;
+      height: 28px;
+      line-height: 28px;
       text-align: center;
-      border-radius: 6px;
-      margin-right: 12px;
-      font-size: 16px;
-    }
-    
-    .icon-app {
-      background: #f0f9ff;
-      color: #0284c7;
-    }
-    
-    .icon-version {
-      background: #f0fdf4;
-      color: #16a34a;
-    }
-    
-    .icon-flag {
-      background: #fefce8;
-      color: #ca8a04;
+      border-radius: 4px;
+      margin-right: 10px;
+      font-size: 14px;
+      color: #169F85;
     }
     
     .info-content {
@@ -98,12 +78,13 @@
       font-size: 12px;
       color: #6b7280;
       margin-bottom: 2px;
+      font-weight: 500;
     }
     
     .info-value {
-      font-size: 14px;
-      color: #1f2937;
-      font-weight: 600;
+      font-size: 12px;
+      color: #374151;
+      font-weight: 500;
     }
     
     .btn-check {
@@ -111,19 +92,18 @@
       padding: 8px 16px;
       font-size: 13px;
       font-weight: 500;
-      border-radius: 6px;
+      border-radius: 4px;
       border: none;
       cursor: pointer;
       transition: all 0.2s;
       margin-top: 8px;
-      background: #3b82f6;
+      background: linear-gradient(135deg, #169F85 0%, #14b89a 100%);
       color: white;
     }
     
     .btn-check:hover {
-      background: #2563eb;
+      box-shadow: 0 3px 8px rgba(22, 159, 133, 0.3);
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
     }
     
     .btn-check i {
@@ -133,24 +113,24 @@
     .author-section {
       margin-top: 12px;
       padding-top: 12px;
-      border-top: 1px solid #e5e7eb;
+      border-top: 1px solid #eef2f5;
     }
     
     .author-link {
       display: inline-flex;
       align-items: center;
-      padding: 8px 12px;
-      font-size: 13px;
-      color: #475569;
+      padding: 6px 12px;
+      font-size: 12px;
+      color: #606266;
       text-decoration: none;
-      background: #f8fafc;
-      border-radius: 6px;
+      background: #f9fafb;
+      border-radius: 4px;
       transition: all 0.2s;
     }
     
     .author-link:hover {
-      background: #f1f5f9;
-      color: #334155;
+      background: #f3f4f6;
+      color: #169F85;
       text-decoration: none;
     }
     
@@ -163,16 +143,11 @@
     }
     
     .version-item {
-      background: #fffef5;
+      background: #fefce8;
       border: 1px solid #fef08a;
-      border-radius: 6px;
+      border-radius: 4px;
       padding: 16px;
       margin-bottom: 12px;
-      transition: all 0.2s;
-    }
-    
-    .version-item:hover {
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
     
     .version-header {
@@ -186,24 +161,24 @@
     .version-badge {
       display: inline-flex;
       align-items: center;
-      padding: 4px 10px;
+      padding: 3px 8px;
       background: #eab308;
       color: white;
-      border-radius: 12px;
-      font-size: 12px;
+      border-radius: 3px;
+      font-size: 11px;
       font-weight: 600;
       margin-right: 10px;
     }
     
     .version-title {
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 600;
       color: #713f12;
       flex: 1;
     }
     
     .version-date {
-      font-size: 12px;
+      font-size: 11px;
       color: #a16207;
       display: flex;
       align-items: center;
@@ -219,8 +194,8 @@
     }
     
     .update-item {
-      padding: 4px 0;
-      font-size: 13px;
+      padding: 3px 0;
+      font-size: 12px;
       color: #57534e;
       line-height: 1.6;
     }
@@ -234,15 +209,15 @@
     }
     
     .btn-link {
-      padding: 6px 14px;
+      padding: 6px 12px;
       font-size: 12px;
       font-weight: 500;
-      border-radius: 5px;
+      border-radius: 4px;
       text-decoration: none;
       transition: all 0.2s;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
     }
     
     .btn-link:hover {
@@ -250,30 +225,29 @@
     }
     
     .btn-download {
-      background: #3b82f6;
+      background: linear-gradient(135deg, #169F85 0%, #14b89a 100%);
       color: white;
       text-decoration: none;
     }
     
     .btn-download:hover {
-      background: #2563eb;
+      box-shadow: 0 3px 8px rgba(22, 159, 133, 0.3);
       color: white;
       transform: translateY(-1px);
-      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
       text-decoration: none;
     }
     
     .btn-history {
       background: white;
-      color: #6b7280;
-      border: 1px solid #d1d5db;
+      color: #606266;
+      border: 1px solid #dcdfe6;
       text-decoration: none;
     }
     
     .btn-history:hover {
-      background: #f9fafb;
-      color: #374151;
-      border-color: #9ca3af;
+      color: #169F85;
+      border-color: #169F85;
+      background: #f0f9f6;
       text-decoration: none;
     }
     
@@ -283,25 +257,25 @@
     }
     
     .no-update-icon {
-      width: 80px;
-      height: 80px;
-      line-height: 80px;
-      margin: 0 auto 16px;
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
+      margin: 0 auto 12px;
       background: #f0fdf4;
       border-radius: 50%;
       color: #22c55e;
-      font-size: 36px;
+      font-size: 28px;
     }
     
     .no-update-title {
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 600;
-      color: #1f2937;
+      color: #2c3e50;
       margin-bottom: 6px;
     }
     
     .no-update-desc {
-      font-size: 13px;
+      font-size: 12px;
       color: #6b7280;
       margin-bottom: 16px;
     }
@@ -313,13 +287,13 @@
     
     .loading-spinner {
       display: inline-block;
-      width: 40px;
-      height: 40px;
+      width: 32px;
+      height: 32px;
       border: 3px solid #e5e7eb;
-      border-top: 3px solid #3b82f6;
+      border-top: 3px solid #169F85;
       border-radius: 50%;
       animation: spin 1s linear infinite;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
     
     @keyframes spin {
@@ -328,7 +302,7 @@
     }
     
     .loading-text {
-      font-size: 13px;
+      font-size: 12px;
       color: #6b7280;
     }
     
@@ -388,7 +362,7 @@
             </div>
             {% endif %}
             
-            <button onclick="f_getCheckVersion()" class="btn-check">
+            <button onclick="f_openCheckVersion()" class="btn-check">
               <i class="fa fa-refresh"></i> 检测新版本
             </button>
           </div>
@@ -420,7 +394,7 @@
   <script>
     let eleResult = $("#versionResult");
     
-    function f_getCheckVersion() {
+    function f_openCheckVersion() {
       eleResult.html(`
         <div class="loading-state">
           <div class="loading-spinner"></div>
@@ -429,7 +403,7 @@
       `);
       
       $.ajax({
-        url: '/version/getCheckVersion',
+        url: '/version/openCheckVersion',
         type: "get",
         async: true,
         data: {},
@@ -517,7 +491,7 @@
     }
     
     window.onload = function () {
-      f_getCheckVersion();
+      f_openCheckVersion();
     };
   </script>
 {% endblock javascripts %}

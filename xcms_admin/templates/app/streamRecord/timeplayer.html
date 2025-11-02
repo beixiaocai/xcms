@@ -247,7 +247,7 @@
 
     function f_downloadRecordVideo() {
         let url = eleInputRecordVideoAddress.val().trim();
-        if(url.startsWith("/storage/access?filename=")){
+        if(url.startsWith("/storage/openAccess?filename=")){
             window.open(url);
         }else{
                myToast2025("录像播放地址不正确！","error");
@@ -291,7 +291,7 @@
                    let info = res.info;
                    let filename = info.filename
 
-                   let url = "/storage/access?filename="+filename;
+                   let url = "/storage/openAccess?filename="+filename;
 
                    eleInputRecordVideoAddress.val(url);
 

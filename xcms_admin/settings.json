@@ -4,11 +4,11 @@
     "logo_url": "/static/images/user.png",
     "bottom_name": "视频行为分析系统",
     "is_show_author": true,
-    "author": "北小菜",
-    "author_link": "https://space.bilibili.com/487906612",
+    "author": "宇图瑞视",
+    "author_link": "https://www.beixiaocai.com",
     "auth_online_link": "https://www.beixiaocai.com",
-    "auth_buy_link": "https://item.taobao.com/item.htm?id=762119975982",
-    "check_version_app_key": "public",
-    "check_version_app_secret": "xc",
+    "auth_buy_link": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/bvda5lrygo8nq21q",
+    "check_version_app_key": "yuturuishi",
+    "check_version_app_secret": "yuturuishi",
     "check_version_download_url": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/e05dce83e5129785b9f316978a14b896"
 }

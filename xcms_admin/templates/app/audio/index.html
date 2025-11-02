@@ -43,12 +43,15 @@
         display: flex;
         align-items: center;
         gap: 8px;
+        flex-wrap: nowrap;
+        height: 28px;
     }
     
     .xc_header-actions {
         display: flex;
         align-items: center;
         gap: 6px;
+        height: 28px;
     }
     
     .xc_loading-spinner {
@@ -73,7 +76,7 @@
     }
     
     .xc_btn-modern {
-        padding: 4px 10px;
+        padding: 0 10px;
         font-size: 12px;
         font-weight: 400;
         border-radius: 3px;
@@ -84,9 +87,13 @@
         transition: all 0.2s;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 4px;
         white-space: nowrap;
         text-decoration: none;
+        height: 28px;
+        line-height: 1;
+        box-sizing: border-box;
     }
     
     .xc_btn-modern:hover {
@@ -123,13 +130,17 @@
     .xc_stats-badge {
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 6px;
-        padding: 4px 10px;
+        padding: 0 10px;
         background: #f9fafb;
         border-radius: 3px;
         font-size: 11px;
         color: #6b7280;
         white-space: nowrap;
+        height: 28px;
+        line-height: 1;
+        box-sizing: border-box;
     }
     
     .xc_stats-badge span {
@@ -137,25 +148,35 @@
         font-weight: 500;
     }
     
-    .xc_audio-player-container {
+    .xc_audio-player-compact {
         display: flex;
         align-items: center;
-        gap: 8px;
-        padding: 8px 12px;
+        justify-content: center;
+        gap: 6px;
+        padding: 0 10px;
         background: #eff6ff;
         border: 1px solid #dbeafe;
-        border-radius: 6px;
-        margin-bottom: 12px;
-    }
-    
-    .xc_audio-player-icon {
-        color: #3b82f6;
-        font-size: 16px;
-    }
-    
-    .xc_audio-player {
-        flex: 1;
+        border-radius: 3px;
         height: 32px;
+        line-height: 1;
+        box-sizing: border-box;
+    }
+    
+    .xc_audio-player-compact-icon {
+        color: #3b82f6;
+        font-size: 12px;
+        flex-shrink: 0;
+        line-height: 1;
+    }
+    
+    .xc_audio-player-compact audio {
+        height: 26px;
+        width: 180px;
+        margin: 0;
+        padding: 0;
+        display: block;
+        border: none;
+        outline: none;
     }
     
     .xc_table-container {
@@ -217,13 +238,14 @@
     .xc_audio-code {
         display: inline-block;
         padding: 3px 8px;
-        background: #eff6ff;
-        border: 1px solid #dbeafe;
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        border: 1px solid #6ee7b7;
         border-radius: 3px;
         font-size: 11px;
-        color: #2563eb;
+        color: #065f46;
         font-family: monospace;
-        font-weight: 500;
+        font-weight: 600;
+        box-shadow: 0 1px 3px rgba(22, 159, 133, 0.2);
     }
     
     .xc_audio-name {
@@ -235,7 +257,7 @@
     }
     
     .xc_audio-icon {
-        color: #3b82f6;
+        color: #169F85;
         font-size: 14px;
     }
     
@@ -625,6 +647,12 @@
                                 音频管理
                             </div>
                             <div class="xc_header-right">
+                                <div class="xc_audio-player-compact">
+                                    <i class="fa fa-volume-up xc_audio-player-compact-icon"></i>
+                                    <audio id="top_audio" controls>
+                                        浏览器不支持音频播放
+                                    </audio>
+                                </div>
                                 <div class="xc_header-actions">
                                     <button onclick="openAudioModal('add')" class="xc_btn-modern xc_btn-secondary">
                                         <i class="fa fa-plus"></i> 添加音频
@@ -641,13 +669,6 @@
                                     <span id="top_msg">共 <span>{{ pageData.count }}</span> 条音频</span>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="xc_audio-player-container">
-                            <i class="fa fa-volume-up xc_audio-player-icon"></i>
-                            <audio id="top_audio" controls class="xc_audio-player">
-                                浏览器不支持音频播放
-                            </audio>
                         </div>
 
                         {% if pageData.count > 0 %}
@@ -669,7 +690,8 @@
                                             <span class="xc_audio-id">{{ d.id }}</span>
                                         </td>
                                         <td>
-                                            <span class="xc_audio-code">{{ d.code }}</span>
+                                            <!--<span class="xc_audio-code">{{ d.code }}</span>-->
+                                            <span>{{ d.code }}</span>
                                         </td>
                                         <td>
                                             <div class="xc_audio-name">
@@ -963,7 +985,7 @@
             success: function (res) {
                 ele_top_loading.hide();
                 if (1000 === res.code) {
-                    myToast2025("删除成功", "success", 1000);
+                    myToast2025(res.msg, "success", 1000);
                     setTimeout(function() {
                         window.location.reload();
                     }, 1000);
