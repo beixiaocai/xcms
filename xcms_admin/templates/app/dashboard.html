@@ -1195,7 +1195,7 @@
 <script src="/static/lib/highcharts-plugins/highcharts-zh_CN.js"></script>
 <!-- fancybox -->
 <script src="/static/lib/jquery/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-<script src="/static/build/js/toast.js"></script>
+<script src="/static/app/common/js/toast.js"></script>
 
 <script>
     let uploadAudioDir_www = '{{ uploadAudioDir_www }}';
@@ -1910,9 +1910,9 @@
         // 关联信息
         html += '<div class="xcd_modal-info-card">';
         html += '<div class="xcd_modal-section-title">关联信息</div>';
-        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">关联视频：</span><span class="xcd_modal-info-value"><a href="/stream/edit?code=' + alarm.stream_code + '" target="_blank">前往查看</a></span></div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">关联视频：</span><span class="xcd_modal-info-value"><a href="/stream/index?code=' + alarm.stream_code + '" target="_blank">前往查看</a></span></div>';
         html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">关联布控：</span><span class="xcd_modal-info-value"><a href="/control/edit?code=' + alarm.control_code + '" target="_blank">前往查看</a></span></div>';
-        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">关联算法：</span><span class="xcd_modal-info-value"><a href="/algorithmFlow/edit?code=' + alarm.flow_code + '" target="_blank">' + alarm.flow_name + '</a></span></div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">关联算法：</span><span class="xcd_modal-info-value"><a href="/algorithmFlow/index?search=' + alarm.flow_code + '" target="_blank">' + alarm.flow_name + '</a></span></div>';
         html += '</div>';
         
         // 审核操作

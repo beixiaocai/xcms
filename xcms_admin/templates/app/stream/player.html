@@ -9,6 +9,30 @@
 
 {% block content %}
 <style>
+        /* 播放按钮样式 */
+        .xc_btn-play {
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 6px;
+            border: 1px solid #169F85;
+            background: linear-gradient(135deg, #169F85 0%, #14b89a 100%);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 2px 4px rgba(22, 159, 133, 0.3);
+        }
+        
+        .xc_btn-play:hover {
+            background: linear-gradient(135deg, #14b89a 0%, #129684 100%);
+            border-color: #14b89a;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(22, 159, 133, 0.4);
+        }
+        
         .xc_input_group {
             padding: 10px;
             border-bottom: 1px solid #e2e8f0;
@@ -287,8 +311,8 @@
             <div class="x_title">
                 <div class="xc_input_group">
                     <input id="input_address" type="text" class="xc_input_field" placeholder="请输入播放地址（支持ws-fmp4/http-fmp4）">
-                    <button class="btn btn-dark" onclick="f_clickPlayStart()">
-                        播放
+                    <button class="xc_btn-play" onclick="f_clickPlayStart()">
+                        <i class="fa fa-play"></i> 播放
                     </button>
                     <button class="btn btn-default" onclick="f_clickPlayStop()">
                         停止

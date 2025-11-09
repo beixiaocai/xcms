@@ -3,150 +3,231 @@
 {% block stylesheets %}
   {{ block.super }}
 <style>
-    :root {
-        --xc-primary: #165DFF;
-        --xc-primary-light: #4080FF;
-        --xc-primary-dark: #0E42D2;
-        --xc-warning: #FF7D00;
-        --xc-danger: #F53F3F;
-        --xc-gray-100: #F2F3F5;
-        --xc-gray-200: #E5E6EB;
-        --xc-gray-300: #C9CDD4;
-        --xc-gray-400: #86909C;
-        --xc-gray-500: #4E5969;
-        --xc-gray-600: #272E3B;
-        --xc-gray-700: #1D2129;
-        --xc-white: #FFFFFF;
-        --xc-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-        --xc-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-        --xc-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.16);
-        --xc-radius-sm: 4px;
-        --xc-radius: 6px;
-        --xc-radius-lg: 8px;
-        --xc-radius-xl: 12px;
-        --xc-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-
+    /* 容器样式 */
     .xc_container {
         color: #333;
         line-height: 1.6;
         margin: 0 auto;
         padding: 10px 20px;
     }
+    
+    /* 空状态 */
+    .xc_empty-state {
+        text-align: center !important;
+        padding: 80px 20px !important;
+        color: #9ca3af !important;
+        display: block !important;
+    }
+    
+    .xc_empty-state i {
+        font-size: 64px !important;
+        color: #d1d5db !important;
+        margin-bottom: 16px !important;
+        display: block !important;
+    }
+    
+    .xc_empty-state p {
+        font-size: 14px !important;
+        margin: 0 !important;
+        display: block !important;
+    }
 
-    /* 工具栏样式 */
+    /* 工具栏样式 - 参考布控管理页面 */
     .xc_toolbar {
         display: flex;
         gap: 12px;
         margin-bottom: 20px;
-        flex-wrap: wrap;
         align-items: center;
+        background: #FFFFFF;
+        padding: 12px 16px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
-
-    .xc_btn {
-        padding: 4px 8px;
-        border-radius: 4px;
-        border: none;
-        cursor: pointer;
-        font-size: 14px;
-
-        transition: all 0.2s ease;
+    
+    .xc_page-title {
         display: flex;
         align-items: center;
         gap: 6px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #1D2129;
+        white-space: nowrap;
     }
-
-    .xc_btn:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--xc-shadow);
+    
+    .xc_page-title i {
+        color: #165DFF;
+        font-size: 18px;
     }
-
-    .xc_btn:active {
-        transform: translateY(0);
+    
+    .xc_loading-spinner {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border: 2px solid #E5E6EB;
+        border-top-color: #165DFF;
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
     }
-    .xc_btn_primary {
-        background-color: var(--xc-primary);
-        color: white;
+    
+    .xc_loading-text {
+        font-size: 12px;
+        color: #86909C;
+        font-weight: 400;
     }
-
-    .xc_btn_primary:hover {
-        background-color: var(--xc-primary-dark);
+    
+    @keyframes spin {
+        to { transform: rotate(360deg); }
     }
-
-    .xc_btn_success {
-        background-color: #2b542c;
-        color: white;
-    }
-
-    .xc_btn_success:hover {
-        background-color: #347335;
-    }
-
-    .xc_btn_danger {
-        background-color: var(--xc-danger);
-        color: white;
-    }
-
-    .xc_btn_danger:hover {
-        background-color: #e03636;
-    }
-
-    .xc_btn_warning {
-        background-color: var(--xc-warning);
-        color: white;
-    }
-
-    .xc_btn_warning:hover {
-        background-color: #e67200;
-    }
-
-    .xc_btn_default {
-        background-color: var(--xc-white);
-        color: var(--xc-gray-600);
-        border: 1px solid var(--xc-gray-200);
-    }
-
-    .xc_btn_default:hover {
-        background-color: var(--xc-gray-100);
-    }
-
-    .xc_search_box {
+    
+    .xc_header-right {
         display: flex;
+        align-items: center;
+        gap: 8px;
         margin-left: auto;
-        position: relative;
-        width: 200px;
+        flex-wrap: wrap;
     }
-
-    .xc_search_input {
-        flex: 1;
-        padding: 3px 16px 5px 40px;
-        border: 1px solid var(--xc-gray-200);
-        border-radius: var(--xc-radius);
-        font-size: 14px;
-        transition: var(--xc-transition);
-        background-color: var(--xc-white);
+    
+    .xc_search-box {
+        display: flex;
+        gap: 6px;
+        align-items: center;
     }
-
-    .xc_search_input:focus {
-        border-color: var(--xc-primary);
+    
+    .xc_status-filter {
+        padding: 5px 10px;
+        border: 1px solid #E5E6EB;
+        border-radius: 6px;
+        font-size: 13px;
+        color: #4E5969;
+        background: #FFFFFF;
+        cursor: pointer;
+        transition: all 0.2s;
         outline: none;
+    }
+    
+    .xc_status-filter:hover {
+        border-color: #165DFF;
+    }
+    
+    .xc_status-filter:focus {
+        border-color: #165DFF;
         box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.1);
     }
-
-    .xc_search_icon {
-        position: absolute;
-        left: 14px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--xc-gray-400);
+    
+    .xc_search-input {
+        padding: 5px 10px;
+        border: 1px solid #E5E6EB;
+        border-radius: 6px;
+        font-size: 13px;
+        width: 180px;
+        transition: all 0.2s;
+        outline: none;
+    }
+    
+    .xc_search-input:focus {
+        border-color: #165DFF;
+        box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.1);
+    }
+    
+    .xc_search-input::placeholder {
+        color: #C9CDD4;
+    }
+    
+    .xc_btn-search {
+        padding: 5px 12px;
+        background: linear-gradient(135deg, #169F85 0%, #14b89a 100%);
+        color: #FFFFFF;
+        border: 1px solid #169F85;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+        box-shadow: 0 2px 4px rgba(22, 159, 133, 0.3);
+    }
+    
+    .xc_btn-search:hover {
+        background: linear-gradient(135deg, #14b89a 0%, #129684 100%);
+        border-color: #14b89a;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(22, 159, 133, 0.4);
+    }
+    
+    .xc_btn-search:active {
+        transform: translateY(0);
+    }
+    
+    .xc_header-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+    
+    .xc_btn-modern {
+        padding: 5px 10px;
+        background: #F2F3F5;
+        color: #4E5969;
+        border: 1px solid #E5E6EB;
+        border-radius: 6px;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+    }
+    
+    .xc_btn-modern:hover {
+        background: #E5E6EB;
+        border-color: #C9CDD4;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .xc_btn-modern:active {
+        transform: translateY(0);
+    }
+    
+    .xc_btn-modern.danger {
+        color: #F53F3F;
+    }
+    
+    .xc_btn-modern.danger:hover {
+        background: #FFECE8;
+        border-color: #FFCCC7;
+        color: #D03050;
+    }
+    
+    /* 响应式调整 */
+    @media (max-width: 1200px) {
+        .xc_toolbar {
+            flex-wrap: wrap;
+        }
+        
+        .xc_header-right {
+            width: 100%;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+        
+        .xc_search-box {
+            width: 100%;
+            order: -1;
+            margin-bottom: 8px;
+        }
+        
+        .xc_search-input {
+            flex: 1;
+        }
+        
+        .xc_status-filter {
+            width: auto;
+        }
     }
 
     /* 摄像头组样式 */
@@ -157,15 +238,15 @@
     }
 
     .xc_group {
-        background-color: var(--xc-white);
-        border-radius: var(--xc-radius-xl);
+        background-color: #FFFFFF;
+        border-radius: 12px;
         overflow: hidden;
-        box-shadow: var(--xc-shadow-sm);
-        transition: var(--xc-transition);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .xc_group:hover {
-        box-shadow: var(--xc-shadow);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
     }
 
     .xc_group_header {
@@ -184,7 +265,6 @@
         width: 100%;
         height: 3px;
         background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
-
     }
     .xc_group_title {
         color: #000000;
@@ -201,7 +281,7 @@
         cursor: pointer;
     }
     .xc_group_title_a:hover {
-        color: var(--xc-primary);
+        color: #165DFF;
         text-decoration:none;
     }
 
@@ -230,7 +310,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: var(--xc-transition);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .xc_group_toggle.expanded {
@@ -261,9 +341,9 @@
         padding: 6px 12px;
         text-align: left;
         font-weight: 500;
-        color: var(--xc-gray-500);
+        color: #4E5969;
         font-size: 14px;
-        border-bottom: 1px solid var(--xc-gray-200);
+        border-bottom: 1px solid #E5E6EB;
         position: relative;
     }
 
@@ -274,14 +354,14 @@
         left: 16px;
         right: 16px;
         height: 1px;
-        background-color: var(--xc-gray-200);
+        background-color: #E5E6EB;
     }
 
     .xc_camera_table td {
         padding: 3px 4px;
         font-size: 14px;
-        color: var(--xc-gray-600);
-        border-bottom: 1px solid var(--xc-gray-100);
+        color: #272E3B;
+        border-bottom: 1px solid #F2F3F5;
         transition: background-color 0.2s;
     }
 
@@ -311,12 +391,12 @@
 
     .xc_status_stopped {
         background-color: rgba(245, 63, 63, 0.1);
-        color: var(--xc-danger);
+        color: #F53F3F;
     }
 
     .xc_status_pending {
         background-color: rgba(255, 125, 0, 0.1);
-        color: var(--xc-warning);
+        color: #FF7D00;
     }
 
     .xc_status_dot {
@@ -343,14 +423,14 @@
         width: 28px;
         height: 30px;
         border-radius: 4px;
-        background-color: var(--xc-gray-100);
+        background-color: #F2F3F5;
         border: none;
-        color: var(--xc-gray-500);
+        color: #4E5969;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        transition: var(--xc-transition);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .xc_action_btn:hover {
@@ -359,7 +439,7 @@
     }
 
     .xc_action_btn.view:hover {
-        background-color: var(--xc-primary);
+        background-color: #165DFF;
         color: white;
         cursor: pointer;
     }
@@ -370,12 +450,12 @@
     }
 
     .xc_action_btn.stop:hover {
-        background-color: var(--xc-warning);
+        background-color: #FF7D00;
         color: white;
     }
 
     .xc_action_btn.delete:hover {
-        background-color: var(--xc-danger);
+        background-color: #F53F3F;
         color: white;
     }
 
@@ -400,24 +480,7 @@
     }
 
     /* 响应式调整 */
-    @media (max-width: 1024px) {
-        .xc_search_box {
-            width: 260px;
-        }
-    }
-
     @media (max-width: 768px) {
-        .xc_toolbar {
-            justify-content: flex-start;
-        }
-
-        .xc_search_box {
-            margin-left: 0;
-            width: 100%;
-            order: 100;
-            margin-top: 12px;
-        }
-
         .xc_group_header {
             padding: 12px 16px;
         }
@@ -441,6 +504,7 @@
     }
 </style>
 <style>
+    /* 分页样式 */
     .xc_pagination {
         display: flex;
         justify-content: center;
@@ -449,6 +513,7 @@
         padding-top: 10px;
         padding-bottom: 10px;
     }
+    
     .xc_pagination>.xc_page-btn {
         min-width: 36px;
         height: 36px;
@@ -462,34 +527,37 @@
         cursor: pointer;
         transition: all 0.2s;
     }
+    
     .xc_pagination>.xc_page-btn:hover:not(.xc_active) {
         border-color: #34495e;
         color: #34495e;
     }
+    
     .xc_pagination>.xc_page-btn.xc_active {
         background-color: #34495e;
         color: white;
-
     }
+    
     .xc_pagination>.xc_page-info {
         font-size: 14px;
         color: #7f8c8d;
     }
 </style>
 <style>
-    /*导入弹窗*/
-    input[type="file"]{
-      color: #8d2f2f;
-      font-size: 12px;
+    /* 导入弹窗样式 */
+    input[type="file"] {
+        color: #8d2f2f;
+        font-size: 12px;
     }
-    ::file-selector-button{
-      font-size: 12px;
-      color: #fff;
-      border-radius: 4px;
-      border: 1px solid #091f35;
-      padding: 2px 4px;
-      background-color: #091f35;
-      cursor: pointer;
+    
+    ::file-selector-button {
+        font-size: 12px;
+        color: #fff;
+        border-radius: 4px;
+        border: 1px solid #091f35;
+        padding: 2px 4px;
+        background-color: #091f35;
+        cursor: pointer;
     }
 
 </style>
@@ -506,39 +574,46 @@
    <!-- xc page start -->
     <div class="xc_container">
         <div class="xc_toolbar">
-            <h2>摄像头管理
-             <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
-            </h2>
-
-            <button class="xc_btn xc_btn_default" data-toggle="modal" data-target="#ImportFileDialog" >
-                批量导入
-            </button>
-
-            <button class="xc_btn xc_btn_default" onclick="f_postHandleAllForward('add')" >
-                <svg class="xc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polygon points="5 3 19 12 5 21 5 3"/>
-                </svg>
-                全部开启转发
-            </button>
-            <button class="xc_btn xc_btn_default" onclick="f_postHandleAllForward('del')">
-                <svg class="xc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="6" y="4" width="4" height="16"/>
-                    <rect x="14" y="4" width="4" height="16"/>
-                </svg>
-                全部停止转发
-            </button>
-            <button class="xc_btn xc_btn_default" onclick="f_delAll()">
-                <svg class="xc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="3 6 5 6 21 6"/>
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                </svg>
-                全部删除
-            </button>
-             <span id="top_msg">{{top_msg}}</span>
-
-            <div class="xc_search_box">
-                <svg class="xc_search_icon xc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                <input type="text" class="xc_search_input" id="search_input" placeholder="请输入视频流名称">
+            <div class="xc_page-title">
+                <i class="fa fa-video-camera"></i>
+                摄像头管理
+                <span id="top_loading" style="display: none; margin-left: 10px;">
+                    <span class="xc_loading-spinner"></span>
+                    <span class="xc_loading-text">加载中...</span>
+                </span>
+            </div>
+            <div class="xc_header-right">
+                <div class="xc_search-box">
+                    <select id="search_status_select" class="xc_status-filter">
+                        <option value="-1">全部状态</option>
+                        <option value="1">转发中</option>
+                        <option value="0">未转发</option>
+                    </select>
+                    <input type="text" id="search_text_input" class="xc_search-input" placeholder="输入视频流名称或编号"  value="{{ search_text }}">
+                    <button class="xc_btn-search" onclick="doSearch()">
+                        <i class="fa fa-search"></i> 搜索
+                    </button>
+                </div>
+                <div class="xc_header-actions">
+                    <button class="xc_btn-modern" onclick="streamModal.openAdd()">
+                        <i class="fa fa-plus"></i> 添加摄像头
+                    </button>
+                    <button class="xc_btn-modern" data-toggle="modal" data-target="#ImportFileDialog">
+                        <i class="fa fa-upload"></i> 批量导入
+                    </button>
+                    <button class="xc_btn-modern" onclick="f_openHandleAllStreamProxy('add')">
+                        <i class="fa fa-play"></i> 全部开启转发
+                    </button>
+                    <button class="xc_btn-modern" onclick="f_openHandleAllStreamProxy('del')">
+                        <i class="fa fa-pause"></i> 全部停止转发
+                    </button>
+                    <button class="xc_btn-modern danger" onclick="f_delAll()">
+                        <i class="fa fa-trash"></i> 全部删除
+                    </button>
+                </div>
+                <div>
+                    <span id="top_msg">{{top_msg}}</span>
+                </div>
             </div>
         </div>
 
@@ -599,6 +674,9 @@
       </div>
     </div>
     <!--批量导入弹窗end -->
+    
+    <!-- 摄像头添加/编辑弹窗 -->
+    {% include 'app/stream/modal_form.html' %}
 
     </div>
   </div>
@@ -606,16 +684,36 @@
 
 {% block javascripts %}
   {{ block.super }}
+  <script src="/static/app/stream/modal_form.js"></script>
 <script>
     let eleTopLoading = $("#top_loading");
     let eleTopMsg= $("#top_msg");
     let eleData = $("#data");
     let elePageData = $("#pageData");
-    let eleSearchInput= $("#search_input");//v4.638新增
+    let eleSearchTextInput= $("#search_text_input");
+    let eleSearchStatusSelect = $("#search_status_select");
     let eleFile = $("input[name='file']");
     let eleTextareaImportRemark= $("textarea[name='import_remark']");
-    let curPage = 1;//当前页面
+    let curPage = 1;
     let curPageSize = 10;
+    
+    // 搜索功能
+    function doSearch() {
+        curPage = 1;
+        f_openIndex(curPage, curPageSize);
+    }
+    
+    // 支持回车搜索
+    eleSearchTextInput.on('keypress', function(e) {
+        if (e.which === 13) {
+            doSearch();
+        }
+    });
+    
+    // 状态筛选变化时自动搜索
+    eleSearchStatusSelect.on('change', function() {
+        doSearch();
+    });
 
     function toggleGroup(actionsElement) {
         const headerElement = actionsElement.parentNode;
@@ -636,8 +734,7 @@
         window.open(url);
     }
     function f_edit(code) {
-        let url = "/stream/edit?code="+code;
-        window.location.href = url;
+        streamModal.openEdit(code);
     }
     function f_delAll(){
         let ret = confirm("确认全部删除吗？");
@@ -757,16 +854,21 @@
                         if(handle === "add"){
                             if(pull_stream_type === 21){
                                 myToast2025(res.msg,"success",1000);
-                                f_openIndex(curPage,curPageSize);
-
+                                setTimeout(function() {
+                                    f_openIndex(curPage,curPageSize);
+                                }, 1000);
                             }else{
                                 myToast2025(res.msg,"success",1000);
-                                f_openIndex(curPage,curPageSize);
+                                setTimeout(function() {
+                                    f_openIndex(curPage,curPageSize);
+                                }, 1000);
                             }
 
                         }else if(handle === "del"){
                             myToast2025(res.msg,"success",1000);
-                            f_openIndex(curPage,curPageSize);
+                            setTimeout(function() {
+                                    f_openIndex(curPage,curPageSize);
+                            }, 1000);
                         }
                    }else{
                         myToast2025(res.msg,"error");
@@ -775,8 +877,8 @@
             });
 
     }
-    function f_postHandleAllForward(handle) {
-        //全部开启转发
+    function f_openHandleAllStreamProxy(handle) {
+        //全部或关闭开启转发
          eleTopLoading.show();
         $.ajax({
                url: '/stream/openHandleAllStreamProxy',
@@ -792,9 +894,11 @@
                success: function (res) {
                    eleTopLoading.hide();
                     if(1000 === res.code){
-                        myToast2025(res.msg,"success");
+                        myToast2025(res.msg,"success",1000);
                         curPage = 1;
-                        f_openIndex(curPage,curPageSize);
+                        setTimeout(function() {
+                            f_openIndex(curPage,curPageSize);
+                        }, 1000);
                    }else{
                         myToast2025(res.msg,"error");
                    }
@@ -822,7 +926,8 @@
     function f_openIndex(page,page_size) {
         curPage = page;
         curPageSize = page_size;
-        let search_text = eleSearchInput.val().trim();
+        let search_text = eleSearchTextInput.val().trim();
+        let search_status = parseInt(eleSearchStatusSelect.val());
 
         eleTopLoading.show();
 
@@ -830,7 +935,7 @@
                url: '/stream/openIndex',
                type: "get",
                async: true,
-               data: {"p":page,"ps":page_size,"search_text":search_text},
+               data: {"p":page,"ps":page_size,"search_text":search_text,"search_status":search_status},
                dataType: "json",
                timeout: 0,
                error: function () {
@@ -844,12 +949,20 @@
                        let data = res.data;
 
                        if(data.length === 0){
-                            eleData.html("<div>暂无数据</div>");
+                            eleData.html("<div class='xc_empty-state'><i class='fa fa-video-camera'></i><p>暂无数据</p></div>");
+                            f_show_pageData(res.pageData)
                        }else{
                             eleData.html("");
                             let extra = res.extra;
                             let pullStreamTypes = extra["pullStreamTypes"];
                             let audioTypes = extra["audioTypes"];
+                            
+                            // 初始化弹窗（只初始化一次）
+                            if (typeof streamModal !== 'undefined' && !streamModal.initialized) {
+                                streamModal.init(pullStreamTypes, audioTypes);
+                                streamModal.initialized = true;
+                            }
+                            
                             function get_pull_stream_type(pull_stream_type){
                                 for (let i = 0; i < pullStreamTypes.length; i++) {
                                     if(pullStreamTypes[i]["id"] === pull_stream_type){
@@ -943,14 +1056,13 @@
                    }
                    else
                    {
-                       eleData.html("<div>"+res.msg+"</div>");
-                       myToast2025(res.msg,"error");
+                       eleData.html("<div class='xc_empty-state'><i class='fa fa-exclamation-triangle'></i><p>"+res.msg+"</p></div>");
                    }
                }
             });
     }
     
-    eleSearchInput.on("keydown",function(e){
+    eleSearchTextInput.on("keydown",function(e){
         if (e.key === 'Enter' || e.keyCode === 13) {
             e.preventDefault(); // 阻止默认行为，例如表单提交
             curPage = 1;
@@ -960,7 +1072,11 @@
 
     window.onload = function (){
         f_openIndex(curPage,curPageSize);
-
+        
+        // 初始化弹窗
+        if (typeof streamModal !== 'undefined') {
+            streamModal.init();
+        }
     };
 </script>
 

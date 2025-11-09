@@ -22,17 +22,14 @@
         <link href="/static/vendors/nprogress/nprogress.css" rel="stylesheet">
         <!-- iCheck -->
         <link href="/static/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-        <!-- bootstrap-progressbar -->
-        <link href="/static/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
-        <!-- JQVMap -->
-        <!--<link href="/static/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>-->
 
       {% endblock stylesheets %}
-      <!-- Custom Theme Style -->
-      <link href="/static/build/css/custom.css?v=202502222" rel="stylesheet">
-      
+      <!-- Common -->
+      <link href="/static/app/common/css/common.css?v1109" rel="stylesheet">
+      <!-- New Common -->
+      <link href="/static/app/common/css/new_style.css?v1109" rel="stylesheet">
       <style>
-        /* Debug 模式小标签 - 优雅版 */
+        /* 调试模式标签 start */
         .debug-badge-inline {
           display: inline-flex;
           align-items: center;
@@ -58,8 +55,7 @@
           border-color: rgba(251, 191, 36, 0.5);
           background: rgba(251, 191, 36, 0.15);
         }
-        
-        /* 响应式调整 */
+
         @media (max-width: 991px) {
           .debug-badge-inline {
             font-size: 10px;
@@ -71,6 +67,7 @@
             font-size: 9px;
           }
         }
+        /* 调试模式标签 end */
       </style>
     {% endblock head %}
   </head>
@@ -109,36 +106,19 @@
         <script src="/static/lib/jquery/jquery.min.js"></script>
         <!-- Bootstrap -->
         <script src="/static/lib/bootstrap/js/bootstrap.min.js"></script>
-        <!-- FastClick -->
-        <script src="/static/vendors/fastclick/lib/fastclick.js"></script>
         <!-- NProgress -->
         <script src="/static/vendors/nprogress/nprogress.js"></script>
-        <!-- bootstrap-progressbar -->
-        <script src="/static/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
         <!-- iCheck -->
         <script src="/static/vendors/iCheck/icheck.min.js"></script>
-        <!-- bootstrap-wysiwyg -->
-        <script src="/static/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
-        <script src="/static/vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
-        <script src="/static/vendors/google-code-prettify/src/prettify.js"></script>
-        <!-- jQuery Tags Input -->
-        <script src="/static/vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
         <!-- Switchery -->
         <script src="/static/vendors/switchery/dist/switchery.min.js"></script>
         <!-- Select2 -->
         <script src="/static/vendors/select2/dist/js/select2.full.min.js"></script>
-        <!-- Parsley -->
-        <!-- Autosize -->
-        <script src="/static/vendors/autosize/dist/autosize.min.js"></script>
-        <!-- jQuery autocomplete -->
-        <script src="/static/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
-        <!-- starrr -->
-        <script src="/static/vendors/starrr/dist/starrr.js"></script>
-
+        `<!-- Common -->
+        <script src="/static/app/common/js/custom.js?1109"></script>
+        <script src="/static/app/common/js/toast.js"></script>`
       {% endblock %}
-      <!-- Custom Theme Scripts -->
-      <script src="/static/build/js/custom.js"></script>
-      <script src="/static/build/js/toast.js"></script>
+
     {% endblock body %}
   </body>
 </html>

@@ -1,0 +1,350 @@
+<!-- 摄像头弹窗表单模板 -->
+<style>
+/* 摄像头弹窗样式 */
+.xc_stream-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.xc_stream-modal-overlay.active {
+    display: flex;
+}
+
+.xc_stream-modal-container {
+    width: 90%;
+    max-width: 700px;
+    max-height: 90vh;
+    background: white;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    animation: xc_streamModalSlideIn 0.3s ease;
+}
+
+@keyframes xc_streamModalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.xc_stream-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #fafafa;
+    border-radius: 8px 8px 0 0;
+}
+
+.xc_stream-modal-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.xc_stream-modal-title i {
+    color: #3b82f6;
+    font-size: 16px;
+}
+
+.xc_stream-modal-close {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    color: #6b7280;
+    font-size: 18px;
+}
+
+.xc_stream-modal-close:hover {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.xc_stream-modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.xc_stream-modal-footer {
+    padding: 14px 20px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    background: #fafafa;
+}
+
+/* 表单样式 */
+.xc_stream-form-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.xc_stream-form-row .xc_stream-form-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.xc_stream-form-group {
+    margin-bottom: 14px;
+}
+
+.xc_stream-form-label {
+    display: block;
+    font-size: 13px;
+    color: #606266;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.xc_stream-form-label .required {
+    color: #f56c6c;
+    margin-left: 2px;
+}
+
+.xc_stream-form-input,
+.xc_stream-form-select,
+.xc_stream-form-textarea {
+    width: 100%;
+    padding: 0 12px;
+    font-size: 13px;
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+    transition: border-color 0.2s;
+    background: white;
+}
+
+.xc_stream-form-input {
+    height: 34px;
+}
+
+.xc_stream-form-select {
+    height: 34px;
+}
+
+.xc_stream-form-textarea {
+    min-height: 60px;
+    padding: 8px 12px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+.xc_stream-form-input:focus,
+.xc_stream-form-select:focus,
+.xc_stream-form-textarea:focus {
+    border-color: #3b82f6;
+    outline: none;
+}
+
+.xc_stream-form-input:disabled,
+.xc_stream-form-select:disabled {
+    background: #f5f7fa;
+    color: #909399;
+    cursor: not-allowed;
+}
+
+/* ONVIF探测区域 */
+.xc_stream-onvif-section {
+    background: #f8f9fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    padding: 14px;
+    margin-bottom: 14px;
+}
+
+.xc_stream-onvif-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.xc_stream-onvif-title i {
+    color: #3b82f6;
+}
+
+/* 按钮样式 */
+.xc_stream-btn {
+    padding: 6px 16px;
+    font-size: 13px;
+    border-radius: 4px;
+    border: 1px solid;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.xc_stream-btn-primary {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
+}
+
+.xc_stream-btn-primary:hover {
+    background: #2563eb;
+    border-color: #2563eb;
+}
+
+.xc_stream-btn-default {
+    background: white;
+    border-color: #d1d5db;
+    color: #374151;
+}
+
+.xc_stream-btn-default:hover {
+    background: #f9fafb;
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+.xc_stream-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+</style>
+
+<!-- 弹窗HTML -->
+<div class="xc_stream-modal-overlay" id="stream_modal">
+    <div class="xc_stream-modal-container">
+        <div class="xc_stream-modal-header">
+            <div class="xc_stream-modal-title">
+                <i class="fa fa-video-camera"></i>
+                <span id="stream_modal_title">添加摄像头</span>
+            </div>
+            <button class="xc_stream-modal-close" onclick="streamModal.close()">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="xc_stream-modal-body">
+            <form id="stream_form">
+                <!-- 基本信息 - 两列布局 -->
+                <div class="xc_stream-form-row">
+                    <div class="xc_stream-form-group">
+                        <label class="xc_stream-form-label">编号<span class="required">*</span></label>
+                        <input type="text" id="stream_code" class="xc_stream-form-input" placeholder="请输入编号">
+                    </div>
+                    <div class="xc_stream-form-group">
+                        <label class="xc_stream-form-label">分组编号<span class="required">*</span></label>
+                        <input type="text" id="stream_camera_device_id" class="xc_stream-form-input" placeholder="请输入分组编号">
+                    </div>
+                </div>
+                
+                <div class="xc_stream-form-row">
+                    <div class="xc_stream-form-group">
+                        <label class="xc_stream-form-label">名称<span class="required">*</span></label>
+                        <input type="text" id="stream_nickname" class="xc_stream-form-input" placeholder="请输入名称">
+                    </div>
+                    <div class="xc_stream-form-group">
+                        <label class="xc_stream-form-label">接入协议<span class="required">*</span></label>
+                        <select id="stream_pull_type" class="xc_stream-form-select">
+                            <option value="0">请选择</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- ONVIF探测区域 -->
+                <div class="xc_stream-onvif-section" id="onvif_section" style="display: none;">
+                    <div class="xc_stream-onvif-title">
+                        <i class="fa fa-search"></i>
+                        ONVIF设备探测
+                    </div>
+                    <div class="xc_stream-form-row">
+                        <div class="xc_stream-form-group">
+                            <label class="xc_stream-form-label">探测IP</label>
+                            <input type="text" id="stream_onvif_ip" class="xc_stream-form-input" placeholder="请输入IP地址">
+                        </div>
+                        <div class="xc_stream-form-group">
+                            <label class="xc_stream-form-label">用户名</label>
+                            <input type="text" id="stream_onvif_username" class="xc_stream-form-input" placeholder="请输入用户名">
+                        </div>
+                    </div>
+                    <div class="xc_stream-form-row">
+                        <div class="xc_stream-form-group">
+                            <label class="xc_stream-form-label">密码</label>
+                            <input type="password" id="stream_onvif_password" class="xc_stream-form-input" placeholder="请输入密码">
+                        </div>
+                        <div class="xc_stream-form-group" style="display: flex; align-items: flex-end;">
+                            <button type="button" class="xc_stream-btn xc_stream-btn-default" style="width: 100%; height: 34px;" onclick="streamModal.detectOnvif()">
+                                <i class="fa fa-search"></i> 探测设备
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="xc_stream-form-group">
+                    <label class="xc_stream-form-label">直播流地址<span class="required">*</span></label>
+                    <input type="text" id="stream_pull_url" class="xc_stream-form-input" placeholder="请输入直播流地址">
+                </div>
+                
+                <div class="xc_stream-form-row">
+                    <div class="xc_stream-form-group">
+                        <label class="xc_stream-form-label">音频类型<span class="required">*</span></label>
+                        <select id="stream_is_audio" class="xc_stream-form-select">
+                            <option value="0">请选择</option>
+                        </select>
+                    </div>
+                    <div class="xc_stream-form-group">
+                        <label class="xc_stream-form-label">直播流IP</label>
+                        <input type="text" id="stream_pull_ip" class="xc_stream-form-input" placeholder="请输入直播流IP">
+                    </div>
+                </div>
+                
+                <div class="xc_stream-form-row">
+                    <div class="xc_stream-form-group">
+                        <label class="xc_stream-form-label">摄像头名称</label>
+                        <input type="text" id="stream_camera_name" class="xc_stream-form-input" placeholder="请输入摄像头名称">
+                    </div>
+                    <div class="xc_stream-form-group">
+                        <label class="xc_stream-form-label">摄像头厂商</label>
+                        <input type="text" id="stream_camera_manufacturer" class="xc_stream-form-input" placeholder="请输入摄像头厂商">
+                    </div>
+                </div>
+                
+                <div class="xc_stream-form-group">
+                    <label class="xc_stream-form-label">备注</label>
+                    <textarea id="stream_remark" class="xc_stream-form-textarea" placeholder="请输入备注信息"></textarea>
+                </div>
+            </form>
+        </div>
+        
+        <div class="xc_stream-modal-footer">
+            <button class="xc_stream-btn xc_stream-btn-default" onclick="streamModal.close()">取消</button>
+            <button class="xc_stream-btn xc_stream-btn-primary" onclick="streamModal.submit()">
+                <i class="fa fa-check"></i> 提交
+            </button>
+        </div>
+    </div>
+</div>

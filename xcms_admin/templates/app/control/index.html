@@ -5,37 +5,13 @@
 {% block stylesheets %}
   {{ block.super }}
 <style>
-    :root {
-        --xc-primary: #165DFF;
-        --xc-primary-light: #4080FF;
-        --xc-primary-dark: #0E42D2;
-        --xc-warning: #FF7D00;
-        --xc-danger: #F53F3F;
-        --xc-gray-100: #F2F3F5;
-        --xc-gray-200: #E5E6EB;
-        --xc-gray-300: #C9CDD4;
-        --xc-gray-400: #86909C;
-        --xc-gray-500: #4E5969;
-        --xc-gray-600: #272E3B;
-        --xc-gray-700: #1D2129;
-        --xc-white: #FFFFFF;
-        --xc-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-        --xc-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-        --xc-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.16);
-        --xc-radius-sm: 4px;
-        --xc-radius: 6px;
-        --xc-radius-lg: 8px;
-        --xc-radius-xl: 12px;
-        --xc-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
+    /* 布控管理页面样式 */
     * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-
 
     .xc_container {
         color: #333;
@@ -44,131 +20,242 @@
         padding: 10px 20px;
     }
 
-    /* 工具栏样式 */
+    /* 工具栏 */
     .xc_toolbar {
-        display: flex;
-        gap: 12px;
+        background: white;
+        border-radius: 8px;
+        padding: 12px 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         margin-bottom: 20px;
-        flex-wrap: wrap;
+        display: flex;
+        justify-content: space-between;
         align-items: center;
+        gap: 12px;
     }
-
-    .xc_btn {
-        padding: 4px 8px;
-        border-radius: 4px;
-        border: none;
-        cursor: pointer;
-        font-size: 14px;
-
-        transition: all 0.2s ease;
+    
+    .xc_page-title {
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        font-weight: 600;
+        color: #1D2129;
+        gap: 6px;
+    }
+    
+    .xc_page-title i {
+        margin-right: 0;
+        font-size: 18px;
+        color: #165DFF;
+    }
+    
+    .xc_header-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex: 1;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+    }
+    
+    .xc_search-box {
         display: flex;
         align-items: center;
         gap: 6px;
     }
-
-    .xc_btn:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--xc-shadow);
-    }
-
-    .xc_btn:active {
-        transform: translateY(0);
-    }
-    .xc_btn_primary {
-        background-color: var(--xc-primary);
-        color: white;
-    }
-
-    .xc_btn_primary:hover {
-        background-color: var(--xc-primary-dark);
-    }
-
-    .xc_btn_success {
-        background-color: #2b542c;
-        color: white;
-    }
-
-    .xc_btn_success:hover {
-        background-color: #347335;
-    }
-
-    .xc_btn_danger {
-        background-color: var(--xc-danger);
-        color: white;
-    }
-
-    .xc_btn_danger:hover {
-        background-color: #e03636;
-    }
-
-    .xc_btn_warning {
-        background-color: var(--xc-warning);
-        color: white;
-    }
-
-    .xc_btn_warning:hover {
-        background-color: #e67200;
-    }
-
-    .xc_btn_default {
-        background-color: var(--xc-white);
-        color: var(--xc-gray-600);
-        border: 1px solid var(--xc-gray-200);
-    }
-
-    .xc_btn_default:hover {
-        background-color: var(--xc-gray-100);
-    }
-
-    .xc_search_box {
-        display: flex;
-        margin-left: auto;
-        position: relative;
-        width: 200px;
-    }
-
-    .xc_search_input {
-        flex: 1;
-        padding: 3px 16px 5px 40px;
-        border: 1px solid var(--xc-gray-200);
-        border-radius: var(--xc-radius);
-        font-size: 14px;
-        transition: var(--xc-transition);
-        background-color: var(--xc-white);
-    }
-
-    .xc_search_input:focus {
-        border-color: var(--xc-primary);
+    
+    .xc_search-input {
+        width: 180px;
+        padding: 5px 10px;
+        font-size: 13px;
+        border: 1px solid #E5E6EB;
+        border-radius: 6px;
+        transition: all 0.2s;
         outline: none;
+    }
+    
+    .xc_search-input:focus {
+        border-color: #165DFF;
         box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.1);
     }
-
-    .xc_search_icon {
-        position: absolute;
-        left: 14px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--xc-gray-400);
+    
+    .xc_search-input::placeholder {
+        color: #C9CDD4;
+    }
+    
+    .xc_status-filter {
+        padding: 5px 10px;
+        font-size: 13px;
+        border: 1px solid #E5E6EB;
+        border-radius: 6px;
+        transition: all 0.2s;
+        background: white;
+        color: #4E5969;
+        cursor: pointer;
+        outline: none;
+    }
+    
+    .xc_status-filter:hover {
+        border-color: #165DFF;
+    }
+    
+    .xc_status-filter:focus {
+        border-color: #165DFF;
+        box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.1);
+    }
+    
+    .xc_btn-search {
+        padding: 5px 12px;
+        font-size: 13px;
+        font-weight: 500;
+        border-radius: 6px;
+        border: 1px solid #169F85;
+        background: linear-gradient(135deg, #169F85 0%, #14b89a 100%);
+        color: white;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+        box-shadow: 0 2px 4px rgba(22, 159, 133, 0.3);
+    }
+    
+    .xc_btn-search:hover {
+        background: linear-gradient(135deg, #14b89a 0%, #129684 100%);
+        border-color: #14b89a;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(22, 159, 133, 0.4);
+    }
+    
+    .xc_btn-search:active {
+        transform: translateY(0);
+    }
+    
+    .xc_header-actions {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .xc_btn-modern {
+        padding: 5px 10px;
+        font-size: 13px;
+        font-weight: 400;
+        border-radius: 6px;
+        border: 1px solid #E5E6EB;
+        background: #F2F3F5;
+        color: #4E5969;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+        text-decoration: none;
+    }
+    
+    .xc_btn-modern:hover {
+        background: #E5E6EB;
+        border-color: #C9CDD4;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .xc_btn-modern:active {
+        transform: translateY(0);
+    }
+    
+    .xc_btn-modern.danger {
+        color: #F53F3F;
+    }
+    
+    .xc_btn-modern.danger:hover {
+        background: #FFECE8;
+        border-color: #FFCCC7;
+        color: #D03050;
+    }
+    
+    .xc_stats-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 12px;
+        background: #f9fafb;
+        border-radius: 4px;
+        font-size: 12px;
+        color: #6b7280;
+        white-space: nowrap;
+    }
+    
+    .xc_stats-badge span {
+        color: #374151;
+        font-weight: 500;
+    }
+    
+    /* Loading动画 */
+    .xc_loading-spinner {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border: 2px solid #E5E6EB;
+        border-top-color: #165DFF;
+        border-radius: 50%;
+        animation: xc_spin 0.6s linear infinite;
+        margin-right: 5px;
+    }
+    
+    @keyframes xc_spin {
+        to { transform: rotate(360deg); }
+    }
+    
+    .xc_loading-text {
+        color: #6b7280;
+        font-size: 12px;
     }
 
-    /* 摄像头组样式 */
+    /* 空状态 */
+    .xc_empty-state {
+        text-align: center !important;
+        padding: 80px 20px !important;
+        color: #9ca3af !important;
+        display: block !important;
+    }
+    
+    .xc_empty-state i {
+        font-size: 64px !important;
+        color: #d1d5db !important;
+        margin-bottom: 16px !important;
+        display: block !important;
+    }
+    
+    .xc_empty-state p {
+        font-size: 14px !important;
+        margin: 0 !important;
+        display: block !important;
+    }
+
+    /* 摄像头组 */
     .xc_camera_groups {
         display: flex;
         flex-direction: column;
         gap: 10px;
+        background: white;
+        border-radius: 6px;
+        min-height: 200px;
     }
 
     .xc_group {
-        background-color: var(--xc-white);
-        border-radius: var(--xc-radius-xl);
+        background-color: #FFFFFF;
+        border-radius: 12px;
         overflow: hidden;
-        box-shadow: var(--xc-shadow-sm);
-        transition: var(--xc-transition);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .xc_group:hover {
-        box-shadow: var(--xc-shadow);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
     }
+    
     .xc_group_header {
         padding: 2px 24px;
         display: flex;
@@ -185,8 +272,8 @@
         width: 100%;
         height: 3px;
         background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
-
     }
+    
     .xc_group_title {
         color: #000000;
         padding: 2px 8px;
@@ -196,14 +283,16 @@
         align-items: center;
         gap: 12px;
     }
+    
     .xc_group_title_a {
         color: #000000;
-        text-decoration:none;
+        text-decoration: none;
         cursor: pointer;
     }
+    
     .xc_group_title_a:hover {
-        color: var(--xc-primary);
-        text-decoration:none;
+        color: #165DFF;
+        text-decoration: none;
     }
 
     .xc_group_count {
@@ -231,14 +320,14 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: var(--xc-transition);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .xc_group_toggle.expanded {
         transform: rotate(180deg);
     }
 
-    /* 摄像头列表样式 - 二级显示 */
+    /* 摄像头列表 */
     .xc_camera_list {
         padding: 0;
         max-height: 0;
@@ -251,6 +340,7 @@
         max-height: 800px;
         overflow: auto;
     }
+    
     .xc_camera_table {
         width: 100%;
         border-collapse: separate;
@@ -261,9 +351,9 @@
         padding: 6px 12px;
         text-align: left;
         font-weight: 500;
-        color: var(--xc-gray-500);
+        color: #4E5969;
         font-size: 14px;
-        border-bottom: 1px solid var(--xc-gray-200);
+        border-bottom: 1px solid #E5E6EB;
         position: relative;
     }
 
@@ -274,14 +364,14 @@
         left: 16px;
         right: 16px;
         height: 1px;
-        background-color: var(--xc-gray-200);
+        background-color: #E5E6EB;
     }
 
     .xc_camera_table td {
         padding: 3px 4px;
         font-size: 14px;
-        color: var(--xc-gray-600);
-        border-bottom: 1px solid var(--xc-gray-100);
+        color: #272E3B;
+        border-bottom: 1px solid #F2F3F5;
         transition: background-color 0.2s;
     }
 
@@ -293,7 +383,7 @@
         background-color: rgba(22, 93, 255, 0.03);
     }
 
-    /* 状态标签样式 */
+    /* 状态标签 */
     .xc_status {
         padding: 4px 6px;
         border-radius: 12px;
@@ -311,12 +401,12 @@
 
     .xc_status_stopped {
         background-color: rgba(245, 63, 63, 0.1);
-        color: var(--xc-danger);
+        color: #F53F3F;
     }
 
     .xc_status_pending {
         background-color: rgba(255, 125, 0, 0.1);
-        color: var(--xc-warning);
+        color: #FF7D00;
     }
 
     .xc_status_dot {
@@ -333,7 +423,7 @@
         100% { opacity: 1; }
     }
 
-    /* 操作按钮样式 */
+    /* 操作按钮 */
     .xc_action_buttons {
         display: flex;
         gap: 8px;
@@ -343,14 +433,14 @@
         width: 28px;
         height: 30px;
         border-radius: 4px;
-        background-color: var(--xc-gray-100);
+        background-color: #F2F3F5;
         border: none;
-        color: var(--xc-gray-500);
+        color: #4E5969;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        transition: var(--xc-transition);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .xc_action_btn:hover {
@@ -359,7 +449,7 @@
     }
 
     .xc_action_btn.view:hover {
-        background-color: var(--xc-primary);
+        background-color: #165DFF;
         color: white;
         cursor: pointer;
     }
@@ -370,56 +460,88 @@
     }
 
     .xc_action_btn.stop:hover {
-        background-color: var(--xc-warning);
+        background-color: #FF7D00;
         color: white;
     }
 
     .xc_action_btn.delete:hover {
-        background-color: var(--xc-danger);
+        background-color: #F53F3F;
         color: white;
     }
 
-
-    /* SVG图标样式 */
-    .xc-icon {
-        width: 20px;
-        height: 20px;
-        display: inline-flex;
+    /* 分页 */
+    .xc_pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    
+    .xc_pagination > .xc_page-btn {
+        min-width: 36px;
+        height: 36px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        background-color: white;
+        color: #555;
+        display: flex;
         align-items: center;
         justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .xc_pagination > .xc_page-btn:hover:not(.xc_active) {
+        border-color: #34495e;
+        color: #34495e;
+    }
+    
+    .xc_pagination > .xc_page-btn.xc_active {
+        background-color: #34495e;
+        color: white;
+    }
+    
+    .xc_pagination > .xc_page-info {
+        font-size: 14px;
+        color: #7f8c8d;
     }
 
-    .xc-icon-sm {
-        width: 16px;
-        height: 16px;
-    }
-
-    .xc-icon-lg {
-        width: 24px;
-        height: 24px;
-    }
-
-    /* 响应式调整 */
+    /* 响应式 */
     @media (max-width: 1024px) {
-        .xc_search_box {
-            width: 260px;
+        .xc_search-input {
+            width: 160px;
         }
     }
 
     @media (max-width: 768px) {
         .xc_toolbar {
-            justify-content: flex-start;
+            flex-wrap: wrap;
         }
-
-        .xc_search_box {
-            margin-left: 0;
+        
+        .xc_header-right {
             width: 100%;
-            order: 100;
-            margin-top: 12px;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+        
+        .xc_search-box {
+            width: 100%;
+            order: -1;
+            margin-bottom: 8px;
+        }
+        
+        .xc_search-input {
+            flex: 1;
+        }
+        
+        .xc_status-filter {
+            width: auto;
         }
 
         .xc_group_header {
-            padding: 12px 16px;
+            padding: 2px 16px;
         }
 
         .xc_camera_list.expanded {
@@ -440,43 +562,6 @@
         }
     }
 </style>
-<style>
-    .xc_pagination {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-    }
-    .xc_pagination>.xc_page-btn {
-        min-width: 36px;
-        height: 36px;
-        border-radius: 6px;
-        border: 1px solid #ddd;
-        background-color: white;
-        color: #555;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-    .xc_pagination>.xc_page-btn:hover:not(.xc_active) {
-        border-color: #34495e;
-        color: #34495e;
-    }
-    .xc_pagination>.xc_page-btn.xc_active {
-        background-color: #34495e;
-        color: white;
-
-    }
-    .xc_pagination>.xc_page-info {
-        font-size: 14px;
-        color: #7f8c8d;
-    }
-
-</style>
 {% endblock stylesheets %}
 
 {% block content %}
@@ -489,36 +574,45 @@
    <!-- xc page start -->
     <div class="xc_container">
         <div class="xc_toolbar">
-            <h2>布控管理
-             <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
-            </h2>
+            <div class="xc_page-title">
+                <i class="fa fa-cube"></i>
+                布控管理
+                <span id="top_loading" style="display: none; margin-left: 10px;">
+                    <span class="xc_loading-spinner"></span>
+                    <span class="xc_loading-text">加载中...</span>
+                </span>
+            </div>
+            <div class="xc_header-right">
+                <div class="xc_search-box">
+                    <select id="search_status_select" class="xc_status-filter">
+                        <option value="-1">全部状态</option>
+                        <option value="1">布控中</option>
+                        <option value="0">未布控</option>
 
-            <button class="xc_btn xc_btn_default" onclick="f_openHandleAllControl('add')">
-                <svg class="xc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polygon points="5 3 19 12 5 21 5 3"/>
-                </svg>
-                全部执行
-            </button>
-            <button class="xc_btn xc_btn_default" onclick="f_openHandleAllControl('cancel')">
-                <svg class="xc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="6" y="4" width="4" height="16"/>
-                    <rect x="14" y="4" width="4" height="16"/>
-                </svg>
-                全部取消
-            </button>
-            <button class="xc_btn xc_btn_default" onclick="f_openHandleAllControl('delete')">
-                <svg class="xc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="3 6 5 6 21 6"/>
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                </svg>
-                全部删除
-            </button>
-             <span id="control_info"></span>
-             <span id="top_msg">{{top_msg}}</span>
-
-            <div class="xc_search_box">
-                <svg class="xc_search_icon xc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                <input type="text" class="xc_search_input" id="search_input" placeholder="请输入视频流名称">
+                    </select>
+                    <input type="text" id="search_text_input" class="xc_search-input" placeholder="输入视频流名称"  value="{{ search_text }}">
+                    <button class="xc_btn-search" onclick="doSearch()">
+                        <i class="fa fa-search"></i> 搜索
+                    </button>
+                </div>
+                <div class="xc_header-actions">
+                    <button class="xc_btn-modern" onclick="window.location.href='/control/add'">
+                        <i class="fa fa-plus"></i> 添加布控
+                    </button>
+                    <button class="xc_btn-modern" onclick="f_openHandleAllControl('add')">
+                        <i class="fa fa-play"></i> 全部执行
+                    </button>
+                    <button class="xc_btn-modern" onclick="f_openHandleAllControl('cancel')">
+                        <i class="fa fa-pause"></i> 全部取消
+                    </button>
+                    <button class="xc_btn-modern danger" onclick="f_openHandleAllControl('delete')">
+                        <i class="fa fa-trash"></i> 全部删除
+                    </button>
+                </div>
+                <div class="xc_stats-badge">
+                    <span id="control_info"></span>
+                    <span id="top_msg">{{top_msg}}</span>
+                </div>
             </div>
         </div>
 
@@ -540,33 +634,45 @@
 
       <!--日志弹窗start -->
       <div id="control_log_dialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-          <div class="modal-dialog">
+          <div class="modal-dialog modal-lg">
             <div class="modal-content">
 
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                  <h4 class="modal-title" >布控日志</h4>
+                  <h4 class="modal-title">布控日志</h4>
               </div>
               <div class="modal-body">
                 <div style="padding: 5px 20px;">
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>日志内容</th>
-                        <th>时间</th>
-                      </tr>
-                    </thead>
-                    <tbody id="control_log_data">
-                    <!--
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>@mdo</td>
-                      </tr>
-                    -->
-                    </tbody>
-                  </table>
+                  <!-- 查询条件 -->
+                  <div class="form-inline" style="margin-bottom: 15px;">
+                    <div class="form-group">
+                      <label>布控编号：</label>
+                      <input type="text" class="form-control input-sm" id="log_control_code_input" placeholder="留空查询所有" style="width: 200px;">
+                    </div>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="f_searchLog(1)">
+                      <i class="fa fa-search"></i> 查询
+                    </button>
+                    <button type="button" class="btn btn-default btn-sm" onclick="f_resetLogSearch()">
+                      <i class="fa fa-refresh"></i> 重置
+                    </button>
+                  </div>
+                  <!-- 表格 -->
+                  <div style="max-height: 400px; overflow-y: auto;">
+                    <table class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th width="60">ID</th>
+                          <th width="150">布控编号</th>
+                          <th>日志内容</th>
+                          <th width="150">时间</th>
+                        </tr>
+                      </thead>
+                      <tbody id="control_log_data">
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- 分页 -->
+                  <div class="xc_pagination" id="log_pageData" style="margin-top: 10px;"></div>
                 </div>
               </div>
             </div>
@@ -700,10 +806,15 @@
     let eleData = $("#data");
     let elePageData = $("#pageData");
     let eleControlInfo= $("#control_info");
-    let eleSearchInput= $("#search_input");//v4.638新增
+    let eleSearchTextInput= $("#search_text_input");
+    let eleSearchStatusSelect= $("#search_status_select");
     //布控日志弹窗
     let eleControlLogDialog = $("#control_log_dialog");
     let eleControlLogData = $("#control_log_data");
+    let eleLogControlCodeInput = $("#log_control_code_input");
+    let eleLogPageData = $("#log_pageData");
+    let curLogPage = 1;
+    let curLogPageSize = 10;
     //复制布控弹窗
     let eleCopyDialog = $("#copy_dialog");
     let eleCopyCodeInput = $("#copy_code_input");
@@ -719,6 +830,24 @@
     //临时辅助参数
     let curPage = 1;//当前页面
     let curPageSize = 10;
+    
+    // 搜索功能
+    function doSearch() {
+        curPage = 1;
+        f_openIndex(curPage, curPageSize);
+    }
+    
+    // 支持回车搜索
+    eleSearchTextInput.on('keypress', function(e) {
+        if (e.which === 13) {
+            doSearch();
+        }
+    });
+    
+    // 状态筛选变化时自动搜索
+    eleSearchStatusSelect.on('change', function() {
+        doSearch();
+    });
 
     function toggleGroup(actionsElement) {
         const headerElement = actionsElement.parentNode;
@@ -730,8 +859,7 @@
     }
 
     function f_edit(controlCode) {
-        let url = "/control/edit?code="+controlCode;
-        window.location.href = url;
+        window.location.href = '/control/edit?code=' + controlCode;
     }
     function f_openDel(controlCode) {
         let ret = confirm("确认删除吗？");
@@ -760,54 +888,97 @@
         }
     }
     function f_openLog(controlCode) {
+        // 打开弹窗
+        eleControlLogDialog.modal("show");
+        // 设置布控编号
+        if (controlCode) {
+            eleLogControlCodeInput.val(controlCode);
+        } else {
+            eleLogControlCodeInput.val("");
+        }
+        // 查询第一页
+        f_searchLog(1);
+    }
+    
+    // 查询日志
+    function f_searchLog(page) {
+        curLogPage = page;
+        let controlCode = eleLogControlCodeInput.val().trim();
+        
         eleTopLoading.show();
         $.ajax({
-               url: '/control/openLog',
-               type: "get",
-               async: true,
-               data: {"controlCode":controlCode},
-               dataType: "json",
-               timeout: 0,
-               error: function () {
-                   eleTopLoading.hide();
-                   myToast2025("网络异常，请确定网络正常！","error");
-               },
-               success: function (res) {
-                   eleTopLoading.hide();
-                   if(1000 === res.code){
-                        // BootStrap弹窗说明：https://www.genban.org/teach/teach-28585.html
-                        eleControlLogDialog.modal("toggle");
-                        //eleControlLogDialog.modal("show");
-                        //eleControlLogDialog.modal("hide");
-                        eleControlLogData.html("");
-                       let item_html;
-                       let data = res.data;
-                       let data_length = data.length;
+            url: '/control/openLog',
+            type: "get",
+            async: true,
+            data: {
+                "controlCode": controlCode,
+                "p": page,
+                "ps": curLogPageSize
+            },
+            dataType: "json",
+            timeout: 0,
+            error: function () {
+                eleTopLoading.hide();
+                myToast2025("网络异常，请确定网络正常！","error");
+            },
+            success: function (res) {
+                eleTopLoading.hide();
+                if(1000 === res.code){
+                    eleControlLogData.html("");
+                    let data = res.data;
+                    let data_length = data.length;
 
-                       if(0===data_length){
-                           item_html = "";
-                          item_html += "<tr>";
-                          item_html += "<td colspan='3'>暂无日志</td>";
-                          item_html += "</tr>";
-                          eleControlLogData.append(item_html);
-                       }else{
-                           for (let i = 0; i < data_length; i++) {
-                               let d = data[i];
-                               item_html = "";
-                               item_html+="<tr>";
-                                item_html+="<th scope=\"row\">"+d["id"]+"</th>";
-                                item_html+="<td style='max-width: 200px;'>"+d["content"]+"</td>";
-                                item_html+="<td>"+d["create_time_str"]+"</td>";
-                                item_html+="</tr>";
-                                eleControlLogData.append(item_html);
-                           }
-                       }
-                   }else{
-                        myToast2025(res.msg,"error");
-                   }
-
+                    if(0 === data_length){
+                        let item_html = "";
+                        item_html += "<tr>";
+                        item_html += "<td colspan='4' style='text-align:center; color:#999;'>暂无日志</td>";
+                        item_html += "</tr>";
+                        eleControlLogData.append(item_html);
+                    } else {
+                        for (let i = 0; i < data_length; i++) {
+                            let d = data[i];
+                            let item_html = "";
+                            item_html += "<tr>";
+                            item_html += "<td>" + d["id"] + "</td>";
+                            item_html += "<td>" + d["control_code"] + "</td>";
+                            item_html += "<td style='word-break: break-all;'>" + d["content"] + "</td>";
+                            item_html += "<td>" + d["create_time_str"] + "</td>";
+                            item_html += "</tr>";
+                            eleControlLogData.append(item_html);
+                        }
+                    }
+                    
+                    // 显示分页
+                    f_show_logPageData(res.pageData);
+                } else {
+                    myToast2025(res.msg,"error");
                 }
-            });
+            }
+        });
+    }
+    
+    // 显示日志分页
+    function f_show_logPageData(pageData) {
+        let page_size = pageData["page_size"];
+        let html = "";
+        html += "<div class='xc_page-info'>共" + pageData["page_num"] + "页 / " + pageData["count"] + "条</div>";
+        let pageLabels = pageData["pageLabels"];
+
+        for (let i = 0; i < pageLabels.length; i++) {
+            let cur = pageLabels[i]["cur"];
+            if(cur === 1){
+                html += "<div class='xc_page-btn xc_active'>" + pageLabels[i]["name"] + "</div>";
+            } else {
+                html += "<div class='xc_page-btn' onclick='f_searchLog(" + pageLabels[i]["page"] + ")'>" + pageLabels[i]["name"] + "</div>";
+            }
+        }
+        eleLogPageData.html(html);
+    }
+    
+    // 重置日志查询
+    function f_resetLogSearch() {
+        eleLogControlCodeInput.val("");
+        f_searchLog(1);
     }
     function f_copy(controlCode) {
         eleTopLoading.show();
@@ -964,7 +1135,7 @@
         window.open("/stream/player?app="+stream_app+"&name="+stream_name);
     }
     function f_open_flow(code) {
-        let url = "/algorithmFlow/edit?code="+code;
+        let url = "/algorithmFlow/index?search="+code;
         window.open(url);
     }
     function f_show_pageData(pageData) {
@@ -987,13 +1158,14 @@
     function f_openIndex(page,page_size) {
         curPage = page;
         curPageSize = page_size;
-        let search_text = eleSearchInput.val().trim();
+        let search_text = eleSearchTextInput.val().trim();
+        let search_status = eleSearchStatusSelect.val();
         eleTopLoading.show();
         $.ajax({
                url: '/control/openIndex',
                type: "get",
                async: true,
-               data: {"p":page,"ps":page_size,"search_text":search_text},
+               data: {"p":page,"ps":page_size,"search_text":search_text,"search_status":search_status},
                dataType: "json",
                timeout: 0,
                error: function () {
@@ -1007,7 +1179,7 @@
                        let data = res.data;
 
                        if(data.length === 0){
-                            eleData.html("<div>暂无数据</div>");
+                            eleData.html("<div class='xc_empty-state'><i class='fa fa-video-camera'></i><p>暂无数据</p></div>");
                             f_show_pageData(res.pageData)
                        }else{
                             eleData.html("");
@@ -1089,13 +1261,11 @@
                                         item_html += "<button data-code='" + d["code"] + "'  data-handle='add' onclick=\"f_openHandleControl(this)\" class=\"btn btn-default btn-sm\">执行布控</button>";
                                     }
 
-                                    item_html+="<button class=\"xc_action_btn view\" onclick=\"f_edit('"+d["code"]+"')\" title=\"编辑\"><i class=\"fa fa-edit\"></i></button>";
-                                    item_html+="<button class=\"xc_action_btn view\" onclick=\"f_settings('"+d["code"]+"')\" title=\"快捷设置\"><i class=\"fa fa-gear\"></i></button>";
-                                    item_html+="<button class=\"xc_action_btn view\" onclick=\"f_copy('"+d["code"]+"')\"  title=\"复制\"><i class=\"fa fa-copy\"></i></button>";
-                                    item_html+="<button class=\"xc_action_btn view\" onclick=\"f_openLog('"+d["code"]+"')\"  title=\"日志\"><i class=\"fa fa-chain\"></i></button>";
-                                    item_html+="<button class=\"xc_action_btn delete\" onclick=\"f_openDel('"+d["code"]+"')\"  title=\"删除\">";
-                                        item_html+="<svg class=\"xc-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"> <polyline points=\"3 6 5 6 21 6\"/><path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\"/></svg>";
-                                    item_html+="</button>";
+                                    item_html+="<button class='xc_action_btn view' onclick=\"f_edit('"+d["code"]+"')\" title=\"编辑\"><i class=\"fa fa-edit\"></i></button>";
+                                    item_html+="<button class='xc_action_btn view' onclick=\"f_settings('"+d["code"]+"')\" title=\"快捷设置\"><i class=\"fa fa-gear\"></i></button>";
+                                    item_html+="<button class='xc_action_btn view' onclick=\"f_copy('"+d["code"]+"')\"  title=\"复制\"><i class=\"fa fa-copy\"></i></button>";
+                                    item_html+="<button class='xc_action_btn view' onclick=\"f_openLog('"+d["code"]+"')\"  title=\"日志\"><i class=\"fa fa-chain\"></i></button>";
+                                    item_html+="<button class='xc_action_btn delete' onclick=\"f_openDel('"+d["code"]+"')\"  title=\"删除\"><i class=\"fa fa-trash\"></i></button>";
 
                                 item_html+="</td>";
                             item_html+="</tr>";
@@ -1113,8 +1283,7 @@
                    }
                    else
                    {
-                       eleData.html("<div>"+res.msg+"</div>");
-                       myToast2025(res.msg,"error");
+                       eleData.html("<div class='xc_empty-state'><i class='fa fa-exclamation-triangle'></i><p>"+res.msg+"</p></div>");
                    }
                }
             });
@@ -1255,16 +1424,15 @@
         f_openIndex(curPage,curPageSize);
     }
     function f_search(name) {
-        eleSearchInput.val(name);
+        eleSearchTextInput.val(name);
         curPage = 1;
         f_openIndex(curPage,curPageSize);
 
     }
-    eleSearchInput.on("keydown",function(e){
+    eleSearchTextInput.on("keydown",function(e){
         if (e.key === 'Enter' || e.keyCode === 13) {
             e.preventDefault(); // 阻止默认行为，例如表单提交
-            curPage = 1;
-            f_openIndex(curPage,curPageSize);
+            doSearch();
         }
     })
     window.onload = function (){

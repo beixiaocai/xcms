@@ -4,6 +4,32 @@
 
 {% block stylesheets %}
   {{ block.super }}
+<style>
+    /* 刷新按钮样式 */
+    .xc_btn-refresh {
+        padding: 5px 12px;
+        font-size: 13px;
+        font-weight: 500;
+        border-radius: 4px;
+        border: 1px solid #169F85;
+        background: linear-gradient(135deg, #169F85 0%, #14b89a 100%);
+        color: white;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        box-shadow: 0 2px 4px rgba(22, 159, 133, 0.3);
+    }
+    
+    .xc_btn-refresh:hover {
+        background: linear-gradient(135deg, #14b89a 0%, #129684 100%);
+        border-color: #14b89a;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(22, 159, 133, 0.4);
+        color: white;
+    }
+</style>
 {% endblock stylesheets %}
 
 {% block content %}
@@ -17,7 +43,7 @@
         <div class="x_title">
           <h2>在线预览
             <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
-                <button style="margin-left:10px;"  type="button" onclick="f_reload()"  class="btn btn-dark btn-sm">刷新</button>
+                <button style="margin-left:10px;"  type="button" onclick="f_reload()"  class="xc_btn-refresh"><i class="fa fa-refresh"></i> 刷新</button>
             <span id="top_msg"></span>
           </h2>
 
@@ -32,9 +58,9 @@
               <thead>
                 <tr class="headings">
                   <th class="column-title">序号 </th>
-                    <th class="column-title">视频源 </th>
+                    <th class="column-title">关联摄像头 </th>
 
-                  <th class="column-title">视频流地址 </th>
+                  <th class="column-title">播放 </th>
 
                   <th class="column-title">在线人数 </th>
                   <th class="column-title">入口带宽 </th>
@@ -70,8 +96,8 @@
     function f_reload(){
         window.location.reload();
     }
-    function f_edit(code) {
-        let url = "/stream/edit?code="+code;
+    function f_open_stream(code) {
+        let url = "/stream/index?code="+code;
         window.location.href = url;
     }
     function f_open_player(stream_app,stream_name){
@@ -113,7 +139,7 @@
                                item_html += "<td>"+String(i+1)+"</td>";
 
                                 if(d["source_type"] === 1){
-                                     item_html += "<td><a class='sun-a-label'  href=\"javascript:f_edit('"+d["source_code"]+"')\" >"+d["source_nickname"]+"</a></td>";
+                                     item_html += "<td><a class='sun-a-label'  href=\"javascript:f_open_stream('"+d["source_code"]+"')\" >"+d["source_nickname"]+"</a></td>";
                                 }else{
                                       item_html += "<td>（用户推流）</td>";
                                 }

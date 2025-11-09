@@ -173,7 +173,7 @@
     }
     
     .xc_filter-select {
-        padding: 6px 10px;
+        padding: 6px 8px;
         font-size: 13px;
         border: 1px solid #d1d5db;
         border-radius: 5px;
@@ -181,7 +181,7 @@
         color: #374151;
         cursor: pointer;
         transition: all 0.2s;
-        min-width: 95px;
+        min-width: 80px;
     }
     
     .xc_filter-select:focus {
@@ -195,13 +195,13 @@
     }
     
     .xc_date-input {
-        padding: 6px 10px;
+        padding: 6px 8px;
         font-size: 13px;
         border: 1px solid #d1d5db;
         border-radius: 5px;
         background: white;
         color: #374151;
-        min-width: 170px;
+        min-width: 155px;
         cursor: pointer;
         transition: all 0.2s;
     }
@@ -224,7 +224,7 @@
     
     /* 筛选栏按钮样式 */
     .xc_filter-btn {
-        padding: 6px 12px;
+        padding: 6px 10px;
         font-size: 13px;
         font-weight: 500;
         border-radius: 5px;
@@ -235,7 +235,7 @@
         transition: all 0.2s;
         display: inline-flex;
         align-items: center;
-        gap: 5px;
+        gap: 4px;
         white-space: nowrap;
     }
     
@@ -491,7 +491,7 @@
         background: white;
         border-radius: 8px;
         width: 80%;
-        max-width: 900px;
+        max-width: 750px;
         max-height: 80vh;
         display: flex;
         flex-direction: column;
@@ -1305,9 +1305,9 @@
         // 关联信息
         html += '<div class="xc_modal-info-card">';
         html += '<div class="xc_modal-section-title">关联信息</div>';
-        html += '<div class="xc_modal-info-item"><div class="xc_modal-info-label">关联视频</div><div class="xc_modal-info-value"><a href="/stream/edit?code=' + alarm.stream_code + '" target="_blank">前往查看</a></div></div>';
+        html += '<div class="xc_modal-info-item"><div class="xc_modal-info-label">关联视频</div><div class="xc_modal-info-value"><a href="/stream/index?code=' + alarm.stream_code + '" target="_blank">前往查看</a></div></div>';
         html += '<div class="xc_modal-info-item"><div class="xc_modal-info-label">关联布控</div><div class="xc_modal-info-value"><a href="/control/edit?code=' + alarm.control_code + '" target="_blank">前往查看</a></div></div>';
-        html += '<div class="xc_modal-info-item"><div class="xc_modal-info-label">关联算法</div><div class="xc_modal-info-value"><a href="/algorithmFlow/edit?code=' + alarm.flow_code + '" target="_blank">' + alarm.flow_name + '</a></div></div>';
+        html += '<div class="xc_modal-info-item"><div class="xc_modal-info-label">关联算法</div><div class="xc_modal-info-value"><a href="/algorithmFlow/index?search=' + alarm.flow_code + '" target="_blank">' + alarm.flow_name + '</a></div></div>';
         html += '</div>';
         
         // 审核操作
