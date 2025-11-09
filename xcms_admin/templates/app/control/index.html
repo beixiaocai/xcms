@@ -28,9 +28,9 @@
         box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         margin-bottom: 20px;
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        gap: 12px;
+        gap: 8px;
+        flex-wrap: wrap;
     }
     
     .xc_page-title {
@@ -40,6 +40,7 @@
         font-weight: 600;
         color: #1D2129;
         gap: 6px;
+        white-space: nowrap;
     }
     
     .xc_page-title i {
@@ -48,23 +49,9 @@
         color: #165DFF;
     }
     
-    .xc_header-right {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        flex: 1;
-        justify-content: flex-end;
-        flex-wrap: wrap;
-    }
-    
-    .xc_search-box {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-    
     .xc_search-input {
         width: 180px;
+        min-width: 120px;
         padding: 5px 10px;
         font-size: 13px;
         border: 1px solid #E5E6EB;
@@ -92,6 +79,7 @@
         color: #4E5969;
         cursor: pointer;
         outline: none;
+        min-width: 100px;
     }
     
     .xc_status-filter:hover {
@@ -152,6 +140,7 @@
         gap: 4px;
         white-space: nowrap;
         text-decoration: none;
+        flex-shrink: 0;
     }
     
     .xc_btn-modern:hover {
@@ -185,6 +174,7 @@
         font-size: 12px;
         color: #6b7280;
         white-space: nowrap;
+        flex-shrink: 0;
     }
     
     .xc_stats-badge span {
@@ -507,60 +497,6 @@
         font-size: 14px;
         color: #7f8c8d;
     }
-
-    /* 响应式 */
-    @media (max-width: 1024px) {
-        .xc_search-input {
-            width: 160px;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .xc_toolbar {
-            flex-wrap: wrap;
-        }
-        
-        .xc_header-right {
-            width: 100%;
-            justify-content: flex-start;
-            flex-wrap: wrap;
-        }
-        
-        .xc_search-box {
-            width: 100%;
-            order: -1;
-            margin-bottom: 8px;
-        }
-        
-        .xc_search-input {
-            flex: 1;
-        }
-        
-        .xc_status-filter {
-            width: auto;
-        }
-
-        .xc_group_header {
-            padding: 2px 16px;
-        }
-
-        .xc_camera_list.expanded {
-            padding: 12px;
-        }
-
-        .xc_camera_table td {
-            padding: 12px 8px;
-        }
-
-        .xc_action_buttons {
-            gap: 4px;
-        }
-
-        .xc_action_btn {
-            width: 28px;
-            height: 28px;
-        }
-    }
 </style>
 {% endblock stylesheets %}
 
@@ -582,37 +518,38 @@
                     <span class="xc_loading-text">加载中...</span>
                 </span>
             </div>
-            <div class="xc_header-right">
-                <div class="xc_search-box">
-                    <select id="search_status_select" class="xc_status-filter">
-                        <option value="-1">全部状态</option>
-                        <option value="1">布控中</option>
-                        <option value="0">未布控</option>
-
-                    </select>
-                    <input type="text" id="search_text_input" class="xc_search-input" placeholder="输入视频流名称"  value="{{ search_text }}">
-                    <button class="xc_btn-search" onclick="doSearch()">
-                        <i class="fa fa-search"></i> 搜索
-                    </button>
-                </div>
-                <div class="xc_header-actions">
-                    <button class="xc_btn-modern" onclick="window.location.href='/control/add'">
-                        <i class="fa fa-plus"></i> 添加布控
-                    </button>
-                    <button class="xc_btn-modern" onclick="f_openHandleAllControl('add')">
-                        <i class="fa fa-play"></i> 全部执行
-                    </button>
-                    <button class="xc_btn-modern" onclick="f_openHandleAllControl('cancel')">
-                        <i class="fa fa-pause"></i> 全部取消
-                    </button>
-                    <button class="xc_btn-modern danger" onclick="f_openHandleAllControl('delete')">
-                        <i class="fa fa-trash"></i> 全部删除
-                    </button>
-                </div>
-                <div class="xc_stats-badge">
-                    <span id="control_info"></span>
-                    <span id="top_msg">{{top_msg}}</span>
-                </div>
+            
+            <select id="search_status_select" class="xc_status-filter">
+                <option value="-1">全部状态</option>
+                <option value="1">布控中</option>
+                <option value="0">未布控</option>
+            </select>
+            
+            <input type="text" id="search_text_input" class="xc_search-input" placeholder="输入视频流名称"  value="{{ search_text }}">
+            
+            <button class="xc_btn-search" onclick="doSearch()">
+                <i class="fa fa-search"></i> 搜索
+            </button>
+            
+            <button class="xc_btn-modern" onclick="window.location.href='/control/add'">
+                <i class="fa fa-plus"></i> 添加布控
+            </button>
+            
+            <button class="xc_btn-modern" onclick="f_openHandleAllControl('add')">
+                <i class="fa fa-play"></i> 全部执行
+            </button>
+            
+            <button class="xc_btn-modern" onclick="f_openHandleAllControl('cancel')">
+                <i class="fa fa-pause"></i> 全部取消
+            </button>
+            
+            <button class="xc_btn-modern danger" onclick="f_openHandleAllControl('delete')">
+                <i class="fa fa-trash"></i> 全部删除
+            </button>
+            
+            <div class="xc_stats-badge">
+                <span id="control_info"></span>
+                <span id="top_msg">{{top_msg}}</span>
             </div>
         </div>
 

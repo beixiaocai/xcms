@@ -32,16 +32,17 @@
         display: block !important;
     }
 
-    /* 工具栏样式 - 参考布控管理页面 */
+    /* 工具栏样式 - 扁平化响应式布局 */
     .xc_toolbar {
         display: flex;
-        gap: 12px;
+        gap: 8px;
         margin-bottom: 20px;
         align-items: center;
         background: #FFFFFF;
         padding: 12px 16px;
         border-radius: 8px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        flex-wrap: wrap;
     }
     
     .xc_page-title {
@@ -79,20 +80,6 @@
         to { transform: rotate(360deg); }
     }
     
-    .xc_header-right {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-left: auto;
-        flex-wrap: wrap;
-    }
-    
-    .xc_search-box {
-        display: flex;
-        gap: 6px;
-        align-items: center;
-    }
-    
     .xc_status-filter {
         padding: 5px 10px;
         border: 1px solid #E5E6EB;
@@ -103,6 +90,7 @@
         cursor: pointer;
         transition: all 0.2s;
         outline: none;
+        min-width: 100px;
     }
     
     .xc_status-filter:hover {
@@ -120,6 +108,7 @@
         border-radius: 6px;
         font-size: 13px;
         width: 180px;
+        min-width: 120px;
         transition: all 0.2s;
         outline: none;
     }
@@ -165,6 +154,7 @@
         display: flex;
         gap: 8px;
         align-items: center;
+        flex-wrap: wrap;
     }
     
     .xc_btn-modern {
@@ -176,10 +166,11 @@
         font-size: 13px;
         cursor: pointer;
         transition: all 0.2s;
-        display: flex;
+        display: inline-flex;
         align-items: center;
         gap: 4px;
         white-space: nowrap;
+        flex-shrink: 0;
     }
     
     .xc_btn-modern:hover {
@@ -201,33 +192,6 @@
         background: #FFECE8;
         border-color: #FFCCC7;
         color: #D03050;
-    }
-    
-    /* 响应式调整 */
-    @media (max-width: 1200px) {
-        .xc_toolbar {
-            flex-wrap: wrap;
-        }
-        
-        .xc_header-right {
-            width: 100%;
-            justify-content: flex-start;
-            flex-wrap: wrap;
-        }
-        
-        .xc_search-box {
-            width: 100%;
-            order: -1;
-            margin-bottom: 8px;
-        }
-        
-        .xc_search-input {
-            flex: 1;
-        }
-        
-        .xc_status-filter {
-            width: auto;
-        }
     }
 
     /* 摄像头组样式 */
@@ -582,39 +546,40 @@
                     <span class="xc_loading-text">加载中...</span>
                 </span>
             </div>
-            <div class="xc_header-right">
-                <div class="xc_search-box">
-                    <select id="search_status_select" class="xc_status-filter">
-                        <option value="-1">全部状态</option>
-                        <option value="1">转发中</option>
-                        <option value="0">未转发</option>
-                    </select>
-                    <input type="text" id="search_text_input" class="xc_search-input" placeholder="输入视频流名称或编号"  value="{{ search_text }}">
-                    <button class="xc_btn-search" onclick="doSearch()">
-                        <i class="fa fa-search"></i> 搜索
-                    </button>
-                </div>
-                <div class="xc_header-actions">
-                    <button class="xc_btn-modern" onclick="streamModal.openAdd()">
-                        <i class="fa fa-plus"></i> 添加摄像头
-                    </button>
-                    <button class="xc_btn-modern" data-toggle="modal" data-target="#ImportFileDialog">
-                        <i class="fa fa-upload"></i> 批量导入
-                    </button>
-                    <button class="xc_btn-modern" onclick="f_openHandleAllStreamProxy('add')">
-                        <i class="fa fa-play"></i> 全部开启转发
-                    </button>
-                    <button class="xc_btn-modern" onclick="f_openHandleAllStreamProxy('del')">
-                        <i class="fa fa-pause"></i> 全部停止转发
-                    </button>
-                    <button class="xc_btn-modern danger" onclick="f_delAll()">
-                        <i class="fa fa-trash"></i> 全部删除
-                    </button>
-                </div>
-                <div>
-                    <span id="top_msg">{{top_msg}}</span>
-                </div>
-            </div>
+            
+            <select id="search_status_select" class="xc_status-filter">
+                <option value="-1">全部状态</option>
+                <option value="1">转发中</option>
+                <option value="0">未转发</option>
+            </select>
+            
+            <input type="text" id="search_text_input" class="xc_search-input" placeholder="输入视频流名称或编号"  value="{{ search_text }}">
+            
+            <button class="xc_btn-search" onclick="doSearch()">
+                <i class="fa fa-search"></i> 搜索
+            </button>
+            
+            <button class="xc_btn-modern" onclick="streamModal.openAdd()">
+                <i class="fa fa-plus"></i> 添加摄像头
+            </button>
+            
+            <button class="xc_btn-modern" data-toggle="modal" data-target="#ImportFileDialog">
+                <i class="fa fa-upload"></i> 批量导入
+            </button>
+            
+            <button class="xc_btn-modern" onclick="f_openHandleAllStreamProxy('add')">
+                <i class="fa fa-play"></i> 全部开启转发
+            </button>
+            
+            <button class="xc_btn-modern" onclick="f_openHandleAllStreamProxy('del')">
+                <i class="fa fa-pause"></i> 全部停止转发
+            </button>
+            
+            <button class="xc_btn-modern danger" onclick="f_delAll()">
+                <i class="fa fa-trash"></i> 全部删除
+            </button>
+            
+            <span id="top_msg">{{top_msg}}</span>
         </div>
 
         <div class="xc_camera_groups"  id="data">
