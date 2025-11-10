@@ -52,12 +52,17 @@
     .xc_search-input {
         width: 180px;
         min-width: 120px;
-        padding: 5px 10px;
+        padding: 0 10px;
         font-size: 13px;
         border: 1px solid #E5E6EB;
         border-radius: 6px;
         transition: all 0.2s;
         outline: none;
+        height: 32px !important;
+        line-height: 32px;
+        box-sizing: border-box;
+        vertical-align: middle;
+       margin-bottom: 5px;
     }
     
     .xc_search-input:focus {
@@ -70,7 +75,7 @@
     }
     
     .xc_status-filter {
-        padding: 5px 10px;
+        padding: 0 28px 0 10px;
         font-size: 13px;
         border: 1px solid #E5E6EB;
         border-radius: 6px;
@@ -80,6 +85,18 @@
         cursor: pointer;
         outline: none;
         min-width: 100px;
+        height: 32px !important;
+        line-height: 32px;
+        box-sizing: border-box;
+        vertical-align: middle;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%234E5969" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3e%3cpolyline points="6 9 12 15 18 9"%3e%3c/polyline%3e%3c/svg%3e');
+        background-repeat: no-repeat;
+        background-position: right 8px center;
+        background-size: 12px;
+       margin-bottom: 5px;
     }
     
     .xc_status-filter:hover {
@@ -91,34 +108,7 @@
         box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.1);
     }
     
-    .xc_btn-search {
-        padding: 5px 12px;
-        font-size: 13px;
-        font-weight: 500;
-        border-radius: 6px;
-        border: 1px solid #169F85;
-        background: linear-gradient(135deg, #169F85 0%, #14b89a 100%);
-        color: white;
-        cursor: pointer;
-        transition: all 0.2s;
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        white-space: nowrap;
-        box-shadow: 0 2px 4px rgba(22, 159, 133, 0.3);
-    }
-    
-    .xc_btn-search:hover {
-        background: linear-gradient(135deg, #14b89a 0%, #129684 100%);
-        border-color: #14b89a;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(22, 159, 133, 0.4);
-    }
-    
-    .xc_btn-search:active {
-        transform: translateY(0);
-    }
-    
+
     .xc_header-actions {
         display: flex;
         align-items: center;
@@ -126,7 +116,7 @@
     }
     
     .xc_btn-modern {
-        padding: 5px 10px;
+        padding: 0 10px;
         font-size: 13px;
         font-weight: 400;
         border-radius: 6px;
@@ -137,10 +127,15 @@
         transition: all 0.2s;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 4px;
         white-space: nowrap;
         text-decoration: none;
         flex-shrink: 0;
+        height: 32px;
+        line-height: 1;
+        box-sizing: border-box;
+        vertical-align: middle;
     }
     
     .xc_btn-modern:hover {
@@ -527,7 +522,7 @@
             
             <input type="text" id="search_text_input" class="xc_search-input" placeholder="输入视频流名称"  value="{{ search_text }}">
             
-            <button class="xc_btn-search" onclick="doSearch()">
+            <button class="xc_btn-modern" onclick="doSearch()">
                 <i class="fa fa-search"></i> 搜索
             </button>
             

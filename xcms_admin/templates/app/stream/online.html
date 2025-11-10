@@ -5,29 +5,33 @@
 {% block stylesheets %}
   {{ block.super }}
 <style>
-    /* 刷新按钮样式 */
-    .xc_btn-refresh {
-        padding: 5px 12px;
-        font-size: 13px;
-        font-weight: 500;
-        border-radius: 4px;
-        border: 1px solid #169F85;
-        background: linear-gradient(135deg, #169F85 0%, #14b89a 100%);
-        color: white;
+    .xc_btn-common {
+        height: 30px;
+        padding: 0 12px;
+        font-size: 12px;
+        border-radius: 6px;
+        border: 1px solid #E5E6EB;
+        background: #FFFFFF;
+        color: #4E5969;
         cursor: pointer;
         transition: all 0.2s;
         display: inline-flex;
         align-items: center;
         gap: 4px;
-        box-shadow: 0 2px 4px rgba(22, 159, 133, 0.3);
+        line-height: 1;
+        box-sizing: border-box;
+        vertical-align: middle;
     }
     
-    .xc_btn-refresh:hover {
-        background: linear-gradient(135deg, #14b89a 0%, #129684 100%);
-        border-color: #14b89a;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(22, 159, 133, 0.4);
-        color: white;
+    .xc_btn-common:hover {
+        background: #F2F3F5;
+        border-color: #C9CDD4;
+        transform: translateY(1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .xc_btn-common:active {
+        transform: translateY(0);
     }
 </style>
 {% endblock stylesheets %}
@@ -43,7 +47,7 @@
         <div class="x_title">
           <h2>在线预览
             <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
-                <button style="margin-left:10px;"  type="button" onclick="f_reload()"  class="xc_btn-refresh"><i class="fa fa-refresh"></i> 刷新</button>
+                <button style="margin-left:10px;"  type="button" onclick="f_reload()"  class="xc_btn-common"><i class="fa fa-refresh"></i> 刷新</button>
             <span id="top_msg"></span>
           </h2>
 

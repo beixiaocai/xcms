@@ -371,6 +371,7 @@
         width: 200px;
         height: 30px;
         padding: 0 10px;
+         margin-bottom: 5px;
         font-size: 12px;
         border: 1px solid #d1d5db;
         border-radius: 3px;
@@ -387,53 +388,7 @@
     .xc_search-input::placeholder {
         color: #9ca3af;
     }
-    
-    .xc_btn-search {
-        height: 30px;
-        padding: 0 12px;
-        font-size: 12px;
-        font-weight: 500;
-        border-radius: 3px;
-        border: 1px solid #169F85;
-        background: linear-gradient(135deg, #169F85 0%, #14b89a 100%);
-        color: white;
-        cursor: pointer;
-        transition: all 0.2s;
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        line-height: 1;
-        box-shadow: 0 2px 4px rgba(22, 159, 133, 0.3);
-    }
-    
-    .xc_btn-search:hover {
-        background: linear-gradient(135deg, #14b89a 0%, #129684 100%);
-        border-color: #14b89a;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(22, 159, 133, 0.4);
-    }
-    
-    .xc_btn-reset {
-        height: 30px;
-        padding: 0 12px;
-        font-size: 12px;
-        border-radius: 3px;
-        border: 1px solid #d1d5db;
-        background: white;
-        color: #6b7280;
-        cursor: pointer;
-        transition: all 0.2s;
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        line-height: 1;
-    }
-    
-    .xc_btn-reset:hover {
-        background: #f9fafb;
-        color: #374151;
-        border-color: #9ca3af;
-    }
+
 </style>
 {% endblock stylesheets %}
 
@@ -453,10 +408,10 @@
                             <div class="xc_header-right">
                                 <div class="xc_search-box">
                                     <input type="text" id="searchInput" class="xc_search-input" placeholder="输入算法名称或编号" value="{{ search_key }}">
-                                    <button class="xc_btn-search" onclick="doSearch()">
+                                    <button class="xc_btn-modern xc_btn-secondary" onclick="doSearch()">
                                         <i class="fa fa-search"></i> 搜索
                                     </button>
-                                    <button class="xc_btn-reset" onclick="resetSearch()" {% if not search_key %}style="display:none;"{% endif %} id="resetBtn">
+                                    <button class="xc_btn-modern xc_btn-secondary" onclick="resetSearch()" {% if not search_key %}style="display:none;"{% endif %} id="resetBtn">
                                         <i class="fa fa-times"></i> 重置
                                     </button>
                                 </div>

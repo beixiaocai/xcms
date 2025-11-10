@@ -262,16 +262,35 @@
     }
     
     .xc_filter-btn.primary {
-        background: linear-gradient(135deg, #169F85 0%, #14b89a 100%);
-        border-color: #169F85;
-        color: white;
-        box-shadow: 0 2px 4px rgba(22, 159, 133, 0.3);
+        padding: 0 10px;
+        background: #FFFFFF;
+        color: #4E5969;
+        border: 1px solid #E5E6EB;
+        border-radius: 6px;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        white-space: nowrap;
+        flex-shrink: 0;
+        height: 32px;
+        line-height: 1;
+        box-sizing: border-box;
+        vertical-align: middle;
     }
     
     .xc_filter-btn.primary:hover {
-        background: linear-gradient(135deg, #14b89a 0%, #129684 100%);
-        border-color: #14b89a;
-        box-shadow: 0 4px 12px rgba(22, 159, 133, 0.4);
+        background: #F2F3F5;
+        border-color: #C9CDD4;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .xc_filter-btn.primary:active {
+        transform: translateY(0);
     }
     
     .xc_video-grid {
