@@ -19,11 +19,13 @@
     
     .xc_page-header {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start !important;
         align-items: center;
         padding: 3px 0;
         margin-bottom: 6px;
         min-height: 28px;
+        gap: 8px;
+        flex-wrap: wrap;
     }
     
     .xc_page-title {
@@ -31,6 +33,7 @@
         align-items: center;
         font-size: 16px;
         font-weight: 400;
+        flex-shrink: 0;
     }
     
     .xc_page-title i {
@@ -49,6 +52,7 @@
         display: flex;
         align-items: center;
         gap: 5px;
+        flex-shrink: 0;
     }
     
     .xc_btn-modern {
@@ -85,24 +89,7 @@
         color: #374151;
         border-color: #9ca3af;
     }
-    
-    .xc_stats-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 3px 8px;
-        background: #f9fafb;
-        border-radius: 3px;
-        font-size: 11px;
-        color: #6b7280;
-        white-space: nowrap;
-    }
-    
-    .xc_stats-badge span {
-        color: #374151;
-        font-weight: 500;
-    }
-    
+
     .xc_table-container {
         overflow-x: auto;
         border-radius: 4px;
@@ -531,34 +518,32 @@
                                 <i class="fa fa-key"></i>
                                 权限管理
                             </div>
-                            <div class="xc_header-right">
-                                <div class="xc_header-actions">
-                                    <button class="xc_btn-modern xc_btn-secondary" onclick="batchDeletePermissions()" id="batch_delete_perm_btn" style="display: none;">
-                                        <i class="fa fa-trash"></i> 批量删除
-                                    </button>
-                                    <button class="xc_btn-modern xc_btn-secondary" onclick="openContentTypeListModal()">
-                                        内容类型管理
-                                    </button>
-                                    <button class="xc_btn-modern xc_btn-secondary" onclick="exportPermissions()">
-                                        <i class="fa fa-download"></i> 导出
-                                    </button>
-                                    <button class="xc_btn-modern xc_btn-secondary" onclick="openImportModal()">
-                                        <i class="fa fa-upload"></i> 导入
-                                    </button>
-                                    <button class="xc_btn-modern xc_btn-secondary" onclick="openAddModal()">
-                                        <i class="fa fa-plus"></i> 添加权限
-                                    </button>
-                                    <button class="xc_btn-modern xc_btn-secondary" onclick="f_reload()">
-                                        <i class="fa fa-refresh"></i> 刷新
-                                    </button>
-                                </div>
-                                <div class="xc_stats-badge">
-                                    <span id="top_loading" style="display: none;">
-                                        <span class="xc_loading-spinner"></span>
-                                        <span class="xc_loading-text">加载中...</span>
-                                    </span>
-                                    <span id="top_msg">{{top_msg}}</span>
-                                </div>
+                            <div class="xc_header-actions">
+                                <button class="xc_btn-modern xc_btn-secondary" onclick="batchDeletePermissions()" id="batch_delete_perm_btn" style="display: none;">
+                                    <i class="fa fa-trash"></i> 批量删除
+                                </button>
+                                <button class="xc_btn-modern xc_btn-secondary" onclick="openContentTypeListModal()">
+                                    内容类型管理
+                                </button>
+                                <button class="xc_btn-modern xc_btn-secondary" onclick="exportPermissions()">
+                                    <i class="fa fa-download"></i> 导出
+                                </button>
+                                <button class="xc_btn-modern xc_btn-secondary" onclick="openImportModal()">
+                                    <i class="fa fa-upload"></i> 导入
+                                </button>
+                                <button class="xc_btn-modern xc_btn-secondary" onclick="openAddModal()">
+                                    <i class="fa fa-plus"></i> 添加权限
+                                </button>
+                                <button class="xc_btn-modern xc_btn-secondary" onclick="f_reload()">
+                                    <i class="fa fa-refresh"></i> 刷新
+                                </button>
+                            </div>
+                            <div>
+                                <span id="top_loading" style="display: none;">
+                                    <span class="xc_loading-spinner"></span>
+                                    <span class="xc_loading-text">加载中...</span>
+                                </span>
+                                <span id="top_msg">{{top_msg}}</span>
                             </div>
                         </div>
 

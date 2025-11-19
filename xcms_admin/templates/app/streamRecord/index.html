@@ -17,11 +17,13 @@
     /* 页面标题区域 */
     .xc_page-header {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start !important;
         align-items: center;
         padding: 4px 0;
         margin-bottom: 10px;
         min-height: 32px;
+        gap: 8px;
+        flex-wrap: wrap;
     }
     
     .xc_page-title {
@@ -30,6 +32,7 @@
         font-size: 18px;
         font-weight: 400;
         color: #374151;
+        flex-shrink: 0;
     }
     
     .xc_page-title i {
@@ -50,28 +53,11 @@
         display: flex;
         align-items: center;
         gap: 6px;
-        flex-wrap: nowrap;
         white-space: nowrap;
+        flex-shrink: 0;
     }
     
-    /* 统计徽章 */
-    .xc_stats-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 10px;
-        background: #f9fafb;
-        border-radius: 3px;
-        font-size: 11px;
-        color: #6b7280;
-        white-space: nowrap;
-    }
-    
-    .xc_stats-badge span {
-        color: #374151;
-        font-weight: 500;
-    }
-    
+
     /* 加载动画 */
     .xc_loading-spinner {
         display: inline-block;
@@ -524,11 +510,7 @@
             padding: 3px 8px;
             font-size: 11px;
         }
-        
-        .xc_stats-badge {
-            padding: 3px 8px;
-            font-size: 10px;
-        }
+
     }
     
     @media (max-width: 768px) {
@@ -560,22 +542,20 @@
                 <i class="fa fa-video-camera"></i>
                 录像计划管理
               </div>
-              <div class="xc_header-right">
-                <div class="xc_header-actions">
-                  <button class="xc_btn-modern" onclick="openAddModal()">
-                    <i class="fa fa-plus"></i> 添加录像计划
-                  </button>
-                  <button class="xc_btn-modern" onclick="f_reload()">
-                    <i class="fa fa-refresh"></i> 刷新
-                  </button>
-                </div>
-                <div class="xc_stats-badge">
-                  <span id="top_loading" style="display: none;">
-                    <span class="xc_loading-spinner"></span>
-                    <span class="xc_loading-text">加载中...</span>
-                  </span>
-                  <span id="top_msg">共 {{ pageData.count }} 条</span>
-                </div>
+              <div class="xc_header-actions">
+                <button class="xc_btn-modern" onclick="openAddModal()">
+                  <i class="fa fa-plus"></i> 添加
+                </button>
+                <button class="xc_btn-modern" onclick="f_reload()">
+                  <i class="fa fa-refresh"></i> 刷新
+                </button>
+              </div>
+              <div>
+                <span id="top_loading" style="display: none;">
+                  <span class="xc_loading-spinner"></span>
+                  <span class="xc_loading-text">加载中...</span>
+                </span>
+                <span id="top_msg"></span>
               </div>
             </div>
             
@@ -730,8 +710,8 @@
 {% block javascripts %}
   {{ block.super }}
 <script>
-    let ele_top_loading = $("#top_loading");
-    let ele_top_msg = $("#top_msg");
+    let eleTopLoading = $("#top_loading");
+    let eleTopMsg = $("#top_msg");
     let currentHandle = "add"; // add 或 edit
     let currentCode = ""; // 当前编辑的编号
     let streamsData = []; // 摄像头列表
@@ -771,7 +751,7 @@
         currentCode = code;
         $("#modalTitle").text("编辑录像计划");
         
-        ele_top_loading.show();
+        eleTopLoading.show();
         
         // 获取录像计划详情
         $.ajax({
@@ -780,7 +760,7 @@
             data: {"code": code},
             dataType: "json",
             success: function (res) {
-                ele_top_loading.hide();
+                eleTopLoading.hide();
                 if (1000 === res.code && res.info) {
                     let record = res.info;
                     $("#input_code").val(record.code);
@@ -804,7 +784,7 @@
                 }
             },
             error: function () {
-                ele_top_loading.hide();
+                eleTopLoading.hide();
                 myToast2025("网络异常，请确定网络正常！", "error");
             }
         });
@@ -870,7 +850,7 @@
         
         let url = currentHandle === "add" ? "/streamRecord/openAdd" : "/streamRecord/openEdit";
         
-        ele_top_loading.show();
+        eleTopLoading.show();
         
         $.ajax({
             url: url,
@@ -886,7 +866,7 @@
             },
             dataType: "json",
             success: function (res) {
-                ele_top_loading.hide();
+                eleTopLoading.hide();
                 if (1000 === res.code) {
                     myToast2025(res.msg, "success", 1000);
                     setTimeout(function() {
@@ -898,7 +878,7 @@
                 }
             },
             error: function () {
-                ele_top_loading.hide();
+                eleTopLoading.hide();
                 myToast2025("网络异常，请确定网络正常！", "error");
             }
         });
@@ -918,7 +898,7 @@
             return;
         }
         
-        ele_top_loading.show();
+        eleTopLoading.show();
         $.ajax({
             url: '/streamRecord/openDel',
             type: "post",
@@ -927,11 +907,11 @@
             dataType: "json",
             timeout: 0,
             error: function () {
-                ele_top_loading.hide();
+                eleTopLoading.hide();
                 myToast2025("网络异常，请确定网络正常！", "error");
             },
             success: function (res) {
-                ele_top_loading.hide();
+                eleTopLoading.hide();
                 if (1000 === res.code) {
                     myToast2025(res.msg, "success", 1000);
                     setTimeout(function() {

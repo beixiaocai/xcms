@@ -568,10 +568,6 @@
             <div class="xc_page-title">
                 <i class="fa fa-video-camera"></i>
                 摄像头管理
-                <span id="top_loading" style="display: none; margin-left: 10px;">
-                    <span class="xc_loading-spinner"></span>
-                    <span class="xc_loading-text">加载中...</span>
-                </span>
             </div>
             
             <select id="search_status_select" class="xc_status-filter">
@@ -587,7 +583,7 @@
             </button>
             
             <button class="xc_btn-modern" onclick="streamModal.openAdd()">
-                <i class="fa fa-plus"></i> 添加摄像头
+                <i class="fa fa-plus"></i> 添加
             </button>
             
             <button class="xc_btn-modern" data-toggle="modal" data-target="#ImportFileDialog">
@@ -605,8 +601,17 @@
             <button class="xc_btn-modern danger" onclick="f_delAll()">
                 <i class="fa fa-trash"></i> 全部删除
             </button>
-            
-            <span id="top_msg">{{top_msg}}</span>
+            <div>
+
+                <span id="top_loading" style="display: none; margin-left: 10px;">
+                    <span class="xc_loading-spinner"></span>
+                    <span class="xc_loading-text">加载中...</span>
+                </span>
+                <span id="top_msg">{{top_msg}}</span>
+
+            </div>
+
+
         </div>
 
         <div class="xc_camera_groups"  id="data">

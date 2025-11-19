@@ -10,21 +10,24 @@
         /*background: #f5f7fa;*/
     }
     
+    .xc_face-toolbar {
+        background: white;
+        border-radius: 6px;
+        padding: 10px 14px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    
     .xc_modern-card {
         background: white;
         border-radius: 6px;
         padding: 10px 14px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.06);
         margin-bottom: 12px;
-    }
-    
-    .xc_page-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 4px 0;
-        margin-bottom: 8px;
-        min-height: 32px;
     }
     
     .xc_page-title {
@@ -40,18 +43,7 @@
         color: #3b82f6;
     }
     
-    .xc_header-right {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-    
-    .xc_header-actions {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-    
+
     .xc_loading-spinner {
         display: inline-block;
         width: 12px;
@@ -74,7 +66,8 @@
     }
     
     .xc_btn-modern {
-        padding: 4px 10px;
+        height: 30px;
+        padding: 0 12px;
         font-size: 12px;
         font-weight: 400;
         border-radius: 3px;
@@ -88,6 +81,10 @@
         gap: 4px;
         white-space: nowrap;
         text-decoration: none;
+        vertical-align: middle;
+        line-height: 1;
+        flex-shrink: 0;
+        box-sizing: border-box;
     }
     
     .xc_btn-modern:hover {
@@ -97,18 +94,16 @@
     }
     
     .xc_btn-primary {
-        background: linear-gradient(135deg, #169F85 0%, #14b89a 100%);
+        background: #169F85;
         color: white;
         border-color: #169F85;
-        box-shadow: 0 2px 4px rgba(22, 159, 133, 0.3);
     }
     
     .xc_btn-primary:hover {
-        background: linear-gradient(135deg, #14b89a 0%, #129684 100%);
+        background: #14b89a;
         border-color: #14b89a;
         color: white;
-        box-shadow: 0 4px 12px rgba(22, 159, 133, 0.4);
-        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(22, 159, 133, 0.25);
     }
     
     .xc_btn-secondary {
@@ -122,43 +117,10 @@
         color: #374151;
         border-color: #9ca3af;
     }
-    
-    .xc_stats-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 10px;
-        background: #f9fafb;
-        border-radius: 4px;
-        font-size: 11px;
-        color: #6b7280;
-        white-space: nowrap;
-    }
-    
-    .xc_stats-badge span {
-        color: #374151;
-        font-weight: 500;
-    }
-    
-    .xc_control-bar {
-        background: #fafafa;
-        border-radius: 4px;
-        padding: 10px 12px;
-        margin-bottom: 12px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
-    
-    .xc_control-label {
-        font-size: 12px;
-        color: #374151;
-        font-weight: 400;
-    }
-    
+
     .xc_control-select {
-        padding: 4px 10px;
+        height: 32px;
+        padding: 0 10px;
         font-size: 12px;
         border: 1px solid #d1d5db;
         border-radius: 3px;
@@ -166,7 +128,12 @@
         color: #374151;
         cursor: pointer;
         transition: all 0.2s;
-        min-width: 160px;
+        min-width: 140px;
+        line-height: 32px;
+        vertical-align: middle;
+        flex-shrink: 0;
+        box-sizing: border-box;
+        margin-bottom: 5px;
     }
     
     .xc_control-select:focus {
@@ -180,9 +147,13 @@
         align-items: center;
         gap: 4px;
         padding: 3px 8px;
+
         border-radius: 3px;
         font-size: 11px;
         font-weight: 400;
+        white-space: nowrap;
+         height: 32px;
+        margin-bottom: 5px;
     }
     
     .xc_status-success {
@@ -733,13 +704,8 @@
     }
     
     @media (max-width: 768px) {
-        .xc_control-bar {
-            flex-direction: column;
-            align-items: stretch;
-        }
-        
         .xc_control-select {
-            width: 100%;
+            min-width: 120px;
         }
         
         .xc_face-grid {
@@ -765,61 +731,53 @@
             <div class="x_panel">
                 <!-- xc page start -->
                 <div class="xc_face-container">
-                    <div class="xc_modern-card">
-                        <div class="xc_page-header">
-                            <div class="xc_page-title">
-                                <i class="fa fa-user"></i>
-                                人脸管理
-                            </div>
-                            <div class="xc_header-right">
-                                <div class="xc_header-actions">
-                                    <button class="xc_btn-modern xc_btn-secondary" onclick="openAddModal()">
-                                        <i class="fa fa-plus"></i> 添加人脸
-                                    </button>
-                                    <button class="xc_btn-modern xc_btn-secondary" onclick="f_reload()">
-                                        <i class="fa fa-refresh"></i> 刷新
-                                    </button>
-                                    <button class="xc_btn-modern xc_btn-secondary" id="btn_sync">
-                                        <i class="fa fa-refresh"></i> 全量更新人脸库
-                                    </button>
-                                </div>
-                                <div class="xc_stats-badge">
-                                    <span id="top_loading" style="display: none;">
-                                        <span class="xc_loading-spinner"></span>
-                                        <span class="xc_loading-text">加载中...</span>
-                                    </span>
-                                    <span id="top_msg">{{top_msg}}</span>
-                                </div>
-                            </div>
+                    <div class="xc_face-toolbar">
+                        <div class="xc_page-title">
+                            <i class="fa fa-user"></i>
+                            人脸管理
                         </div>
 
-                        <div class="xc_control-bar">
-                            <span class="xc_control-label">算法引擎:</span>
-                            <select id="select_flow_code" class="xc_control-select">
-                                <option value="0">请选择算法</option>
-                                {% for flow in flows %}
-                                    <script>
-                                    g_flowArray.push({
-                                        "code":'{{ flow.code }}',
-                                        "name":'{{ flow.name }}',
-                                        "mode":parseInt('{{ flow.mode }}')
-                                    })
-                                    </script>
-                                    <option value="{{ flow.code }}">{{ flow.name }}</option>
-                                {% endfor %}
-                            </select>
-                            
-                            <button onclick="f_openAlgorithmInit()" class="xc_btn-modern xc_btn-primary">
-                                <i class="fa fa-play"></i> 开启
-                            </button>
-                            <button onclick="f_openAlgorithmRelease()" class="xc_btn-modern xc_btn-secondary">
-                                <i class="fa fa-stop"></i> 关闭
-                            </button>
-                            
-                            <span id="algorithm_state" class="xc_status-indicator xc_status-error">
-                                <i class="fa fa-circle"></i> 未开启
+                        <select id="select_flow_code" class="xc_control-select">
+                            <option value="0">请选择算法</option>
+                            {% for flow in flows %}
+                                <script>
+                                g_flowArray.push({
+                                    "code":'{{ flow.code }}',
+                                    "name":'{{ flow.name }}',
+                                    "mode":parseInt('{{ flow.mode }}')
+                                })
+                                </script>
+                                <option value="{{ flow.code }}">{{ flow.name }}</option>
+                            {% endfor %}
+                        </select>
+                        
+                        <button onclick="f_openAlgorithmInit()" class="xc_btn-modern xc_btn-secondary">
+                            <i class="fa fa-play"></i> 开启
+                        </button>
+                        <button onclick="f_openAlgorithmRelease()" class="xc_btn-modern xc_btn-secondary">
+                            <i class="fa fa-stop"></i> 关闭
+                        </button>
+                        
+                        <span id="algorithm_state" class="xc_status-indicator xc_status-error">
+                            <i class="fa fa-circle"></i> 未开启
+                        </span>
+
+                        <button class="xc_btn-modern xc_btn-secondary" onclick="openAddModal()">
+                            <i class="fa fa-plus"></i> 添加
+                        </button>
+                        <button class="xc_btn-modern xc_btn-secondary" id="btn_sync">
+                            <i class="fa fa-refresh"></i> 全量更新人脸库
+                        </button>
+                        <div>
+                            <span id="top_loading" style="display: none;">
+                                <span class="xc_loading-spinner"></span>
+                                <span class="xc_loading-text">加载中...</span>
                             </span>
+                            <span id="top_msg">{{top_msg}}</span>
                         </div>
+                    </div>
+
+                    <div class="xc_modern-card">
 
                         <div class="xc_face-grid">
                             {%  for d  in data %}
@@ -849,9 +807,6 @@
                                 <div class="xc_face-actions">
                                     <button onclick="openEditModal('{{ d.code }}')" class="xc_btn-icon xc_btn-edit">
                                         <i class="fa fa-edit"></i> 编辑
-                                    </button>
-                                    <button onclick="f_openSyncDatabase('{{ d.group_name }}','{{ d.code }}')" class="xc_btn-icon xc_btn-sync">
-                                        <i class="fa fa-refresh"></i> 同步
                                     </button>
                                     <button onclick="f_del('{{ d.code }}')" class="xc_btn-icon xc_btn-delete">
                                         <i class="fa fa-trash"></i> 删除
@@ -965,13 +920,9 @@
     });
 
     eleBtnSync.click(function () {
-        f_openSyncDatabase('all','')
+        f_openSyncDatabase('all')
     })
 
-    function f_reload() {
-        window.location.reload();
-    }
-    
     // ============ 弹窗功能 ============
     let currentHandle = 'add'; // 'add' 或 'edit'
     let currentFaceCode = '';
@@ -1265,7 +1216,7 @@
                 ele_top_loading.hide();
                 if(1000 === res.code){
                     f_showAlgorithm(true);
-                    myToast2025("算法引擎已开启", "success");
+                    myToast2025("人脸算法已开启", "success");
                 }else{
                     f_showAlgorithm(false);
                     myToast2025(res.msg,"error");
@@ -1275,7 +1226,7 @@
     }
     
     function f_openAlgorithmRelease(){
-        if(!confirm('确定要关闭算法引擎吗？')) {
+        if(!confirm('确定要关闭人脸算法吗？')) {
             return;
         }
         
@@ -1296,7 +1247,7 @@
                 ele_top_loading.hide();
                 f_showAlgorithm(false);
                 if(1000 === res.code){
-                    myToast2025("算法引擎已关闭", "success");
+                    myToast2025("人脸算法已关闭", "success");
                 }else{
                     myToast2025(res.msg,"error");
                 }
@@ -1304,13 +1255,13 @@
         });
     }
     
-    function f_openSyncDatabase(group_name,code) {
+    function f_openSyncDatabase(group_name) {
         ele_top_loading.show();
         $.ajax({
             url: '/face/openSyncDatabase',
             type: "post",
             async: true,
-            data: {"group_name":group_name,"code":code},
+            data: {"group_name":group_name},
             dataType: "json",
             timeout: 0,
             error: function () {

@@ -19,11 +19,13 @@
     
     .xc_page-header {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start !important;
         align-items: center;
         padding: 4px 0;
         margin-bottom: 8px;
         min-height: 32px;
+        gap: 8px;
+        flex-wrap: wrap;
     }
     
     .xc_page-title {
@@ -31,6 +33,7 @@
         align-items: center;
         font-size: 18px;
         font-weight: 400;
+        flex-shrink: 0;
     }
     
     .xc_page-title i {
@@ -126,28 +129,7 @@
         transform: translateY(-1px);
         box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
     }
-    
-    .xc_stats-badge {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        padding: 0 10px;
-        background: #f9fafb;
-        border-radius: 3px;
-        font-size: 11px;
-        color: #6b7280;
-        white-space: nowrap;
-        height: 28px;
-        line-height: 1;
-        box-sizing: border-box;
-    }
-    
-    .xc_stats-badge span {
-        color: #374151;
-        font-weight: 500;
-    }
-    
+
     .xc_audio-player-compact {
         display: flex;
         align-items: center;
@@ -159,6 +141,7 @@
         height: 32px;
         line-height: 1;
         box-sizing: border-box;
+        flex-shrink: 0;
     }
     
     .xc_audio-player-compact-icon {
@@ -590,12 +573,7 @@
             padding: 3px 8px;
             font-size: 11px;
         }
-        
-        .xc_stats-badge {
-            padding: 3px 8px;
-            font-size: 10px;
-        }
-        
+
         .xc_page-title {
             font-size: 16px;
         }
@@ -636,28 +614,26 @@
                                 <i class="fa fa-music"></i>
                                 音频管理
                             </div>
-                            <div class="xc_header-right">
-                                <div class="xc_audio-player-compact">
-                                    <i class="fa fa-volume-up xc_audio-player-compact-icon"></i>
-                                    <audio id="top_audio" controls>
-                                        浏览器不支持音频播放
-                                    </audio>
-                                </div>
-                                <div class="xc_header-actions">
-                                    <button onclick="openAudioModal('add')" class="xc_btn-modern xc_btn-secondary">
-                                        <i class="fa fa-plus"></i> 添加音频
-                                    </button>
-                                    <button class="xc_btn-modern xc_btn-secondary" onclick="window.location.reload()">
-                                        <i class="fa fa-refresh"></i> 刷新
-                                    </button>
-                                </div>
-                                <div class="xc_stats-badge">
-                                    <span id="top_loading" style="display: none;">
-                                        <span class="xc_loading-spinner"></span>
-                                        <span class="xc_loading-text">加载中...</span>
-                                    </span>
-                                    <span id="top_msg">共 <span>{{ pageData.count }}</span> 条音频</span>
-                                </div>
+                            <div class="xc_audio-player-compact">
+                                <i class="fa fa-volume-up xc_audio-player-compact-icon"></i>
+                                <audio id="top_audio" controls>
+                                    浏览器不支持音频播放
+                                </audio>
+                            </div>
+                            <div class="xc_header-actions">
+                                <button onclick="openAudioModal('add')" class="xc_btn-modern xc_btn-secondary">
+                                    <i class="fa fa-plus"></i> 添加
+                                </button>
+                                <button class="xc_btn-modern xc_btn-secondary" onclick="window.location.reload()">
+                                    <i class="fa fa-refresh"></i> 刷新
+                                </button>
+                            </div>
+                            <div>
+                                <span id="top_loading" style="display: none;">
+                                    <span class="xc_loading-spinner"></span>
+                                    <span class="xc_loading-text">加载中...</span>
+                                </span>
+                                <span id="top_msg"></span>
                             </div>
                         </div>
 

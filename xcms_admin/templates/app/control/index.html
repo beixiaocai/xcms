@@ -159,24 +159,6 @@
         color: #D03050;
     }
     
-    .xc_stats-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 5px 12px;
-        background: #f9fafb;
-        border-radius: 4px;
-        font-size: 12px;
-        color: #6b7280;
-        white-space: nowrap;
-        flex-shrink: 0;
-    }
-    
-    .xc_stats-badge span {
-        color: #374151;
-        font-weight: 500;
-    }
-    
     /* Loading动画 */
     .xc_loading-spinner {
         display: inline-block;
@@ -508,10 +490,7 @@
             <div class="xc_page-title">
                 <i class="fa fa-cube"></i>
                 布控管理
-                <span id="top_loading" style="display: none; margin-left: 10px;">
-                    <span class="xc_loading-spinner"></span>
-                    <span class="xc_loading-text">加载中...</span>
-                </span>
+
             </div>
             
             <select id="search_status_select" class="xc_status-filter">
@@ -527,7 +506,7 @@
             </button>
             
             <button class="xc_btn-modern" onclick="window.location.href='/control/add'">
-                <i class="fa fa-plus"></i> 添加布控
+                <i class="fa fa-plus"></i> 添加
             </button>
             
             <button class="xc_btn-modern" onclick="f_openHandleAllControl('add')">
@@ -542,9 +521,14 @@
                 <i class="fa fa-trash"></i> 全部删除
             </button>
             
-            <div class="xc_stats-badge">
-                <span id="control_info"></span>
+            <div>
+
+                <span id="top_loading" style="display: none; margin-left: 10px;">
+                    <span class="xc_loading-spinner"></span>
+                    <span class="xc_loading-text">加载中...</span>
+                </span>
                 <span id="top_msg">{{top_msg}}</span>
+
             </div>
         </div>
 
@@ -737,7 +721,6 @@
     let eleTopMsg= $("#top_msg");
     let eleData = $("#data");
     let elePageData = $("#pageData");
-    let eleControlInfo= $("#control_info");
     let eleSearchTextInput= $("#search_text_input");
     let eleSearchStatusSelect= $("#search_status_select");
     //布控日志弹窗
@@ -1216,13 +1199,14 @@
                    else
                    {
                        eleData.html("<div class='xc_empty-state'><i class='fa fa-exclamation-triangle'></i><p>"+res.msg+"</p></div>");
+                       f_show_pageData(res.pageData);
                    }
                }
             });
     }
 
     function f_getAllCoreProcessData2() {
-        eleControlInfo.html("<code>...</code>");
+        eleTopMsg.html("...");
         $.ajax({
                url: '/open/getAllCoreProcessData2',
                type: "get",
@@ -1238,12 +1222,11 @@
                        let info = res.info
                        let __controlCount = info["controlCount"]
                        let __streamCount = info["streamCount"]
-                       let html = "<code>视频数量:"+__streamCount+"</code> <code>布控数量:"+__controlCount+"</code>";
-                       eleControlInfo.html(html);
+                       let html = "总视频"+__streamCount+"条，总布控"+__controlCount+"条";
+                       eleTopMsg.html(html);
                    }else{
                        let msg = res.msg;
-                       let html = "<code>"+msg+"</code>";
-                       eleControlInfo.html(html);
+                       eleTopMsg.html(msg);
                    }
                }
             });

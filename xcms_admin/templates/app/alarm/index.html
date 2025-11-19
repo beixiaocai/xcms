@@ -23,11 +23,13 @@
     
     .xc_page-header {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start !important;
         align-items: center;
         padding: 4px 0;
         margin-bottom: 10px;
         min-height: 32px;
+        gap: 8px;
+        flex-wrap: wrap;
     }
     
     .xc_page-title {
@@ -36,6 +38,7 @@
         /*height: 40px !important;*/
         font-size: 18px;
         font-weight: 400;
+        flex-shrink: 0;
     }
     
     .xc_page-title i {
@@ -55,12 +58,14 @@
         align-items: center;
         gap: 8px;
         white-space: nowrap;
+        flex-shrink: 0;
     }
     
     .xc_header-actions {
         display: flex;
         align-items: center;
         gap: 6px;
+        flex-shrink: 0;
     }
     
     .xc_loading-spinner {
@@ -130,23 +135,7 @@
         transform: translateY(-1px);
         box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
     }
-    
-    .xc_stats-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 10px;
-        background: #f9fafb;
-        border-radius: 3px;
-        font-size: 11px;
-        color: #6b7280;
-        white-space: nowrap;
-    }
-    
-    .xc_stats-badge span {
-        color: #374151;
-        font-weight: 500;
-    }
+
     
     .xc_filter-bar {
         display: flex;
@@ -782,12 +771,7 @@
             padding: 3px 8px;
             font-size: 11px;
         }
-        
-        .xc_stats-badge {
-            padding: 3px 8px;
-            font-size: 10px;
-        }
-        
+
         .xc_page-title {
             font-size: 13px;
         }
@@ -856,39 +840,43 @@
                     <!--<i class="fa fa-exclamation-triangle"></i>-->
                     报警管理
                 </div>
-                <div class="xc_header-right">
-                    <div class="xc_header-actions">
-                        <button class="xc_btn-modern xc_btn-secondary" onclick="f_handle('deleteAll')">
-                            <i class="fa fa-remove"></i> 全部删除
-                        </button>
-                        <button class="xc_btn-modern xc_btn-secondary" onclick="f_handle('clearCache')">
-                            <i class="fa fa-trash-o"></i> 清理缓存
-                        </button>
+                <div class="xc_header-actions">
+                    <div class="xc_filter-item" style="margin: 0;">
+                        <input type="checkbox" id="check_all" class="xc_checkbox-modern">
+                        <span class="xc_filter-label">全选</span>
                     </div>
-                    <div class="xc_stats-badge">
-                        <span id="top_loading" style="display: none;">
-                            <span class="xc_loading-spinner"></span>
-                            <span class="xc_loading-text">加载中...</span>
-                        </span>
-                        <span id="top_msg"></span>
-                    </div>
+                    <button class="xc_btn-modern xc_btn-secondary" onclick="f_handle('delete')">
+                        <i class="fa fa-trash-o"></i> 批量删除
+                    </button>
+                    <button class="xc_btn-modern xc_btn-secondary" onclick="f_openExport('labelme')">
+                        <i class="fa fa-download"></i> 批量导出
+                    </button>
+                    <button class="xc_btn-modern xc_btn-secondary" onclick="f_handle('deleteAll')">
+                        <i class="fa fa-remove"></i> 全部删除
+                    </button>
+                    <button class="xc_btn-modern xc_btn-secondary" onclick="f_handle('clearCache')">
+                        <i class="fa fa-trash-o"></i> 清理缓存
+                    </button>
+                </div>
+                <div>
+                    <span id="top_msg"></span>
+                    <span id="top_loading" style="display: none;">
+                        <span class="xc_loading-spinner"></span>
+                        <span class="xc_loading-text">加载中...</span>
+                    </span>
+
                 </div>
             </div>
 
             <div class="xc_filter-bar">
                 <div class="xc_filter-item">
-                    <input type="checkbox" id="check_all" class="xc_checkbox-modern">
-                    <span class="xc_filter-label">全选</span>
-                </div>
-                <div class="xc_filter-item">
-                    <button class="xc_filter-btn danger" onclick="f_handle('delete')">
-                        <i class="fa fa-trash-o"></i> 批量删除
-                    </button>
-                </div>
-                <div class="xc_filter-item">
-                    <button class="xc_filter-btn primary" onclick="f_openExport('labelme')">
-                        <i class="fa fa-download"></i> 批量导出
-                    </button>
+                    <label class="xc_filter-label">状态:</label>
+                    <select id="select_state" class="xc_filter-select">
+                        <option value="-1">全部</option>
+                        <option value="0">未处理</option>
+                        <option value="1">报警</option>
+                        <option value="2">误报</option>
+                    </select>
                 </div>
                 <div class="xc_filter-item">
                     <label class="xc_filter-label">类型:</label>
@@ -972,20 +960,22 @@
 <script src="/static/lib/jquery/daterangepicker/jquery.daterangepicker.js"></script>
 
 <script>
-    let ele_top_loading = $("#top_loading");
-    let ele_top_msg = $("#top_msg");
+    let eleTopLoading = $("#top_loading");
+    let eleTopMsg = $("#top_msg");
     let eleData = $("#data");
     let elePageData = $("#pageData");
     let eleCheckAll = $("#check_all");
     let temp_cur_page = 1;
     let temp_cur_page_size = 12;
 
+    let eleSelectState = $("#select_state");
     let eleSelectDrawType = $("#select_draw_type");
     let eleSelectControl = $("#select_control");
     let eleSelectStream = $("#select_stream");
     let eleSelectFlow = $("#select_flow");
     let eleInputDateRange = $('#input_dateRange');
 
+    let temp_state = "-1";
     let temp_drawType = "-1";
     let temp_controlCode = "-1";
     let temp_streamCode = "-1";
@@ -1010,7 +1000,7 @@
     }
 
     function f_openHandle(handle, alarm_ids_str, is_after_reload = true) {
-        ele_top_loading.show();
+        eleTopLoading.show();
         $.ajax({
             url: '/alarm/openHandle',
             type: "post",
@@ -1019,11 +1009,11 @@
             dataType: "json",
             timeout: 0,
             error: function () {
-                ele_top_loading.hide();
+                eleTopLoading.hide();
                 myToast2025("网络异常，请确定网络正常！", "error");
             },
             success: function (res) {
-                ele_top_loading.hide();
+                eleTopLoading.hide();
                 if(1000 === res.code) {
                     if(is_after_reload) {
                         myToast2025(res.msg, "success", 1000);
@@ -1046,7 +1036,7 @@
             myToast2025("请至少选择一条数据", "error");
             return;
         }
-        ele_top_loading.show();
+        eleTopLoading.show();
         $.ajax({
             url: '/alarm/openExport',
             type: "post",
@@ -1055,11 +1045,11 @@
             dataType: "json",
             timeout: 0,
             error: function () {
-                ele_top_loading.hide();
+                eleTopLoading.hide();
                 myToast2025("网络异常，请确定网络正常！", "error");
             },
             success: function (res) {
-                ele_top_loading.hide();
+                eleTopLoading.hide();
                 if(1000 === res.code) {
                     let info = res.info;
                     myToast2025(res.msg, "success", 1000);
@@ -1119,7 +1109,7 @@
         temp_cur_page = page;
         temp_cur_page_size = page_size;
 
-        ele_top_loading.show();
+        eleTopLoading.show();
         $.ajax({
             url: '/alarm/openIndex',
             type: "get",
@@ -1127,6 +1117,7 @@
             data: {
                 "p": page,
                 "ps": page_size,
+                "state": temp_state,
                 "drawType": temp_drawType,
                 "controlCode": temp_controlCode,
                 "streamCode": temp_streamCode,
@@ -1136,14 +1127,12 @@
             dataType: "json",
             timeout: 0,
             error: function () {
-                ele_top_loading.hide();
+                eleTopLoading.hide();
                 myToast2025("网络异常，请确定网络正常！", "error");
             },
             success: function (res) {
-                ele_top_loading.hide();
-                let top_msg = res.top_msg;
-                ele_top_msg.html(top_msg);
-
+                eleTopLoading.hide();
+                
                 if(1000 === res.code) {
                     let data = res.data;
                     let data_length = data.length;
@@ -1200,6 +1189,11 @@
             }
         });
     }
+
+    eleSelectState.change(function () {
+        temp_state = $(this).val();
+        f_openIndex(1, temp_cur_page_size);
+    });
 
     eleSelectDrawType.change(function () {
         temp_drawType = $(this).val();

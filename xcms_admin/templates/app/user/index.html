@@ -19,11 +19,13 @@
     
     .xc_page-header {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start !important;
         align-items: center;
         padding: 4px 0;
         margin-bottom: 8px;
         min-height: 32px;
+        gap: 8px;
+        flex-wrap: wrap;
     }
     
     .xc_page-title {
@@ -31,6 +33,7 @@
         align-items: center;
         font-size: 18px;
         font-weight: 400;
+        flex-shrink: 0;
     }
     
     .xc_page-title i {
@@ -49,6 +52,7 @@
         display: flex;
         align-items: center;
         gap: 6px;
+        flex-shrink: 0;
     }
     
     .xc_loading-spinner {
@@ -106,24 +110,7 @@
         color: #374151;
         border-color: #9ca3af;
     }
-    
-    .xc_stats-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 10px;
-        background: #f9fafb;
-        border-radius: 3px;
-        font-size: 11px;
-        color: #6b7280;
-        white-space: nowrap;
-    }
-    
-    .xc_stats-badge span {
-        color: #374151;
-        font-weight: 500;
-    }
-    
+
     .xc_table-container {
         overflow-x: auto;
         border-radius: 6px;
@@ -802,22 +789,20 @@
                                 <i class="fa fa-users"></i>
                                 用户管理
                             </div>
-                            <div class="xc_header-right">
-                                <div class="xc_header-actions">
-                                    <button class="xc_btn-modern xc_btn-secondary" onclick="openAddModal()">
-                                        <i class="fa fa-plus"></i> 添加用户
-                                    </button>
-                                    <button class="xc_btn-modern xc_btn-secondary" onclick="f_reload()">
-                                        <i class="fa fa-refresh"></i> 刷新
-                                    </button>
-                                </div>
-                                <div class="xc_stats-badge">
-                                    <span id="top_loading" style="display: none;">
-                                        <span class="xc_loading-spinner"></span>
-                                        <span class="xc_loading-text">加载中...</span>
-                                    </span>
-                                    <span id="top_msg">{{top_msg}}</span>
-                                </div>
+                            <div class="xc_header-actions">
+                                <button class="xc_btn-modern xc_btn-secondary" onclick="openAddModal()">
+                                    <i class="fa fa-plus"></i> 添加
+                                </button>
+                                <button class="xc_btn-modern xc_btn-secondary" onclick="f_reload()">
+                                    <i class="fa fa-refresh"></i> 刷新
+                                </button>
+                            </div>
+                            <div>
+                                <span id="top_loading" style="display: none;">
+                                    <span class="xc_loading-spinner"></span>
+                                    <span class="xc_loading-text">加载中...</span>
+                                </span>
+                                <span id="top_msg">{{top_msg}}</span>
                             </div>
                         </div>
 
@@ -843,9 +828,9 @@
                                         <td>{{ d.email }}</td>
                                         <td>
                                             {% if d.is_superuser == 1 %}
-                                            <span class="xc_badge xc_badge-warning">超级管理员</span>
+                                            <span>超级管理员</span>
                                             {% else %}
-                                            <span class="xc_badge xc_badge-info">普通用户</span>
+                                            <span>普通用户</span>
                                             {% endif %}
                                         </td>
                                         <td>

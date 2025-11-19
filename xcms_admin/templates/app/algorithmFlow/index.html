@@ -19,11 +19,13 @@
     
     .xc_page-header {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start !important;
         align-items: center;
         padding: 4px 0;
         margin-bottom: 8px;
         min-height: 32px;
+        gap: 8px;
+        flex-wrap: wrap;
     }
     
     .xc_page-title {
@@ -31,6 +33,7 @@
         align-items: center;
         font-size: 18px;
         font-weight: 400;
+        flex-shrink: 0;
     }
     
     .xc_page-title i {
@@ -39,10 +42,13 @@
         color: #3b82f6;
     }
     
+    .xc_search-box {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+    }
 
-    
-
-    
     .xc_loading-spinner {
         display: inline-block;
         width: 12px;
@@ -74,6 +80,7 @@
         display: flex;
         align-items: center;
         gap: 6px;
+        flex-shrink: 0;
     }
     
     .xc_btn-modern {
@@ -110,24 +117,7 @@
         color: #374151;
         border-color: #9ca3af;
     }
-    
-    .xc_stats-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 5px 12px;
-        background: #f9fafb;
-        border-radius: 3px;
-        font-size: 12px;
-        color: #6b7280;
-        white-space: nowrap;
-    }
-    
-    .xc_stats-badge span {
-        color: #374151;
-        font-weight: 500;
-    }
-    
+
     .xc_table-container {
         overflow-x: auto;
         border-radius: 6px;
@@ -146,7 +136,7 @@
     }
     
     .xc_table-header th {
-        padding: 10px 12px;
+        padding: 6px 12px;
         text-align: left;
         font-weight: 500;
         color: #374151;
@@ -155,8 +145,12 @@
     }
     
     .xc_table-body tr {
-        border-bottom: 1px solid #f3f4f6;
-        transition: background 0.2s;
+        border-bottom: 1px solid #e5e7eb;
+        transition: background 0.15s;
+    }
+    
+    .xc_table-body tr:nth-child(even) {
+        background: #fafbfc;
     }
     
     .xc_table-body tr:last-child {
@@ -164,29 +158,31 @@
     }
     
     .xc_table-body tr:hover {
-        background: #f9fafb;
+        background: #f3f4f6 !important;
     }
     
     .xc_table-body td {
-        padding: 10px 12px;
+        padding: 6px 12px;
         color: #374151;
         vertical-align: middle;
+        line-height: 1.4;
     }
     
     .xc_flow-id {
         display: inline-block;
-        padding: 3px 8px;
+        padding: 2px 8px;
         background: #f3f4f6;
         border: 1px solid #e5e7eb;
         border-radius: 3px;
         font-size: 12px;
         color: #6b7280;
         font-family: monospace;
+        line-height: 1.4;
     }
     
     .xc_flow-code {
         display: inline-block;
-        padding: 3px 10px;
+        padding: 2px 10px;
         background: #eff6ff;
         border: 1px solid #bfdbfe;
         border-radius: 3px;
@@ -194,6 +190,7 @@
         color: #1e40af;
         font-family: monospace;
         font-weight: 500;
+        line-height: 1.4;
     }
     
     .xc_flow-name {
@@ -203,12 +200,14 @@
     
     .xc_badge {
         display: inline-block;
-        padding: 4px 12px;
-        border-radius: 4px;
+        padding: 2px 10px;
+        border-radius: 3px;
         font-size: 12px;
         font-weight: 400;
         border: 1px solid transparent;
         background: transparent;
+        line-height: 1.4;
+        min-width: 120px;
     }
     
     .xc_badge-primary {
@@ -281,17 +280,17 @@
     }
     
     .xc_btn-icon {
-        padding: 3px 6px;
+        padding: 3px 8px;
         font-size: 11px;
         border-radius: 3px;
         border: 1px solid #d1d5db;
         background: white;
-        color: #374151;
+        color: #6b7280;
         cursor: pointer;
         transition: all 0.2s;
         display: inline-flex;
         align-items: center;
-        gap: 2px;
+        gap: 3px;
         text-decoration: none;
         white-space: nowrap;
     }
@@ -307,6 +306,7 @@
     }
     
     .xc_btn-icon.delete:hover {
+        background: #fef2f2;
         border-color: #ef4444;
         color: #ef4444;
     }
@@ -443,34 +443,32 @@
                                 <i class="fa fa-sitemap"></i>
                                 业务算法管理
                             </div>
-                            <div class="xc_header-right">
-                                <div class="xc_search-box">
-                                    <input type="text" id="searchInput" class="xc_search-input" placeholder="输入算法名称或编号" value="{{ search_key }}">
-                                    <button class="xc_btn-modern xc_btn-secondary" onclick="doSearch()">
-                                        <i class="fa fa-search"></i> 搜索
-                                    </button>
-                                    <button class="xc_btn-modern xc_btn-secondary" onclick="resetSearch()" {% if not search_key %}style="display:none;"{% endif %} id="resetBtn">
-                                        <i class="fa fa-times"></i> 重置
-                                    </button>
-                                </div>
-                                <div class="xc_header-actions">
-                                    <button class="xc_btn-modern xc_btn-secondary" onclick="openAddFlowModal()">
-                                        <i class="fa fa-plus"></i> 添加算法
-                                    </button>
-                                    <button class="xc_btn-modern xc_btn-secondary" data-toggle="modal" data-target="#ImportFileDialog">
-                                        <i class="fa fa-download"></i> 导入
-                                    </button>
-                                    <button class="xc_btn-modern xc_btn-secondary" onclick="window.location.reload()">
-                                        <i class="fa fa-refresh"></i> 刷新
-                                    </button>
-                                </div>
-                                <div class="xc_stats-badge">
-                                    <span id="top_loading" style="display: none;">
-                                        <span class="xc_loading-spinner"></span>
-                                        <span class="xc_loading-text">加载中...</span>
-                                    </span>
-                                    <span id="top_msg">{{top_msg}}</span>
-                                </div>
+                            <div class="xc_search-box">
+                                <input type="text" id="searchInput" class="xc_search-input" placeholder="输入算法名称或编号" value="{{ search_key }}">
+                                <button class="xc_btn-modern xc_btn-secondary" onclick="doSearch()">
+                                    <i class="fa fa-search"></i> 搜索
+                                </button>
+                                <button class="xc_btn-modern xc_btn-secondary" onclick="resetSearch()" {% if not search_key %}style="display:none;"{% endif %} id="resetBtn">
+                                    <i class="fa fa-times"></i> 重置
+                                </button>
+                            </div>
+                            <div class="xc_header-actions">
+                                <button class="xc_btn-modern xc_btn-secondary" onclick="openAddFlowModal()">
+                                    <i class="fa fa-plus"></i> 添加
+                                </button>
+                                <button class="xc_btn-modern xc_btn-secondary" data-toggle="modal" data-target="#ImportFileDialog">
+                                    <i class="fa fa-download"></i> 导入
+                                </button>
+                                <button class="xc_btn-modern xc_btn-secondary" onclick="window.location.reload()">
+                                    <i class="fa fa-refresh"></i> 刷新
+                                </button>
+                            </div>
+                            <div>
+                                <span id="top_loading" style="display: none;">
+                                    <span class="xc_loading-spinner"></span>
+                                    <span class="xc_loading-text">加载中...</span>
+                                </span>
+                                <span id="top_msg">{{top_msg}}</span>
                             </div>
                         </div>
 
@@ -495,7 +493,7 @@
                                         <td><span class="xc_flow-code">{{ d.code }}</span></td>
                                         <td><span class="xc_flow-name">{{ d.name }}</span></td>
                                         <td>
-                                            <span class="xc_badge">{{ d.mode_name }}</span>
+                                            <span class="xc_badge" >{{ d.mode_name }}</span>
                                         </td>
                                         <td>{{ d.deploy_process_index }}</td>
                                         <td>{{ d.max_concurrency }}</td>
