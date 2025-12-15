@@ -1,6 +1,6 @@
 ## xcms（BXC_VideoAnalyzer_v4）
 * 作者：北小菜 
-* 官网：http://www.beixiaocai.com
+* 官网：https://www.yuturuishi.com
 * 邮箱：bilibili_bxc@126.com
 * QQ：1402990689
 * 微信：bilibili_bxc

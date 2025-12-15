@@ -172,8 +172,8 @@
     
     .xc_face-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 16px;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 320px));
+        gap: 18px;
         margin-bottom: 16px;
     }
     
@@ -203,9 +203,9 @@
     }
     
     .xc_person-photo {
-        width: 70px;
-        height: 70px;
-        border-radius: 6px;
+        width: 85px;
+        height: 85px;
+        border-radius: 8px;
         overflow: hidden;
         border: 2px solid #e5e7eb;
         background: #fff;
@@ -225,14 +225,15 @@
     }
     
     .xc_face-photo {
-        width: 50px;
-        height: 50px;
-        border-radius: 4px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
         overflow: hidden;
         border: 2px solid #e5e7eb;
         background: #fff;
         cursor: pointer;
         transition: all 0.2s;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.08);
     }
     
     .xc_face-photo:hover {
@@ -300,15 +301,17 @@
     
     .xc_face-actions {
         display: flex;
-        gap: 6px;
+        gap: 8px;
         padding: 10px 12px;
         background: #fafafa;
         border-top: 1px solid #e5e7eb;
+        justify-content: center;
     }
     
     .xc_btn-icon {
-        flex: 1;
-        padding: 5px 8px;
+        flex: 0 0 auto;
+        min-width: 70px;
+        padding: 5px 12px;
         font-size: 12px;
         border-radius: 3px;
         border: 1px solid #d1d5db;
@@ -694,7 +697,7 @@
     
     @media (max-width: 1200px) {
         .xc_face-grid {
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 300px));
         }
         
         .xc_btn-modern {
@@ -709,12 +712,11 @@
         }
         
         .xc_face-grid {
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
         }
         
         .xc_face-header {
-            flex-direction: column;
-            text-align: center;
+            flex-direction: row;
         }
     }
 </style>

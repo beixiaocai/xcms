@@ -136,7 +136,7 @@
     }
     
     .xc_table-header th {
-        padding: 6px 12px;
+        padding: 10px 12px;
         text-align: left;
         font-weight: 500;
         color: #374151;
@@ -162,116 +162,11 @@
     }
     
     .xc_table-body td {
-        padding: 6px 12px;
+        padding: 10px 12px;
         color: #374151;
         vertical-align: middle;
-        line-height: 1.4;
+        line-height: 1.5;
     }
-    
-    .xc_flow-id {
-        display: inline-block;
-        padding: 2px 8px;
-        background: #f3f4f6;
-        border: 1px solid #e5e7eb;
-        border-radius: 3px;
-        font-size: 12px;
-        color: #6b7280;
-        font-family: monospace;
-        line-height: 1.4;
-    }
-    
-    .xc_flow-code {
-        display: inline-block;
-        padding: 2px 10px;
-        background: #eff6ff;
-        border: 1px solid #bfdbfe;
-        border-radius: 3px;
-        font-size: 12px;
-        color: #1e40af;
-        font-family: monospace;
-        font-weight: 500;
-        line-height: 1.4;
-    }
-    
-    .xc_flow-name {
-        font-weight: 500;
-        color: #374151;
-    }
-    
-    .xc_badge {
-        display: inline-block;
-        padding: 2px 10px;
-        border-radius: 3px;
-        font-size: 12px;
-        font-weight: 400;
-        border: 1px solid transparent;
-        background: transparent;
-        line-height: 1.4;
-        min-width: 120px;
-    }
-    
-    .xc_badge-primary {
-        color: #3b82f6;
-        border-color: #e5e7eb;
-    }
-    
-    .xc_badge-success {
-        color: #10b981;
-        border-color: #e5e7eb;
-    }
-    
-    .xc_badge-warning {
-        color: #f59e0b;
-        border-color: #e5e7eb;
-    }
-    
-    .xc_badge-purple {
-        color: #8b5cf6;
-        border-color: #e5e7eb;
-    }
-    
-    .xc_badge-orange {
-        color: #f97316;
-        border-color: #e5e7eb;
-    }
-    
-    .xc_badge-pink {
-        color: #ec4899;
-        border-color: #e5e7eb;
-    }
-    
-    .xc_badge-indigo {
-        color: #6366f1;
-        border-color: #e5e7eb;
-    }
-    
-    .xc_badge-info {
-        color: #06b6d4;
-        border-color: #e5e7eb;
-    }
-    
-    .xc_process-badge {
-        display: inline-block;
-        padding: 3px 10px;
-        background: #f3e8ff;
-        border: 1px solid #d8b4fe;
-        border-radius: 3px;
-        font-size: 12px;
-        color: #6b21a8;
-        font-weight: 500;
-    }
-    
-    .xc_max-count {
-        display: inline-block;
-        padding: 3px 10px;
-        background: #fef3c7;
-        border: 1px solid #fcd34d;
-        border-radius: 3px;
-        font-size: 12px;
-        color: #92400e;
-        font-weight: 500;
-    }
-    
     .xc_actions {
         display: flex;
         gap: 3px;
@@ -370,6 +265,57 @@
     .xc_empty-state p {
         font-size: 14px;
         margin: 0;
+    }
+    
+    /* 算法名称高亮样式 */
+    .xc_algorithm-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1f2937;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .xc_algorithm-name::before {
+        content: '';
+        width: 3px;
+        height: 14px;
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        border-radius: 2px;
+        display: inline-block;
+    }
+    
+    .xc_algorithm-code {
+        font-size: 11px;
+        color: #6b7280;
+        font-family: 'Courier New', monospace;
+        background: #f3f4f6;
+        padding: 2px 6px;
+        border-radius: 3px;
+        display: inline-block;
+    }
+    
+    .xc_mode-badge {
+        display: inline-block;
+        padding: 3px 8px;
+        font-size: 11px;
+        border-radius: 12px;
+        font-weight: 500;
+        background: #dbeafe;
+        color: #1e40af;
+    }
+    
+    .xc_id-badge {
+        display: inline-block;
+        min-width: 32px;
+        text-align: center;
+        padding: 2px 8px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #6b7280;
+        background: #f9fafb;
+        border-radius: 4px;
     }
     
     /* 搜索框样式 */
@@ -477,8 +423,8 @@
                                 <thead class="xc_table-header">
                                     <tr>
                                         <th>ID</th>
-                                        <th>编号</th>
-                                        <th>名称</th>
+                                        <th>算法编号</th>
+                                        <th>算法名称</th>
                                         <th>算法模式</th>
                                         <th>分析进程</th>
                                         <th>最大实例数</th>
@@ -489,11 +435,11 @@
                                 <tbody class="xc_table-body">
                                     {%  for d  in data %}
                                     <tr>
-                                        <td><span class="xc_flow-id">{{ d.id }}</span></td>
-                                        <td><span class="xc_flow-code">{{ d.code }}</span></td>
-                                        <td><span class="xc_flow-name">{{ d.name }}</span></td>
+                                        <td><span class="xc_id-badge">{{ d.id }}</span></td>
+                                        <td><span class="xc_algorithm-code">{{ d.code }}</span></td>
+                                        <td><span class="xc_algorithm-name">{{ d.name }}</span></td>
                                         <td>
-                                            <span class="xc_badge" >{{ d.mode_name }}</span>
+                                            <span class="xc_mode-badge">{{ d.mode_name }}</span>
                                         </td>
                                         <td>{{ d.deploy_process_index }}</td>
                                         <td>{{ d.max_concurrency }}</td>

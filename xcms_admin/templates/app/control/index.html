@@ -224,51 +224,125 @@
     }
     
     .xc_group_header {
-        padding: 2px 24px;
+        padding: 16px 24px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         position: relative;
-    }
-
-    .xc_group_header::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+        background: linear-gradient(to right, #fafafa 0%, #ffffff 100%);
+        border-bottom: 1px solid #e8e8e8;
     }
     
     .xc_group_title {
-        color: #000000;
-        padding: 2px 8px;
         display: flex;
-        font-size: 18px;
-        font-weight: 600;
+        font-size: 15px;
+        font-weight: 500;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
+        flex: 1;
     }
     
+    /* 状态指示器容器 */
+    .xc_stream_status_container {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    /* 播放按钮美化 */
+    .xc_play_btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 0;
+        color: #059669;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+    }
+    
+    .xc_play_btn:hover {
+        color: #047857;
+        text-decoration: none;
+    }
+    
+    .xc_play_btn i {
+        font-size: 14px;
+    }
+    
+    /* 离线状态美化 */
+    .xc_offline_status {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 0;
+        color: #dc2626;
+        font-size: 13px;
+        font-weight: 500;
+    }
+    
+    .xc_offline_status i {
+        font-size: 14px;
+    }
+    
+    /* 流名称美化 */
     .xc_group_title_a {
-        color: #000000;
+        color: #1d2129;
         text-decoration: none;
         cursor: pointer;
+        font-weight: 500;
+        transition: all 0.2s;
+        position: relative;
+        padding: 0 4px;
+    }
+    
+    .xc_group_title_a::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 3px;
+        height: 0;
+        background: linear-gradient(135deg, #165DFF, #4080ff);
+        border-radius: 2px;
+        transition: height 0.2s;
     }
     
     .xc_group_title_a:hover {
         color: #165DFF;
         text-decoration: none;
+        padding-left: 10px;
+    }
+    
+    .xc_group_title_a:hover::before {
+        height: 16px;
     }
 
+    /* 计数徽章美化 */
     .xc_group_count {
-        border: 1px solid #000000;
-        color: #000000;
-        padding: 1px 7px;
-        border-radius: 10px;
-        font-size: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 24px;
+        height: 24px;
+        padding: 0 8px;
+        background: #f2f3f5;
+        color: #4e5969;
+        border: 1px solid #e5e6eb;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
         cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .xc_group_count:hover {
+        background: #e5e6eb;
+        border-color: #c9cdd4;
+        color: #1d2129;
     }
 
     .xc_group_actions {
@@ -279,19 +353,29 @@
     }
 
     .xc_group_toggle {
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        border: 1px solid green;
-        color: #000000;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        background: #f2f3f5;
+        border: 1px solid #e5e6eb;
+        color: #4e5969;
         display: flex;
         align-items: center;
         justify-content: center;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
+    
+    .xc_group_toggle:hover {
+        background: #e5e6eb;
+        border-color: #165DFF;
+        color: #165DFF;
+    }
 
     .xc_group_toggle.expanded {
         transform: rotate(180deg);
+        background: #165DFF;
+        border-color: #165DFF;
+        color: white;
     }
 
     /* 摄像头列表 */
@@ -388,6 +472,49 @@
         0% { opacity: 1; }
         50% { opacity: 0.5; }
         100% { opacity: 1; }
+    }
+    
+    /* 美化布控状态徽章 */
+    .xc_control-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 2px 0;
+        font-size: 12px;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+    
+    .xc_control-status-active {
+        color: #059669;
+    }
+    
+    .xc_control-status-inactive {
+        color: #dc2626;
+    }
+    
+    .xc_control-status-error {
+        color: #ea580c;
+    }
+    
+    .xc_status-icon {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: currentColor;
+        box-shadow: 0 0 8px currentColor;
+        animation: xc_status-pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes xc_status-pulse {
+        0%, 100% {
+            opacity: 1;
+            box-shadow: 0 0 8px currentColor;
+        }
+        50% {
+            opacity: 0.7;
+            box-shadow: 0 0 4px currentColor;
+        }
     }
 
     /* 操作按钮 */
@@ -517,7 +644,7 @@
                 <i class="fa fa-pause"></i> 全部取消
             </button>
             
-            <button class="xc_btn-modern danger" onclick="f_openHandleAllControl('delete')">
+            <button class="xc_btn-modern" onclick="f_openHandleAllControl('delete')">
                 <i class="fa fa-trash"></i> 全部删除
             </button>
             
@@ -1105,9 +1232,9 @@
 
                                 let title;
                                 if(d0["stream_active"] === 1){
-                                    title= "<span class='sun-state-success' style='cursor: pointer;' onclick=\"f_open_player('"+d0["stream_app"]+"','"+d0["stream_name"]+"')\" ><i class=\"fa fa-play\"></i>播放</span><a class='xc_group_title_a' href=\"javascript:f_search('"+d0["stream_nickname"]+"')\" >"+d0["stream_nickname"]+"</a>";
+                                    title= "<div class='xc_stream_status_container'><span class='xc_play_btn' onclick=\"f_open_player('"+d0["stream_app"]+"','"+d0["stream_name"]+"')\" ><i class='fa fa-play-circle'></i>播放</span><a class='xc_group_title_a' href=\"javascript:f_search('"+d0["stream_nickname"]+"')\" >"+d0["stream_nickname"]+"</a></div>";
                                 }else{
-                                    title= "<span class='sun-state-error'>离线</span> <a class='xc_group_title_a' href=\"javascript:f_search('"+d0["stream_nickname"]+"')\" >"+d0["stream_nickname"]+"</a>";
+                                    title= "<div class='xc_stream_status_container'><span class='xc_offline_status'><i class='fa fa-warning'></i>离线</span><a class='xc_group_title_a' href=\"javascript:f_search('"+d0["stream_nickname"]+"')\" >"+d0["stream_nickname"]+"</a></div>";
                                 }
                                 let item_html = "<div class=\"xc_group\">";
                 item_html+="<div class=\"xc_group_header\">";
@@ -1157,13 +1284,13 @@
 
                                 item_html += "<td class='cur_state_" + d["code"] + "'>";
                                    if(d["cur_state"] === 0){
-                                       item_html += "<span class='sun-state-error'>未布控</span>";
+                                       item_html += "<span class='xc_control-status xc_control-status-inactive'><span class='xc_status-icon'></span>未布控</span>";
                                    }else if(d["cur_state"] === 1){
-                                        item_html += "<span class='sun-state-success'>布控中</span>";
+                                        item_html += "<span class='xc_control-status xc_control-status-active'><span class='xc_status-icon'></span>布控中</span>";
                                    }else if(d["cur_state"] === 5){
-                                        item_html += "<span class='sun-state-error'>布控中断</span>";
+                                        item_html += "<span class='xc_control-status xc_control-status-error'><span class='xc_status-icon'></span>布控中断</span>";
                                    }else{
-                                        item_html += "<span class='sun-state-error'>未知状态</span>";
+                                        item_html += "<span class='xc_control-status xc_control-status-inactive'><span class='xc_status-icon'></span>未知状态</span>";
                                    }
                                   item_html += "</td>";
 
@@ -1317,7 +1444,7 @@
                        jqueryObj.html("取消布控");
 
                         //布控成功
-                       $(".cur_state_"+code).html("<span class='sun-state-success'>布控中</span>");
+                       $(".cur_state_"+code).html("<span class='xc_control-status xc_control-status-active'><span class='xc_status-icon'></span>布控中</span>");
                        //$(".menu_"+code).hide();
 
                    }else if(handle === 'cancel'){
@@ -1326,7 +1453,7 @@
                        jqueryObj.data("handle","add");
                        jqueryObj.html("执行布控")
                        //取消布控成功
-                       $(".cur_state_"+code).html("<span class='sun-state-error'>未布控</span>")
+                       $(".cur_state_"+code).html("<span class='xc_control-status xc_control-status-inactive'><span class='xc_status-icon'></span>未布控</span>")
                        //$(".menu_"+code).show();
                    }
                }else{
