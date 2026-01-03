@@ -268,6 +268,19 @@
             case 8: // 检测算法>>检测算法>>行为算法
                 $('#flow_box_detect, #arrow_after_detect, #flow_box_detect2, #arrow_after_detect2, #flow_box_behaviour').show();
                 break;
+            case 9: // 检测算法>>特征算法>>检测算法>>行为算法
+                // 使用flex布局控制顺序: 检测 -> 特征 -> 二次检测 -> 行为
+                elements.flowDiagram.css('display', 'flex');
+                $('#flow_mode_name').css('order', '0');
+                $('#flow_box_detect').css('order', '1');
+                $('#arrow_after_detect').css('order', '2');
+                $('#flow_box_track').css('order', '3');
+                $('#arrow_after_track').css('order', '4');
+                $('#flow_box_detect2').css('order', '5');
+                $('#arrow_after_detect2').css('order', '6');
+                $('#flow_box_behaviour').css('order', '7');
+                $('#flow_box_detect, #arrow_after_detect, #flow_box_track, #arrow_after_track, #flow_box_detect2, #arrow_after_detect2, #flow_box_behaviour').show();
+                break;
         }
     }
     
@@ -523,6 +536,38 @@
                 algorithmDetect2Code = $('#select_algorithm_detect2').val();
                 if (algorithmDetect2Code === '0') {
                     myToast2025('请选择第二个检测算法', 'error');
+                    return;
+                }
+                detect2ClassNames = calcOptionStr($('#select_detect2_class_name').val());
+                if (!detect2ClassNames) {
+                    myToast2025('请至少选择1个二次检测目标', 'error');
+                    return;
+                }
+                behaviourCode = $('#select_behaviour').val();
+                if (behaviourCode === '0') {
+                    myToast2025('请选择行为算法', 'error');
+                    return;
+                }
+                break;
+            case 9: // 检测>>特征>>检测>>行为
+                algorithmDetectCode = $('#select_algorithm_detect').val();
+                if (algorithmDetectCode === '0') {
+                    myToast2025('请选择检测算法', 'error');
+                    return;
+                }
+                detectClassNames = calcOptionStr($('#select_detect_class_name').val());
+                if (!detectClassNames) {
+                    myToast2025('请至少选择1个检测目标', 'error');
+                    return;
+                }
+                algorithmTrackCode = $('#select_algorithm_track').val();
+                if (algorithmTrackCode === '0') {
+                    myToast2025('请选择特征算法', 'error');
+                    return;
+                }
+                algorithmDetect2Code = $('#select_algorithm_detect2').val();
+                if (algorithmDetect2Code === '0') {
+                    myToast2025('请选择二次检测算法', 'error');
                     return;
                 }
                 detect2ClassNames = calcOptionStr($('#select_detect2_class_name').val());

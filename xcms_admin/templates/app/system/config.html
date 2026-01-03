@@ -463,6 +463,7 @@
                     </div>
 
                     <div class="config_col">
+
                     <!-- item start -->
                       <div class="config_form_group">
                         <label class="config_label">软件自启动</label>
@@ -527,7 +528,20 @@
                               <input type="checkbox" name="isEnableModeDDB" value="1" {% if 1 == config.isEnableModeDDB %}checked{% endif %}>
                               <span class="xc_switch_slider"></span>
                             </label>
-                            <span class="xc_switch_label">是否开启算法模式八</span>
+                            <span class="xc_switch_label">是否开启（检测>检测>行为）</span>
+                          </div>
+                        </div>
+                      </div>
+
+                    <div class="config_form_group">
+                        <label class="config_label">算法模式九</label>
+                        <div class="config_control">
+                          <div class="xc_switch_container">
+                            <label class="xc_switch">
+                              <input type="checkbox" name="isEnableModeDFDB" value="1" {% if 1 == config.isEnableModeDFDB %}checked{% endif %}>
+                              <span class="xc_switch_slider"></span>
+                            </label>
+                            <span class="xc_switch_label">是否开启（检测>特征>检测>行为）</span>
                           </div>
                         </div>
                       </div>
@@ -717,11 +731,13 @@
         let ele_host = $("input[name='host']");
 
 
+
         let ele_autoStart = $("input[type=checkbox][name='autoStart']");
         let ele_isEnableLoginCaptcha = $("input[type=checkbox][name='isEnableLoginCaptcha']");
         let ele_logDebug = $("input[type=checkbox][name='logDebug']");
         let ele_isEnableDashboardLoginLimit = $("input[type=checkbox][name='isEnableDashboardLoginLimit']");
         let ele_isEnableModeDDB = $("input[type=checkbox][name='isEnableModeDDB']");
+        let ele_isEnableModeDFDB = $("input[type=checkbox][name='isEnableModeDFDB']");
         let ele_isEnableSipRegNoAlgorithm = $("input[type=checkbox][name='isEnableSipRegNoAlgorithm']");
 
         let eleStorageAlarmMaxSize = $("input[name='storageAlarmMaxSize']");
@@ -742,6 +758,7 @@
         let logDebug = ele_logDebug.is(':checked') ? 1 : 0;
         let isEnableDashboardLoginLimit = ele_isEnableDashboardLoginLimit.is(':checked') ? 1 : 0;
         let isEnableModeDDB = ele_isEnableModeDDB.is(':checked') ? 1 : 0;
+        let isEnableModeDFDB = ele_isEnableModeDFDB.is(':checked') ? 1 : 0;
         let isEnableSipRegNoAlgorithm = ele_isEnableSipRegNoAlgorithm.is(':checked') ? 1 : 0;
 
         let storageAlarmMaxSize = parseInt(eleStorageAlarmMaxSize.val());
@@ -785,6 +802,7 @@
                "logDebug":logDebug,
                "isEnableDashboardLoginLimit":isEnableDashboardLoginLimit,
                "isEnableModeDDB":isEnableModeDDB,
+               "isEnableModeDFDB":isEnableModeDFDB,
                "isEnableSipRegNoAlgorithm":isEnableSipRegNoAlgorithm,
 
                "storageAlarmMaxSize":storageAlarmMaxSize,
