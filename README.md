@@ -7,7 +7,6 @@
 * 哔哩哔哩主页：https://space.bilibili.com/487906612
 * gitee地址：https://gitee.com/Vanishi/xcms
 * github地址：https://github.com/beixiaocai/xcms
-* gitcode地址：https://gitcode.com/Vanishi/xcms
 
 ## 简介
 * C++开发的视频行为分析系统v4版本，简称xcms，用户可以基于视频行为分析系统，在不用考虑音视频开发，编解码开发，界面开发等情况下， 只需要训练自己的模型，就可以轻松做出任何需要的视频行为分析算法，比如人脸检测，人脸识别，周界入侵，烟火检测，打架，斗殴，跌倒，人群聚集，电动车，垃圾箱，抽烟，攀爬，离岗睡岗，安全帽，充电桩，工作服， 疲劳检测，交通拥堵等等
