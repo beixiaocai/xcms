@@ -29,7 +29,6 @@
 | x86 | Linux（gcc>=9.4）| x86架构cpu | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/944d5586badc8e93686afc522a4feece) |
 | x86 | Docker | x86架构cpu | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/vmqcfrgrx30wiglm) |
 | x86 | Linux（gcc>=9.4）| x86架构cpu+N卡 | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/2713611802e365950bc9c6fef5c6b118) |
-| x86 | Docker | x86架构cpu+N卡 | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/vgnshzg775xfhva2) |
 | x86 | Linux（gcc>=9.4）| x86架构cpu+华为昇腾 | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/fm2d9try1oxuh295) |
 | x86 | Docker | x86架构cpu+华为昇腾 | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/xk9gy2i7h3peku6n) |
 | arm | Linux（gcc>=9.4）| arm架构cpu+华为昇腾 | [下载](https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/xcms/bk37svyakydhsxuz) |
@@ -64,5 +63,6 @@
 <img width="720" alt="视频行为分析系统v4" src="https://gitee.com/Vanishi/images/raw/master/xcms/10.png">
 <img width="720" alt="视频行为分析系统v4" src="https://gitee.com/Vanishi/images/raw/master/xcms/11.png">
 <img width="720" alt="视频行为分析系统v4" src="https://gitee.com/Vanishi/images/raw/master/xcms/12.png">
+
 
 
