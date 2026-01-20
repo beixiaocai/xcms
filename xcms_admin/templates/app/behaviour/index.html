@@ -321,6 +321,11 @@
         color: #9f1239;
     }
     
+    .xc_way-apiv3 {
+        background: #fef3c7;
+        color: #92400e;
+    }
+    
     .xc_id-badge {
         display: inline-block;
         min-width: 32px;
@@ -658,6 +663,8 @@
                                             <span class="xc_way-badge xc_way-api">{{ d.way_code }}</span>
                                             {% elif d.way_code == "APIv2" %}
                                             <span class="xc_way-badge xc_way-apiv2">{{ d.way_code }}</span>
+                                            {% elif d.way_code == "APIv3" %}
+                                            <span class="xc_way-badge xc_way-apiv3">{{ d.way_code }}</span>
                                             {% else %}
                                             <span class="xc_way-badge">{{ d.way_code }}</span>
                                             {% endif %}
@@ -741,6 +748,7 @@
                         <option value="LIBRARY">LIBRARY</option>
                         <option value="API">API</option>
                         <option value="APIv2">APIv2</option>
+                        <option value="APIv3">APIv3</option>
                     </select>
                     <span class="xc_form-hint" id="way_code_hint" style="display: none;">编辑模式下不可修改接入方式</span>
                 </div>
