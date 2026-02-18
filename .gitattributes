@@ -1,0 +1,2 @@
+*.py linguist-language=C++
+*.pyd linguist-language=C++

@@ -1,0 +1,172 @@
+{% extends "app/base_site.html" %}
+
+{% block title %} 在线预览 {% endblock title %}
+
+{% block stylesheets %}
+  {{ block.super }}
+<style>
+    .xc_btn-common {
+        height: 30px;
+        padding: 0 12px;
+        font-size: 12px;
+        border-radius: 6px;
+        border: 1px solid #E5E6EB;
+        background: #FFFFFF;
+        color: #4E5969;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        line-height: 1;
+        box-sizing: border-box;
+        vertical-align: middle;
+    }
+    
+    .xc_btn-common:hover {
+        background: #F2F3F5;
+        border-color: #C9CDD4;
+        transform: translateY(1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .xc_btn-common:active {
+        transform: translateY(0);
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+  <div class="right_col" role="main">
+    <div class="">
+      <div class="row">
+
+      <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>在线预览
+            <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
+                <button style="margin-left:10px;"  type="button" onclick="f_reload()"  class="xc_btn-common"><i class="fa fa-refresh"></i> 刷新</button>
+            <span id="top_msg"></span>
+          </h2>
+
+          <div class="clearfix"></div>
+        </div>
+
+        <div class="x_content">
+        <!--<p><code>msg</code></p>-->
+
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr class="headings">
+                  <th class="column-title">序号 </th>
+                    <th class="column-title">关联摄像头 </th>
+
+                  <th class="column-title">播放 </th>
+
+                  <th class="column-title">在线人数 </th>
+                  <th class="column-title">入口带宽 </th>
+                  <th class="column-title">视频信息 </th>
+                  <th class="column-title last">音频信息 </th>
+                </tr>
+              </thead>
+              <tbody id="data">
+              </tbody>
+            </table>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+      </div>
+
+    </div>
+  </div>
+
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super }}
+
+<script>
+    let eleTopLoading = $("#top_loading");
+    let eleTopMsg= $("#top_msg");
+    let eleData = $("#data");
+    
+    function f_reload(){
+        window.location.reload();
+    }
+    function f_open_stream(code) {
+        let url = "/stream/index?code="+code;
+        window.location.href = url;
+    }
+    function f_open_player(stream_app,stream_name){
+        window.open("/stream/player?app="+stream_app+"&name="+stream_name);
+    }
+    function f_getAllStreamData() {
+        eleTopLoading.show();
+        $.ajax({
+               url: '/open/getAllStreamData',
+               type: "get",
+               async: true,
+               data: {"handle":"online"},
+               dataType: "json",
+               timeout: 0,
+               error: function () {
+                   eleTopLoading.hide();
+                   myToast2025("网络异常，请确定网络正常！","error");
+               },
+               success: function (res) {
+                   eleTopLoading.hide();
+
+                    eleData.html("");
+
+                   if(1000 === res.code){
+                       let item_html;
+
+                       let data = res.data;
+                       let data_length = data.length;
+
+                       if(0===data_length){
+                           item_html = "";
+                          item_html += "<tr class=\"even pointer\"><td colspan='7'>暂无数据</td></tr>";
+                           eleData.append(item_html);
+                       }else{
+                            for (let i = 0; i < data_length; i++) {
+                                 item_html = "";
+                               let d = data[i];
+                               item_html += "<tr class=\"even pointer\">";
+                               item_html += "<td>"+String(i+1)+"</td>";
+                                item_html += "<td><a class='sun-a-label'  href=\"javascript:f_open_stream('"+d["code"]+"')\" >"+d["nickname"]+"</a></td>";
+                                item_html += "<td><span class='sun-state-success'><i class=\"fa fa-bar-chart\"></i> 在线</span> <a class='sun-a-label' href=\"javascript:f_open_player('"+d["app"]+"','"+d["name"]+"')\" ><i class=\"fa fa-play\"></i> "+d["app"]+"/"+d["name"]+"</a></td>";
+                               item_html += "<td>"+d["clients"]+"</td>";
+                               item_html += "<td>"+d["produce_speed"]+"</td>";
+                               item_html += "<td>"+d["video"]+"</td>";
+                               item_html += "<td>"+d["audio"]+"</td>";
+                               item_html += "</tr>";
+
+                               eleData.append(item_html);
+                           }
+                        }
+                        //setTimeout(function () {f_getAllStreamData();}, 6000);
+
+                   }else{
+                        //eleTopMsg.html(res.msg);
+                        myToast2025(res.msg,"error");
+                   }
+               }
+            });
+
+    }
+    window.onload = function (){
+        f_getAllStreamData();
+    };
+
+
+</script>
+{% endblock javascripts %}
+

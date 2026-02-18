@@ -1,0 +1,1359 @@
+{% extends "app/base_site.html" %}
+{% block title %} 摄像头管理 {% endblock title %}
+{% block stylesheets %}
+  {{ block.super }}
+<style>
+    /* 容器样式 */
+    .xc_container {
+        color: #333;
+        line-height: 1.6;
+        margin: 0 auto;
+        padding: 10px 20px;
+    }
+    
+    /* 空状态 */
+    .xc_empty-state {
+        text-align: center !important;
+        padding: 80px 20px !important;
+        color: #9ca3af !important;
+        display: block !important;
+    }
+    
+    .xc_empty-state i {
+        font-size: 64px !important;
+        color: #d1d5db !important;
+        margin-bottom: 16px !important;
+        display: block !important;
+    }
+    
+    .xc_empty-state p {
+        font-size: 14px !important;
+        margin: 0 !important;
+        display: block !important;
+    }
+
+    /* 工具栏样式 - 扁平化响应式布局 */
+    .xc_toolbar {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 20px;
+        align-items: center;
+        background: #FFFFFF;
+        padding: 12px 16px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        flex-wrap: wrap;
+    }
+    
+    .xc_page-title {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #1D2129;
+        white-space: nowrap;
+    }
+    
+    .xc_page-title i {
+        color: #165DFF;
+        font-size: 18px;
+    }
+    
+    .xc_loading-spinner {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border: 2px solid #E5E6EB;
+        border-top-color: #165DFF;
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+    }
+    
+    .xc_loading-text {
+        font-size: 12px;
+        color: #86909C;
+        font-weight: 400;
+    }
+    
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    
+    .xc_status-filter {
+        padding: 0 28px 0 10px;
+        border: 1px solid #E5E6EB;
+        border-radius: 6px;
+        font-size: 13px;
+        color: #4E5969;
+        background: #FFFFFF;
+        cursor: pointer;
+        transition: all 0.2s;
+        outline: none;
+        min-width: 100px;
+        height: 32px !important;
+        line-height: 32px;
+        box-sizing: border-box;
+        vertical-align: middle;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%234E5969" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3e%3cpolyline points="6 9 12 15 18 9"%3e%3c/polyline%3e%3c/svg%3e');
+        background-repeat: no-repeat;
+        background-position: right 8px center;
+        background-size: 12px;
+      margin-bottom: 5px;
+    }
+    
+    .xc_status-filter:hover {
+        border-color: #165DFF;
+    }
+    
+    .xc_status-filter:focus {
+        border-color: #165DFF;
+        box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.1);
+    }
+    
+    .xc_search-input {
+        padding: 0 10px;
+        border: 1px solid #E5E6EB;
+        border-radius: 6px;
+        font-size: 13px;
+        width: 180px;
+        min-width: 120px;
+        transition: all 0.2s;
+        outline: none;
+        height: 32px !important;
+        line-height: 32px;
+        box-sizing: border-box;
+        vertical-align: middle;
+        margin-bottom: 5px;
+    }
+    
+    .xc_search-input:focus {
+        border-color: #165DFF;
+        box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.1);
+    }
+    
+    .xc_search-input::placeholder {
+        color: #C9CDD4;
+    }
+    
+    .xc_btn-search {
+        padding: 0 12px;
+        background: linear-gradient(135deg, #169F85 0%, #14b89a 100%);
+        color: #FFFFFF;
+        border: 1px solid #169F85;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        white-space: nowrap;
+        box-shadow: 0 2px 4px rgba(22, 159, 133, 0.3);
+        height: 32px;
+        line-height: 1;
+        box-sizing: border-box;
+        vertical-align: middle;
+    }
+    
+    .xc_btn-search:hover {
+        background: linear-gradient(135deg, #14b89a 0%, #129684 100%);
+        border-color: #14b89a;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(22, 159, 133, 0.4);
+    }
+    
+    .xc_btn-search:active {
+        transform: translateY(0);
+    }
+    
+    .xc_header-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    
+    .xc_btn-modern {
+        padding: 0 10px;
+        background: #F2F3F5;
+        color: #4E5969;
+        border: 1px solid #E5E6EB;
+        border-radius: 6px;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        white-space: nowrap;
+        flex-shrink: 0;
+        height: 32px;
+        line-height: 1;
+        box-sizing: border-box;
+        vertical-align: middle;
+    }
+    
+    .xc_btn-modern:hover {
+        background: #E5E6EB;
+        border-color: #C9CDD4;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .xc_btn-modern:active {
+        transform: translateY(0);
+    }
+    
+    .xc_btn-modern.danger {
+        color: #F53F3F;
+    }
+    
+    .xc_btn-modern.danger:hover {
+        background: #FFECE8;
+        border-color: #FFCCC7;
+        color: #D03050;
+    }
+
+    /* 摄像头组样式 */
+    .xc_camera_groups {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .xc_group {
+        background-color: #FFFFFF;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .xc_group:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    .xc_group_header {
+        padding: 10px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        background: linear-gradient(to right, #f8f9fa 0%, #ffffff 100%);
+        border-bottom: 1px solid #e5e7eb;
+        border-radius: 8px 8px 0 0;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    
+    .xc_group_title {
+        display: flex;
+        font-size: 14px;
+        font-weight: 500;
+        align-items: center;
+        gap: 8px;
+        flex: 1;
+        color: #374151;
+    }
+    
+    /* 设备ID样式美化 */
+    .xc_device_id {
+        color: #1d2129;
+        font-weight: 500;
+        transition: all 0.2s;
+        position: relative;
+        padding: 0 4px;
+    }
+    
+    .xc_device_id::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 3px;
+        height: 0;
+        background: linear-gradient(135deg, #165DFF, #4080ff);
+        border-radius: 2px;
+        transition: height 0.2s;
+    }
+    
+    .xc_device_id:hover {
+        color: #165DFF;
+        padding-left: 10px;
+    }
+    
+    .xc_device_id:hover::before {
+        height: 16px;
+    }
+    
+    .xc_group_title_a {
+        color: #1d2129;
+        text-decoration: none;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.2s;
+        position: relative;
+        padding: 0 4px;
+    }
+    
+    .xc_group_title_a::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 3px;
+        height: 0;
+        background: linear-gradient(135deg, #165DFF, #4080ff);
+        border-radius: 2px;
+        transition: height 0.2s;
+    }
+    
+    .xc_group_title_a:hover {
+        color: #165DFF;
+        text-decoration: none;
+        padding-left: 10px;
+    }
+    
+    .xc_group_title_a:hover::before {
+        height: 16px;
+    }
+
+    /* 计数徽章美化 */
+    .xc_group_count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 24px;
+        height: 24px;
+        padding: 0 8px;
+        background: #f2f3f5;
+        color: #4e5969;
+        border: 1px solid #e5e6eb;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .xc_group_count:hover {
+        background: #e5e6eb;
+        border-color: #c9cdd4;
+        color: #1d2129;
+    }
+
+    .xc_group_actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .xc_group_toggle {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        background: #f2f3f5;
+        border: 1px solid #e5e6eb;
+        color: #4e5969;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .xc_group_toggle:hover {
+        background: #e5e6eb;
+        border-color: #165DFF;
+        color: #165DFF;
+    }
+
+    .xc_group_toggle.expanded {
+        transform: rotate(180deg);
+        background: #165DFF;
+        border-color: #165DFF;
+        color: white;
+    }
+
+    /* 摄像头列表样式 - 二级显示 */
+    .xc_camera_list {
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    }
+
+    .xc_camera_list.expanded {
+        padding: 4px;
+        max-height: 800px;
+        overflow: auto;
+    }
+
+    .xc_camera_table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .xc_camera_table th {
+        padding: 6px 12px;
+        text-align: left;
+        font-weight: 500;
+        color: #4E5969;
+        font-size: 14px;
+        border-bottom: 1px solid #E5E6EB;
+        position: relative;
+    }
+
+    .xc_camera_table th::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 16px;
+        right: 16px;
+        height: 1px;
+        background-color: #E5E6EB;
+    }
+
+    .xc_camera_table td {
+        padding: 3px 4px;
+        font-size: 14px;
+        color: #272E3B;
+        border-bottom: 1px solid #F2F3F5;
+        transition: background-color 0.2s;
+    }
+
+    .xc_camera_table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .xc_camera_table tbody tr:hover {
+        background-color: rgba(22, 93, 255, 0.03);
+    }
+
+    /* 状态标签样式 */
+    .xc_status {
+        padding: 4px 6px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .xc_status_running {
+        background-color: rgba(0, 180, 42, 0.1);
+        color: #2b542c;
+    }
+
+    .xc_status_stopped {
+        background-color: rgba(245, 63, 63, 0.1);
+        color: #F53F3F;
+    }
+
+    .xc_status_pending {
+        background-color: rgba(255, 125, 0, 0.1);
+        color: #FF7D00;
+    }
+
+    .xc_status_dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: currentColor;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 1; }
+    }
+    
+    /* 美化视频流状态 */
+    .xc_stream-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 2px 0;
+        font-size: 12px;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+    
+    .xc_stream-status-active {
+        color: #059669;
+    }
+    
+    .xc_stream-status-inactive {
+        color: #dc2626;
+    }
+    
+    .xc_stream-status-icon {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: currentColor;
+        box-shadow: 0 0 8px currentColor;
+        animation: xc_stream-pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes xc_stream-pulse {
+        0%, 100% {
+            opacity: 1;
+            box-shadow: 0 0 8px currentColor;
+        }
+        50% {
+            opacity: 0.7;
+            box-shadow: 0 0 4px currentColor;
+        }
+    }
+
+    /* 操作按钮样式 */
+    .xc_action_buttons {
+        display: flex;
+        gap: 8px;
+    }
+
+    .xc_action_btn {
+        width: 28px;
+        height: 30px;
+        border-radius: 4px;
+        background-color: #F2F3F5;
+        border: none;
+        color: #4E5969;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .xc_action_btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .xc_action_btn.view:hover {
+        background-color: #165DFF;
+        color: white;
+        cursor: pointer;
+    }
+
+    .xc_action_btn.start:hover {
+        background-color: #2b542c;
+        color: white;
+    }
+
+    .xc_action_btn.stop:hover {
+        background-color: #FF7D00;
+        color: white;
+    }
+
+    .xc_action_btn.delete:hover {
+        background-color: #F53F3F;
+        color: white;
+    }
+
+
+    /* SVG图标样式 */
+    .xc-icon {
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .xc-icon-sm {
+        width: 16px;
+        height: 16px;
+    }
+
+    .xc-icon-lg {
+        width: 24px;
+        height: 24px;
+    }
+
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+        .xc_group_header {
+            padding: 12px 16px;
+        }
+
+        .xc_camera_list.expanded {
+            padding: 12px;
+        }
+
+        .xc_camera_table td {
+            padding: 12px 8px;
+        }
+
+        .xc_action_buttons {
+            gap: 4px;
+        }
+
+        .xc_action_btn {
+            width: 28px;
+            height: 28px;
+        }
+    }
+
+    /* 子弹框样式 */
+    .xc_more-button {
+        position: relative;
+        display: inline-block;
+    }
+
+    .xc_bullet-dialog {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        margin-top: 4px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 10001;
+        display: none;
+        min-width: 160px;
+        overflow: hidden;
+        border: 1px solid #e5e7eb;
+        animation: menuFadeIn 0.2s ease-out;
+    }
+
+    @keyframes menuFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-5px) scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .xc_bullet-dialog-content {
+        display: flex;
+        flex-direction: column;
+        background: white;
+    }
+
+    .xc_bullet-dialog-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        background: white;
+        border: none;
+        text-align: left;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+    }
+
+    .xc_bullet-dialog-btn:hover {
+        background: #f3f4f6;
+        color: #1f2937;
+    }
+
+    .xc_bullet-dialog-btn i {
+        width: 16px;
+        text-align: center;
+        font-size: 13px;
+    }
+
+    .xc_bullet-dialog-btn-danger {
+        color: #dc2626 !important;
+    }
+
+    .xc_bullet-dialog-btn-danger:hover {
+        background: #fef2f2 !important;
+        color: #b91c1c !important;
+    }
+</style>
+<style>
+    /* 分页样式 */
+    .xc_pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    
+    .xc_pagination>.xc_page-btn {
+        min-width: 36px;
+        height: 36px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        background-color: white;
+        color: #555;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .xc_pagination>.xc_page-btn:hover:not(.xc_active) {
+        border-color: #34495e;
+        color: #34495e;
+    }
+    
+    .xc_pagination>.xc_page-btn.xc_active {
+        background-color: #34495e;
+        color: white;
+    }
+    
+    .xc_pagination>.xc_page-info {
+        font-size: 14px;
+        color: #7f8c8d;
+    }
+</style>
+<style>
+    /* 导入弹窗样式 */
+    input[type="file"] {
+        color: #8d2f2f;
+        font-size: 12px;
+    }
+    
+    ::file-selector-button {
+        font-size: 12px;
+        color: #fff;
+        border-radius: 4px;
+        border: 1px solid #1a1a2e;
+        padding: 2px 4px;
+        background-color: #1a1a2e;
+        cursor: pointer;
+    }
+
+</style>
+
+{% endblock stylesheets %}
+
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="">
+
+      <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+   <!-- xc page start -->
+    <div class="xc_container">
+        <div class="xc_toolbar">
+            <div class="xc_page-title">
+                <i class="fa fa-video-camera"></i>
+                摄像头管理
+            </div>
+            
+            <select id="search_status_select" class="xc_status-filter">
+                <option value="-1">全部状态</option>
+                <option value="1">转发中</option>
+                <option value="0">未转发</option>
+            </select>
+            
+            <input type="text" id="search_text_input" class="xc_search-input" placeholder="输入视频流名称或编号"  value="{{ search_text }}">
+            
+            <button class="xc_btn-modern" onclick="doSearch()">
+                <i class="fa fa-search"></i> 搜索
+            </button>
+            
+            <button class="xc_btn-modern" onclick="streamModal.openAdd()">
+                <i class="fa fa-plus"></i> 添加
+            </button>
+            
+            <button class="xc_btn-modern" data-toggle="modal" data-target="#ImportFileDialog">
+                <i class="fa fa-upload"></i> 批量导入
+            </button>
+            
+            <!-- 更多按钮和子弹框 -->
+            <div style="position: relative; display: inline-block;">
+                <button class="xc_btn-modern" onclick="toggleMoreDialog()">
+                    <i class="fa fa-ellipsis-v"></i> 更多
+                </button>
+                
+                <!-- 更多操作子弹框 -->
+                <div class="xc_bullet-dialog" id="moreDialog">
+                    <div class="xc_bullet-dialog-content">
+                        <button class="xc_bullet-dialog-btn" onclick="f_openHandleAllStreamProxy('add'); toggleMoreDialog()">
+                            <i class="fa fa-play"></i> 全部开启转发
+                        </button>
+                        <button class="xc_bullet-dialog-btn" onclick="f_openHandleAllStreamProxy('del'); toggleMoreDialog()">
+                            <i class="fa fa-pause"></i> 全部停止转发
+                        </button>
+                        <button class="xc_bullet-dialog-btn xc_bullet-dialog-btn-danger" onclick="f_delAll(); toggleMoreDialog()">
+                            <i class="fa fa-trash"></i> 全部删除
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div>
+
+                <span id="top_loading" style="display: none; margin-left: 10px;">
+                    <span class="xc_loading-spinner"></span>
+                    <span class="xc_loading-text">加载中...</span>
+                </span>
+                <span id="top_msg">{{top_msg}}</span>
+
+            </div>
+
+
+        </div>
+
+        <div class="xc_camera_groups"  id="data">
+            <!-- item start -->
+            <!-- item end -->
+        </div>
+    </div>
+   <!-- xc page end -->
+              </div>
+        </div>
+      </div>
+
+    <div class="row">
+        <div class="xc_pagination" id="pageData">
+        </div>
+    </div>
+
+    <!--批量导入弹窗start -->
+    <div id="ImportFileDialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" >批量导入摄像头</h4>
+          </div>
+          <div class="modal-body">
+            <div style="padding: 5px 20px;">
+              <form class="form-horizontal calender" role="form">
+                  <div class="form-group">
+                  <label class="col-sm-3 control-label">文件模板</label>
+                  <div class="col-sm-9">
+                      <button onclick="f_downloadStreamTemplate()" class="btn btn-default"><i class="fa fa-download"></i> 下载模板</button>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">导入文件</label>
+                  <div class="col-sm-9">
+                    <input type="file" class="form-control" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" name="file"  >
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">导入备注</label>
+                  <div class="col-sm-9">
+                    <textarea class="form-control" style="height:55px;" name="import_remark"></textarea>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" onclick="f_openImportFile()" class="btn btn-dark">提交</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--批量导入弹窗end -->
+    
+    <!-- 摄像头添加/编辑弹窗 -->
+    {% include 'app/stream/modal_form.html' %}
+
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super }}
+    <!-- jsencrypt -->
+  <script src="/static/lib/jsencrypt/3.3.1/jsencrypt.min.js"></script>
+  <script src="/static/app/stream/modal_form.js?v2"></script>
+<script>
+    let userPublicKey = '{{ userPublicKey }}';
+    let eleTopLoading = $("#top_loading");
+    let eleTopMsg= $("#top_msg");
+    let eleData = $("#data");
+    let elePageData = $("#pageData");
+    let eleSearchTextInput= $("#search_text_input");
+    let eleSearchStatusSelect = $("#search_status_select");
+    let eleFile = $("input[name='file']");
+    let eleTextareaImportRemark= $("textarea[name='import_remark']");
+    let curPage = 1;
+    let curPageSize = 10;
+
+
+    // ONVIF探测
+    function f_openCheckDevice() {
+        const ip = $('#stream_onvif_ip').val().trim();
+        const username = $('#stream_onvif_username').val().trim();
+        const password = $('#stream_onvif_password').val().trim();
+
+        if (!ip) {
+            myToast2025("ONVIF IP不能为空", "error");
+            return;
+        }
+
+        if (!/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/.test(ip)) {
+            myToast2025("ONVIF IP格式不正确", "error");
+            return;
+        }
+
+        if (!username) {
+            myToast2025("ONVIF用户名不能为空", "error");
+            return;
+        }
+
+        if (!password) {
+            myToast2025("ONVIF密码不能为空", "error");
+            return;
+        }
+
+        const encryptor = new JSEncrypt();
+        encryptor.setPublicKey(userPublicKey);
+        let username_s = encryptor.encrypt(username);
+        let password_s = encryptor.encrypt(password);
+
+        $.ajax({
+            url: "/onvif/openCheckDevice",
+            type: "post",
+            data: {
+                "ip":ip,
+                "username":username_s,
+                "password":password_s
+            },
+            dataType: "json",
+            success: (res) => {
+                if (res.code === 1000) {
+                    const info = res.info;
+                    const streamUri = info.streamUri;
+                    const deviceInfo = info.deviceInfo;
+
+                    $('#stream_pull_url').val(streamUri || '');
+                    $('#stream_pull_ip').val(ip);
+                    $('#stream_camera_name').val(deviceInfo.HardwareId || '');
+                    $('#stream_camera_manufacturer').val(deviceInfo.Manufacturer || '');
+
+                    const remark = `FirmwareVersion=${deviceInfo.FirmwareVersion || ''},Model=${deviceInfo.Model || ''},SerialNumber=${deviceInfo.SerialNumber || ''}`;
+                    $('#stream_remark').val(remark);
+
+                    myToast2025("探测成功", "success");
+                } else {
+                    myToast2025(res.msg || '探测失败', "error");
+                }
+            },
+            error: () => {
+                myToast2025("网络异常，请确定网络正常！", "error");
+            }
+        });
+    }
+
+
+    // 搜索功能
+    function doSearch() {
+        curPage = 1;
+        f_openIndex(curPage, curPageSize);
+    }
+
+
+    function toggleGroup(actionsElement) {
+        const headerElement = actionsElement.parentNode;
+        const listElement = headerElement.nextElementSibling;
+        const toggleIcon = headerElement.querySelector('.xc_group_toggle');
+
+        listElement.classList.toggle('expanded');
+        toggleIcon.classList.toggle('expanded');
+    }
+
+    // 切换更多操作子弹框显示/隐藏
+    function toggleMoreDialog() {
+        const bulletDialog = document.getElementById('moreDialog');
+        if (bulletDialog.style.display === 'block') {
+            bulletDialog.style.display = 'none';
+        } else {
+            bulletDialog.style.display = 'block';
+        }
+    }
+
+    // 点击页面其他地方关闭子弹框
+    document.addEventListener('click', function(event) {
+        const moreButton = event.target.closest('button[onclick="toggleMoreDialog()"]');
+        const bulletDialog = document.getElementById('moreDialog');
+        
+        if (!moreButton && !bulletDialog.contains(event.target)) {
+            bulletDialog.style.display = 'none';
+        }
+    });
+
+    function f_open_player(stream_app,stream_name){
+        window.open("/stream/player?app="+stream_app+"&name="+stream_name);
+    }
+    function f_downloadStreamTemplate() {
+        let url= "/static/resource/streamTemplate.xlsx";//v5.0 导入模板
+        window.open(url);
+    }
+    function f_edit(code) {
+        streamModal.openEdit(code);
+    }
+    function f_delAll(){
+        let ret = confirm("确认全部删除吗？");
+        if (ret) {
+            f_openDel("all","");
+        }
+    }
+    function f_del(code){
+        let ret = confirm("确认删除吗？");
+        if (ret) {
+            f_openDel("one",code);
+        }
+    }
+
+    function f_openDel(handle,code) {
+        eleTopLoading.show();
+        $.ajax({
+            url: '/stream/openDel',
+            type: "post",
+            async: true,
+            data: {"handle":handle,"code": code},
+            dataType: "json",
+            timeout: 0,
+            error: function () {
+                eleTopLoading.hide();
+                myToast2025("网络异常，请确定网络正常！", "error");
+            },
+            success: function (res) {
+                eleTopLoading.hide();
+                if (1000 === res.code) {
+                    curPage = 1;
+                    f_openIndex(curPage,curPageSize);
+                } else {
+                    myToast2025(res.msg, "error");
+                }
+            }
+        });
+    }
+
+    function f_openImportFile() {
+
+        if (eleFile[0].files.length > 0){
+          let file = eleFile[0].files[0];
+           let importRemark = eleTextareaImportRemark.val().trim();
+
+          let fs_name = file.name;
+          let fs_size = file.size;//文件字节大小
+          let fs_size_m = parseInt(fs_size / 1024 / 1024); //换算成M单位
+
+          if (fs_size_m <= 10){
+                let formData = new FormData();
+                formData.append('file',file)
+                formData.append('importRemark',importRemark)
+
+                $.ajax({
+                  url:'/stream/openImportFile',
+                  type:'post',
+                  async: true,
+                  contentType:false,
+                  processData:false,
+                  data:formData,
+                  dataType: "json",
+                  timeout: 0,
+                  error: function () {
+                    myToast2025("网络异常，请确定网络正常！","error");
+                  },
+                  success: function (res) {
+                    if (1000 === res.code) {
+                        myToast2025(res.msg,"success");
+                        // data-toggle="modal" data-target="#ImportFileDialog"
+                        //$("#ImportFileDialog").modal("show");
+                        $("#ImportFileDialog").modal("hide");
+
+                        curPage = 1;
+                        f_openIndex(curPage,curPageSize);
+
+                    }else{
+                        myToast2025(res.msg,"error");
+                    }
+                  }
+                });
+          }else{
+               myToast2025("上传文件大小不能超过10M！","error");
+          }
+        }else{
+            myToast2025("未选择上传文件！","error");
+        }
+        return false;
+    }
+    function f_openHandleStreamProxy(handle,code,pull_stream_type){
+
+        let url;
+        if(handle === "add"){
+            url = "/stream/openAddStreamProxy";
+        }else if(handle === "del"){
+            url = "/stream/openDelStreamProxy";
+        }else {
+            return;
+        }
+        pull_stream_type = parseInt(pull_stream_type);
+
+        eleTopLoading.show();
+        $.ajax({
+               url: url,
+               type: "post",
+               async: true,
+               data: {"code":code},
+               dataType: "json",
+               timeout: 0,
+               error: function () {
+                   eleTopLoading.hide();
+                   myToast2025("网络异常，请确定网络正常！","error");
+               },
+               success: function (res) {
+                      eleTopLoading.hide();
+                    if(1000 === res.code){
+                        if(handle === "add"){
+                            if(pull_stream_type === 21){
+                                myToast2025(res.msg,"success",1000);
+                                setTimeout(function() {
+                                    f_openIndex(curPage,curPageSize);
+                                }, 1000);
+                            }else{
+                                myToast2025(res.msg,"success",1000);
+                                setTimeout(function() {
+                                    f_openIndex(curPage,curPageSize);
+                                }, 1000);
+                            }
+
+                        }else if(handle === "del"){
+                            myToast2025(res.msg,"success",1000);
+                            setTimeout(function() {
+                                    f_openIndex(curPage,curPageSize);
+                            }, 1000);
+                        }
+                   }else{
+                        myToast2025(res.msg,"error");
+                   }
+               }
+            });
+
+    }
+    function f_openHandleAllStreamProxy(handle) {
+        //全部或关闭开启转发
+         eleTopLoading.show();
+        $.ajax({
+               url: '/stream/openHandleAllStreamProxy',
+               type: "post",
+               async: true,
+               data: {"handle":handle},
+               dataType: "json",
+               timeout: 0,
+               error: function () {
+                   eleTopLoading.hide();
+                   myToast2025("网络异常，请确定网络正常！","error");
+               },
+               success: function (res) {
+                   eleTopLoading.hide();
+                    if(1000 === res.code){
+                        myToast2025(res.msg,"success",1000);
+                        curPage = 1;
+                        setTimeout(function() {
+                            f_openIndex(curPage,curPageSize);
+                        }, 1000);
+                   }else{
+                        myToast2025(res.msg,"error");
+                   }
+               }
+            });
+
+    }
+    function f_show_pageData(pageData) {
+        let page_size = pageData["page_size"];
+        let html = "";
+        html+="<div class=\"xc_page-info\">共"+pageData["page_num"]+"页 / "+pageData["count"]+"条</div>";
+        let pageLabels = pageData["pageLabels"];
+
+        for (let i = 0; i < pageLabels.length; i++) {
+            let cur = pageLabels[i]["cur"];
+            //console.log("f_show_pageData",typeof cur,cur)
+            if(cur === 1){
+                html+="<div class=\"xc_page-btn xc_active\">"+pageLabels[i]["name"]+"</div>";
+            }else{
+                html+="<div class=\"xc_page-btn\" onclick=\"f_openIndex("+pageLabels[i]["page"]+","+page_size+")\" >"+pageLabels[i]["name"]+"</div>";
+            }
+        }
+        elePageData.html(html);
+    }
+    function f_openIndex(page,page_size) {
+        curPage = page;
+        curPageSize = page_size;
+        let search_text = eleSearchTextInput.val().trim();
+        let search_status = parseInt(eleSearchStatusSelect.val());
+
+        eleTopLoading.show();
+
+        $.ajax({
+               url: '/stream/openIndex',
+               type: "get",
+               async: true,
+               data: {"p":page,"ps":page_size,"search_text":search_text,"search_status":search_status},
+               dataType: "json",
+               timeout: 0,
+               error: function () {
+                   eleTopLoading.hide();
+                   myToast2025("网络异常，请确定网络正常！","error");
+               },
+               success: function (res) {
+                   eleTopLoading.hide();
+                   if(res.code === 1000)
+                   {
+                       let data = res.data;
+
+                       if(data.length === 0){
+                            eleData.html("<div class='xc_empty-state'><i class='fa fa-video-camera'></i><p>暂无数据</p></div>");
+                            f_show_pageData(res.pageData)
+                       }else{
+                            eleData.html("");
+                            let extra = res.extra;
+                            let pullStreamTypes = extra["pullStreamTypes"];
+                            let audioTypes = extra["audioTypes"];
+                            
+                            // 初始化弹窗（只初始化一次）
+                            if (typeof streamModal !== 'undefined' && !streamModal.initialized) {
+                                streamModal.init(pullStreamTypes, audioTypes);
+                                streamModal.initialized = true;
+                            }
+                            
+                            function get_pull_stream_type(pull_stream_type){
+                                for (let i = 0; i < pullStreamTypes.length; i++) {
+                                    if(pullStreamTypes[i]["id"] === pull_stream_type){
+                                        return pullStreamTypes[i]["name"];
+                                    }
+                                }
+                                return pull_stream_type;
+                            }
+                            function get_audio_type(audio_type){
+                                for (let i = 0; i < audioTypes.length; i++) {
+                                    if(audioTypes[i]["type"] === audio_type){
+                                        return audioTypes[i]["name"];
+                                    }
+                                }
+                                return audio_type;
+                            }
+
+                            for (let k = 0; k < data.length ; k++) {
+                                let dd = data[k];
+                                let dd_length = dd.length;
+                                let d0 = dd[0];
+                                let title = "<span class='xc_device_id'>" + d0.camera_device_id + "</span>";
+                                let item_html = "<div class=\"xc_group\">";
+                item_html+="<div class=\"xc_group_header\">";
+                    item_html+="<div class=\"xc_group_title\">"+title+"<span class=\"xc_group_count\">"+dd_length.toString()+"</span>";
+                    item_html+="</div>";
+                    item_html+="<div class=\"xc_group_actions\" onclick=\"toggleGroup(this)\">";
+                        item_html+="<div class=\"xc_group_toggle\">";
+                            item_html+="<svg class=\"xc-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">";
+                                item_html+="<polyline points=\"6 9 12 15 18 9\"/>";
+                            item_html+="</svg>";
+                        item_html+="</div>";
+                    item_html+="</div>";
+                item_html+="</div>";
+                item_html+="<div class=\"xc_camera_list expanded\">";
+                    item_html+="<table class=\"xc_camera_table\">";
+                        item_html+="<thead>";
+                            item_html+="<tr>";
+                                item_html+="<th>ID</th>";
+                                item_html+="<th>编号</th>";
+                                item_html+="<th>接入协议</th>";
+                                item_html+="<th>名称</th>";
+                                item_html+="<th>IP</th>";
+                                item_html+="<th>音频</th>";
+                                item_html+="<th>状态</th>";
+                                item_html+="<th>更新时间</th>";
+                                item_html+="<th>操作</th>";
+                            item_html+="</tr>";
+                        item_html+="</thead>";
+                        item_html+="<tbody>";
+
+                               for (let i = 0; i < dd_length; i++) {
+                                    let d = dd[i];
+                                   item_html+="<tr>";
+                                item_html+="<td>"+d["id"]+"</td>";
+                                item_html+="<td style='width:15%;'>"+d["code"]+"</td>";
+
+                                item_html+="<td style='width:8%;'>"+get_pull_stream_type(d["pull_stream_type"])+"</td>";
+
+                                item_html+="<td style='width:10%;'>"+d["nickname"]+"</td>";
+                                item_html+="<td style='width:10%;'>"+d["pull_stream_ip"]+"</td>";
+                                item_html+="<td style='width:8%;'>"+get_audio_type(d["is_audio"])+"</td>";
+                                item_html+="<td style='width:15%;'>";
+                                   if(d["forward_state"] === 1){
+                                       item_html+="<span class='xc_stream-status xc_stream-status-active'><span class='xc_stream-status-icon'></span>转发中</span><a href=\"javascript:f_open_player('"+d["app"]+"','"+d["name"]+"')\" class=\"sun-a-label\">播放</a><a href=\"javascript:f_openHandleStreamProxy('del','"+d["code"]+"','"+d["pull_stream_type"]+"')\" class=\"sun-a-label\">停止</a>";
+                                   }else{
+                                       item_html+="<span class='xc_stream-status xc_stream-status-inactive'><span class='xc_stream-status-icon'></span>未转发</span><a href=\"javascript:f_openHandleStreamProxy('add','"+d["code"]+"','"+d["pull_stream_type"]+"')\" class=\"sun-a-label\">开启</a>";
+                                   }
+                                item_html+="</td>";
+                                item_html += "<td>"+d["last_update_time"]+"</td>";
+                                item_html+="<td class=\"xc_action_buttons\">";
+
+                                    item_html+="<button class=\"xc_action_btn view\" onclick=\"f_edit('"+d["code"]+"')\" title=\"编辑\"><i class=\"fa fa-edit\"></i></button>";
+                                    item_html+="<button class=\"xc_action_btn delete\" onclick=\"f_del('"+d["code"]+"')\"  title=\"删除\">";
+                                        item_html+="<svg class=\"xc-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"> <polyline points=\"3 6 5 6 21 6\"/><path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\"/></svg>";
+                                    item_html+="</button>";
+
+                                item_html+="</td>";
+                            item_html+="</tr>";
+                               }
+                        item_html+="</tbody>";
+                    item_html+="</table>";
+                item_html+="</div>";
+            item_html+="</div>";
+
+                                eleData.append(item_html);
+                           }
+                            f_show_pageData(res.pageData)
+                       }
+
+                   }
+                   else
+                   {
+                       eleData.html("<div class='xc_empty-state'><i class='fa fa-exclamation-triangle'></i><p>"+res.msg+"</p></div>");
+                   }
+               }
+            });
+    }
+
+    // 支持回车搜索
+    eleSearchTextInput.on("keydown",function(e){
+        if (e.key === 'Enter' || e.keyCode === 13 || e.which === 13) {
+            e.preventDefault(); // 阻止默认行为，例如表单提交
+            doSearch();
+        }
+    })
+
+    // 状态筛选变化时自动搜索
+    eleSearchStatusSelect.on('change', function() {
+        doSearch();
+    });
+
+    window.onload = function (){
+        f_openIndex(curPage,curPageSize);
+        
+        // 初始化弹窗
+        if (typeof streamModal !== 'undefined') {
+            streamModal.init();
+        }
+    };
+</script>
+
+{% endblock javascripts %}

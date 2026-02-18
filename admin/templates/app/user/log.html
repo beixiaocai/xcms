@@ -1,0 +1,835 @@
+{% extends "app/base_site.html" %}
+
+{% block title %} 日志管理 {% endblock title %}
+
+{% block stylesheets %}
+  {{ block.super }}
+<style>
+    .xc_log-container {
+        /*background: #f5f7fa;*/
+    }
+    
+    .xc_modern-card {
+        background: white;
+        border-radius: 6px;
+        padding: 10px 14px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        margin-bottom: 12px;
+    }
+    
+    .xc_page-header {
+        display: flex;
+        justify-content: flex-start !important;
+        align-items: center;
+        padding: 4px 0;
+        margin-bottom: 8px;
+        min-height: 32px;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    
+    .xc_page-title {
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        font-weight: 400;
+        flex-shrink: 0;
+    }
+    
+    .xc_page-title i {
+        margin-right: 6px;
+        font-size: 16px;
+        color: #3b82f6;
+    }
+    
+    .xc_header-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .xc_header-actions {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+    }
+    
+    .xc_loading-spinner {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border: 2px solid #e5e7eb;
+        border-top: 2px solid #3b82f6;
+        border-radius: 50%;
+        animation: xc_spin 1s linear infinite;
+        margin-right: 5px;
+    }
+    
+    @keyframes xc_spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .xc_loading-text {
+        color: #6b7280;
+        font-size: 12px;
+    }
+    
+    .xc_btn-modern {
+        margin: 0 !important;
+        padding: 5px 12px !important;
+        font-size: 13px;
+        font-weight: 400;
+        border-radius: 4px;
+        border: 1px solid #d1d5db;
+        background: white;
+        color: #374151;
+        line-height: 1.5;
+        box-sizing: border-box !important;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center;
+        gap: 4px;
+        white-space: nowrap;
+        text-decoration: none;
+        vertical-align: middle !important;
+    }
+    
+    .xc_btn-modern:hover {
+        background: #f9fafb;
+        border-color: #3b82f6;
+        color: #3b82f6;
+    }
+    
+    .xc_btn-secondary {
+        background: white;
+        color: #6b7280;
+        border: 1px solid #d1d5db;
+    }
+    
+    .xc_btn-secondary:hover {
+        background: #f9fafb;
+        color: #374151;
+        border-color: #9ca3af;
+    }
+
+    
+    /* 查询条件样式 - 强制对齐 */
+    .xc_search-bar {
+        display: flex !important;
+        gap: 12px;
+        align-items: center !important;
+        flex-wrap: wrap;
+        padding: 8px 0;
+    }
+    
+    .xc_search-item {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px;
+    }
+    
+    .xc_search-label {
+        font-size: 13px;
+        color: #6b7280;
+        white-space: nowrap;
+        line-height: 1.5;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .xc_search-input {
+        margin: 0 !important;
+        padding: 5px 10px !important;
+        font-size: 13px;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        background: white;
+        color: #374151;
+        width: 150px;
+        line-height: 1.5;
+        box-sizing: border-box !important;
+        transition: all 0.2s;
+    }
+    
+    .xc_search-input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    }
+    
+    .xc_search-select {
+        margin: 0 !important;
+        padding: 5px 24px 5px 10px !important;
+        font-size: 13px;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        background: white;
+        color: #374151;
+        line-height: 1.5;
+        box-sizing: border-box !important;
+        cursor: pointer;
+        transition: all 0.2s;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 6px center;
+    }
+    
+    .xc_search-select:focus {
+        outline: none;
+        border-color: #3b82f6;
+    }
+    
+    .xc_table-container {
+        overflow-x: auto;
+        border-radius: 6px;
+        border: 1px solid #e5e7eb;
+    }
+    
+    .xc_table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+    }
+    
+    .xc_table-header {
+        background: #fafafa;
+        border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .xc_table-header th {
+        padding: 10px 12px;
+        text-align: left;
+        font-weight: 500;
+        color: #374151;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+    
+    .xc_table-body tr {
+        border-bottom: 1px solid #f3f4f6;
+        transition: background 0.2s;
+    }
+    
+    .xc_table-body tr:last-child {
+        border-bottom: none;
+    }
+    
+    .xc_table-body tr:hover {
+        background: #f9fafb;
+    }
+    
+    .xc_table-body td {
+        padding: 10px 12px;
+        color: #374151;
+        vertical-align: middle;
+    }
+    
+    .xc_log-id {
+        display: inline-block;
+        padding: 2px 6px;
+        background: #f3f4f6;
+        border: 1px solid #e5e7eb;
+        border-radius: 3px;
+        font-size: 11px;
+        color: #6b7280;
+        font-family: monospace;
+    }
+    
+    .xc_user-name {
+        font-weight: 500;
+        color: #374151;
+    }
+    
+    .xc_badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 3px;
+        font-size: 11px;
+        font-weight: 500;
+    }
+    
+    .xc_badge-success {
+        background: #dcfce7;
+        color: #15803d;
+    }
+    
+    .xc_badge-danger {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+    
+    .xc_badge-info {
+        background: #e0f2fe;
+        color: #0369a1;
+    }
+    
+    .xc_badge-warning {
+        background: #fef3c7;
+        color: #b45309;
+    }
+    
+    .xc_log-content {
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    .xc_actions {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+    
+    .xc_btn-icon {
+        padding: 4px 8px;
+        font-size: 11px;
+        border-radius: 3px;
+        border: 1px solid #d1d5db;
+        background: white;
+        color: #374151;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        text-decoration: none;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    
+    .xc_btn-icon:hover {
+        background: #f9fafb;
+        border-color: #3b82f6;
+        color: #3b82f6;
+    }
+    
+    .xc_btn-icon.delete:hover {
+        border-color: #ef4444;
+        color: #ef4444;
+    }
+    
+    .xc_pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        padding: 16px 0;
+        background: white;
+        border-radius: 6px;
+    }
+    
+    .xc_page-btn {
+        min-width: 36px;
+        height: 36px;
+        padding: 0 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #d1d5db;
+        background: white;
+        color: #6b7280;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 13px;
+        transition: all 0.2s;
+        text-decoration: none;
+    }
+    
+    .xc_page-btn:hover:not(.active) {
+        border-color: #3b82f6;
+        color: #3b82f6;
+    }
+    
+    .xc_page-btn.active {
+        background: #3b82f6;
+        color: white;
+        border-color: #3b82f6;
+    }
+    
+    .xc_page-info {
+        font-size: 13px;
+        color: #9ca3af;
+        margin: 0 8px;
+    }
+    
+    .xc_empty-state {
+        text-align: center;
+        padding: 80px 20px;
+        color: #9ca3af;
+    }
+    
+    .xc_empty-state i {
+        font-size: 64px;
+        color: #d1d5db;
+        margin-bottom: 16px;
+    }
+    
+    .xc_empty-state p {
+        font-size: 14px;
+        margin: 0;
+    }
+    
+    /* 弹窗样式 */
+    .xc_modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+    
+    .xc_modal-overlay.active {
+        display: block;
+        animation: xc_fadeIn 0.2s ease;
+    }
+    
+    @keyframes xc_fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    .xc_modal-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 650px;
+        max-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        animation: xc_slideIn 0.3s ease;
+    }
+    
+    @keyframes xc_slideIn {
+        from {
+            transform: translate(-50%, -48%);
+            opacity: 0;
+        }
+        to {
+            transform: translate(-50%, -50%);
+            opacity: 1;
+        }
+    }
+    
+    .xc_modal-header {
+        position: relative;
+        padding: 14px 18px;
+        border-bottom: 1px solid #e5e7eb;
+        background: #fafafa;
+        border-radius: 8px 8px 0 0;
+    }
+    
+    .xc_modal-title {
+        font-size: 16px;
+        font-weight: 500;
+        color: #374151;
+    }
+    
+    .xc_modal-close {
+        position: absolute;
+        top: 12px;
+        right: 16px;
+        width: 30px;
+        height: 30px;
+        border: none;
+        background: white;
+        color: #6b7280;
+        font-size: 20px;
+        line-height: 1;
+        cursor: pointer;
+        padding: 0;
+        border-radius: 4px;
+        border: 1px solid #d1d5db;
+        transition: all 0.2s;
+    }
+    
+    .xc_modal-close:hover {
+        background: #f3f4f6;
+        color: #374151;
+        border-color: #9ca3af;
+    }
+    
+    .xc_modal-body {
+        flex: 1;
+        padding: 18px 20px;
+        overflow-y: auto;
+    }
+    
+    .xc_detail-group {
+        margin-bottom: 14px;
+    }
+    
+    .xc_detail-label {
+        display: block;
+        font-size: 13px;
+        color: #6b7280;
+        margin-bottom: 6px;
+        font-weight: 500;
+    }
+    
+    .xc_detail-value {
+        display: block;
+        font-size: 13px;
+        color: #374151;
+        padding: 8px 12px;
+        background: #f9fafb;
+        border-radius: 4px;
+        border: 1px solid #e5e7eb;
+        word-wrap: break-word;
+    }
+    
+    .xc_modal-footer {
+        padding: 14px 18px;
+        border-top: 1px solid #e5e7eb;
+        text-align: right;
+        background: #fafafa;
+        border-radius: 0 0 8px 8px;
+    }
+    
+    .xc_modal-btn {
+        padding: 7px 18px;
+        font-size: 13px;
+        border-radius: 4px;
+        border: 1px solid #d1d5db;
+        cursor: pointer;
+        margin-left: 10px;
+        transition: all 0.2s;
+        font-weight: 400;
+        background: white;
+        color: #374151;
+    }
+    
+    .xc_modal-btn:hover {
+        background: #f9fafb;
+        border-color: #9ca3af;
+    }
+    
+    .right_col {
+        background: #f5f7fa !important;
+    }
+    
+    @media (max-width: 768px) {
+        .xc_search-bar {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .xc_search-item {
+            width: 100%;
+        }
+        
+        .xc_search-input {
+            flex: 1;
+            width: auto;
+        }
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel">
+                <!-- xc page start -->
+                <div class="xc_log-container">
+                    <div class="xc_modern-card">
+                        <div class="xc_page-header">
+                            <div class="xc_page-title">
+                                <i class="fa fa-file-text-o"></i>
+                                日志管理
+                            </div>
+                            <div class="xc_search-item" style="margin: 0;">
+                                <span class="xc_search-label">用户:</span>
+                                <select id="search_user_id" class="xc_search-select" style="width: 150px;">
+                                    <option value="">全部用户</option>
+                                    {% for user in user_list %}
+                                    <option value="{{ user.id }}" {% if search_user_id == user.id|stringformat:"s" %}selected{% endif %}>{{ user.username }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="xc_search-item" style="margin: 0;">
+                                <span class="xc_search-label">日志类型:</span>
+                                <select id="search_log_type" class="xc_search-select">
+                                    <option value="">全部</option>
+                                    {% for log_type in log_types %}
+                                    <option value="{{ log_type.value }}" {% if search_log_type == log_type.value|stringformat:"s" %}selected{% endif %}>{{ log_type.text }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="xc_search-item" style="margin: 0;">
+                                <span class="xc_search-label">状态:</span>
+                                <select id="search_state" class="xc_search-select">
+                                    <option value="">全部</option>
+                                    <option value="1" {% if search_state == '1' %}selected{% endif %}>成功</option>
+                                    <option value="0" {% if search_state == '0' %}selected{% endif %}>失败</option>
+                                </select>
+                            </div>
+                            <button class="xc_btn-modern xc_btn-secondary" onclick="f_search()">
+                                <i class="fa fa-search"></i> 查询
+                            </button>
+                            <button class="xc_btn-modern xc_btn-secondary" onclick="f_reset()">
+                                <i class="fa fa-undo"></i> 重置
+                            </button>
+                            <div class="xc_header-actions">
+                                <button class="xc_btn-modern xc_btn-secondary" onclick="f_reload()">
+                                    <i class="fa fa-refresh"></i> 刷新
+                                </button>
+                            </div>
+                            <div>
+                                <span id="top_loading" style="display: none;">
+                                    <span class="xc_loading-spinner"></span>
+                                    <span class="xc_loading-text">加载中...</span>
+                                </span>
+                                <span id="top_msg"></span>
+                            </div>
+                        </div>
+
+                        <div class="xc_table-container">
+                            <table class="xc_table">
+                                <thead class="xc_table-header">
+                                    <tr>
+                                        <th style="width: 80px;">ID</th>
+                                        <th style="width: 120px;">用户</th>
+                                        <th style="width: 100px;">日志类型</th>
+                                        <th>日志内容</th>
+                                        <th style="width: 100px;">状态</th>
+                                        <th style="width: 160px;">创建时间</th>
+                                        <th style="text-align: center; width: 140px;">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="xc_table-body">
+                                    {% for d in data %}
+                                    <tr>
+                                        <td><span class="xc_log-id">{{ d.id }}</span></td>
+                                        <td><span class="xc_user-name">{{ d.username }}</span></td>
+                                        <td>
+                                            <span class="xc_badge xc_badge-{{ d.log_type_style }}">{{ d.log_type_text|default:"未知" }}</span>
+                                        </td>
+                                        <td>
+                                            <div class="xc_log-content" title="{{ d.content }}">{{ d.content }}</div>
+                                        </td>
+                                        <td>
+                                            {% if d.state == 1 %}
+                                            <span class="xc_badge xc_badge-success">成功</span>
+                                            {% else %}
+                                            <span class="xc_badge xc_badge-danger">失败</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ d.create_time|date:"Y-m-d H:i:s" }}</td>
+                                        <td>
+                                            <div class="xc_actions">
+                                                <button onclick="openDetailModal('{{ d.id }}')" class="xc_btn-icon">
+                                                    <i class="fa fa-eye"></i> 详情
+                                                </button>
+                                                <button onclick="f_del('{{ d.id }}')" class="xc_btn-icon delete">
+                                                    <i class="fa fa-trash"></i> 删除
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            
+                            {% if data|length == 0 %}
+                            <div class="xc_empty-state">
+                                <i class="fa fa-file-text-o"></i>
+                                <p>暂无日志数据</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if pageData.count > 0 %}
+                    <div class="xc_pagination">
+                        <span class="xc_page-info">共 {{ pageData.page_num }} 页 / {{ pageData.count }} 条</span>
+                        {% for d in pageData.pageLabels %}
+                          {% if d.cur == 1 %}
+                            <div class="xc_page-btn active">{{ d.name }}</div>
+                          {% else %}
+                            <a href="/user/log?p={{d.page}}&ps={{pageData.page_size}}&user_id={{search_user_id}}&log_type={{search_log_type}}&state={{search_state}}" class="xc_page-btn">{{ d.name }}</a>
+                          {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                <!-- xc page end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 日志详情弹窗 -->
+<div class="xc_modal-overlay" id="detailModal">
+    <div class="xc_modal-container">
+        <div class="xc_modal-header">
+            <div class="xc_modal-title">日志详情</div>
+            <button class="xc_modal-close" onclick="closeDetailModal()">×</button>
+        </div>
+        <div class="xc_modal-body">
+            <div class="xc_detail-group">
+                <span class="xc_detail-label">日志ID</span>
+                <span class="xc_detail-value" id="detail_id">-</span>
+            </div>
+            <div class="xc_detail-group">
+                <span class="xc_detail-label">用户</span>
+                <span class="xc_detail-value" id="detail_username">-</span>
+            </div>
+            <div class="xc_detail-group">
+                <span class="xc_detail-label">日志类型</span>
+                <span class="xc_detail-value" id="detail_log_type">-</span>
+            </div>
+            <div class="xc_detail-group">
+                <span class="xc_detail-label">日志内容</span>
+                <span class="xc_detail-value" id="detail_content" style="white-space: pre-wrap;">-</span>
+            </div>
+            <div class="xc_detail-group">
+                <span class="xc_detail-label">状态</span>
+                <span class="xc_detail-value" id="detail_state">-</span>
+            </div>
+            <div class="xc_detail-group">
+                <span class="xc_detail-label">创建时间</span>
+                <span class="xc_detail-value" id="detail_create_time">-</span>
+            </div>
+        </div>
+        <div class="xc_modal-footer">
+            <button class="xc_modal-btn" onclick="closeDetailModal()">关闭</button>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super }}
+
+<script>
+    let ele_top_loading = $("#top_loading");
+    let ele_top_msg = $("#top_msg");
+
+    // 刷新页面
+    function f_reload() {
+        window.location.reload();
+    }
+
+    // 查询
+    function f_search() {
+        let user_id = $('#search_user_id').val();
+        let log_type = $('#search_log_type').val();
+        let state = $('#search_state').val();
+        
+        let url = '/user/log?p=1&ps={{ pageData.page_size }}';
+        if (user_id) url += '&user_id=' + user_id;
+        if (log_type) url += '&log_type=' + log_type;
+        if (state) url += '&state=' + state;
+        
+        window.location.href = url;
+    }
+
+    // 重置
+    function f_reset() {
+        window.location.href = '/user/log';
+    }
+
+    // 打开详情弹窗
+    function openDetailModal(id) {
+        ele_top_loading.show();
+        $.ajax({
+            url: '/user/openLogInfo',
+            type: 'get',
+            data: {id: id},
+            dataType: 'json',
+            success: function(res) {
+                ele_top_loading.hide();
+                
+                if(res.code === 1000 && res.data) {
+                    let log = res.data;
+                    
+                    $('#detail_id').text(log.id);
+                    $('#detail_username').text(log.username || '未知用户');
+                    $('#detail_log_type').text(log.log_type_text || '未知类型');
+                    $('#detail_content').text(log.content);
+                    $('#detail_state').text(log.state == 1 ? '成功' : '失败');
+                    $('#detail_create_time').text(log.create_time);
+                    
+                    $('#detailModal').addClass('active');
+                } else {
+                    myToast2025(res.msg || '加载失败', 'error');
+                }
+            },
+            error: function() {
+                ele_top_loading.hide();
+                myToast2025('加载失败，请稍后重试', 'error');
+            }
+        });
+    }
+
+    // 关闭详情弹窗
+    function closeDetailModal() {
+        $('#detailModal').removeClass('active');
+    }
+
+    // 删除日志
+    function f_del(id) {
+        if (!confirm('确认删除该日志吗？')) {
+            return;
+        }
+        
+        ele_top_loading.show();
+        $.ajax({
+            url: '/user/openLogDel',
+            type: 'post',
+            data: {id: id},
+            dataType: 'json',
+            success: function(res) {
+                ele_top_loading.hide();
+                
+                if (res.code === 1000) {
+                    myToast2025('删除成功', 'success', 1000);
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    myToast2025(res.msg, 'error');
+                }
+            },
+            error: function() {
+                ele_top_loading.hide();
+                myToast2025('网络异常，请确定网络正常！', 'error');
+            }
+        });
+    }
+
+    // 点击遮罩层关闭弹窗
+    $('#detailModal').click(function(e) {
+        if (e.target === this) {
+            closeDetailModal();
+        }
+    });
+
+    // ESC键关闭弹窗
+    $(document).keydown(function(e) {
+        if (e.keyCode === 27) {
+            if ($('#detailModal').hasClass('active')) {
+                closeDetailModal();
+            }
+        }
+    });
+</script>
+{% endblock javascripts %}

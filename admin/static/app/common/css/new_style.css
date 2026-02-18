@@ -1,0 +1,509 @@
+/**
+ * 统一管理后台样式规范
+ * 适用于所有管理页面：接口、算法、录像、音频、用户、权限、日志、计划任务等
+ */
+
+/* ==================== 容器样式 ==================== */
+.xc_modern-card {
+    background: white;
+    border-radius: 8px;
+    padding: 16px 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    margin-bottom: 16px;
+}
+
+/* ==================== 页面头部 ==================== */
+.xc_page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    margin-bottom: 16px;
+    min-height: 36px;
+}
+
+.xc_page-title {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 500;
+    color: #1f2937;
+}
+
+.xc_page-title i {
+    margin-right: 8px;
+    font-size: 18px;
+    color: #3b82f6;
+}
+
+/* ==================== 右侧操作区域 ==================== */
+.xc_header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: nowrap;
+}
+
+.xc_header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+}
+
+/* ==================== 搜索框样式 ==================== */
+.xc_search-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.xc_search-input {
+    width: 200px;
+    height: 34px;
+    padding: 0 12px;
+    font-size: 13px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    transition: border-color 0.2s;
+    line-height: 1;
+}
+
+.xc_search-input:focus {
+    border-color: #3b82f6;
+    outline: none;
+}
+
+.xc_search-input::placeholder {
+    color: #9ca3af;
+}
+
+.xc_btn-search {
+    padding: 6px 16px;
+    height: 34px;
+    background: linear-gradient(135deg, #169F85 0%, #14b89a 100%);
+    border: 1px solid #169F85;
+    color: white;
+    font-weight: 500;
+    font-size: 13px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 4px rgba(22, 159, 133, 0.3);
+}
+
+.xc_btn-search:hover {
+    background: linear-gradient(135deg, #14b89a 0%, #129684 100%);
+    border-color: #14b89a;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(22, 159, 133, 0.4);
+}
+
+.xc_btn-reset {
+    padding: 6px 16px;
+    height: 34px;
+    font-size: 13px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    background: white;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.xc_btn-reset:hover {
+    background: #f9fafb;
+    color: #374151;
+    border-color: #9ca3af;
+}
+
+/* ==================== 按钮样式 ==================== */
+.xc_btn-modern {
+    padding: 6px 14px;
+    height: 34px;
+    font-size: 13px;
+    font-weight: 400;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    background: white;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    text-decoration: none;
+    line-height: 1;
+}
+
+.xc_btn-modern:hover {
+    background: #f9fafb;
+    border-color: #3b82f6;
+    color: #3b82f6;
+    transform: translateY(-1px);
+}
+
+.xc_btn-modern i {
+    font-size: 13px;
+}
+
+.xc_btn-primary {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
+}
+
+.xc_btn-primary:hover {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: white;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.xc_btn-secondary {
+    background: white;
+    color: #6b7280;
+    border: 1px solid #d1d5db;
+}
+
+.xc_btn-secondary:hover {
+    background: #f9fafb;
+    color: #374151;
+    border-color: #9ca3af;
+}
+
+/* ==================== 统计徽章 ==================== */
+.xc_stats-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 12px;
+    height: 34px;
+    background: #f9fafb;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #6b7280;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+.xc_stats-badge span {
+    color: #374151;
+    font-weight: 500;
+}
+
+/* ==================== 加载动画 ==================== */
+.xc_loading-spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid #e5e7eb;
+    border-top: 2px solid #3b82f6;
+    border-radius: 50%;
+    animation: xc_spin 1s linear infinite;
+    margin-right: 6px;
+}
+
+@keyframes xc_spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.xc_loading-text {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+/* ==================== 表格样式 ==================== */
+.xc_table-container {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.xc_table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: white;
+}
+
+.xc_table-header {
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.xc_table-header th {
+    padding: 14px 16px;
+    text-align: left;
+    font-weight: 500;
+    color: #374151;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.xc_table-body tr {
+    border-bottom: 1px solid #f3f4f6;
+    transition: background 0.2s;
+}
+
+.xc_table-body tr:last-child {
+    border-bottom: none;
+}
+
+.xc_table-body tr:hover {
+    background: #f9fafb;
+}
+
+.xc_table-body td {
+    padding: 14px 16px;
+    color: #374151;
+    vertical-align: middle;
+    font-size: 13px;
+}
+
+/* ==================== ID/编码标签 ==================== */
+.xc_id-badge,
+.xc_code-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #6b7280;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-weight: 500;
+}
+
+/* 通用ID样式类 */
+.xc_interface-id,
+.xc_audio-id,
+.xc_user-id,
+.xc_flow-id,
+.xc_algo-id,
+.xc_behaviour-id {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #6b7280;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-weight: 500;
+}
+
+/* 通用编码样式类 */
+.xc_interface-code,
+.xc_audio-code,
+.xc_flow-code,
+.xc_algo-code,
+.xc_behaviour-code {
+    font-weight: 500;
+    color: #374151;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 13px;
+}
+
+/* 通用名称样式类 */
+.xc_interface-name,
+.xc_audio-name,
+.xc_user-name,
+.xc_flow-name,
+.xc_algo-name,
+.xc_behaviour-name {
+    font-weight: 500;
+    color: #374151;
+    font-size: 13px;
+}
+
+/* ==================== 徽章样式 ==================== */
+.xc_badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.xc_badge-primary {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.xc_badge-success {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.xc_badge-warning {
+    background: #fed7aa;
+    color: #92400e;
+}
+
+.xc_badge-danger {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.xc_badge-info {
+    background: #e0e7ff;
+    color: #3730a3;
+}
+
+.xc_badge-purple {
+    background: #e9d5ff;
+    color: #6b21a8;
+}
+
+.xc_badge-orange {
+    background: #fed7aa;
+    color: #9a3412;
+}
+
+.xc_badge-pink {
+    background: #fce7f3;
+    color: #9f1239;
+}
+
+.xc_badge-indigo {
+    background: #e0e7ff;
+    color: #4338ca;
+}
+
+/* ==================== 操作按钮 ==================== */
+.xc_actions {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    flex-wrap: nowrap;
+}
+
+.xc_btn-icon {
+    padding: 3px 6px;
+    font-size: 11px;
+    border-radius: 3px;
+    border: 1px solid #d1d5db;
+    background: white;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    white-space: nowrap;
+}
+
+.xc_btn-icon:hover {
+    background: #f9fafb;
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+.xc_btn-icon.delete:hover {
+    background: #fef2f2;
+    border-color: #ef4444;
+    color: #ef4444;
+}
+
+.xc_btn-icon i {
+    font-size: 10px;
+}
+
+/* ==================== 空状态 ==================== */
+.xc_empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #9ca3af;
+}
+
+.xc_empty-state i {
+    font-size: 48px;
+    color: #d1d5db;
+    margin-bottom: 16px;
+}
+
+.xc_empty-state p {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* ==================== 分页样式 ==================== */
+.xc_pagination {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.xc_page-info {
+    font-size: 13px;
+    color: #6b7280;
+    margin-right: auto;
+}
+
+.xc_page-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+    border: 1px solid #d1d5db;
+    background: white;
+    color: #374151;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.xc_page-btn:hover {
+    background: #f9fafb;
+    border-color: #3b82f6;
+    color: #3b82f6;
+    text-decoration: none;
+}
+
+.xc_page-btn.active {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
+}
+
+/* ==================== 响应式调整 ==================== */
+@media (max-width: 1200px) {
+    .xc_btn-modern {
+        padding: 5px 12px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .xc_page-header {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    
+    .xc_header-right {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    .xc_table-container {
+        overflow-x: scroll;
+    }
+}
+
+/* ==================== 通用工具类 ==================== */
+.right_col {
+    background: #f5f7fa !important;
+}

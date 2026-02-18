@@ -1,0 +1,584 @@
+{% extends "app/base_site.html" %}
+
+{% block title %} 基础算法管理 {% endblock title %}
+
+{% block stylesheets %}
+  {{ block.super }}
+<style>
+    .xc_algorithm-container {
+        /*background: #f5f7fa;*/
+    }
+    
+    .xc_modern-card {
+        background: white;
+        border-radius: 6px;
+        padding: 10px 14px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        margin-bottom: 12px;
+    }
+    
+    .xc_page-header {
+        display: flex;
+        justify-content: flex-start !important;
+        align-items: center;
+        padding: 4px 0;
+        margin-bottom: 8px;
+        min-height: 32px;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    
+    .xc_page-title {
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        font-weight: 400;
+        flex-shrink: 0;
+    }
+    
+    .xc_page-title i {
+        margin-right: 6px;
+        font-size: 16px;
+        color: #3b82f6;
+    }
+    
+    .xc_header-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .xc_header-actions {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+    }
+    
+    .xc_loading-spinner {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border: 2px solid #e5e7eb;
+        border-top: 2px solid #3b82f6;
+        border-radius: 50%;
+        animation: xc_spin 1s linear infinite;
+        margin-right: 5px;
+    }
+    
+    @keyframes xc_spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .xc_loading-text {
+        color: #6b7280;
+        font-size: 12px;
+    }
+    
+    .xc_btn-modern {
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: 400;
+        border-radius: 3px;
+        border: 1px solid #d1d5db;
+        background: white;
+        color: #374151;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+        text-decoration: none;
+    }
+    
+    .xc_btn-modern:hover {
+        background: #f9fafb;
+        border-color: #3b82f6;
+        color: #3b82f6;
+    }
+    
+    .xc_btn-secondary {
+        background: white;
+        color: #6b7280;
+        border: 1px solid #d1d5db;
+    }
+    
+    .xc_btn-secondary:hover {
+        background: #f9fafb;
+        color: #374151;
+        border-color: #9ca3af;
+    }
+
+    
+    .xc_table-container {
+        overflow-x: auto;
+        border-radius: 6px;
+        border: 1px solid #e5e7eb;
+    }
+    
+    .xc_table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+    }
+    
+    .xc_table-header {
+        background: #fafafa;
+        border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .xc_table-header th {
+        padding: 10px 12px;
+        text-align: left;
+        font-weight: 500;
+        color: #374151;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+    
+    .xc_table-body tr {
+        border-bottom: 1px solid #e5e7eb;
+        transition: background 0.15s;
+    }
+    
+    .xc_table-body tr:nth-child(even) {
+        background: #fafbfc;
+    }
+    
+    .xc_table-body tr:last-child {
+        border-bottom: none;
+    }
+    
+    .xc_table-body tr:hover {
+        background: #f3f4f6 !important;
+    }
+    
+    .xc_table-body td {
+        padding: 10px 12px;
+        color: #374151;
+        vertical-align: middle;
+        line-height: 1.5;
+    }
+
+    .xc_algo-param {
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 12px;
+        color: #6b7280;
+    }
+    
+    .xc_actions {
+        display: flex;
+        gap: 4px;
+    }
+    
+    .xc_btn-icon {
+        padding: 3px 8px;
+        font-size: 11px;
+        border-radius: 3px;
+        border: 1px solid #d1d5db;
+        background: white;
+        color: #6b7280;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        text-decoration: none;
+    }
+    
+    .xc_btn-icon:hover {
+        background: #f9fafb;
+        border-color: #3b82f6;
+        color: #3b82f6;
+    }
+    
+    .xc_btn-icon.delete:hover {
+        background: #fef2f2;
+        border-color: #ef4444;
+        color: #ef4444;
+    }
+    
+    .xc_pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        padding: 16px 0;
+        background: white;
+        border-radius: 6px;
+    }
+    
+    .xc_page-btn {
+        min-width: 36px;
+        height: 36px;
+        padding: 0 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #d1d5db;
+        background: white;
+        color: #6b7280;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 13px;
+        transition: all 0.2s;
+        text-decoration: none;
+    }
+    
+    .xc_page-btn:hover:not(.active) {
+        border-color: #3b82f6;
+        color: #3b82f6;
+    }
+    
+    .xc_page-btn.active {
+        background: #3b82f6;
+        color: white;
+        border-color: #3b82f6;
+    }
+    
+    .xc_page-info {
+        font-size: 13px;
+        color: #9ca3af;
+        margin: 0 8px;
+    }
+    
+    .xc_empty-state {
+        text-align: center;
+        padding: 80px 20px;
+        color: #9ca3af;
+    }
+    
+    .xc_empty-state i {
+        font-size: 64px;
+        color: #d1d5db;
+        margin-bottom: 16px;
+    }
+    
+    .xc_empty-state p {
+        font-size: 14px;
+        margin: 0;
+    }
+    
+    /* 算法名称高亮样式 */
+    .xc_algorithm-name {
+        font-size: 14px;
+        font-weight: 400;
+        color: #1f2937;
+    }
+    
+    .xc_algorithm-code {
+        font-size: 11px;
+        color: #6b7280;
+        font-family: 'Courier New', monospace;
+        background: #f3f4f6;
+        padding: 2px 6px;
+        border-radius: 3px;
+        display: inline-block;
+    }
+    
+    .xc_type-badge {
+        display: inline-block;
+        padding: 3px 8px;
+        font-size: 11px;
+        border-radius: 12px;
+        font-weight: 500;
+    }
+    
+    .xc_type-detect {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+    
+    .xc_type-classify {
+        background: #fef3c7;
+        color: #92400e;
+    }
+    
+    .xc_type-track {
+        background: #d1fae5;
+        color: #065f46;
+    }
+    
+    .xc_id-badge {
+        display: inline-block;
+        min-width: 32px;
+        text-align: center;
+        padding: 2px 8px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #6b7280;
+        background: #f9fafb;
+        border-radius: 4px;
+    }
+    
+    .right_col {
+        background: #f5f7fa !important;
+    }
+    
+    @media (max-width: 1200px) {
+        .xc_btn-modern {
+            padding: 3px 8px;
+            font-size: 11px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .xc_page-header {
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .xc_header-right {
+            width: 100%;
+            justify-content: flex-start;
+        }
+        
+        .xc_table-container {
+            overflow-x: scroll;
+        }
+    }
+    
+    /* 搜索框样式 */
+    .xc_search-box {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+    }
+    
+    .xc_search-input {
+        width: 200px;
+        height: 30px;
+        padding: 0 10px;
+         margin-bottom: 5px;
+        font-size: 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 3px;
+        transition: border-color 0.2s;
+        line-height: 1;
+        box-sizing: border-box;
+    }
+    
+    .xc_search-input:focus {
+        border-color: #3b82f6;
+        outline: none;
+    }
+    
+    .xc_search-input::placeholder {
+        color: #9ca3af;
+    }
+
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel">
+                <!-- xc page start -->
+                <div class="xc_algorithm-container">
+                    <div class="xc_modern-card">
+                        <div class="xc_page-header">
+                            <div class="xc_page-title">
+                                <i class="fa fa-cubes"></i>
+                                基础算法管理
+                            </div>
+                            <div class="xc_search-box">
+                                <input type="text" id="searchInput" class="xc_search-input" placeholder="输入算法名称或编号" value="{{ search_key }}">
+                                <button class="xc_btn-modern xc_btn-secondary" onclick="doSearch()">
+                                    <i class="fa fa-search"></i> 搜索
+                                </button>
+                                <button class="xc_btn-modern xc_btn-secondary" onclick="resetSearch()" {% if not search_key %}style="display:none;"{% endif %} id="resetBtn">
+                                    <i class="fa fa-times"></i> 重置
+                                </button>
+                            </div>
+                            <div class="xc_header-actions">
+                                <button class="xc_btn-modern xc_btn-secondary" onclick="openAddModal()">
+                                    <i class="fa fa-plus"></i> 添加
+                                </button>
+                                <button class="xc_btn-modern xc_btn-secondary" onclick="f_reload()">
+                                    <i class="fa fa-refresh"></i> 刷新
+                                </button>
+                            </div>
+                            <div>
+                                <span id="top_loading" style="display: none;">
+                                    <span class="xc_loading-spinner"></span>
+                                    <span class="xc_loading-text">加载中...</span>
+                                </span>
+                                <span id="top_msg">{{top_msg}}</span>
+                            </div>
+                        </div>
+
+                        <div class="xc_table-container">
+                            <table class="xc_table">
+                                <thead class="xc_table-header">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>算法编号</th>
+                                        <th>算法名称</th>
+                                        <th>算法类型</th>
+                                        <th>算法参数</th>
+                                        <th>更新时间</th>
+                                        <th style="text-align: center;">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="xc_table-body">
+                                    {%  for d  in data %}
+                                    <tr>
+                                        <td><span class="xc_id-badge">{{ d.id }}</span></td>
+                                        <td><span class="xc_algorithm-code">{{ d.code }}</span></td>
+                                        <td><span class="xc_algorithm-name">{{ d.name }}</span></td>
+                                        <td>
+                                            {% if d.algorithm_type == "Detect" %}
+                                            <span class="xc_type-badge xc_type-detect">检测算法</span>
+                                            {% elif d.algorithm_type == "Classify" %}
+                                            <span class="xc_type-badge xc_type-classify">分类算法</span>
+                                            {% elif d.algorithm_type == "Track" %}
+                                            <span class="xc_type-badge xc_type-track">特征算法</span>
+                                            {% else %}
+                                            <span class="xc_type-badge">{{ d.algorithm_type_name }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <div class="xc_algo-param" title="{{ d.algorithm_nickname }}">{{ d.algorithm_nickname }}</div>
+                                        </td>
+                                        <td>{{ d.last_update_time }}</td>
+                                        <td>
+                                            <div class="xc_actions">
+                                                <button onclick="f_edit('{{ d.code }}')" class="xc_btn-icon">
+                                                    <i class="fa fa-edit"></i> 编辑
+                                                </button>
+                                                <button onclick="f_del('{{ d.code }}')" class="xc_btn-icon delete">
+                                                    <i class="fa fa-trash"></i> 删除
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            
+                            {% if data|length == 0 %}
+                            <div class="xc_empty-state">
+                                <i class="fa fa-cubes"></i>
+                                <p>暂无基础算法数据</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="xc_pagination">
+                        <span class="xc_page-info">共 {{ pageData.page_num }} 页 / {{ pageData.count }} 条</span>
+                        {%  for d  in pageData.pageLabels%}
+                          {% if d.cur == 1 %}
+                            <div class="xc_page-btn active">{{ d.name }}</div>
+                          {% else %}
+                            <a href="/algorithm/index?p={{d.page}}&ps={{pageData.page_size}}{% if search_key %}&search={{search_key}}{% endif %}" class="xc_page-btn">{{ d.name }}</a>
+                          {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- xc page end -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入弹窗模板 -->
+    {% include 'app/algorithm/modal_form.html' %}
+
+</div>
+
+
+
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super }}
+
+<!-- 引入弹窗管理JS -->
+<script src="/static/app/algorithm/modal_form.js"></script>
+
+<script>
+    let ele_top_loading = $("#top_loading");
+    let ele_top_msg = $("#top_msg");
+    let eleSearchInput = $("#searchInput");
+    let eleResetBtn = $("#resetBtn");
+    
+    // 搜索功能
+    function doSearch() {
+        const searchKey = eleSearchInput.val().trim();
+        window.location.href = '/algorithm/index?search=' + encodeURIComponent(searchKey);
+    }
+    
+    // 重置搜索
+    function resetSearch() {
+        window.location.href = '/algorithm/index';
+    }
+    
+    // 支持回车搜索
+    eleSearchInput.on('keypress', function(e) {
+        if (e.which === 13) {
+            doSearch();
+        }
+    });
+    
+    // 搜索框变化时显示/隐藏重置按钮
+    eleSearchInput.on('input', function() {
+        if ($(this).val().trim()) {
+            eleResetBtn.show();
+        } else {
+            eleResetBtn.hide();
+        }
+    });
+    
+    // 刷新页面
+    function f_reload() {
+        window.location.reload();
+    }
+    
+    // 删除算法
+    function f_del(code) {
+        if(!confirm('确认删除该基础算法吗？')) {
+            return;
+        }
+        
+        ele_top_loading.show();
+        $.ajax({
+            url: '/algorithm/openDel',
+            type: "post",
+            async: true,
+            data: {"code": code},
+            dataType: "json",
+            timeout: 0,
+            error: function () {
+                ele_top_loading.hide();
+                myToast2025("网络异常，请确定网络正常！", "error");
+            },
+            success: function (res) {
+                ele_top_loading.hide();
+                if(1000 === res.code) {
+                    myToast2025("删除成功", "success");
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 800);
+                } else {
+                    myToast2025(res.msg, "error");
+                }
+            }
+        });
+    }
+    
+    // 编辑算法
+    function f_edit(code) {
+        openEditModal(code);
+    }
+</script>
+
+{% endblock javascripts %}
+
