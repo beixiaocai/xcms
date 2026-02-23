@@ -1,0 +1,820 @@
+{% extends "app/base_site.html" %}
+
+{% block title %} 单屏播放器 {% endblock title %}
+
+{% block stylesheets %}
+{{ block.super }}
+
+{% endblock stylesheets %}
+
+{% block content %}
+<style>
+        /* 播放按钮样式 */
+        .xc_btn-play {
+            padding: 0 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 6px;
+            border: none;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+            height: 34px;
+            min-width: 70px;
+            line-height: 1;
+            box-sizing: border-box;
+            vertical-align: middle;
+        }
+        
+        .xc_btn-play:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+        
+        .xc_btn-play:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+        }
+        
+        /* 停止按钮样式 */
+        .xc_btn-stop {
+            padding: 0 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 6px;
+            border: 1px solid #dcdfe6;
+            background: white;
+            color: #606266;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            height: 34px;
+            min-width: 70px;
+            line-height: 1;
+            box-sizing: border-box;
+            vertical-align: middle;
+        }
+        
+        .xc_btn-stop:hover {
+            color: #169F85;
+            border-color: #169F85;
+            background: #f0f9f6;
+        }
+        
+        .xc_input_group {
+            padding: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .xc_input_field {
+            flex: 1;
+            padding: 8px 20px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            background-color: white;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .xc_input_field:focus {
+            outline: none;
+            border-color: #4dabf7;
+            box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.2);
+            transform: translateY(-1px);
+        }
+        .xc_video_player{
+            background-color: black;
+            min-height: 500px;
+            border-radius: 6px;
+        }
+
+        .control-panel {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 8px;
+            max-width: 140px;
+        }
+        .control-panel>button {
+            width: 100%;
+            aspect-ratio: 1;
+            min-height: 40px;
+            font-size: 18px;
+            cursor: pointer;
+            border: 1px solid #d1d5db;
+            background: white;
+            border-radius: 6px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .control-panel>button:hover:not(.ptz-button-gray) {
+            background: #f9fafb;
+            border-color: #3b82f6;
+            color: #3b82f6;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+        }
+        .control-panel>button:active:not(.ptz-button-gray) {
+            transform: translateY(0);
+            box-shadow: 0 1px 3px rgba(59, 130, 246, 0.2);
+        }
+        .zoom-control {
+            margin-top: 12px;
+            display: flex;
+            gap: 8px;
+        }
+        .zoom-control>button {
+            flex: 1;
+            max-width: 66px;
+            height: 40px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid #d1d5db;
+            background: white;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .zoom-control>button:hover:not(.ptz-button-gray) {
+            background: #f9fafb;
+            border-color: #3b82f6;
+            color: #3b82f6;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+        }
+        .zoom-control>button:active:not(.ptz-button-gray) {
+            transform: translateY(0);
+            box-shadow: 0 1px 3px rgba(59, 130, 246, 0.2);
+        }
+        .snap-control {
+            margin-top: 12px;
+            display: flex;
+            gap: 8px;
+        }
+        .snap-control > .video_is_recording{
+            background: #f10505;
+            color: white;
+            border-color: #f10505;
+        }
+        .snap-control>button {
+            flex: 1;
+            max-width: 66px;
+            height: 40px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 1px solid #d1d5db;
+            background: white;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .snap-control>button:hover {
+            background: #f9fafb;
+            border-color: #3b82f6;
+            color: #3b82f6;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+        }
+        .snap-control>button:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 3px rgba(59, 130, 246, 0.2);
+        }
+        .snap-control > .video_is_recording:hover {
+            background: #dc2626;
+            border-color: #dc2626;
+            color: white;
+        }
+        .ptz-button-gray{
+            color: #d1d5db;
+            cursor: not-allowed;
+        }
+        .ptz-button-gray:hover {
+            background: white !important;
+            border-color: #d1d5db !important;
+            color: #d1d5db !important;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* 控制区域容器 */
+        .control-container {
+            padding: 10px;
+        }
+
+        .xc_protocols {
+            margin-top: 10px;
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .xc_protocols:hover {
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .xc_protocols h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: black;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .xc_protocol_list {
+            list-style-type: none;
+            padding-inline-start: 0;
+        }
+
+        .xc_protocol_item {
+            padding: 10px 12px;
+            border-bottom: 1px solid #f0f4f8;
+            font-size: 14px;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background-color: #f8fafc;
+            transition: all 0.2s ease;
+        }
+
+        .xc_protocol_item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .xc_protocol_item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .xc_protocol_url {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .xc_copy_tip {
+            padding: 2px 6px;
+            background: #10b981;
+            color: white;
+            font-size: 11px;
+            border-radius: 4px;
+            margin-right: 6px;
+            display: none;
+            animation: fadeInOut 2s ease-in-out;
+            flex-shrink: 0;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateX(10px); }
+            20% { opacity: 1; transform: translateX(0); }
+            80% { opacity: 1; transform: translateX(0); }
+            100% { opacity: 0; transform: translateX(-10px); }
+        }
+
+        .xc_copy_btn {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: transparent;
+            color: #94a3b8;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            margin-left: 4px;
+            flex-shrink: 0;
+        }
+
+        .xc_copy_btn:hover {
+            background: #e2e8f0;
+            color: #4a5568;
+            transform: scale(1.1);
+        }
+
+        .xc_protocol_item:hover {
+            background-color: #edf2f7;
+            transform: translateX(5px);
+        }
+
+        .xc_protocol_item:before {
+            content: '➤';
+            color: #4a5568;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        /* 全屏适配 */
+        @media (max-width: 1200px) {
+            .control-panel {
+                max-width: 120px;
+                gap: 6px;
+            }
+            .control-panel>button {
+                min-height: 36px;
+                font-size: 16px;
+            }
+            .zoom-control>button,
+            .snap-control>button {
+                max-width: 56px;
+                height: 36px;
+                font-size: 12px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .xc_video_player{
+                background-color: black;
+                min-height: 300px;
+            }
+            .control-container {
+                margin-top: 20px;
+            }
+            .control-panel {
+                max-width: 160px;
+                gap: 10px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .control-panel>button {
+                min-height: 50px;
+                font-size: 20px;
+            }
+            .zoom-control,
+            .snap-control {
+                max-width: 160px;
+                margin-left: auto;
+                margin-right: auto;
+                justify-content: center;
+            }
+            .zoom-control>button,
+            .snap-control>button {
+                max-width: 75px;
+                height: 44px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .control-panel {
+                max-width: 140px;
+            }
+            .control-panel>button {
+                min-height: 44px;
+                font-size: 18px;
+            }
+            .zoom-control>button,
+            .snap-control>button {
+                max-width: 66px;
+                height: 40px;
+            }
+        }
+    </style>
+  <div class="right_col" role="main">
+    <div class="">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+                <div class="xc_input_group">
+                    <input id="input_address" type="text" class="xc_input_field" placeholder="请输入播放地址（支持ws-fmp4/http-fmp4）">
+                    <button class="xc_btn-play" onclick="f_clickPlayStart()">
+                        <i class="fa fa-play"></i> 播放
+                    </button>
+                    <button class="xc_btn-stop" onclick="f_clickPlayStop()">
+                        停止
+                    </button>
+                </div>
+
+                 <!--
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                  </ul>
+                  -->
+
+                  <div class="clearfix"></div>
+            </div>
+
+            <div class="x_content">
+               <div class="col-md-10 col-sm-10 col-xs-12">
+                    <div id="video_player" class="xc_video_player"></div>
+               </div>
+               <div class="col-md-2 col-sm-2 col-xs-12" >
+                   <div class="control-container">
+                          <div class="control-panel">
+                            <!-- 上 -->
+                            <button class="ptz-button" onmousedown="f_openPtz(3,250)" onmouseup="f_openPtz(0,0)" style="grid-column: 2 / 3; grid-row: 1 / 2;" title="上"><i class="fa fa-chevron-up"></i></button>
+                            <!-- 左 -->
+                            <button class="ptz-button"  onmousedown="f_openPtz(5,250)" onmouseup="f_openPtz(0,0)" style="grid-column: 1 / 2; grid-row: 2 / 3;" title="左"><i class="fa fa-chevron-left"></i></button>
+                            <!-- 中间 -->
+                            <button class="ptz-button"  style="grid-column: 2 / 3; grid-row: 2 / 3;" title="中心">○</button>
+                            <!-- 右 -->
+                            <button class="ptz-button"  onmousedown="f_openPtz(1,250)" onmouseup="f_openPtz(0,0)"  style="grid-column: 3 / 4; grid-row: 2 / 3;" title="右"><i class="fa fa-chevron-right"></i></button>
+                            <!-- 下 -->
+                            <button class="ptz-button"  onmousedown="f_openPtz(7,250)" onmouseup="f_openPtz(0,0)"  style="grid-column: 2 / 3; grid-row: 3 / 4;" title="下"><i class="fa fa-chevron-down"></i></button>
+                        </div>
+                        <div class="zoom-control">
+                            <button class="ptz-button"  onmousedown="f_openPtz(9,200)" onmouseup="f_openPtz(0,0)" title="调焦+">Z+</button>
+                            <button class="ptz-button"  onmousedown="f_openPtz(9,-200)" onmouseup="f_openPtz(0,0)"  title="调焦-">Z-</button>
+                        </div>
+                        <div class="zoom-control">
+                            <button class="ptz-button"  onmousedown="f_openPtz(11,200)" onmouseup="f_openPtz(0,0)"  title="聚焦+">F+</button>
+                            <button class="ptz-button"  onmousedown="f_openPtz(11,-200)" onmouseup="f_openPtz(0,0)"  title="聚焦-">F-</button>
+                        </div>
+                       <div class="zoom-control">
+                            <button class="ptz-button"  onmousedown="f_openPtz(10,250)" onmouseup="f_openPtz(0,0)"  title="光圈+">I+</button>
+                            <button class="ptz-button"  onmousedown="f_openPtz(10,-250)" onmouseup="f_openPtz(0,0)"  title="光圈-">I-</button>
+                        </div>
+                         <div class="snap-control">
+                            <button id="handle_snapshot" title="截图"><i class="fa fa-camera"></i></button>
+                            <button id="handle_record" title="录像"><i class="fa fa-video-camera"></i></button>
+                        </div>
+                   </div>
+               </div>
+
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                 <div class="form-horizontal form-label-left">
+                 {% if stream.is_online %}
+                        <section class="xc_protocols">
+                            <h3>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                视频流支持的所有转发协议
+                            </h3>
+                            <ul class="xc_protocol_list">
+                                <li class="xc_protocol_item">
+                                    <span class="xc_protocol_url">{{ stream.wsMp4Url }}</span>
+                                    <span class="xc_copy_tip" id="copyTip1" style="display: none;">已复制</span>
+                                    <button class="xc_copy_btn" onclick="copyToClipboard('{{ stream.wsMp4Url }}', 'copyTip1')" title="复制地址">
+                                        <i class="fa fa-copy"></i>
+                                    </button>
+                                </li>
+                                <li class="xc_protocol_item">
+                                    <span class="xc_protocol_url">{{ stream.httpMp4Url }}</span>
+                                    <span class="xc_copy_tip" id="copyTip2" style="display: none;">已复制</span>
+                                    <button class="xc_copy_btn" onclick="copyToClipboard('{{ stream.httpMp4Url }}', 'copyTip2')" title="复制地址">
+                                        <i class="fa fa-copy"></i>
+                                    </button>
+                                </li>
+                                <li class="xc_protocol_item">
+                                    <span class="xc_protocol_url">{{ stream.rtspUrl }}</span>
+                                    <span class="xc_copy_tip" id="copyTip3" style="display: none;">已复制</span>
+                                    <button class="xc_copy_btn" onclick="copyToClipboard('{{ stream.rtspUrl }}', 'copyTip3')" title="复制地址">
+                                        <i class="fa fa-copy"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </section>
+                  {% endif %}
+                  </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super }}
+<script src="/static/lib/easyPlayer/js/easyplayer-pro.js?02"></script>
+<script>
+    let stream_app = "{{ stream.app }}";
+    let stream_name = "{{ stream.name }}";
+    let stream_code = "{{ stream.code }}";
+    let stream_pull_stream_type = parseInt("{{ stream.pull_stream_type }}");
+    let stream_is_online = parseInt("{{ stream.is_online }}")
+    let streamTotalReaderCount = parseInt("{{ stream.totalReaderCount }}")
+
+    let eleInputAddress= $("#input_address");
+    let eleHandleSnapshot = $("#handle_snapshot");
+    let eleHandleRecord = $("#handle_record");
+    let mCurrentIsRecording = false;
+    let eleVideoPlayer = document.querySelector('#video_player');
+    let ePlayer = null;
+
+    if(stream_pull_stream_type === 21){
+        //gb28181的设备
+    }else{
+        //非gb28181的设备
+        $(".ptz-button").addClass("ptz-button-gray");
+    }
+    function f_createEPlayer() {
+        ePlayer = new EasyPlayerPro({
+            container: eleVideoPlayer,
+            videoBuffer: 0.1, // 缓存时长
+            videoBufferDelay: Number(3), // 1000s 达到延迟重播(s)
+            decoder: '/static/lib/easyPlayer/js/decoder-pro.js',
+            isResize: true,
+            loadingText: "加载中",
+            debug: false,
+            debugLevel: "debug",
+            useMSE: true,
+            useSIMD: false,
+            useWCS: true,
+            hasAudio: true,
+            websocket1006ErrorReplay: true,
+            networkDelayTimeoutReplay: true,
+            useMThreading: true,
+            showBandwidth: true, // 显示网速
+            showPerformance: true, // 显示性能
+            operateBtns: {
+                fullscreen: true,
+                screenshot: true,
+                play: true,
+                audio: true,
+                ptz: false,
+                quality: false,
+                performance: true,
+                screenshotFn: f_screenshotFn,
+            },
+            background: "/static/images/player_poster.jpg",
+            timeout: 10,
+            qualityConfig: ['普清', '高清', '超清'],
+            forceNoOffscreen: true,
+            isNotMute: false,
+            heartTimeout: Number(7),//超出时间无数据重连(s)
+            ptzClickType: 'mouseDownAndUp',
+            ptzZoomShow: true,
+            ptzMoreArrowShow: true,
+            ptzApertureShow: true,
+            ptzFocusShow: true,
+            pauseAndNextPlayUseLastFrameShow: true,
+            heartTimeoutReplayUseLastFrameShow: true,
+            replayUseLastFrameShow: true, // 重播使用上一帧显示
+            fullscreenWatermarkConfig: {
+                text: "", //水印
+            }
+        });
+    }
+    const f_screenshotFn = () => {
+        if (ePlayer) {
+            ePlayer.screenshotWatermark({
+                text: {
+                    content: ``,//水印
+                    fontSize: '46',
+                    color: 'rgba(100,100,100,.6)',
+                },
+                opacity: 0.8,
+                right: 20,
+                top: 50,
+            });
+        }
+    };
+    function f_playStart(video_url) {
+        if(video_url === "" || typeof video_url === "undefined"){
+            myToast2025("请输入播放地址（支持ws-fmp4/http-fmp4）！","error");
+            return false;
+        }
+        if(!video_url.endsWith(".mp4")){
+            myToast2025("视频流地址格式不正确！","error");
+            return false;
+        }
+        if(video_url.startsWith("ws://") || video_url.startsWith("http://")){
+            if (ePlayer) {
+                ePlayer.destroy().then(() => {
+                    f_createEPlayer();
+                    ePlayer.play(video_url);
+                });
+            } else {
+                f_createEPlayer();
+                ePlayer.play(video_url);
+            }
+        }else{
+             myToast2025("视频流地址格式不正确！","error");
+             return false;
+        }
+    }
+
+    function f_playStop() {
+        if(ePlayer){
+            //ePlayer.pause();
+            ePlayer.destroy();
+        }
+    }
+
+    function f_clickPlayStart() {
+        let video_url = eleInputAddress.val().trim();
+        f_playStart(video_url);
+    }
+	function f_clickPlayStop() {
+        f_playStop();
+    }
+    function f_openPtz(ptzType,val){
+        if(stream_pull_stream_type === 21){
+
+        }else {
+            return
+        }
+
+        $.ajax({
+           url: "/stream/openPtz",
+           type: "post",
+           async: true,
+           data: {"code":stream_code,"ptzType":ptzType,"val":val},
+           dataType: "json",
+           timeout: 0,
+           error: function () {
+               myToast2025("网络异常，请确定网络正常！","error");
+           },
+           success: function (res) {
+               if(1000 === res.code){
+                   //myToast2025(res.msg,"success");
+               }else{
+                    //myToast2025(res.msg,"error");
+               }
+           }
+        });
+
+    }
+
+    function f_openVideoIsRecording() {
+        $.ajax({
+               url: "/nvr/openVideoIsRecording",
+               type: "get",
+               async: true,
+               data: {"app":stream_app,"name":stream_name},
+               dataType: "json",
+               timeout: 0,
+               error: function () {
+                   myToast2025("网络异常，请确定网络正常！","error");
+               },
+               success: function (res) {
+                   if(1000 === res.code){
+                       eleHandleRecord.addClass("video_is_recording")
+                        mCurrentIsRecording = true;
+                   }
+               }
+            });
+    }
+
+    eleHandleSnapshot.click(function () {
+        $.ajax({
+           url: "/nvr/openSnapShot",
+           type: "post",
+           async: true,
+           data: {"app":stream_app,"name":stream_name},
+           dataType: "json",
+           timeout: 0,
+           error: function () {
+               myToast2025("网络异常，请确定网络正常！","error");
+           },
+           success: function (res) {
+               if(1000 === res.code){
+                   let info = res.info;
+                   let snapshot_filename = info["snapshot_filename"]
+                   let download_url = "/storage/openDownload?filename="+snapshot_filename;
+                   window.open(download_url);
+               }else{
+                    myToast2025(res.msg,"error");
+               }
+           }
+        });
+    })
+    eleHandleRecord.click(function () {
+        //开启录像和停止录像
+        //console.log("stream_app->",typeof stream_app,stream_app)
+        //console.log("stream_name->",typeof stream_name,stream_name)
+
+        if(mCurrentIsRecording){
+            //当前正在录制中，接下来执行停止录像
+            $.ajax({
+               url: "/nvr/openStopRecordVideo",
+               type: "post",
+               async: true,
+               data: {"app":stream_app,"name":stream_name},
+               dataType: "json",
+               timeout: 0,
+               error: function () {
+                   myToast2025("网络异常，请确定网络正常！","error");
+               },
+               success: function (res) {
+                   if(1000 === res.code){
+                       eleHandleRecord.removeClass("video_is_recording")
+
+                       mCurrentIsRecording = false;
+                       let info = res.info;
+
+                       let record_ret = info["record_ret"]
+                       let record_msg = info["record_msg"]
+                       if(record_ret===true){
+                           let record_video_filename = info["record_video_filename"]
+                           let download_url = "/storage/openDownload?filename="+record_video_filename;
+                           window.open(download_url);
+                       }else{
+                           myToast2025(record_msg,"error");
+                       }
+                   }else{
+                        myToast2025(res.msg,"error");
+                   }
+               }
+            });
+
+        }else{
+            //当前未录制，接下来开启录像
+            $.ajax({
+               url: "/nvr/openStartRecordVideo",
+               type: "post",
+               async: true,
+               data: {"app":stream_app,"name":stream_name},
+               dataType: "json",
+               timeout: 0,
+               error: function () {
+                   myToast2025("网络异常，请确定网络正常！","error");
+               },
+               success: function (res) {
+                   if(1000 === res.code){
+                       eleHandleRecord.addClass("video_is_recording")
+                        mCurrentIsRecording = true;
+
+                   }else{
+                        myToast2025(res.msg,"error");
+                   }
+               }
+            });
+        }
+    });
+
+    // 复制文本到剪贴板
+    function copyToClipboard(text, tipId) {
+        navigator.clipboard.writeText(text).then(function() {
+            // 显示复制成功提示
+            const tipElement = document.getElementById(tipId);
+            if (tipElement) {
+                tipElement.style.display = 'inline-block';
+                // 2秒后隐藏提示
+                setTimeout(function() {
+                    tipElement.style.display = 'none';
+                }, 2000);
+            }
+        }, function(err) {
+            // 复制失败时也可以显示提示
+            const tipElement = document.getElementById(tipId);
+            if (tipElement) {
+                tipElement.textContent = '复制失败';
+                tipElement.style.background = '#ef4444';
+                tipElement.style.display = 'inline-block';
+                // 2秒后隐藏提示
+                setTimeout(function() {
+                    tipElement.textContent = '已复制';
+                    tipElement.style.background = '#10b981';
+                    tipElement.style.display = 'none';
+                }, 2000);
+            }
+        });
+    }
+
+    $(function() {
+        if(stream_is_online === 1){
+            let is_online = parseInt("{{ stream.is_online }}");
+            let video_codec_name = "{{ stream.video_codec_name }}";
+            let video_width = parseInt("{{ stream.video_width }}");
+            let video_height = parseInt("{{ stream.video_height }}");
+            let app = "{{ stream.app }}";
+            let name = "{{ stream.name }}";
+            let wsHost = "{{ stream.wsHost }}";
+            let wsMp4Url = "{{ stream.wsMp4Url }}";
+            //let httpMp4Url = "{{ stream.httpMp4Url }}";
+            //let rtspUrl = "{{ stream.rtspUrl }}";
+
+            let video_url = wsMp4Url
+            eleInputAddress.val(video_url);
+            f_playStart(video_url);
+        }
+        f_openVideoIsRecording();
+    });
+</script>
+
+{% endblock javascripts %}

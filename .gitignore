@@ -1,0 +1,14 @@
+﻿# clion
+.idea/
+# vs
+.vs
+
+log/*
+admin/static/storage/*
+
+core/log
+core/www/*
+
+.license
+
+

@@ -1,0 +1,1981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--<link rel="shortcut icon" href="/static/images/user.ico">-->
+    <link type="image/png" href="/static/images/logo.png?123456" rel="shortcut icon" />
+  <title>{{ settings.name }} | 大屏管理</title>
+    <!-- Font Awesome -->
+    <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- fancybox -->
+    <link rel="stylesheet" href="/static/lib/jquery/fancybox/3.5.7/jquery.fancybox.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    }
+
+    body {
+      background-color: #0b1b33;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .xc_container {
+      display: flex;
+      padding: 10px;
+      padding-top: 70px; /* 增加顶部内边距，让内容往下移 */
+      height: 100vh;
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+
+    .xc_header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      /*background-color: #0b1b33;*/
+      background: linear-gradient(90deg, #001233, #0a2463, #001233);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid #1e3a5c;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* 添加阴影效果增强美观性 */
+    }
+
+    .xc_header-title {
+      font-size: 24px;
+        font-weight: bold;
+      color: #fff;
+      position: relative;
+        cursor: pointer;
+
+    }
+
+    .xc_header-title::before,
+    .xc_header-title::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 0;
+      height: 1px;
+      background-color: #1e90ff;
+    }
+
+    .xc_header-title::before {
+      right: 105%;
+    }
+
+    .xc_header-title::after {
+      left: 105%;
+    }
+
+    /* 左侧栏样式 */
+    .xc_sidebar {
+      width: 220px;
+      background-color: #001233;
+      border-radius: 8px;
+      padding: 10px;
+      margin-right: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .xc_sidebar-title {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #fff;
+      position: relative;
+      padding-left: 10px;
+    }
+
+    .xc_sidebar-title::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 14px;
+      background-color: #1e90ff;
+    }
+
+    .xc_chart-box,
+    .xc_rank-box,
+    .xc_stat-box,
+    .xc_status-box {
+      background-color: #142e4d;
+      border-radius: 4px;
+      padding: 10px;
+      margin-bottom: 15px;
+    }
+
+    .xc_rank-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+
+    .xc_progress-bar {
+      width: 100%;
+      height: 6px;
+      background-color: #0b1b33;
+      border-radius: 3px;
+      margin-top: 3px;
+      position: relative;
+    }
+
+    .xc_progress-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      background-color: #1e90ff;
+      border-radius: 3px;
+    }
+
+    .xc_stat-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+
+    .xc_stat-item .xc_icon {
+      width: 20px;
+      height: 20px;
+      background-color: #1e90ff;
+      border-radius: 4px;
+      margin-right: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .xc_stat-item .xc_icon img {
+      width: 14px;
+      height: 14px;
+    }
+
+    .xc_stat-item .xc_label {
+      flex: 1;
+    }
+
+    .xc_stat-item .xc_num {
+      font-size: 16px;
+      font-weight: bold;
+      margin-right: 5px;
+      color: #1e90ff;
+    }
+
+    .xc_status-box {
+      display: flex;
+      align-items: center;
+    }
+
+    .xc_status-icon {
+      width: 40px;
+      height: 40px;
+      background-color: #1e3a5c;
+      border-radius: 4px;
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .xc_status-info {
+      flex: 1;
+    }
+
+    .xc_status-info .xc_num {
+      font-size: 20px;
+      font-weight: bold;
+      color: #1e90ff;
+    }
+
+    .xc_status-info .xc_label {
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    /* 中间主内容区样式 */
+    .xc_main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+    }
+
+    .xc_top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      /*background-color: #0f2340;*/
+      background: linear-gradient(90deg, #001233, #0a2463, #001233);
+      border-radius: 8px;
+      padding: 12px 15px; /* 增加内边距 */
+      margin-bottom: 15px; /* 增加下边距 */
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
+      border: 1px solid #1e3a5c; /* 添加边框 */
+    }
+
+
+
+    .xc_top-bar-left {
+      display: flex;
+      align-items: center;
+    }
+    .xc_top-bar-right {
+      display: flex;
+      align-items: center;
+      font-weight: bold; /* 加粗文字 */
+      font-size: 15px; /* 增大字体 */
+      color: #fff; /* 改变颜色 */
+    }
+    .xc_stream-select {
+        border: none;
+      padding: 5px 8px;
+      border-radius: 4px;
+    }
+
+    .xc_control-buttons {
+      display: flex;
+      margin-left: 10px;
+    }
+
+    .xc_control-button {
+      width: 20px;
+      height: 20px;
+      background-color: #1e3a5c;
+      border-radius: 2px;
+      margin-left: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .xc_video-box {
+      flex: 1;
+      background-color: #0f2340;
+      border-radius: 8px;
+      padding: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .xc_video-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      width: 100%;
+    }
+
+    .xc_video-title {
+      font-size: 12px;
+      color: #aaa;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: calc(100% - 30px);
+    }
+
+    .xc_close-button {
+      width: 16px;
+      height: 16px;
+      background-color: #1e3a5c;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 10px;
+    }
+
+    .xc_video-display {
+      width: 100%;
+      height: calc(100% - 25px);
+      background-color: #000;
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .xc_video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .xc_detection-box {
+      position: absolute;
+      border: 2px solid #ff0000;
+      box-sizing: border-box;
+    }
+
+    .xc_detection-label {
+      position: absolute;
+      top: -20px;
+      left: 0;
+      background-color: #ff0000;
+      color: #fff;
+      padding: 2px 5px;
+      font-size: 10px;
+      border-radius: 2px;
+    }
+
+    .xc_bottom-stat {
+      display: flex;
+      justify-content: space-around;
+      /*background-color: #0f2340;*/
+        background-color: #001233;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    .xc_bottom-stat-item {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .xc_bottom-stat-item .xc_label {
+      font-size: 12px;
+      color: #aaa;
+      margin-bottom: 5px;
+    }
+
+    .xc_bottom-stat-item .xc_num {
+      font-size: 24px;
+      font-weight: bold;
+      color: #ff6b6b;
+    }
+
+    .xc_bottom-stat-item .xc_unit {
+      font-size: 12px;
+      color: #aaa;
+      margin-left: 2px;
+    }
+
+    .xc_bottom-stat-item:nth-child(3) .xc_num {
+      color: #ffc107;
+    }
+
+    .xc_bottom-stat-item:nth-child(2) .xc_num {
+      color: #4caf50;
+    }
+
+    /* 右侧栏样式 */
+    .xc_rightbar {
+      width: 220px;
+      min-width: 220px;
+      background-color: #001233;
+      border-radius: 8px;
+      padding: 10px;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+/* 滚动条整体 */
+.xc_rightbar::-webkit-scrollbar {
+  width: 2px;      /* 垂直滚动条宽度 */
+}
+
+/* 滚动条轨道 */
+.xc_rightbar::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 轨道背景色 */
+  border-radius: 2px;  /* 圆角 */
+}
+
+/* 滚动条滑块 */
+.xc_rightbar::-webkit-scrollbar-thumb {
+  background: #0a2463;    /* 滑块颜色 */
+  border-radius: 2px;  /* 滑块圆角 */
+}
+
+/* 滑块悬停效果 */
+.xc_rightbar::-webkit-scrollbar-thumb:hover {
+  background: #0a2463;    /* 悬停加深颜色 */
+}
+
+    .xc_alarm-item {
+      background-color: #142e4d;
+      border-radius: 4px;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+
+    .xc_alarm-item .xc_video-thumb {
+      width: 100%;
+      height: 100px;
+      background-color: #000;
+      margin-bottom: 8px;
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .xc_alarm-info {
+      display: flex;
+      flex-direction: column;
+      font-size: 12px;
+    }
+
+    .xc_alarm-info span {
+      margin-bottom: 3px;
+    }
+
+    .xc_alarm-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 5px;
+    }
+
+    .xc_status-tag {
+      background-color: #ff6b6b;
+      color: #fff;
+      padding: 2px 6px;
+      border-radius: 2px;
+      font-size: 10px;
+    }
+
+    .xc_action-button {
+      background-color: #1e90ff;
+      color: #fff;
+      padding: 2px 6px;
+      border-radius: 2px;
+      font-size: 10px;
+      cursor: pointer;
+    }
+  </style>
+  <style>
+    /*多屏播放器*/
+    #grid_video_container {
+        width: 100%;
+        height: 100%;
+        /*border: 1px solid red;*/
+    }
+    .grid_item_active {
+        /*box-shadow: 0 0 2px 1px red;*/
+        border: 1px #0a39af solid !important;
+    }
+
+    .grid_item1 {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        background-color: rgba(0, 0, 0, 1.0);
+        border: 1px #fff solid;
+    }
+    .grid_item4 {
+        float: left;
+        width: 50%;
+        height: 50% !important;
+        box-sizing: border-box;
+        background-color: rgba(0, 0, 0, 1.0);
+        border: 1px #fff solid;
+    }
+    .grid_item9 {
+        float: left;
+        width: 33.33%;
+        height: 33.33% !important;
+        box-sizing: border-box;
+        background-color: rgba(0, 0, 0, 1.0);
+        border: 1px #fff solid;
+    }
+    .grid_item16 {
+        float: left;
+        width: 25%;
+        height: 25% !important;
+        box-sizing: border-box;
+        background-color: rgba(0, 0, 0, 1.0);
+        border: 1px #fff solid;
+    }
+    /*新报警弹窗*/
+   /* 新报警通知弹窗样式 - 使用 xcn_ 前缀避免冲突 */
+   #bxc_dialog_mask {
+        background-color: rgba(0,0,0,0.4);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        z-index: 9998;
+    }
+    
+    #bxc_dialog {
+        position: fixed;
+        z-index: 9999;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 680px;
+        max-width: 90%;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        display: none;
+        overflow: hidden;
+    }
+
+    #bxc_dialog>.dialog_title{
+        background: linear-gradient(135deg, #fdba74 0%, #fb923c 100%);
+        padding: 14px 20px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    #bxc_dialog>.dialog_title>.dialog_alarm_count{
+        color: white;
+        font-weight: 600;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    #bxc_dialog>.dialog_title>.dialog_alarm_count::before {
+        content: "🔔";
+        font-size: 16px;
+    }
+    
+    #bxc_dialog>.dialog_title>.close{
+        background: rgba(255, 255, 255, 0.25);
+        color: white;
+        border: none;
+        padding: 5px 14px;
+        border-radius: 4px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    
+    #bxc_dialog>.dialog_title>.close:hover{
+        background: rgba(255, 255, 255, 0.35);
+    }
+    
+    #bxc_dialog>.dialog_content{
+        padding: 16px;
+        background: #f9fafb;
+    }
+    
+    #bxc_dialog>.dialog_content>.content_top{
+        background: white;
+        padding: 12px 14px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+        border-left: 3px solid #fdba74;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    }
+    
+    .dialog_alarm_time{
+        font-size: 13px;
+        color: #4b5563;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-right: 12px;
+    }
+    
+    .dialog_alarm_time::before {
+        content: "🕒";
+        font-size: 14px;
+    }
+    
+    .dialog_alarm_link{
+        margin-left: 0;
+    }
+    
+    .dialog_alarm_link>a{
+        text-decoration: none;
+        font-size: 13px;
+        color: #3b82f6;
+        font-weight: 500;
+        padding: 4px 10px;
+        border-radius: 4px;
+        background: #eff6ff;
+        border: 1px solid #dbeafe;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        transition: all 0.15s;
+    }
+    
+    .dialog_alarm_link>a:hover {
+        background: #dbeafe;
+        border-color: #bfdbfe;
+    }
+    
+    .dialog_alarm_link>a::after {
+        content: "→";
+        font-size: 12px;
+    }
+    
+    #bxc_dialog>.dialog_content>.content_list{
+        background: white;
+        padding: 12px;
+        border-radius: 6px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+    }
+    
+    #bxc_dialog>.dialog_content>.content_list>.content_item{
+        display: inline-block;
+        border-radius: 6px;
+        overflow: hidden;
+        transition: transform 0.15s, box-shadow 0.15s;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+    
+    #bxc_dialog>.dialog_content>.content_list>.content_item:hover{
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    #bxc_dialog>.dialog_content>.content_list>.content_item>img{
+        width: 108px;
+        height: 108px;
+        object-fit: cover;
+        border: 2px solid #f9fafb;
+        cursor: pointer;
+        display: block;
+    }
+    
+    #bxc_dialog>.dialog_content>.content_list>.content_item>span{
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 14px;
+        background: #f3f4f6;
+        color: #6b7280;
+        font-size: 13px;
+        font-weight: 500;
+        border-radius: 6px;
+        min-width: 108px;
+        height: 108px;
+    }
+
+    /* 大屏报警详情弹窗样式 - 使用 xcd_ 前缀避免冲突 */
+    .xcd_modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+    
+    .xcd_modal-overlay.active {
+        display: block;
+        animation: xcd_fadeIn 0.2s ease;
+    }
+    
+    @keyframes xcd_fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    .xcd_modal-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        border-radius: 8px;
+        width: 80%;
+        max-width: 900px;
+        max-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.05);
+        animation: xcd_slideIn 0.3s ease;
+    }
+    
+    @keyframes xcd_slideIn {
+        from {
+            transform: translate(-50%, -48%);
+            opacity: 0;
+        }
+        to {
+            transform: translate(-50%, -50%);
+            opacity: 1;
+        }
+    }
+    
+    .xcd_modal-header {
+        position: relative;
+        padding: 10px 14px;
+        border-bottom: 1px solid #e5e7eb;
+        background: linear-gradient(to bottom, #fafafa 0%, #ffffff 100%);
+        border-radius: 8px 8px 0 0;
+    }
+    
+    .xcd_modal-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1f2937;
+    }
+    
+    .xcd_modal-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 26px;
+        height: 26px;
+        border: none;
+        background: #f3f4f6;
+        color: #6b7280;
+        font-size: 18px;
+        line-height: 1;
+        cursor: pointer;
+        padding: 0;
+        border-radius: 4px;
+        transition: all 0.2s;
+    }
+    
+    .xcd_modal-close:hover {
+        background: #e5e7eb;
+        color: #374151;
+        transform: rotate(90deg);
+    }
+    
+    .xcd_modal-body {
+        flex: 1;
+        padding: 12px;
+        overflow-y: auto;
+        color: #333;
+    }
+    
+    /* 关键：左右布局 Grid */
+    .xcd_modal-content-grid {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: 12px;
+    }
+    
+    .xcd_modal-media-section {
+        background: #f8f9fa;
+        border-radius: 6px;
+        padding: 12px;
+        border: 1px solid #e9ecef;
+    }
+    
+    .xcd_modal-section-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .xcd_modal-section-title i {
+        color: #6b7280;
+    }
+    
+    .xcd_modal-video-player {
+        width: 100%;
+        border-radius: 4px;
+        margin-bottom: 12px;
+    }
+    
+    .xcd_modal-image-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 8px;
+    }
+    
+    .xcd_modal-image-item {
+        border-radius: 6px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .xcd_modal-image-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .xcd_modal-image-thumb {
+        width: 100%;
+        height: 80px;
+        object-fit: cover;
+    }
+    
+    .xcd_modal-image-info {
+        padding: 4px 6px;
+        background: white;
+        font-size: 11px;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .xcd_modal-info-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .xcd_modal-info-card {
+        background: #f8f9fa;
+        border-radius: 6px;
+        padding: 10px;
+        border: 1px solid #e9ecef;
+    }
+    
+    .xcd_modal-info-item {
+        padding: 4px 0;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 3px;
+    }
+    
+    .xcd_modal-info-item:last-child {
+        border-bottom: none;
+    }
+    
+    .xcd_modal-info-label {
+        color: #999;
+        margin: 0;
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+    
+    .xcd_modal-info-value {
+        color: #333;
+        text-align: right;
+        flex: 1;
+        word-break: break-all;
+    }
+    
+    .xcd_modal-info-value a {
+        color: #3b82f6;
+        text-decoration: none;
+    }
+    
+    .xcd_modal-radio-item {
+        padding: 2px 0;
+        font-size: 12px;
+        line-height: 1.4;
+    }
+    
+    .xcd_modal-radio-item input {
+        margin-right: 6px;
+    }
+    
+    .xcd_modal-radio-item label {
+        margin: 0;
+    }
+    
+    .xcd_modal-form-input {
+        width: 100%;
+        padding: 6px 8px;
+        font-size: 12px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        margin-top: 8px;
+    }
+    
+    .xcd_modal-footer {
+        padding: 10px 14px;
+        border-top: 1px solid #e5e7eb;
+        text-align: right;
+        background: linear-gradient(to top, #fafafa 0%, #ffffff 100%);
+        border-radius: 0 0 8px 8px;
+    }
+    
+    .xcd_modal-btn {
+        padding: 6px 14px;
+        font-size: 12px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        margin-left: 6px;
+        transition: all 0.2s;
+        font-weight: 500;
+    }
+    
+    .xcd_modal-btn-cancel {
+        background: #f3f4f6;
+        color: #6b7280;
+    }
+    
+    .xcd_modal-btn-cancel:hover {
+        background: #e5e7eb;
+        color: #374151;
+    }
+    
+    .xcd_modal-btn-submit {
+        background: #3b82f6;
+        color: white;
+        box-shadow: 0 1px 3px rgba(59, 130, 246, 0.3);
+    }
+    
+    .xcd_modal-btn-submit:hover {
+        background: #2563eb;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        transform: translateY(-1px);
+    }
+</style>
+</head>
+
+<body>
+<script>
+    let streamCodeDict = {};//视频流字典
+</script>
+
+  <div class="xc_header">
+    <div class="xc_header-title" onclick="f_open_index()">{{ settings.name }}</div>
+  </div>
+
+  <div class="xc_container">
+    <!-- 左侧侧边栏 -->
+    <div class="xc_sidebar">
+      <div class="xc_sidebar-title">最近7日告警趋势</div>
+      <div class="xc_chart-box">
+            <div id="left_alarm_chart" style="width: 100%;height:180px"></div>
+      </div>
+
+      <div class="xc_sidebar-title">最近7日告警类型排行</div>
+      <div class="xc_rank-box" id="left_alarm_rank">
+            <div class="xc_rank-item">
+                <span>加载中</span>
+            </div>
+            <div class="xc_progress-bar">
+                <div class="xc_progress-fill" style="width: 1%;"></div>
+            </div>
+           <!--
+                <div class="xc_rank-item">
+                  <span>违规行为</span>
+                  <span>732</span>
+                </div>
+                <div class="xc_progress-bar">
+                  <div class="xc_progress-fill" style="width: 100%;"></div>
+                </div>
+           -->
+      </div>
+
+      <div class="xc_sidebar-title">接入视频</div>
+      <div class="xc_status-box">
+        <div class="xc_status-icon">
+             <svg viewBox="0 0 24 24" width="24" height="24" fill="#1e90ff">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
+            </svg>
+
+          <!--<svg viewBox="0 0 24 24" width="24" height="24" fill="#1e90ff">
+            <path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM8 15c0-1.66 1.34-3 3-3 .35 0 .69.07 1 .18V6h5v2h-3v7.03c-.02 1.64-1.35 2.97-3 2.97-1.66 0-3-1.34-3-3-3z"></path>
+          </svg>-->
+
+        </div>
+        <div class="xc_status-info">
+          <div class="xc_num" id="stream_count">0/0</div>
+          <div class="xc_label">在线数量/总数量</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 中间主内容 -->
+    <div class="xc_main">
+      <div class="xc_top-bar">
+
+        <div class="xc_top-bar-left">
+           <select id="select_stream" class="xc_stream-select">
+                <option value="0">请选择视频流</option>
+                {% for gitem in group_streams %}
+                  <optgroup label="{{ gitem.group_name_ch }}">
+                     {% for stream in gitem.streams %}
+                           <script>
+                                streamCode = '{{ stream.code }}';
+                                streamCodeDict[streamCode] = {
+                                    'code':streamCode,
+                                    "app":'{{ stream.app }}',
+                                    "name":'{{ stream.name }}',
+                                    "video":'{{ stream.video }}',
+                                    "video_codec_name":'{{ stream.video_codec_name }}',
+                                    "video_width":parseInt('{{ stream.video_width }}'),
+                                    "video_height":parseInt('{{ stream.video_height }}'),
+                                    "audio":'{{ stream.audio }}',
+                                    "videoUrl":'{{ stream.videoUrl }}',
+                                    "wsHost":'{{ stream.wsHost }}',
+                                    "wsMp4Url":'{{ stream.wsMp4Url }}',
+                                    "source_nickname":'{{ stream.source_nickname }}'
+                                }
+                            </script>
+                        <option value="{{ stream.code }}">{{ stream.source_nickname }}</option>
+                     {% endfor %}
+                  </optgroup>
+                {% endfor %}
+            </select>
+
+          <div class="xc_control-buttons">
+                 <div class="xc_control-button" onclick="f_clickPlayStart()"><i class="fa fa-play-circle-o" title="开始播放"></i></div>
+                 <div class="xc_control-button" onclick="f_clickPlayStop()"><i class="fa fa-stop" title="停止播放"></i></div>
+              <div class="xc_control-button" onclick="f_createGridVideoContainer(1)" title="1分屏">1</div>
+              <div class="xc_control-button" onclick="f_createGridVideoContainer(4)" title="4分屏">4</div>
+              <div class="xc_control-button" onclick="f_createGridVideoContainer(9)" title="9分屏">9</div>
+              <div class="xc_control-button" onclick="f_createGridVideoContainer(16)" title="16分屏">16</div>
+               <div class="xc_control-button" onclick="f_openUpdateDashboardData()"><i class="fa fa-save" title="保存配置"></i></div>
+                <div class="xc_control-button" onclick="f_clickFullScreen()"><i class="fa fa-retweet"  title="全屏播放"></i></div>
+                <div class="xc_control-button" ><div id="handle_audio_player"><i class="fa fa-bell-o" title="关闭声音" ></i></div></div>
+                <div><audio id="audio_player"  controls style="display: none;" >
+                浏览器不支持音频播放
+                </audio></div>
+              <!--
+                <div class="xc_control-button">□</div>
+                <div class="xc_control-button">-</div>
+                <div class="xc_control-button">×</div>
+                -->
+
+          </div>
+        </div>
+
+              <!--
+          <div class="xc_top-bar-right">
+          <span>摄像头</span>
+        </div>
+      -->
+
+      </div>
+
+      <div class="xc_video-box">
+        <!--<div class="xc_video-header">
+          <div class="xc_video-title">2025-08-11 星期三 19:03:31  </div>
+          <div class="xc_close-button">×</div>
+        </div>-->
+        <div class="xc_video-display">
+          <div class="xc_video-overlay">
+              <div id="grid_video_container"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="xc_bottom-stat">
+        <div class="xc_bottom-stat-item">
+          <div class="xc_label">今日告警总数</div>
+          <div>
+            <span class="xc_num" id="today_alarm_total_count">0</span>
+            <span class="xc_unit">条</span>
+          </div>
+        </div>
+        <div class="xc_bottom-stat-item">
+          <div class="xc_label">今日已处理</div>
+          <div>
+            <span class="xc_num" id="today_alarm_handle_count">0</span>
+            <span class="xc_unit">条</span>
+          </div>
+        </div>
+        <div class="xc_bottom-stat-item">
+          <div class="xc_label">今日未处理</div>
+          <div>
+           <span class="xc_num" id="today_alarm_unhandle_count">0</span>
+            <span class="xc_unit">条</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右侧侧边栏 -->
+    <div class="xc_rightbar">
+      <div class="xc_sidebar-title">最新告警</div>
+        <div id="right_alarm_data">
+            <div class="xc_alarm-item">
+                <span>加载中</span>
+            </div>
+          <!--
+            <div class="xc_alarm-item">
+                <span>暂无数据</span>
+            </div>
+
+            <div class="xc_alarm-item">
+                <div class="xc_video-thumb">
+                  <img src="/static/images/player_poster.jpg" alt="alarm" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="xc_alarm-info">
+                  <span>数据源：001</span>
+                  <span>告警类型：违规行为</span>
+                </div>
+                <div class="xc_alarm-status">
+                  <div class="xc_status-tag">未处理</div>
+                  <div class="xc_action-button">查看详情</div>
+                </div>
+            </div>
+            -->
+        </div>
+
+    </div>
+  </div>
+
+<!--报警弹窗 start -->
+    <div id="bxc_dialog">
+        <div class="dialog_title">
+            <span class="dialog_alarm_count"></span>
+            <button class="close" onclick="f_close_newAlarmDialog()">关闭</button>
+        </div>
+        <div class="dialog_content">
+            <div class="content_top">
+                <span class="dialog_alarm_time"></span>
+                <span class="dialog_alarm_link"></span>
+            </div>
+            <div class="content_list">
+                <!--
+                <div class="content_item"><img src="/static/images/logo.png"></div>
+                <div class="content_item"><img src="/static/images/logo.png"></div>
+                <div class="content_item"><img src="/static/images/logo.png"></div>
+                <div class="content_item"><img src="/static/images/logo.png"></div>
+                <div class="content_item"><img src="/static/images/logo.png"></div>
+                <div class="content_item"><span>共6张</span></div>
+                -->
+            </div>
+
+        </div>
+    </div>
+    <div id="bxc_dialog_mask"></div>
+<!--报警弹窗 end -->
+
+<!-- 报警详情弹窗 -->
+<div class="xcd_modal-overlay" id="alarmDetailModal">
+    <div class="xcd_modal-container">
+        <div class="xcd_modal-header">
+            <div class="xcd_modal-title">查看报警详情</div>
+            <button class="xcd_modal-close" onclick="closeAlarmDetailModal()">×</button>
+        </div>
+        <div class="xcd_modal-body" id="alarmModalBody">
+            <!-- 动态加载内容 -->
+        </div>
+        <div class="xcd_modal-footer">
+            <button class="xcd_modal-btn xcd_modal-btn-cancel" onclick="closeAlarmDetailModal()">取消</button>
+            <button class="xcd_modal-btn xcd_modal-btn-submit" onclick="submitAlarmReview()">提交</button>
+        </div>
+    </div>
+</div>
+
+  </body>
+
+<!-- jQuery -->
+<script src="/static/lib/jquery/jquery.min.js"></script>
+<!-- Select2 -->
+<script src="/static/vendors/select2/dist/js/select2.full.min.js"></script>
+<!-- easyplayer -->
+<script src="/static/lib/easyPlayer/js/easyplayer-pro.js?02"></script>
+<!-- highcharts -->
+<script src="/static/lib/highcharts/highcharts.js"></script>
+<script src="/static/lib/highcharts/modules/exporting.js"></script>
+<script src="/static/lib/highcharts-plugins/highcharts-zh_CN.js"></script>
+<!-- fancybox -->
+<script src="/static/lib/jquery/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+<script src="/static/app/common/js/toast.js"></script>
+
+<script>
+    let uploadAudioDir_www = '{{ uploadAudioDir_www }}';
+    let eleSelectStream = $("#select_stream");// select  选择视频流
+    let eleGridVideoContainer = $("#grid_video_container");
+    let mSelectedGridVideoCount;//当前选中的多屏数量
+    let mSelectedGridItemClass;//当前选中的多屏class属性
+    let mSelectedVideoId = null;//上次选中的id
+    let mSelectedVideoPlayerMap = new Map;//播放器字典 {id:player,,,}
+    let eleLeftAlarmRank = $("#left_alarm_rank");//左侧报警类型排行
+    let eleRightAlarmData = $("#right_alarm_data");//右侧报警数据
+
+    //报警start
+    let eleBxcDialogMask = $("#bxc_dialog_mask")
+    let eleBxcDialog = $("#bxc_dialog")
+    let eleDialogAlarmContentList = $(".content_list");
+    let eleDialogAlarmCount = $(".dialog_alarm_count"); //报警数量
+    let eleDialogAlarmTime = $(".dialog_alarm_time"); //报警时间
+    let eleDialogAlarmLink = $(".dialog_alarm_link");//报警布控编号
+    let mCurAlarmCount = 0;
+    let mCurAlarmImageCount = 0;
+
+    let mAudioPlayerIsOpen = true;//当前音频播放器是否开启
+    let eleAudioPlayer = document.querySelector("#audio_player");
+    let eleHandleAudioPlayer = $("#handle_audio_player");
+
+    eleHandleAudioPlayer.click(function () {
+        if(mAudioPlayerIsOpen){//当前开启，点击则关闭
+            $(this).html("<i class=\"fa fa-bell-slash-o\" title='开启声音'></i>");
+            mAudioPlayerIsOpen = false;
+            try {
+                if(!eleAudioPlayer.paused){
+                    eleAudioPlayer.pause();
+                }
+            }catch (e) {
+                console.log("eleAudioPlayer.pause() error:",e)
+            }
+        }else{//当前关闭中，点击则开启
+            mAudioPlayerIsOpen = true;
+            $(this).html("<i class=\"fa fa-bell-o\" title='关闭声音'></i>");
+        }
+    })
+
+    
+    function f_show_newAlarmDialog() {
+        // 如果弹窗未显示，才显示弹窗；如果已显示，仅更新内容，避免闪烁
+        if(!eleBxcDialog.is(':visible')) {
+            eleBxcDialogMask.show();
+            eleBxcDialog.show();
+        }
+        // 弹窗已显示时，内容已经通过 eleDialogAlarmCount.html() 等更新，无需重复显示
+    }
+
+    function f_close_newAlarmDialog() {
+         if (!eleAudioPlayer.paused) {//播放中
+             eleAudioPlayer.pause();
+         }
+         mCurAlarmCount = 0;
+         mCurAlarmImageCount = 0;
+
+         eleBxcDialog.hide();
+         eleBxcDialogMask.hide();
+    }
+
+    //报警end
+
+    function f_createEPlayer(video_id) {
+        let eleVideoPlayer = document.querySelector('#video_player'+video_id);
+        let ePlayer = new EasyPlayerPro({
+            container:eleVideoPlayer,
+            videoBuffer: 0.1, // 缓存时长
+            videoBufferDelay: Number(3), // 1000s 达到延迟重播(s)
+            decoder: '/static/lib/easyPlayer/js/decoder-pro.js',
+            isResize: true,
+            loadingText: "加载中",
+            debug: false,
+            debugLevel: "debug",
+            useMSE: true,
+            useSIMD: false,
+            useWCS: true,
+            hasAudio: true,
+            websocket1006ErrorReplay: true,
+            networkDelayTimeoutReplay: true,
+            useMThreading: true,
+            showBandwidth: true, // 显示网速
+            showPerformance: false, // 显示性能
+            operateBtns: {
+                fullscreen: true,
+                screenshot: false,
+                play: true,
+                audio: true,
+                ptz: false,
+                quality: false,
+                performance: true,
+            },
+            background: "/static/images/player_poster.jpg",
+            timeout: 10,
+            qualityConfig: ['普清', '高清', '超清'],
+            forceNoOffscreen: true,
+            isNotMute: false,
+            heartTimeout: Number(7),//超出时间无数据重连(s)
+            ptzClickType: 'mouseDownAndUp',
+            ptzZoomShow: true,
+            ptzMoreArrowShow: true,
+            ptzApertureShow: true,
+            ptzFocusShow: true,
+            pauseAndNextPlayUseLastFrameShow: true,
+            heartTimeoutReplayUseLastFrameShow: true,
+            replayUseLastFrameShow: true, // 重播使用上一帧显示
+            fullscreenWatermarkConfig: {
+                text: "", //水印
+            }
+        });
+        return ePlayer;
+    }
+
+    function f_playStart(video_id,video_url){
+        //参数示例:video9_0, ws://192.168.1.8:9002/live/cam25959636e0.live.mp4
+        //("f_playStart() ",video_id,video_url);
+
+        let player = mSelectedVideoPlayerMap.get(video_id);
+        if(typeof player === "undefined" || player === "undefined"){
+            //首次创建播放器
+            player = f_createEPlayer(video_id);
+            player.play(video_url);
+            mSelectedVideoPlayerMap.set(video_id,player);
+
+        }else{
+            //已经存在播放器，先销毁再创建
+            player.destroy().then(() => {
+                player = f_createEPlayer(video_id);
+                player.play(video_url);
+                mSelectedVideoPlayerMap.set(video_id,player);
+            });
+        }
+
+    }
+    function f_playStop(video_id){
+        //console.log("f_playStop()",video_id);
+        let player = mSelectedVideoPlayerMap.get(video_id);
+        if(typeof player === "undefined" || player === "undefined"){
+            //播放器已经停止播放
+        }else{
+            //播放器停止播放成功
+            player.destroy();
+            mSelectedVideoPlayerMap.delete(video_id);
+        }
+    }
+    function f_createVideoId(index) {
+        return "video" + mSelectedGridVideoCount.toString() + "_" + index.toString();
+    }
+    function f_createGridVideoContainer(gridVideoCount) {
+        mSelectedGridVideoCount = gridVideoCount;
+        switch (gridVideoCount) {
+            case 1:
+                mSelectedGridItemClass = "grid_item1";
+                break;
+            case 4:
+                mSelectedGridItemClass = "grid_item4";
+                break;
+            case 9:
+                mSelectedGridItemClass = "grid_item9";
+                break;
+            case 16:
+                mSelectedGridItemClass = "grid_item16";
+                break;
+            default:
+                mSelectedGridItemClass = "grid_item4";
+                break;
+        }
+        mSelectedVideoId = null;//重置选中的video
+        for (let video_id of mSelectedVideoPlayerMap.keys()){
+            f_playStop(video_id);
+        }
+        mSelectedVideoPlayerMap.clear();
+
+        console.log("f_createGridVideoContainer()",mSelectedGridVideoCount,mSelectedGridItemClass,mSelectedVideoId,mSelectedVideoPlayerMap);
+
+        let html = "";
+        //eleGridVideoContainer.html(html);
+        for (let i = 0; i < mSelectedGridVideoCount; i++) {
+            let video_id = f_createVideoId(i);
+            let video_class = mSelectedGridItemClass;
+            if(i===0){
+                video_class += " grid_item_active";
+                mSelectedVideoId = video_id;
+            }
+            //html += "<div id='"+video_id+"' style='background-color: black;min-height: 200px;' class='"+video_class+"' onclick='f_clickVideo(this)'></div> ";
+            html += "<div id='"+video_id+"' class='"+video_class+"' onclick='f_clickVideo(this)'><div id='video_player"+video_id+"' style='background-color: black;aspect-ratio: 16 / 9;' ></div></div> ";
+        }
+        eleGridVideoContainer.html(html);
+        if(mSelectedVideoId){
+            $("#"+mSelectedVideoId).click();
+        }
+
+    }
+    function f_clickVideo(obj) {
+        //console.log("f_clickVideo()",mSelectedGridVideoCount,mSelectedGridItemClass,mSelectedVideoId)
+
+        //console.log("obj_js=",obj_js)
+        //let obj_jquery = $(obj_js);
+        //console.log("obj_jquery=",obj_jquery)
+        //let selected_id = obj_jquery.attr("id");
+
+        let selected_id = obj.getAttribute("id");
+        let selected_classList = obj.classList;
+        if(!selected_classList.contains("grid_item_active")){ //首次选中
+            for (let i = 0; i < mSelectedGridVideoCount; i++) {
+                let video_id = f_createVideoId(i);
+                if(video_id === selected_id){
+                    selected_classList.add("grid_item_active")
+                    mSelectedVideoId = video_id;
+                }else{
+                    let eleVideoJqueryObj= $("#"+video_id);
+                    eleVideoJqueryObj.attr("class",mSelectedGridItemClass);
+                }
+            }
+        }
+    }
+    function f_clickPlayStart() {
+        console.log("f_clickPlayStart()",mSelectedGridVideoCount,mSelectedGridItemClass,mSelectedVideoId,mSelectedVideoPlayerMap)
+        if(mSelectedVideoId===null){
+            myToast2025("请选中一个窗口！","error");
+            return false;
+        }
+        streamCode = eleSelectStream.val().trim();//typeof string
+        if(streamCode==="-1"){
+            myToast2025("暂无视频流","error");
+            return false;
+        }else if(streamCode==="0"){
+            myToast2025("请选择视频流","error");
+            return false;
+        }
+        let stream = streamCodeDict[streamCode];
+        //let app = stream["app"];
+        //let wsHost = stream["wsHost"];
+        //let video_codec_name = stream["video_codec_name"];
+        //let video_width = stream["video_width"];
+        //let video_height = stream["video_height"];
+        //let name = stream["name"];
+
+        let video_url = stream["wsMp4Url"];
+        if(typeof video_url === "undefined" || !video_url.startsWith("ws://") || !video_url.endsWith(".mp4")){
+            myToast2025("视频流地址格式不正确！","error");
+            return false;
+        }
+        f_playStart(mSelectedVideoId,video_url);
+
+    }
+	function f_clickPlayStop() {
+        console.log("f_clickPlayStop()",mSelectedGridVideoCount,mSelectedGridItemClass,mSelectedVideoId,mSelectedVideoPlayerMap)
+        f_playStop(mSelectedVideoId);
+    }
+    function f_clickFullScreen() {
+        let ele_grid_video_container = document.getElementById("grid_video_container");
+        //使用Chrome浏览器需要加上webkit
+        // ele_grid_video_container.webkitRequestFullScreen();
+        // ele_grid_video_container.requestFullscreen();
+        //使用FireFox浏览器需要加上moz
+        // ele_grid_video_container.mozRequestFullScreen();
+        if (ele_grid_video_container.requestFullscreen) {
+            ele_grid_video_container.requestFullscreen();
+        } else if (ele_grid_video_container.webkitRequestFullScreen) {
+            ele_grid_video_container.webkitRequestFullScreen();
+        } else if (ele_grid_video_container.mozRequestFullScreen) {
+            ele_grid_video_container.mozRequestFullScreen();
+        } else if (ele_grid_video_container.msRequestFullScreen) {
+            ele_grid_video_container.msRequestFullScreen();
+        }
+    }
+    function f_open_index() {
+        window.location.href = "/";
+    }
+    function f_open_alarm_edit(code){
+        // 打开报警详情弹窗
+        openAlarmDetailModal(code);
+    }
+    function f_show_alarmChart(data) {
+
+        Highcharts.chart('left_alarm_chart', {
+            exporting:{
+                enabled:false //隐藏右上角菜单
+            },
+            credits:{
+                enabled:false//隐藏右下角logo
+            },
+            chart: {
+                type: 'area',
+                backgroundColor:null
+            },
+            title: {
+                text: null
+            },
+            xAxis: {
+                type: 'datetime'
+            },
+            yAxis: {
+                min:0,
+                title: {
+                    text: null
+                },
+                showFirstLabel: true
+            },
+            tooltip: {
+                    formatter: function () {
+                            return '<b>' + this.series.name + '</b><br/>' +
+                                    Highcharts.dateFormat('%Y-%m-%d', this.x) + '<br/>' +
+                                    this.y;
+
+
+                    }
+            },
+            legend: {
+                    enabled: false //隐藏底部类别名称
+            },
+            series: [{
+                name: '报警数量',
+                data: data
+            }]
+        });
+
+    }
+    function f_show_alarmRank(data){
+        let html = "";
+        if(data.length > 0){
+             let max_count = 0;
+             for (let i = 0; i < data.length; i++) {
+                 let d = data[i];
+                 let count = parseInt(d["count"]);
+                 if(count > max_count){
+                     max_count = count;
+                     break;
+                 }
+             }
+             for (let i = 0; i < data.length; i++) {
+                let d = data[i];
+                let count = parseInt(d["count"]);
+                let width_ratio = Math.round(count / max_count * 100);
+
+               html+="<div class=\"xc_rank-item\">";
+                  html+="<span>"+d["name"]+"</span>";
+                  html+="<span>"+d["count"]+"</span>";
+                html+="</div>";
+                html+="<div class=\"xc_progress-bar\">";
+                  html+="<div class=\"xc_progress-fill\" style=\"width: "+width_ratio+"%;\"></div>";
+                html+="</div>"
+             }
+
+        }else{
+
+            html+="<div class=\"xc_rank-item\">";
+              html+="<span>暂无数据</span>";
+              html+="<span>0</span>";
+            html+="</div>";
+            html+="<div class=\"xc_progress-bar\">";
+              html+="<div class=\"xc_progress-fill\" style=\"width: 1%;\"></div>";
+            html+="</div>"
+
+        }
+
+        eleLeftAlarmRank.html(html);
+    }
+    function f_show_alarmData(data){
+        let html = "";
+        if(data.length > 0) {
+             for (let i = 0; i < data.length; i++) {
+                 let d = data[i];
+                   let state = d["state"];
+                   let state_str;
+                    if(state===0) {//未读
+                        state_str = "<span style=\"border-radius: 3px;font-size:11px;padding:2px 4px;color:#337ab7;margin:0 3px;\">未处理</span>";
+                    }else if(state===1){//已读-正常报警
+                        state_str = "<span style=\"border-radius: 3px;font-size:11px;padding:2px 4px;color:#ac0b0b;margin:0 3px;\">报警</span>";
+                    }else if(state===2){//已读-误报
+                        state_str = "<span style=\"border-radius: 3px;font-size:11px;padding:2px 4px;color:#bb751a;margin:0 3px;\">误报</span>";
+                    }else{
+                        state_str = "<span>未知</span>";
+                    }
+
+                 html += "<div class=\"xc_alarm-item\">";
+                 html += "<div class=\"xc_video-thumb\">";
+                 html += "<img src=\""+d["imageUrl"]+"\" alt=\"alarm\" style=\"width: 100%; height: 100%; object-fit: cover;\">";
+                 html += "</div>";
+                 html += "<div class=\"xc_alarm-info\">";
+                 html += "<span>ID："+ d["id"] +"</span>";
+                 html += "<span>视频："+d["stream_nickname"] +"</span>";
+                 html += "<span>类型："+d["flow_name"]+"</span>";
+                 html += "<span>时间："+d["create_time_str"]+"</span>";
+                 html += "</div>";
+                 html += "<div class=\"xc_alarm-status\">";
+                 html += "<div>"+state_str+"</div>";
+                 html += "<div class=\"xc_action-button\" onclick='f_open_alarm_edit(\""+d["code"]+"\")'>查看详情</div>";
+                 html += "</div>";
+                 html += "</div>";
+             }
+        }else{
+            html +="<div class=\"xc_alarm-item\">";
+                html +="<span>暂无数据</span>";
+            html +="</div>";
+        }
+
+
+          eleRightAlarmData.html(html);
+    }
+
+    function f_show_streamCount(streamTotalCount,streamOnlineCount){
+        $("#stream_count").html(streamOnlineCount.toString()+"/"+streamTotalCount.toString())
+    }
+    function f_show_todayAlarm(todayAlarmTotalCount,todayAlarmHandleCount,todayAlarmUnHandleCount) {
+        $("#today_alarm_total_count").html(todayAlarmTotalCount)
+        $("#today_alarm_handle_count").html(todayAlarmHandleCount)
+        $("#today_alarm_unhandle_count").html(todayAlarmUnHandleCount)
+    }
+
+    function f_openUpdateDashboardData() {
+        //console.log("f_openUpdateDashboardData()",mSelectedGridVideoCount,mSelectedVideoPlayerMap)
+
+        let gridVideoUrlArray = [];
+        for (let i = 0; i < mSelectedGridVideoCount; i++) {
+            let video_id = f_createVideoId(i);
+            let player = mSelectedVideoPlayerMap.get(video_id);
+            let url;
+            if(typeof player === "undefined" || player === "undefined"){
+                //当前区域未存在播放器
+                url = "";
+            }else{
+                url = player._opt.url
+            }
+            gridVideoUrlArray.push(url);
+        }
+        let gridVideoUrls = gridVideoUrlArray.join("#");
+
+        $.ajax({
+           url: '/index/openUpdateDashboardData',
+           type: "post",
+           async: true,
+           data: {
+               "gridVideoCount":mSelectedGridVideoCount,
+               "gridVideoUrls":gridVideoUrls
+           },
+           dataType: "json",
+           timeout: 0,
+           error: function () {
+               myToast2025("网络异常，请确定网络正常！","error");
+           },
+           success: function (res) {
+               if(res.code === 1000){
+                   myToast2025(res.msg,"success");
+               }else{
+                   myToast2025(res.msg,"error");
+               }
+           }
+        });
+
+    }
+
+    function f_openDashboardData() {
+        $.ajax({
+           url: '/index/openDashboardData',
+           type: "get",
+           async: true,
+           data: {
+               "alarm_rank_size":8,
+               "alarm_size":10
+           },
+           dataType: "json",
+           timeout: 0,
+           error: function () {
+               myToast2025("网络异常，请确定网络正常！","error");
+           },
+           success: function (res) {
+               if(res.code === 1000){
+                    let info = res.info;
+                    let last7DayChartData = info["last7DayChartData"];
+                    let last7DayRankData = info["last7DayRankData"];
+                    let alarmData = info["alarmData"];
+
+                    let todayAlarmTotalCount = info["todayAlarmTotalCount"];
+                    let todayAlarmHandleCount = info["todayAlarmHandleCount"];
+                    let todayAlarmUnHandleCount = info["todayAlarmUnHandleCount"];
+                    let streamTotalCount = info["streamTotalCount"];
+                    let streamOnlineCount = info["streamOnlineCount"];
+
+                    f_show_alarmChart(last7DayChartData);
+                    f_show_alarmRank(last7DayRankData);
+                    f_show_alarmData(alarmData);
+                    f_show_streamCount(streamTotalCount,streamOnlineCount);
+                    f_show_todayAlarm(todayAlarmTotalCount,todayAlarmHandleCount,todayAlarmUnHandleCount);
+
+               }else{
+
+                    let chartData = [],time = (new Date()).getTime();
+                    for (let i = -9; i <= 0; i += 1) {
+                            chartData.push({
+                                    x: time + i * 1000,
+                                    y: 0 //Math.random()
+                            });
+                    }
+                    let rankData = [];
+                    let alarmData = [];
+                    f_show_alarmChart(chartData);
+                    f_show_alarmRank(rankData);
+                    f_show_alarmData(alarmData);
+
+                    f_show_streamCount(0,0);
+                    f_show_todayAlarm(0,0,0);
+
+               }
+           }
+        });
+
+    }
+    function f_openDashboardPlayerData() {
+        $.ajax({
+           url: '/index/openDashboardPlayerData',
+           type: "get",
+           async: true,
+           data: {},
+           dataType: "json",
+           timeout: 0,
+           error: function () {
+               myToast2025("网络异常，请确定网络正常！","error");
+           },
+           success: function (res) {
+               if(res.code === 1000){
+                    let info = res.info;
+                    let gridVideoCount = info["gridVideoCount"];
+                    let gridVideoUrlArray = info["gridVideoUrlArray"];
+
+                    if(gridVideoCount >= 1){
+                        f_createGridVideoContainer(gridVideoCount);
+                        for (let i = 0; i < mSelectedGridVideoCount; i++) {
+                            let video_id = f_createVideoId(i);
+                            let video_url = gridVideoUrlArray[i];
+                            f_playStart(video_id,video_url);
+                        }
+                    }else{
+                        f_createGridVideoContainer(1);
+                    }
+               }else{
+                    f_createGridVideoContainer(1);
+               }
+           }
+        });
+
+    }
+
+    function f_getNewAlarm() {
+        setTimeout(function () {
+            __f_handleOpenNewAlarm();
+        }, 3000);
+    }
+    function __f_handleOpenNewAlarm() {
+        //检查新数据
+       $.ajax({
+            url: '/index/openNewAlarm',
+            type: "get",
+            async: true,
+            dataType: "json",
+            timeout: 10000,
+            error: function () {
+                //myToast2025("网络异常，请确定网络正常！", "error");
+                //网络异常也要继续检测
+                f_getNewAlarm();
+            },
+            success: function (res) {
+                if(res.code === 1000) {
+                    let info = res.info;
+
+                    //播放声音start
+                    if(mAudioPlayerIsOpen) {//开启了播放声音
+                        let audio_path = info["audio_path"];
+                        let audio_url = uploadAudioDir_www + audio_path
+                        try {
+                            if (!eleAudioPlayer.paused) {//播放中
+                                eleAudioPlayer.pause();
+                            }
+                            eleAudioPlayer.setAttribute("src", audio_url)
+                            eleAudioPlayer.play();
+                        } catch (e) {
+                            console.log("eleAudioPlayer.play() error:", e)
+                        }
+                    }
+                    //播放声音end
+
+                    //弹窗显示报警数据start
+                    let alarm = info["alarm"];
+                    let imageUrlArray = info["imageUrlArray"];
+                    let imageUrlArrayLen = imageUrlArray.length;
+
+                    mCurAlarmCount +=1;
+                    mCurAlarmImageCount += imageUrlArrayLen;
+
+                    let show_len = imageUrlArrayLen;
+                    if(show_len > 5){
+                        show_len = 5;
+                    }
+                    let content_list="";
+                    for (let i = 0; i < show_len; i++) {
+                        content_list+="<div class=\"content_item\"><img src=\""+imageUrlArray[i]+"\"></div>";
+                    }
+                    content_list+="<div class=\"content_item\"><span style='margin-left:1px;'>共"+mCurAlarmImageCount+"张</span></div>"
+
+                    eleDialogAlarmCount.html("发现"+mCurAlarmCount+"条新的报警");
+                    eleDialogAlarmTime.html(alarm["create_time_str"]);
+                    eleDialogAlarmLink.html("<a href='javascript:f_open_alarm_edit(\""+alarm["code"]+"\")'>查看报警详情</a>");
+                    eleDialogAlarmContentList.html(content_list);
+                    //弹窗显示报警数据end
+
+                    f_show_newAlarmDialog();
+
+                    $('img').click(function () {
+                        $.fancybox.open({
+                            src: $(this).attr('src'),
+                            type: 'image'
+                        });
+                    });
+
+                    //刷新其他数据
+                    f_openDashboardData();
+
+                }else{
+                    //未检测到新数据，无需刷新其他数据
+                }
+
+                //无论是否检测到新数据都要继续检测
+                f_getNewAlarm();
+            }
+        });
+    }
+
+    $(function() {
+        f_openDashboardData();
+        f_openDashboardPlayerData();
+        f_getNewAlarm();
+    });
+
+    // 报警详情弹窗功能
+    let currentAlarmCode = '';
+    
+    function openAlarmDetailModal(code) {
+        currentAlarmCode = code;
+        $('#alarmDetailModal').addClass('active');
+        loadAlarmInfo(code);
+    }
+    
+    function closeAlarmDetailModal() {
+        $('#alarmDetailModal').removeClass('active');
+        currentAlarmCode = '';
+    }
+    
+    function loadAlarmInfo(code) {
+        // 复用报警管理页面的接口
+        $.ajax({
+            url: '/alarm/openInfo',
+            type: 'get',
+            data: {code: code},
+            dataType: 'json',
+            success: function(res) {
+                if(res.code === 1000) {
+                    renderModalContent(res.info);
+                } else {
+                    myToast2025(res.msg || '报警不存在', 'error');
+                    closeAlarmDetailModal();
+                }
+            },
+            error: function() {
+                myToast2025('加载失败，请稍后重试', 'error');
+                closeAlarmDetailModal();
+            }
+        });
+    }
+    
+    function renderModalContent(alarm) {
+        let html = '<div class="xcd_modal-content-grid">';
+        
+        // 左侧媒体区域
+        html += '<div class="xcd_modal-media-section">';
+        
+        // 视频
+        if(alarm.video_count > 0) {
+            html += '<div class="xcd_modal-section-title"><i class="fa fa-video-camera"></i> 报警视频（' + alarm.video_count + '）</div>';
+            html += '<video controls muted loop preload="none" class="xcd_modal-video-player" poster="' + alarm.imageUrl + '" src="' + alarm.videoUrl + '"></video>';
+        }
+        
+        // 图片
+        html += '<div class="xcd_modal-section-title"><i class="fa fa-image"></i> 报警图片（' + alarm.image_count + '）</div>';
+        html += '<div class="xcd_modal-image-grid">';
+        for(let i = 0; i < alarm.imageUrlArray.length; i++) {
+            let imageUrl = alarm.imageUrlArray[i];
+            html += '<div class="xcd_modal-image-item">';
+            html += '<img class="xcd_modal-image-thumb" src="' + imageUrl + '" onclick="viewImage(\'' + imageUrl + '\')">';
+            html += '<div class="xcd_modal-image-info">';
+            html += '<span>第' + (i+1) + '张</span>';
+            html += '<a href="' + imageUrl + '" target="_blank" download><i class="fa fa-download"></i></a>';
+            html += '</div></div>';
+        }
+        html += '</div></div>';
+        
+        // 右侧信息区域
+        html += '<div class="xcd_modal-info-sidebar">';
+        
+        // 基本信息
+        html += '<div class="xcd_modal-info-card">';
+        html += '<div class="xcd_modal-section-title">基本信息</div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">报警ID：</span><span class="xcd_modal-info-value">' + alarm.id + '</span></div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">报警编号：</span><span class="xcd_modal-info-value">' + alarm.code + '</span></div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">报警时间：</span><span class="xcd_modal-info-value">' + alarm.create_time + '</span></div>';
+        html += '</div>';
+        
+        // 关联信息
+        html += '<div class="xcd_modal-info-card">';
+        html += '<div class="xcd_modal-section-title">关联信息</div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">关联视频：</span><span class="xcd_modal-info-value"><a href="/stream/index?code=' + alarm.stream_code + '" target="_blank">前往查看</a></span></div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">关联布控：</span><span class="xcd_modal-info-value"><a href="/control/index?code=' + alarm.control_code + '" target="_blank">前往查看</a></span></div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">关联算法：</span><span class="xcd_modal-info-value"><a href="/algorithmFlow/index?search=' + alarm.flow_code + '" target="_blank">' + alarm.flow_name + '</a></span></div>';
+        html += '</div>';
+        
+        // 审核操作
+        html += '<div class="xcd_modal-info-card">';
+        html += '<div class="xcd_modal-section-title">审核操作</div>';
+        html += '<div class="xcd_modal-radio-item">';
+        html += '<input type="radio" ' + (alarm.state === 0 ? 'checked' : '') + ' value="0" name="modal_state" id="modal_state_0">';
+        html += '<label for="modal_state_0">未处理</label></div>';
+        html += '<div class="xcd_modal-radio-item">';
+        html += '<input type="radio" ' + (alarm.state === 1 ? 'checked' : '') + ' value="1" name="modal_state" id="modal_state_1">';
+        html += '<label for="modal_state_1">审核确认为正常报警</label></div>';
+        html += '<div class="xcd_modal-radio-item">';
+        html += '<input type="radio" ' + (alarm.state === 2 ? 'checked' : '') + ' value="2" name="modal_state" id="modal_state_2">';
+        html += '<label for="modal_state_2">审核确认为误报</label></div>';
+        html += '<input type="text" name="modal_review_remark" value="' + (alarm.review_remark || '') + '" placeholder="请输入审核备注" class="xcd_modal-form-input">';
+        html += '</div>';
+        
+        html += '</div></div>';
+        
+        $('#alarmModalBody').html(html);
+    }
+    
+    function submitAlarmReview() {
+        if(!currentAlarmCode) return;
+        
+        let state = parseInt($('input[name="modal_state"]:checked').val());
+        let review_remark = $('input[name="modal_review_remark"]').val();
+        
+        // 复用报警管理页面的接口
+        $.ajax({
+            url: '/alarm/openEdit',
+            type: 'post',
+            data: {
+                code: currentAlarmCode,
+                state: state,
+                review_remark: review_remark
+            },
+            dataType: 'json',
+            success: function(res) {
+                if(res.code === 1000) {
+                    myToast2025(res.msg, 'success', 1000);
+                    setTimeout(function() {
+                        closeAlarmDetailModal();
+                        f_openDashboardData(); // 刷新报警列表
+                    }, 1000);
+                } else {
+                    myToast2025(res.msg, 'error');
+                }
+            },
+            error: function() {
+                myToast2025('网络异常，请确定网络正常！', 'error');
+            }
+        });
+    }
+    
+    function viewImage(url) {
+        $.fancybox.open({
+            src: url,
+            type: 'image'
+        });
+    }
+
+</script>
+
+
+</html>

@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>报警存储测试</title>
+    <link href="/static/lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+        
+        .tool-container {
+            display: flex !important;
+            flex-direction: row !important;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .left-panel {
+            width: 320px;
+            min-width: 280px;
+            flex-shrink: 0;
+        }
+        
+        .right-panel {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .tool-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .tool-section:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tool-section h4 {
+            margin: 0 0 20px 0;
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .btn-test {
+            padding: 12px 32px;
+            background: #1a1a2e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .btn-test:hover {
+            background: #252545;
+            box-shadow: 0 4px 12px rgba(26, 26, 46, 0.3);
+            transform: translateY(-1px);
+        }
+        
+        .btn-test:active {
+            transform: translateY(0);
+        }
+        
+        .result-area {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.6;
+            word-wrap: break-word;
+            word-break: break-all;
+            min-height: 150px;
+        }
+        
+        .file-upload-section {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .file-upload-section .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        
+        .file-upload-section .form-group input[type="file"] {
+            padding: 8px;
+            border: 2px dashed #ced4da;
+            background: #f8f9fa;
+            cursor: pointer;
+        }
+        
+        .file-upload-section .form-group input[type="file"]:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        
+        .file-preview-container {
+            flex-shrink: 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border: 2px dashed #ced4da;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 200px;
+            min-height: 150px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .file-preview-container:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        
+        .file-preview-placeholder {
+            color: #6c757d;
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 15px;
+        }
+        
+        .file-preview {
+            max-width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .file-preview:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal-content {
+            display: block;
+            margin: 5% auto;
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(255,255,255, 0.2);
+        }
+        
+        .close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            color: #f1f1f1;
+            font-size: 48px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        
+        .close:hover {
+            color: #fff;
+            background: rgba(0, 0, 0, 0.8);
+            transform: rotate(90deg);
+        }
+        
+        #testLoading {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        #testLoading i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .alarm-info-section {
+            margin-bottom: 20px;
+        }
+        
+        .alarm-info-item {
+            display: flex;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        
+        .alarm-info-label {
+            width: 150px;
+            font-weight: 500;
+            color: #495057;
+            flex-shrink: 0;
+        }
+        
+        .alarm-info-value {
+            flex: 1;
+            color: #333;
+            word-break: break-word;
+        }
+        
+        @media (max-width: 768px) {
+            .tool-container {
+                padding: 15px;
+            }
+            
+            .left-panel {
+                width: 280px;
+                min-width: 250px;
+            }
+            
+            .file-upload-section {
+                flex-direction: column;
+            }
+            
+            .file-preview-container {
+                width: 100%;
+                margin-top: 15px;
+            }
+            
+            .alarm-info-item {
+                flex-direction: column;
+            }
+            
+            .alarm-info-label {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="tool-container">
+        <div class="left-panel">
+            <div class="tool-section">
+                <h4>报警存储信息</h4>
+                <div id="alarmInfoContent">
+                    <div style="text-align: center; padding: 20px; color: #6c757d;">
+                        <i class="fa fa-spinner fa-spin"></i> 加载中...
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="right-panel">
+            <div class="tool-section">
+                <h4>报警存储测试</h4>
+                <form id="alarmTestForm">
+                    <div class="form-group">
+                        <label>选择图片 <span style="color: red;">*</span></label>
+                        <input type="file" id="testImage" accept="image/*" required>
+                    </div>
+                    <div class="form-group">
+                        <label>选择视频</label>
+                        <input type="file" id="testVideo" accept="video/*">
+                    </div>
+                    <div class="form-group">
+                        <label style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>是否开启base64</span>
+                            <label class="switch">
+                                <input type="checkbox" id="enableBase64Toggle">
+                                <span class="slider round"></span>
+                            </label>
+                        </label>
+                        <input type="hidden" id="enableBase64" value="0">
+                    </div>
+                    <style>
+                        /* 开关样式 */
+                        .switch {
+                            position: relative;
+                            display: inline-block;
+                            width: 50px;
+                            height: 24px;
+                        }
+                        
+                        .switch input {
+                            opacity: 0;
+                            width: 0;
+                            height: 0;
+                        }
+                        
+                        .slider {
+                            position: absolute;
+                            cursor: pointer;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            bottom: 0;
+                            background-color: #ccc;
+                            transition: .4s;
+                        }
+                        
+                        .slider:before {
+                            position: absolute;
+                            content: "";
+                            height: 18px;
+                            width: 18px;
+                            left: 3px;
+                            bottom: 3px;
+                            background-color: white;
+                            transition: .4s;
+                        }
+                        
+                        input:checked + .slider {
+                            background-color: #1a1a2e;
+                        }
+                        
+                        input:focus + .slider {
+                            box-shadow: 0 0 1px #1a1a2e;
+                        }
+                        
+                        input:checked + .slider:before {
+                            transform: translateX(26px);
+                        }
+                        
+                        /* 圆形开关 */
+                        .slider.round {
+                            border-radius: 24px;
+                        }
+                        
+                        .slider.round:before {
+                            border-radius: 50%;
+                        }
+                    </style>
+                    <button type="submit" class="btn-test">开始测试</button>
+                </form>
+                <div id="testLoading" style="display:none;">
+                    <i class="fa fa-spinner fa-spin"></i> 测试中...
+                </div>
+                <div id="testResult" class="result-area" style="display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/lib/jquery/jquery.min.js"></script>
+    <script>
+        // 页面加载时检查是否有code参数
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            if (code) {
+                loadAlarmInfo(code);
+            } else {
+                document.getElementById('alarmInfoContent').innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: #dc3545;">
+                        <i class="fa fa-exclamation-circle"></i> 未找到报警存储编号参数
+                    </div>
+                `;
+            }
+        });
+        
+        // 加载报警存储信息
+        function loadAlarmInfo(code) {
+            $.ajax({
+                url: '/alarmInterface/openInfo',
+                type: "get",
+                async: true,
+                data: {"code": code},
+                dataType: "json",
+                timeout: 0,
+                error: function () {
+                    document.getElementById('alarmInfoContent').innerHTML = `
+                        <div style="text-align: center; padding: 20px; color: #dc3545;">
+                            <i class="fa fa-exclamation-circle"></i> 加载失败，请检查网络连接
+                        </div>
+                    `;
+                },
+                success: function (res) {
+                    if(1000 === res.code && res.info) {
+                        const alarmInfo = res.info;
+                        let html = '';
+                        
+                        // 构建报警信息HTML
+                        html += `
+                            <div class="alarm-info-item">
+                                <div class="alarm-info-label">编号：</div>
+                                <div class="alarm-info-value">${alarmInfo.code}</div>
+                            </div>
+                            <div class="alarm-info-item">
+                                <div class="alarm-info-label">名称：</div>
+                                <div class="alarm-info-value">${alarmInfo.name}</div>
+                            </div>
+                            <div class="alarm-info-item">
+                                <div class="alarm-info-label">是否保存本地：</div>
+                                <div class="alarm-info-value">${alarmInfo.is_save_local === 1 ? '是' : '否'}</div>
+                            </div>
+                            <div class="alarm-info-item">
+                                <div class="alarm-info-label">服务器类型：</div>
+                                <div class="alarm-info-value">${getServerTypeText(alarmInfo.request_server_type)}</div>
+                            </div>
+                            <div class="alarm-info-item">
+                                <div class="alarm-info-label">服务器地址：</div>
+                                <div class="alarm-info-value">${alarmInfo.request_address || '无'}</div>
+                            </div>
+                            <div class="alarm-info-item">
+                                <div class="alarm-info-label">服务器参数：</div>
+                                <div class="alarm-info-value">${alarmInfo.request_params || '无'}</div>
+                            </div>
+                            <div class="alarm-info-item">
+                                <div class="alarm-info-label">扩展参数：</div>
+                                <div class="alarm-info-value">${alarmInfo.request_content_extend_params || '无'}</div>
+                            </div>
+                            <div class="alarm-info-item">
+                                <div class="alarm-info-label">创建时间：</div>
+                                <div class="alarm-info-value">${alarmInfo.create_time || '未知'}</div>
+                            </div>
+                        `;
+                        
+                        document.getElementById('alarmInfoContent').innerHTML = html;
+                    } else {
+                        document.getElementById('alarmInfoContent').innerHTML = `
+                            <div style="text-align: center; padding: 20px; color: #dc3545;">
+                                <i class="fa fa-exclamation-circle"></i> ${res.msg || '报警存储信息不存在'}
+                            </div>
+                        `;
+                    }
+                }
+            });
+        }
+        
+        // 获取服务器类型文本
+        function getServerTypeText(type) {
+            switch(type) {
+                case 0: return 'NO';
+                case 1: return 'HTTP';
+                case 2: return 'Redis';
+                case 3: return 'Kafka';
+                case 4: return 'MongoDB';
+                default: return 'Other';
+            }
+        }
+
+        // 处理base64开关状态变化
+        document.getElementById('enableBase64Toggle').addEventListener('change', function() {
+            const hiddenInput = document.getElementById('enableBase64');
+            hiddenInput.value = this.checked ? '1' : '0';
+        });
+
+        // 表单提交处理
+        document.getElementById('alarmTestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleAlarmTest();
+        });
+
+        // 处理报警测试
+        function handleAlarmTest() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            
+            if (!code) {
+                alert('未找到报警存储编号参数');
+                return;
+            }
+            
+            const formData = new FormData();
+            
+            // 验证并添加图片文件（必填）
+            const imageFiles = document.getElementById('testImage').files;
+            if (imageFiles.length === 0) {
+                alert('请选择测试图片');
+                return;
+            }
+            formData.append('image', imageFiles[0]);
+            
+            // 添加视频文件（选填）
+            const videoFiles = document.getElementById('testVideo').files;
+            if (videoFiles.length > 0) {
+                formData.append('video', videoFiles[0]);
+            }
+            
+            // 添加其他参数
+            formData.append('code', code);
+            formData.append('enable_base64', document.getElementById('enableBase64').value);
+
+            const startTime = new Date();
+
+            document.getElementById('testLoading').style.display = 'block';
+            document.getElementById('testResult').style.display = 'none';
+
+            $.ajax({
+                url: '/alarmInterface/openTest',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                timeout: 60000,
+                error: function(xhr, status, error) {
+                    document.getElementById('testLoading').style.display = 'none';
+                    document.getElementById('testResult').style.display = 'block';
+                    document.getElementById('testResult').innerHTML = `
+                        <div style="color:red;font-weight:500;">请求失败：${error}</div>
+                        <div style="margin-top:10px;">状态：${status}</div>
+                    `;
+                },
+                success: function(data) {
+                    const duration = new Date() - startTime;
+
+                    document.getElementById('testLoading').style.display = 'none';
+                    document.getElementById('testResult').style.display = 'block';
+                    
+                    if (data.code === 1000) {
+                        document.getElementById('testResult').innerHTML = `
+                            <div>
+                                <div style="margin:0 0 10px 0;font-size:14px;color:#666;font-weight:500;">测试时间：${(duration / 1000).toFixed(2)}秒</div>
+                                <div style="margin:0 0 10px 0;font-size:14px;color:#28a745;font-weight:500;">测试成功：${data.msg}</div>
+                                <div style="font-size:14px;white-space:pre-wrap;word-break:break-all;">${JSON.stringify(data.result || {}, null, 2)}</div>
+                            </div>
+                        `;
+                    } else {
+                        document.getElementById('testResult').innerHTML = `
+                            <div style="color:red;font-weight:500;">测试失败：${data.msg}</div>
+                            <div style="margin-top:10px;font-size:14px;white-space:pre-wrap;word-break:break-all;">${JSON.stringify(data, null, 2)}</div>
+                        `;
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

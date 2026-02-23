@@ -1,0 +1,505 @@
+{% extends "app/base_site.html" %}
+
+{% block title %} 系统授权 {% endblock title %}
+
+{% block stylesheets %}
+  {{ block.super }}
+  <style>
+    .auth-container {
+      padding: 20px;
+      background: #f5f7fa;
+      min-height: calc(100vh - 100px);
+    }
+    
+    .modern-card {
+      background: white;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 0 auto 16px;
+      max-width: 900px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      transition: all 0.3s ease;
+    }
+    
+    .modern-card:hover {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eef2f5;
+    }
+    
+    .card-header i {
+      margin-right: 8px;
+      color: #169F85;
+      font-size: 16px;
+    }
+    
+    .card-header h3 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+    
+    .info-row {
+      display: flex;
+      align-items: center;
+      padding: 5px 8px;
+      margin-bottom: 3px;
+      background: #f9fafb;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    
+    .info-row:hover {
+      background: #f3f4f6;
+    }
+    
+    .info-label {
+      font-size: 12px;
+      color: #6b7280;
+      min-width: 80px;
+      font-weight: 500;
+    }
+    
+    .info-value {
+      font-size: 12px;
+      color: #374151;
+      font-weight: 500;
+      flex: 1;
+    }
+
+    .status-success {
+      background: #d1fae5;
+      color: #065f46;
+
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .status-error {
+      background: #fee2e2;
+      color: #991b1b;
+
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .status-warning {
+      background: #fef3c7;
+      color: #92400e;
+
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+    
+    .form-group-modern {
+      margin-bottom: 16px;
+    }
+    
+    .form-label-modern {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: #606266;
+      margin-bottom: 6px;
+    }
+    
+    .form-label-modern .required {
+      color: #dc2626;
+      margin-left: 4px;
+    }
+    
+    .form-control-modern {
+      width: 100%;
+      padding: 8px 12px;
+      font-size: 13px;
+      border: 1px solid #dcdfe6;
+      border-radius: 4px;
+      transition: all 0.2s;
+      resize: vertical;
+      font-family: Consolas, Monaco, monospace;
+    }
+    
+    .form-control-modern:focus {
+      outline: none;
+      border-color: #169F85;
+      box-shadow: 0 0 0 2px rgba(22, 159, 133, 0.1);
+    }
+    
+    .btn-modern {
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-right: 8px;
+    }
+    
+    .btn-primary-modern {
+      background: #1a1a2e;
+      color: white;
+    }
+    
+    .btn-primary-modern:hover {
+      background: #252545;
+      box-shadow: 0 3px 8px rgba(26, 26, 46, 0.3);
+      transform: translateY(-1px);
+    }
+    
+    .btn-secondary-modern {
+      background: white;
+      color: #169F85;
+      border: 1px solid #169F85;
+    }
+    
+    .btn-secondary-modern:hover {
+      background: #f0f9f6;
+    }
+    
+    .btn-default-modern {
+      background: white;
+      color: #606266;
+      border: 1px solid #dcdfe6;
+    }
+    
+    .btn-default-modern:hover {
+      color: #169F85;
+      border-color: #169F85;
+      background: #f0f9f6;
+    }
+    
+    .btn-activate-modern {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border: none;
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+    }
+    
+    .btn-activate-modern:hover {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+      transform: translateY(-1px);
+    }
+    
+    .btn-activate-modern:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+    }
+    
+    .loading-spinner {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 2px solid #e5e7eb;
+      border-top: 2px solid #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: 5px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .right_col {
+      background: #f5f7fa !important;
+    }
+    
+    .icon-key {
+      color: #169F85;
+    }
+    
+    .icon-lock {
+      color: #14b89a;
+    }
+    
+    .auth-info-card {
+      background: #fafafa;
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+    
+    .auth-info-header {
+      margin-bottom: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+    }
+    
+    .dongle-info-card {
+      background: #fafafa;
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+      padding: 12px;
+    }
+    
+    .dongle-info-header {
+      margin-bottom: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+    }
+    
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 8px;
+      padding-left: 8px;
+      border-left: 3px solid #169F85;
+    }
+  </style>
+{% endblock stylesheets %}
+
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="auth-container">
+      <div class="row">
+        <div class="col-md-12">
+          <!-- 系统授权卡片 -->
+          <div class="modern-card">
+            <div class="card-header">
+              <!--<i class="fa fa-info-circle icon-info"></i>-->
+              <h3>设备信息</h3>
+              <span id="top_loading" style="margin-left: auto; display: none;">
+                <span class="loading-spinner"></span>
+                <span style="color: #667eea;">加载中...</span>
+              </span>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-6">
+                <div class="info-row">
+                  <span class="info-label">设备指纹</span>
+                  <span class="info-value" id="projectFinger">无</span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="info-row">
+                  <span class="info-label">软件标记</span>
+                  <span class="info-value"  id="projectFlag">无</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- 授权码激活卡片 -->
+          <div class="modern-card">
+            <div class="card-header">
+              <i class="fa fa-key icon-key"></i>
+              <h3>系统授权</h3>
+            </div>
+            
+            <form method="post" data-parsley-validate>
+              <div class="form-group-modern">
+                <label class="form-label-modern">
+                  授权码输入
+                  <span class="required">*</span>
+                </label>
+                <textarea 
+                  id="license"
+                  name="license" 
+                  class="form-control-modern" 
+                  rows="3" 
+                  placeholder="请输入授权码"></textarea>
+              </div>
+
+              <!-- 授权码状态信息 -->
+              <div class="auth-info-card">
+                <div class="auth-info-header">
+                  <i class="fa fa-info-circle" style="margin-right: 4px;"></i>授权码状态：
+                  <span id="auth_msg" class="status-error">未授权</span>
+                </div>
+                
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="info-row">
+                      <span class="info-label">生效时间</span>
+                      <span class="info-value" id="create_date_str">无</span>
+                    </div>
+                    <div class="info-row">
+                      <span class="info-label">过期时间</span>
+                      <span class="info-value" id="expire_date_str">无</span>
+                    </div>
+                    <div class="info-row">
+                      <span class="info-label">授权天数</span>
+                      <span class="info-value" id="expire_day">无</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-row">
+                      <span class="info-label">绑定指纹</span>
+                      <span class="info-value" id="finger">无</span>
+                    </div>
+                    <div class="info-row">
+                      <span class="info-label">绑定标记</span>
+                      <span class="info-value" id="flag">无</span>
+                    </div>
+                    <div class="info-row">
+                      <span class="info-label">备注信息</span>
+                      <span class="info-value" id="remark">无</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 激活按钮 -->
+              <div style="padding-top: 16px; border-top: 1px solid #eef2f5; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  {% if settings.auth_online_link != "" %}
+                    <button type="button" onclick="f_link('{{ settings.auth_online_link }}')" class="btn-modern btn-default-modern">
+                      <i class="fa fa-external-link"></i> 申请试用
+                    </button>
+                  {% endif %}
+                  {% if settings.auth_buy_link != "" %}
+                    <button type="button" onclick="f_link('{{ settings.auth_buy_link }}')" class="btn-modern btn-secondary-modern">
+                      <i class="fa fa-shopping-cart"></i> 购买授权
+                    </button>
+                  {% endif %}
+                </div>
+                <button type="submit" class="btn-modern btn-activate-modern">
+                  <i class="fa fa-check-circle"></i> 激活授权码
+                </button>
+              </div>
+            </form>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super }}
+  <script>
+    let eleTopLoading = $("#top_loading");
+    let eleLicense = $("#license");
+    let eleProjectFinger = $("#projectFinger");
+    let eleProjectFlag = $("#projectFlag");
+
+    let eleAuthMsg = $("#auth_msg");
+    let eleCreateDateStr = $("#create_date_str");
+    let eleExpireDateStr = $("#expire_date_str");
+    let eleExpireDay = $("#expire_day");
+
+    let eleFinger = $("#finger");
+    let eleFlag = $("#flag");
+    let eleRemark = $("#remark");
+
+    function f_link(url) {
+      window.open(url);
+    }
+
+    function f_authOpenIndex() {
+      eleTopLoading.show();
+      $.ajax({
+        url: '/auth/openIndex',
+        type: "get",
+        async: true,
+        data: {},
+        dataType: "json",
+        timeout: 0,
+        error: function () {
+          eleTopLoading.hide();
+        },
+        success: function (res) {
+          eleTopLoading.hide();
+
+          if (res.code === 1000) {
+            eleProjectFinger.html(res.projectFinger);
+            eleProjectFlag.html(res.projectFlag);
+            eleLicense.val(res.license);
+
+            let authInfo = res.authInfo;
+            if (authInfo.state === 1) {
+              eleAuthMsg.removeClass('status-error').addClass('status-success');
+            } else {
+              eleAuthMsg.removeClass('status-success').addClass('status-error');
+            }
+            eleAuthMsg.html(authInfo.authMsg);
+
+            eleCreateDateStr.html(authInfo.createDateStr);
+            eleExpireDateStr.html(authInfo.expireDateStr);
+            eleExpireDay.html(authInfo.expireDay);
+            eleFinger.html(authInfo.finger);
+            eleFlag.html(authInfo.flag);
+            eleRemark.html(authInfo.remark);
+
+          } else {
+            myToast2025(res.msg, "error");
+          }
+        }
+      });
+    }
+
+    $("form").submit(function (e) {
+      e.preventDefault(); // 阻止默认表单提交
+      
+      let license = eleLicense.val().trim();
+      if (license === "") {
+        myToast2025("请输入授权码", "error");
+        return false;
+      }
+      
+      // 显示loading
+      eleTopLoading.show();
+      
+      // 发起AJAX请求
+      $.ajax({
+        url: '/auth/openAdd',
+        type: "post",
+        async: true,
+        data: {
+          license: license
+        },
+        dataType: "json",
+        timeout: 0,
+        error: function () {
+          eleTopLoading.hide();
+          myToast2025("网络异常，请确定网络正常！", "error");
+        },
+        success: function (res) {
+          eleTopLoading.hide();
+          if (res.code === 1000) {
+            myToast2025(res.msg, "success", 1000);
+            // 成功后刷新授权信息
+            setTimeout(function() {
+              f_authOpenIndex();
+            }, 1000);
+          } else {
+            myToast2025(res.msg, "error");
+          }
+        }
+      });
+      
+      return false;
+    });
+
+    $(function () {
+      f_authOpenIndex();
+    });
+  </script>
+{% endblock javascripts %}

@@ -1,0 +1,513 @@
+{% extends "app/base_site.html" %}
+
+{% block title %} 算法测试 {% endblock title %}
+{% block stylesheets %}
+  {{ block.super }}
+  <link rel="stylesheet" href="/static/lib/jquery/fancybox/3.5.7/jquery.fancybox.min.css" />
+    <style>
+        .xc_algorithm_container {
+            display: flex;
+            height: 100vh;
+            background: #f5f7fa;
+        }
+        .xc_algorithm_sidebar {
+            width: 340px;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 20px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .xc_algorithm_sidebar h2 {
+            margin: 0 0 16px 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eef2f5;
+        }
+        .xc_algorithm_form_group {
+            margin-bottom: 16px;
+        }
+        .xc_algorithm_label {
+            display: block;
+            margin-bottom: 6px;
+            color: #606266;
+            font-weight: 500;
+            font-size: 12px;
+        }
+        .xc_algorithm_label a {
+            margin-left: 8px;
+            font-size: 11px;
+            color: #169F85;
+            text-decoration: none;
+        }
+        .xc_algorithm_label a:hover {
+            color: #14b89a;
+            text-decoration: underline;
+        }
+        .xc_algorithm_select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            background: #fff;
+            font-size: 13px;
+            color: #606266;
+            transition: all 0.2s;
+        }
+        .xc_algorithm_select:focus {
+            outline: none;
+            border-color: #169F85;
+            box-shadow: 0 0 0 2px rgba(22, 159, 133, 0.1);
+        }
+        .xc_algorithm_btn {
+            width: 100%;
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            height: 32px;
+            line-height: 1;
+            box-sizing: border-box;
+            vertical-align: middle;
+            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+        }
+        .xc_algorithm_btn:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+        .xc_algorithm_btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+        }
+        .xc_algorithm_main {
+            flex: 1;
+            padding: 20px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            overflow-y: auto;
+        }
+        .xc_algorithm_result_title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 16px;
+        }
+        .xc_algorithm_result_box {
+            width: 100%;
+            min-height: 350px;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 20px 24px;
+            color: #606266;
+            font-size: 12px;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            border-radius: 8px;
+            border: 1px solid #eef2f5;
+        }
+        .flow_result_content {
+            display: flex;
+            gap: 24px;
+        }
+        .xc_algorithm_result_info {
+            flex: 1;
+        }
+        .flow_result_preview {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            max-height: calc(100vh - 300px);
+            background: #f9fafb;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            border: 1px solid #eef2f5;
+            overflow: hidden;
+        }
+        .flow_result_preview_title {
+            font-size: 12px;
+            color: #606266;
+            margin-bottom: 12px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        .flow_result_preview_content {
+            width: 100%;
+            max-width: 100%;
+            max-height: calc(100vh - 380px);
+            height: auto;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .flow_result_preview_content:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .xc_algorithm_preview_img, .xc_algorithm_preview_video {
+            max-width: 280px;
+            max-height: 180px;
+            margin-top: 8px;
+            border-radius: 4px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+        .xc_algorithm_file_input_wrapper {
+            position: relative;
+            width: 100%;
+            height: 80px;
+            border: 2px dashed #dcdfe6;
+            border-radius: 4px;
+            background: #f9fafb;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .xc_algorithm_file_input_wrapper:hover {
+            border-color: #169F85;
+            background: #f0f9f6;
+        }
+        .xc_algorithm_file_input_wrapper input[type="file"] {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .xc_algorithm_file_input_wrapper .xc_algorithm_upload_icon {
+            font-size: 24px;
+            color: #169F85;
+            margin-bottom: 6px;
+        }
+        .xc_algorithm_file_input_wrapper .xc_algorithm_upload_text {
+            color: #909399;
+            font-size: 11px;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        .xc_algorithm_model_info, .xc_algorithm_file_info, .xc_algorithm_target_details {
+            background: #f9fafb;
+            border-radius: 4px;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 1px solid #eef2f5;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        .xc_algorithm_model_info {
+            background: #f0f9f6;
+            border-color: #d1f4e8;
+        }
+        .xc_algorithm_file_info {
+            background: #f9fafb;
+        }
+        .xc_algorithm_target_details {
+            background: #fafafa;
+        }
+        .xc_algorithm_model_info b,
+        .xc_algorithm_file_info b,
+        .xc_algorithm_target_details b {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        #top_loading {
+            display: none;
+            margin-left: 12px;
+            font-size: 11px;
+            color: #909399;
+        }
+        #top_loading img {
+            width: 12px;
+            height: 12px;
+            margin-right: 4px;
+            vertical-align: middle;
+        }
+    </style>
+{% endblock stylesheets %}
+{% block content %}
+<script>
+let flowDict = {};//业务算法字典
+let flowCode;
+
+</script>
+
+  <div class="right_col" role="main">
+    <div class="">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel">
+            <!-- xc page start -->
+            <div class="xc_algorithm_container">
+                <div class="xc_algorithm_sidebar">
+                    <h2>算法测试 <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">计算中</span></h2>
+                    <div class="xc_algorithm_form_group">
+                        <label class="xc_algorithm_label" for="select_flow">选择业务算法<a href="javascript:f_openFlowRelease()" style="margin-left: 6px;font-size: 12px;cursor: pointer;color: #4f8cff;">释放所有实例</a></label>
+                        <select class="xc_algorithm_select" id="select_flow">
+                            <option value="0">请选择业务算法</option>
+                            {% for flow in flows %}
+                                <script>
+                                    flowCode = '{{ flow.code }}';
+                                    flowDict[flowCode] = {
+                                        "code":flowCode,
+                                        "name":'{{ flow.name }}',
+                                        "objectCount":'{{ algorithm.objectCount }}',
+                                    };
+                                </script>
+                                 <option value="{{ flow.code }}">{{ flow.name }}（{{ flow.objectCount }}）</option>
+                             {% endfor %}
+                        </select>
+                    </div>
+                    <div class="xc_algorithm_form_group">
+                        <label class="xc_algorithm_label" for="file-input">上传图片</label>
+                        <div class="xc_algorithm_file_input_wrapper">
+                            <!--<input type="file" id="file-input" accept="image/*,video/*">-->
+                            <input type="file" id="file-input" accept="image/*">
+                            <div class="xc_algorithm_upload_icon">📁</div>
+                            <div class="xc_algorithm_upload_text">点击或拖拽文件到此处</div>
+                        </div>
+                        <div id="preview"></div>
+                    </div>
+
+                    <button class="xc_algorithm_btn" id="run-btn">计算</button>
+                </div>
+                <div class="xc_algorithm_main">
+                    <div class="xc_algorithm_result_title">检测结果</div>
+                    <div class="xc_algorithm_result_box">
+                        <div class="flow_result_content" id="flow_result_content">
+                            <!--
+                            <div class="xc_algorithm_result_info">
+
+                                <div class="xc_algorithm_model_info"><b>模型：</b> YOLOv5</div>
+                                <div class="xc_algorithm_file_info"><b>文件类型：</b> 图片</div>
+                                <div class="xc_algorithm_target_details">
+                                    <b>检测到目标：</b> 3<br>
+                                    <b>目标详情：</b><br>
+                                    - person (置信度: 0.92)<br>
+                                    - dog (置信度: 0.87)<br>
+                                    - car (置信度: 0.81)
+                                </div>
+
+                            </div>
+                            <div class="flow_result_preview">
+                                <div class="flow_result_preview_title">渲染结果预览</div>
+                                <div id="result-preview"></div>
+                            </div>
+                            -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- xc page end -->
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super }}
+  <script src="/static/lib/jquery/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+<script>
+    let eleTopLoading = $("#top_loading");
+    let eleSelectFlow = $("#select_flow");
+    let eleFlowResultContent = document.getElementById('flow_result_content');
+    let fileInput = document.getElementById('file-input');
+    let preview = document.getElementById('preview');
+    let runBtn = document.getElementById('run-btn');
+    let mFileType = "unknown";
+    fileInput.addEventListener('change', function() {
+        preview.innerHTML = '';
+        const file = this.files[0];
+        if (!file) return;
+        let file_name = file.name;
+        if (file.type.startsWith('image/')) {
+            mFileType = "image";
+            const img = document.createElement('img');
+            img.className = 'xc_algorithm_preview_img';
+            img.src = URL.createObjectURL(file);
+            preview.appendChild(img);
+        } else if (file.type.startsWith('video/')) {
+            mFileType = "video";
+            const video = document.createElement('video');
+            video.className = 'xc_algorithm_preview_video';
+            video.src = URL.createObjectURL(file);
+            video.controls = true;
+            preview.appendChild(video);
+        } else {
+            mFileType = "unknown";
+        }
+    });
+    runBtn.addEventListener('click', function() {
+        flowCode = eleSelectFlow.val().trim();
+        if(flowCode === "0"){
+            myToast2025("请选择业务算法！","error");
+            return false;
+        }
+        let flow = flowDict[flowCode];
+        if(flow){
+            //ok
+        }else{
+            myToast2025("请选择业务算法！","error");
+            return false;
+        }
+        if(mFileType === "image"){
+            //ok
+        }else{
+            myToast2025("请上传图片类型的文件！","error");
+            return false;
+        }
+        let formData = new FormData();
+        formData.append('flowCode',flowCode);
+        if(fileInput.files.length > 0) {
+            let file = fileInput.files[0];
+            let fs_name = file.name;
+            let fs_size = parseInt(file.size);//文件字节大小
+            let fs_size_m = parseInt(fs_size / 1024 / 1024); //换算成M单位
+            if(fs_size_m > 20){
+                myToast2025("图片文件不能超过（20）M："+String(fs_size_m),"error");
+                return false;
+            }
+            formData.append("file",file);
+        }else{
+             myToast2025("请至少上传一个文件！","error");
+             return false;
+        }
+
+
+       eleTopLoading.show();
+       $.ajax({
+               url: "/algorithmFlow/openFlowAnalyze",
+               type: "post",
+               async: true,
+               contentType:false,
+               processData:false,
+               data: formData,
+               dataType: "json",
+               timeout: 0,
+               error: function () {
+                   eleTopLoading.hide();
+                   myToast2025("网络异常，请确定网络正常！","error");
+               },
+               success: function (res) {
+                   eleTopLoading.hide();
+                   let duration = parseFloat(res["duration"]).toFixed(3);
+
+                   if(res.code === 1000){
+
+                       let info = res.info;
+                       //myToast2025(res.msg,"success");
+                       myToast2025(res.msg,"success",1000);
+                       
+                       let name = info["name"];
+                       let detects = info["data"];
+
+                       let predictUrl = "/storage/openDownload?filename="+name;
+
+                        let resultHtml = '';
+                        resultHtml += "<div class=\"xc_algorithm_result_info\">";
+                        resultHtml += `<div class="xc_algorithm_model_info"><b>业务算法：</b> ${flow["name"]}</div>
+                                <div class="xc_algorithm_file_info"><b>计算耗时：</b> ${duration}(s)</div>`;
+                            let num = detects.length;
+                            resultHtml += `<div class="xc_algorithm_target_details"><b>检测到目标：</b> ${num}<br>`;
+                                for (let i = 0; i < num; i++) {
+                                    let x1 = detects[i]["x1"];
+                                    let y1 = detects[i]["y1"];
+                                    let x2 = detects[i]["x2"];
+                                    let y2 = detects[i]["y2"];
+                                    let class_name = detects[i]["class_name"];
+                                    let class_score = detects[i]["class_score"];
+
+                                    const class_score_tf = parseFloat(class_score).toFixed(2);
+                                    resultHtml += `${i}. ${class_name}(${class_score_tf}) ${x1}x${y1} ${x2}x${y2}<br>`;
+                                }
+                            resultHtml += `</div>`;
+                        resultHtml += `</div>`;
+
+                        resultHtml += `<div class="flow_result_preview">`;
+                            resultHtml += `<div class="flow_result_preview_title">渲染结果预览（点击放大）</div>`;
+                            resultHtml += `<div id="result-preview"><img class="flow_result_preview_content" src="${predictUrl}" alt="检测结果"></div>`;
+                        resultHtml += `</div>`;
+
+                        eleFlowResultContent.innerHTML = resultHtml;
+                        
+                        // 绑定图片点击放大事件
+                        $('.flow_result_preview_content').click(function() {
+                            $.fancybox.open({
+                                src: $(this).attr('src'),
+                                type: 'image',
+                                opts: {
+                                    caption: '检测结果 - 点击任意处关闭',
+                                    thumb: $(this).attr('src')
+                                }
+                            });
+                        });
+
+
+                   }else{
+                       myToast2025(res.msg,"error");
+                   }
+               }
+        });
+
+    });
+
+    function f_openFlowRelease() {
+       eleTopLoading.show();
+       $.ajax({
+               url: "/algorithmFlow/openFlowRelease",
+               type: "post",
+               async: true,
+               contentType:false,
+               processData:false,
+               data: {},
+               dataType: "json",
+               timeout: 0,
+               error: function () {
+                   eleTopLoading.hide();
+                   myToast2025("网络异常，请确定网络正常！","error");
+               },
+               success: function (res) {
+                   eleTopLoading.hide();
+                   if(res.code === 1000){
+                       myToast2025(res.msg,"success");
+                   }else{
+                       myToast2025(res.msg,"error");
+                   }
+               }
+        });
+    }
+</script>
+
+{% endblock javascripts %}

@@ -1,0 +1,935 @@
+{% extends "app/base_site.html" %}
+
+{% block title %} 录像计划管理 {% endblock title %}
+
+{% block stylesheets %}
+  {{ block.super }}
+<style>
+    /* 现代化卡片容器 */
+    .xc_modern-card {
+        background: white;
+        border-radius: 10px;
+        padding: 20px 24px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        margin-bottom: 16px;
+    }
+    
+    /* 页面标题区域 */
+    .xc_page-header {
+        display: flex;
+        justify-content: flex-start !important;
+        align-items: center;
+        padding: 8px 0;
+        margin-bottom: 16px;
+        min-height: 40px;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+    
+    .xc_page-title {
+        display: flex;
+        align-items: center;
+        font-size: 22px;
+        font-weight: 600;
+        color: #1f2937;
+        flex-shrink: 0;
+    }
+    
+    .xc_page-title i {
+        margin-right: 10px;
+        font-size: 20px;
+        color: #3b82f6;
+    }
+    
+    /* 右侧操作区域 */
+    .xc_header-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: nowrap;
+        height: 36px;
+    }
+    
+    .xc_header-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    /* 加载动画 */
+    .xc_loading-spinner {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border: 2px solid #e5e7eb;
+        border-top: 2px solid #3b82f6;
+        border-radius: 50%;
+        animation: xc_spin 1s linear infinite;
+        margin-right: 6px;
+    }
+    
+    @keyframes xc_spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .xc_loading-text {
+        color: #6b7280;
+        font-size: 14px;
+    }
+    
+    /* 现代化按钮样式 */
+    .xc_btn-modern {
+        padding: 0 16px;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 6px;
+        border: 1px solid #d1d5db;
+        background: white;
+        color: #374151;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+        text-decoration: none;
+        height: 36px;
+    }
+    
+    .xc_btn-modern:hover {
+        background: #f9fafb;
+        border-color: #3b82f6;
+        color: #3b82f6;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+        text-decoration: none;
+    }
+    
+    .xc_btn-modern i {
+        font-size: 14px;
+    }
+    
+    /* 表格容器 */
+    .xc_table-container {
+        overflow-x: auto;
+        border-radius: 10px;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    
+    .xc_table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        background: white;
+    }
+    
+    .xc_table thead {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-bottom: 2px solid #e2e8f0;
+    }
+    
+    .xc_table th {
+        padding: 14px 16px;
+        text-align: left;
+        font-weight: 600;
+        color: #374151;
+        font-size: 14px;
+        white-space: nowrap;
+        border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .xc_table tbody tr {
+        border-bottom: 1px solid #f3f4f6;
+        transition: background 0.2s;
+    }
+    
+    .xc_table tbody tr:last-child {
+        border-bottom: none;
+    }
+    
+    .xc_table tbody tr:hover {
+        background: #f9fafb;
+    }
+    
+    .xc_table td {
+        padding: 14px 16px;
+        color: #374151;
+        vertical-align: middle;
+        font-size: 14px;
+    }
+    
+    /* 状态样式 */
+    .xc_status-online {
+        color: #10b981;
+        font-size: 14px;
+    }
+    
+    .xc_status-offline {
+        color: #ef4444;
+        font-size: 14px;
+    }
+    
+    .xc_status-enabled {
+        color: #10b981;
+        font-size: 14px;
+    }
+    
+    .xc_status-disabled {
+        color: #ef4444;
+        font-size: 14px;
+    }
+    
+    .xc_status-online i,
+    .xc_status-offline i,
+    .xc_status-enabled i,
+    .xc_status-disabled i {
+        font-size: 8px;
+        margin-right: 4px;
+    }
+    
+    /* 操作链接 */
+    .xc_camera-link {
+        color: #3b82f6;
+        text-decoration: none;
+        font-size: 14px;
+        cursor: pointer;
+        margin-left: 6px;
+    }
+    
+    .xc_camera-link:hover {
+        color: #2563eb;
+        text-decoration: underline;
+    }
+    
+    .xc_camera-name {
+        font-size: 14px;
+        color: #374151;
+        margin-left: 4px;
+    }
+    
+    /* 操作按钮 */
+    .xc_actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+    }
+    
+    .xc_btn-icon {
+        padding: 6px 14px;
+        font-size: 13px;
+        border-radius: 4px;
+        border: 1px solid #d1d5db;
+        background: white;
+        color: #374151;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+        text-decoration: none;
+    }
+    
+    .xc_btn-icon:hover {
+        background: #f9fafb;
+        border-color: #3b82f6;
+        color: #3b82f6;
+        text-decoration: none;
+    }
+    
+    .xc_btn-icon.delete:hover {
+        border-color: #ef4444;
+        color: #ef4444;
+        background: #fef2f2;
+    }
+    
+    /* 分页样式 */
+    .xc_pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        padding: 16px 0;
+        background: white;
+        border-radius: 8px;
+    }
+    
+    .xc_page-btn {
+        min-width: 36px;
+        height: 36px;
+        padding: 0 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #d1d5db;
+        background: white;
+        color: #6b7280;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.2s;
+        text-decoration: none;
+    }
+    
+    .xc_page-btn:hover:not(.active) {
+        border-color: #3b82f6;
+        color: #3b82f6;
+        text-decoration: none;
+    }
+    
+    .xc_page-btn.active {
+        background: #3b82f6;
+        color: white;
+        border-color: #3b82f6;
+    }
+    
+    .xc_page-info {
+        font-size: 14px;
+        color: #6b7280;
+        margin: 0 8px;
+    }
+    
+    /* 空状态 */
+    .xc_empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 80px 20px;
+        min-height: 400px;
+        color: #9ca3af;
+    }
+    
+    .xc_empty-state i {
+        font-size: 64px;
+        color: #d1d5db;
+        margin-bottom: 16px;
+        opacity: 0.6;
+    }
+    
+    .xc_empty-state p {
+        font-size: 16px;
+        color: #6b7280;
+    }
+    
+    /* 弹窗样式 */
+    .xc_modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .xc_modal-overlay.active {
+        display: flex;
+    }
+    
+    .xc_modal-container {
+        background: white;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 650px;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        animation: xc_slideIn 0.3s ease;
+    }
+    
+    @keyframes xc_slideIn {
+        from {
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    
+    .xc_modal-header {
+        padding: 16px 20px;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #fafafa;
+        border-radius: 10px 10px 0 0;
+    }
+    
+    .xc_modal-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1f2937;
+    }
+    
+    .xc_modal-close {
+        width: 32px;
+        height: 32px;
+        border: none;
+        background: white;
+        border: 1px solid #d1d5db;
+        color: #6b7280;
+        font-size: 20px;
+        line-height: 1;
+        cursor: pointer;
+        padding: 0;
+        border-radius: 6px;
+        transition: all 0.2s;
+    }
+    
+    .xc_modal-close:hover {
+        background: #f3f4f6;
+        color: #374151;
+        border-color: #9ca3af;
+    }
+    
+    .xc_modal-body {
+        padding: 20px 24px;
+    }
+    
+    .xc_form-group {
+        margin-bottom: 16px;
+    }
+    
+    .xc_form-label {
+        display: block;
+        font-size: 14px;
+        color: #374151;
+        margin-bottom: 6px;
+        font-weight: 500;
+    }
+    
+    .xc_form-label .required {
+        color: #ef4444;
+        margin-left: 2px;
+    }
+    
+    .xc_form-input,
+    .xc_form-select {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        background: white;
+        color: #374151;
+        transition: all 0.2s;
+        height: 40px;
+        box-sizing: border-box;
+    }
+    
+    .xc_form-input:focus,
+    .xc_form-select:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    }
+    
+    .xc_form-input:disabled,
+    .xc_form-select:disabled {
+        background: #f9fafb;
+        color: #9ca3af;
+        cursor: not-allowed;
+    }
+    
+    .xc_radio-group {
+        display: flex;
+        gap: 20px;
+    }
+    
+    .xc_radio-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .xc_radio-item input[type="radio"] {
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+    }
+    
+    .xc_radio-item label {
+        font-size: 14px;
+        color: #374151;
+        cursor: pointer;
+        margin: 0;
+    }
+    
+    .xc_form-hint {
+        font-size: 13px;
+        color: #9ca3af;
+        margin-top: 4px;
+    }
+    
+    .xc_modal-footer {
+        padding: 16px 20px;
+        border-top: 1px solid #e5e7eb;
+        text-align: right;
+        background: #fafafa;
+        border-radius: 0 0 10px 10px;
+    }
+    
+    .xc_modal-btn {
+        padding: 8px 20px;
+        font-size: 14px;
+        border-radius: 6px;
+        border: 1px solid #d1d5db;
+        cursor: pointer;
+        margin-left: 10px;
+        transition: all 0.2s;
+        font-weight: 500;
+        background: white;
+        color: #374151;
+    }
+    
+    .xc_modal-btn:hover {
+        background: #f9fafb;
+        border-color: #9ca3af;
+    }
+    
+    .xc_modal-btn-primary {
+        background: #3b82f6;
+        color: white;
+        border-color: #3b82f6;
+    }
+    
+    .xc_modal-btn-primary:hover {
+        background: #2563eb;
+        border-color: #2563eb;
+    }
+    
+    /* 响应式调整 */
+    @media (max-width: 1200px) {
+        .xc_btn-modern {
+            padding: 3px 8px;
+            font-size: 11px;
+        }
+
+    }
+    
+    @media (max-width: 768px) {
+        .xc_page-header {
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .xc_table-container {
+            font-size: 11px;
+        }
+        
+        .xc_table td,
+        .xc_table th {
+            padding: 8px;
+        }
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="x_panel">
+          <div class="xc_modern-card">
+            <div class="xc_page-header">
+              <div class="xc_page-title">
+                <i class="fa fa-video-camera"></i>
+                录像计划管理
+              </div>
+              <div class="xc_header-actions">
+                <button class="xc_btn-modern" onclick="openAddModal()">
+                  <i class="fa fa-plus"></i> 添加
+                </button>
+                <button class="xc_btn-modern" onclick="f_reload()">
+                  <i class="fa fa-refresh"></i> 刷新
+                </button>
+              </div>
+              <div>
+                <span id="top_loading" style="display: none;">
+                  <span class="xc_loading-spinner"></span>
+                  <span class="xc_loading-text">加载中...</span>
+                </span>
+                <span id="top_msg"></span>
+              </div>
+            </div>
+            
+            {% if data %}
+            <div class="xc_table-container">
+              <table class="xc_table">
+                <thead>
+                  <tr>
+                    <th style="width: 50px;">ID</th>
+                    <th style="width: 120px;">编号</th>
+                    <th>摄像头</th>
+                    <th style="width: 100px;">录像天数</th>
+                    <th style="width: 80px;">音频</th>
+                    <th style="width: 80px;">状态</th>
+                    <th style="width: 150px;">添加时间</th>
+                    <th style="width: 200px;">操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for d in data %}
+                  <tr>
+                    <td>{{ d.id }}</td>
+                    <td>{{ d.code }}</td>
+                    <td>
+                      {% if d.stream_active == 1 %}
+                        <span class="xc_status-online">
+                          <i class="fa fa-circle"></i> 在线
+                        </span>
+                        <a class="xc_camera-link" href="javascript:f_open_player('{{ d.stream_app }}','{{ d.stream_name }}')">
+                          <i class="fa fa-play"></i> {{ d.stream_nickname }}
+                        </a>
+                      {% else %}
+                        <span class="xc_status-offline">
+                          <i class="fa fa-circle"></i> 离线
+                        </span>
+                        <span class="xc_camera-name">{{ d.stream_nickname }}</span>
+                      {% endif %}
+                    </td>
+                    <td>{{ d.record_day }} 天</td>
+                    <td>
+                      {% for item in audio_types %}
+                        {% if item.type == d.audio_type %}{{ item.name }}{% endif %}
+                      {% endfor %}
+                    </td>
+                    <td>
+                      {% if d.is_record == 1 %}
+                        <span class="xc_status-enabled"><i class="fa fa-circle"></i> 开启</span>
+                      {% else %}
+                        <span class="xc_status-disabled"><i class="fa fa-circle"></i> 关闭</span>
+                      {% endif %}
+                    </td>
+                    <td>{{ d.create_time }}</td>
+                    <td>
+                      <div class="xc_actions">
+                        <button onclick="f_timeplayer('{{ d.code }}')" class="xc_btn-icon" title="播放">
+                          <i class="fa fa-play"></i> 播放
+                        </button>
+                        <button onclick="openEditModal('{{ d.code }}')" class="xc_btn-icon" title="编辑">
+                          <i class="fa fa-edit"></i> 编辑
+                        </button>
+                        <button onclick="f_del('{{ d.code }}')" class="xc_btn-icon delete" title="删除">
+                          <i class="fa fa-trash"></i> 删除
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            {% else %}
+            <div class="xc_empty-state">
+              <i class="fa fa-video-camera"></i>
+              <p>暂无录像计划</p>
+            </div>
+            {% endif %}
+          </div>
+
+          {% if pageData.page_num > 1 %}
+          <div class="xc_pagination">
+            <div class="xc_page-info">共 {{ pageData.page_num }} 页 / {{ pageData.count }} 条</div>
+            {% for d in pageData.pageLabels %}
+              {% if d.cur == 1 %}
+                <div class="xc_page-btn active">{{ d.name }}</div>
+              {% else %}
+                <a href="/streamRecord/index?p={{ d.page }}&ps={{ pageData.page_size }}" class="xc_page-btn">{{ d.name }}</a>
+              {% endif %}
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 录像计划添加/编辑弹窗 -->
+  <div class="xc_modal-overlay" id="recordModal">
+    <div class="xc_modal-container">
+      <div class="xc_modal-header">
+        <div class="xc_modal-title" id="modalTitle">添加录像计划</div>
+        <button class="xc_modal-close" onclick="closeRecordModal()">×</button>
+      </div>
+      <div class="xc_modal-body">
+        <div class="xc_form-group">
+          <label class="xc_form-label">录像编号<span class="required">*</span></label>
+          <input type="text" id="input_code" class="xc_form-input" placeholder="自动生成" disabled>
+        </div>
+        
+        <div class="xc_form-group" id="stream_group">
+          <label class="xc_form-label">摄像头<span class="required">*</span></label>
+          <select id="input_stream_code" class="xc_form-select">
+            <option value="">请选择摄像头</option>
+          </select>
+        </div>
+        
+        <div class="xc_form-group">
+          <label class="xc_form-label">录像天数<span class="required">*</span></label>
+          <input type="number" id="input_record_day" class="xc_form-input" placeholder="请输入录像天数" value="7" min="1" max="365">
+          <div class="xc_form-hint">录像保存天数，超过后自动删除</div>
+        </div>
+        
+        <div class="xc_form-group">
+          <label class="xc_form-label">音频输出<span class="required">*</span></label>
+          <select id="input_audio_type" class="xc_form-select">
+            <option value="0">静音</option>
+            <option value="1">原始声音</option>
+          </select>
+        </div>
+        
+        <div class="xc_form-group">
+          <label class="xc_form-label">状态<span class="required">*</span></label>
+          <div class="xc_radio-group">
+            <div class="xc_radio-item">
+              <input type="radio" id="status_enabled" name="is_record" value="1" checked>
+              <label for="status_enabled">开启</label>
+            </div>
+            <div class="xc_radio-item">
+              <input type="radio" id="status_disabled" name="is_record" value="0">
+              <label for="status_disabled">关闭</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="xc_modal-footer">
+        <button class="xc_modal-btn" onclick="closeRecordModal()">取消</button>
+        <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitRecord()">提交</button>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super }}
+<script>
+    let eleTopLoading = $("#top_loading");
+    let eleTopMsg = $("#top_msg");
+    let currentHandle = "add"; // add 或 edit
+    let currentCode = ""; // 当前编辑的编号
+    let streamsData = []; // 摄像头列表
+    
+    function f_reload() {
+        window.location.reload();
+    }
+    
+    // 打开添加弹窗
+    function openAddModal() {
+        currentHandle = "add";
+        $("#modalTitle").text("添加录像计划");
+        
+        // 生成新编号
+        let timestamp = new Date().getTime();
+        let code = "sr" + timestamp;
+        $("#input_code").val(code);
+        
+        // 重置表单
+        $("#input_stream_code").val("").prop("disabled", false);
+        $("#input_record_day").val("7");
+        $("#input_audio_type").val("0");
+        $("#status_enabled").prop("checked", true);
+        
+        // 显示摄像头选择
+        $("#stream_group").show();
+        
+        // 加载摄像头列表
+        loadStreams();
+        
+        $("#recordModal").addClass("active");
+    }
+    
+    // 打开编辑弹窗
+    function openEditModal(code) {
+        currentHandle = "edit";
+        currentCode = code;
+        $("#modalTitle").text("编辑录像计划");
+        
+        eleTopLoading.show();
+        
+        // 获取录像计划详情
+        $.ajax({
+            url: '/streamRecord/openInfo',
+            type: "get",
+            data: {"code": code},
+            dataType: "json",
+            success: function (res) {
+                eleTopLoading.hide();
+                if (1000 === res.code && res.info) {
+                    let record = res.info;
+                    $("#input_code").val(record.code);
+                    $("#input_stream_code").val(record.stream_code).prop("disabled", true);
+                    $("#input_record_day").val(record.record_day);
+                    $("#input_audio_type").val(record.audio_type);
+                    
+                    if (record.is_record === 1) {
+                        $("#status_enabled").prop("checked", true);
+                    } else {
+                        $("#status_disabled").prop("checked", true);
+                    }
+                    
+                    // 编辑时显示摄像头选择（但禁用）
+                    $("#stream_group").show();
+                    loadStreams(record.stream_code);
+                    
+                    $("#recordModal").addClass("active");
+                } else {
+                    myToast2025(res.msg || "录像计划不存在", "error");
+                }
+            },
+            error: function () {
+                eleTopLoading.hide();
+                myToast2025("网络异常，请确定网络正常！", "error");
+            }
+        });
+    }
+    
+    // 关闭弹窗
+    function closeRecordModal() {
+        $("#recordModal").removeClass("active");
+    }
+    
+    // 加载摄像头列表
+    function loadStreams(selectedCode) {
+        $.ajax({
+            url: '/stream/openIndex',
+            type: "get",
+            data: {"p": 1, "ps": 1000},
+            dataType: "json",
+            success: function (res) {
+                if (1000 === res.code && res.data) {
+                    let streams = [];
+                    // 将分组数据展开
+                    for (let group of res.data) {
+                        streams = streams.concat(group);
+                    }
+                    
+                    let html = '<option value="">请选择摄像头</option>';
+                    for (let stream of streams) {
+                        let selected = selectedCode && stream.code === selectedCode ? 'selected' : '';
+                        html += `<option value="${stream.code}" ${selected}>${stream.nickname}</option>`;
+                    }
+                    $("#input_stream_code").html(html);
+                }
+            },
+            error: function () {
+                myToast2025("加载摄像头列表失败", "error");
+            }
+        });
+    }
+    
+    // 提交表单
+    function submitRecord() {
+        let code = $("#input_code").val().trim();
+        let stream_code = $("#input_stream_code").val().trim();
+        let record_day = parseInt($("#input_record_day").val());
+        let audio_type = parseInt($("#input_audio_type").val());
+        let is_record = parseInt($("input[name='is_record']:checked").val());
+        
+        // 表单验证
+        if (!code) {
+            myToast2025("请输入录像编号", "error");
+            return;
+        }
+        
+        if (!stream_code) {
+            myToast2025("请选择摄像头", "error");
+            return;
+        }
+        
+        if (!record_day || record_day < 1 || record_day > 365) {
+            myToast2025("请输入有效的录像天数（1-365天）", "error");
+            return;
+        }
+        
+        let url = currentHandle === "add" ? "/streamRecord/openAdd" : "/streamRecord/openEdit";
+        
+        eleTopLoading.show();
+        
+        $.ajax({
+            url: url,
+            type: "post",
+            data: {
+                "handle": currentHandle,
+                "code": code,
+                "stream_code": stream_code,
+                "record_day": record_day,
+                "audio_type": audio_type,
+                "is_record": is_record,
+                "record_time_range": ""
+            },
+            dataType: "json",
+            success: function (res) {
+                eleTopLoading.hide();
+                if (1000 === res.code) {
+                    myToast2025(res.msg, "success", 1000);
+                    setTimeout(function() {
+                        closeRecordModal();
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    myToast2025(res.msg, "error");
+                }
+            },
+            error: function () {
+                eleTopLoading.hide();
+                myToast2025("网络异常，请确定网络正常！", "error");
+            }
+        });
+    }
+    
+    function f_timeplayer(code) {
+        let url = "/streamRecord/timeplayer?code=" + code;
+        window.location.href = url;
+    }
+    
+    function f_open_player(stream_app, stream_name) {
+        window.open("/stream/player?app=" + stream_app + "&name=" + stream_name);
+    }
+
+    function f_del(code) {
+        if (!confirm("确认删除该录像计划吗？")) {
+            return;
+        }
+        
+        eleTopLoading.show();
+        $.ajax({
+            url: '/streamRecord/openDel',
+            type: "post",
+            async: true,
+            data: {"code": code},
+            dataType: "json",
+            timeout: 0,
+            error: function () {
+                eleTopLoading.hide();
+                myToast2025("网络异常，请确定网络正常！", "error");
+            },
+            success: function (res) {
+                eleTopLoading.hide();
+                if (1000 === res.code) {
+                    myToast2025(res.msg, "success", 1000);
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    myToast2025(res.msg, "error");
+                }
+            }
+        });
+    }
+
+</script>
+{% endblock javascripts %}
