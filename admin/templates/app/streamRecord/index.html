@@ -191,24 +191,43 @@
         margin-right: 4px;
     }
     
-    /* 操作链接 */
-    .xc_camera-link {
-        color: #3b82f6;
-        text-decoration: none;
-        font-size: 14px;
-        cursor: pointer;
-        margin-left: 6px;
+    /* 视频流状态样式 - 与stream/index一致 */
+    .xc_stream-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 2px 0;
+        font-size: 12px;
+        font-weight: 500;
+        white-space: nowrap;
     }
     
-    .xc_camera-link:hover {
-        color: #2563eb;
-        text-decoration: underline;
+    .xc_stream-status-active {
+        color: #059669;
     }
     
-    .xc_camera-name {
-        font-size: 14px;
-        color: #374151;
-        margin-left: 4px;
+    .xc_stream-status-inactive {
+        color: #dc2626;
+    }
+    
+    .xc_stream-status-icon {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: currentColor;
+        box-shadow: 0 0 8px currentColor;
+        animation: xc_stream-pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes xc_stream-pulse {
+        0%, 100% {
+            opacity: 1;
+            box-shadow: 0 0 8px currentColor;
+        }
+        50% {
+            opacity: 0.7;
+            box-shadow: 0 0 4px currentColor;
+        }
     }
     
     /* 操作按钮 */
@@ -572,13 +591,13 @@
                 <thead>
                   <tr>
                     <th style="width: 50px;">ID</th>
-                    <th style="width: 120px;">编号</th>
-                    <th>摄像头</th>
-                    <th style="width: 100px;">录像天数</th>
-                    <th style="width: 80px;">音频</th>
-                    <th style="width: 80px;">状态</th>
-                    <th style="width: 150px;">添加时间</th>
-                    <th style="width: 200px;">操作</th>
+                    <th style="width: 110px;">编号</th>
+                    <th style="width: 200px;">摄像头</th>
+                    <th style="width: 80px;">录像天数</th>
+                    <th style="width: 90px;">音频</th>
+                    <th style="width: 70px;">状态</th>
+                    <th style="width: 140px;">添加时间</th>
+                    <th style="width: 180px;">操作</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -588,17 +607,9 @@
                     <td>{{ d.code }}</td>
                     <td>
                       {% if d.stream_active == 1 %}
-                        <span class="xc_status-online">
-                          <i class="fa fa-circle"></i> 在线
-                        </span>
-                        <a class="xc_camera-link" href="javascript:f_open_player('{{ d.stream_app }}','{{ d.stream_name }}')">
-                          <i class="fa fa-play"></i> {{ d.stream_nickname }}
-                        </a>
+                        <span class="xc_stream-status xc_stream-status-active"><span class="xc_stream-status-icon"></span>在线</span><a href="javascript:f_open_player('{{ d.stream_app }}','{{ d.stream_name }}')" class="sun-a-label">播放</a>
                       {% else %}
-                        <span class="xc_status-offline">
-                          <i class="fa fa-circle"></i> 离线
-                        </span>
-                        <span class="xc_camera-name">{{ d.stream_nickname }}</span>
+                        <span class="xc_stream-status xc_stream-status-inactive"><span class="xc_stream-status-icon"></span>离线</span>
                       {% endif %}
                     </td>
                     <td>{{ d.record_day }} 天</td>
