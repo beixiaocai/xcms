@@ -1312,7 +1312,7 @@
         html += '<input type="radio" ' + (alarm.state === 2 ? 'checked' : '') + ' value="2" name="modal_state" id="modal_state_2">';
         html += '<label for="modal_state_2">审核确认为误报</label></div>';
         html += '</div>';
-        html += '<input type="text" name="modal_review_remark" value="' + (alarm.review_remark || '') + '" placeholder="请输入审核备注" class="xc_modal-form-input">';
+        html += '<textarea name="modal_review_remark" placeholder="请输入审核备注" class="xc_modal-form-input" rows="2">' + (alarm.review_remark || '') + '</textarea>';
         html += '</div>';
         
         html += '</div></div>';
@@ -1324,7 +1324,7 @@
         if(!currentAlarmCode) return;
         
         let state = parseInt($('input[name="modal_state"]:checked').val());
-        let review_remark = $('input[name="modal_review_remark"]').val();
+        let review_remark = $('textarea[name="modal_review_remark"]').val();
         
         $.ajax({
             url: '/alarm/openEdit',
