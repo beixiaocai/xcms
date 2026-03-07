@@ -249,6 +249,74 @@
         margin-right: 8px;
     }
 
+    /* 现代化切换开关样式 */
+    .xc_switch_container {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .xc_switch {
+        position: relative;
+        display: inline-block;
+        width: 42px;
+        height: 22px;
+    }
+
+    .xc_switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .xc_switch_slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #dcdfe6;
+        transition: .3s;
+        border-radius: 22px;
+    }
+
+    .xc_switch_slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: .3s;
+        border-radius: 50%;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .xc_switch input:checked + .xc_switch_slider {
+        background-color: #169F85;
+    }
+
+    .xc_switch input:focus + .xc_switch_slider {
+        box-shadow: 0 0 1px #169F85;
+    }
+
+    .xc_switch input:checked + .xc_switch_slider:before {
+        transform: translateX(20px);
+    }
+
+    .xc_switch_label {
+        font-size: 12px;
+        color: #606266;
+        user-select: none;
+    }
+
+    .xc_switch input:checked ~ .xc_switch_label {
+        color: #169F85;
+        font-weight: 500;
+    }
+
     /* 页面整体样式 */
     .right_col {
         background: #f5f7fa !important;
@@ -327,19 +395,19 @@
                     <!-- 日志 -->
                     <div class="settings_group">
                       <div class="settings_group_title">日志</div>
-                      <div class="settings_actions">
+                      <div class="settings_log_options">
+                        <div class="xc_switch_container">
+                          <label class="xc_switch">
+                            <input type="checkbox" name="export_stream" value="1">
+                            <span class="xc_switch_slider"></span>
+                          </label>
+                          <span class="xc_switch_label">导出流日志</span>
+                        </div>
+                      </div>
+                      <div class="settings_actions" style="margin-top: 12px;">
                         <button type="button" onclick="f_openExportLogs()" class="settings_btn settings_btn_primary">
                           <i class="fa fa-download"></i>导出日志
                         </button>
-                      </div>
-                      <div class="settings_log_options">
-                        <span class="settings_log_options_label">流日志：</span>
-                        <div class="settings_radio_group">
-                          <input type="radio" id="export_stream_yes" name="export_stream" value="1">
-                          <label for="export_stream_yes" class="settings_radio_option">导出</label>
-                          <input type="radio" id="export_stream_no" name="export_stream" value="0" checked>
-                          <label for="export_stream_no" class="settings_radio_option">不导出</label>
-                        </div>
                       </div>
                       <span class="settings_desc">导出日志，提供给开发者排查问题</span>
                     </div>
@@ -479,7 +547,7 @@
     }
     function f_openExportLogs(){
         //导出日志，获取导出流日志选项
-        let isExportStream = $("input[name='export_stream']:checked").val();
+        let isExportStream = $("input[name='export_stream']").is(':checked') ? 1 : 0;
         
         ele_settings_loading.css('display', 'flex');
         $.ajax({

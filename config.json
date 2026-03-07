@@ -49,5 +49,11 @@
         "sipServerExpiry": 120,
         "rtpTransferMode": 0,
         "rtpTransferAudioType": 0
+    },
+    "clusterServer": {
+        "enable": false,
+        "address": "ws://127.0.0.1:9824/ws/cluster",
+        "token": "cp_server_safe_key_2026",
+        "timeout": 30
     }
 }

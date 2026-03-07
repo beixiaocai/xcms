@@ -418,6 +418,7 @@
                   <button class="config_tab active" onclick="switchTab(event, 'tab1')">基础配置</button>
                   <button class="config_tab" onclick="switchTab(event, 'tab2')">存储配置</button>
                   <button class="config_tab" onclick="switchTab(event, 'tab3')">GB28181配置</button>
+                  <button class="config_tab" onclick="switchTab(event, 'tab4')">集群配置</button>
                 </div>
 
                 <!-- 基础配置内容 -->
@@ -701,6 +702,49 @@
                     </div>
                   </div>
                 </div>
+
+                <!-- 集群配置内容 -->
+                <div id="tab4" class="config_tab_content">
+                  <div class="config_two_cols">
+                    <div class="config_col">
+                      <div class="config_form_group">
+                        <label class="config_label">启用集群</label>
+                        <div class="config_control">
+                          <div class="xc_switch_container">
+                            <label class="xc_switch">
+                              <input type="checkbox" name="clusterEnable" value="1" {% if config.clusterServer.enable %}checked{% endif %}>
+                              <span class="xc_switch_slider"></span>
+                            </label>
+                            <span class="xc_switch_label">是否启用集群管理</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="config_form_group">
+                        <label class="config_label">服务器地址</label>
+                        <div class="config_control">
+                          <input type="text" name="clusterAddress" value="{{config.clusterServer.address}}" class="config_input">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="config_col">
+                      <div class="config_form_group">
+                        <label class="config_label">认证Token</label>
+                        <div class="config_control">
+                          <input type="text" name="clusterToken" value="{{config.clusterServer.token}}" class="config_input">
+                        </div>
+                      </div>
+
+                      <div class="config_form_group">
+                        <label class="config_label">超时时间(秒)</label>
+                        <div class="config_control">
+                          <input type="number" name="clusterTimeout" value="{{config.clusterServer.timeout}}" class="config_input config_input_small">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <!-- 按钮组（移到卡片外面） -->
@@ -810,6 +854,17 @@
         let rtpTransferMode = parseInt(ele_rtpTransferMode.val());
         let rtpTransferAudioType = parseInt(eleRtpTransferAudioType.val());
 
+        // clusterServer
+        let eleClusterEnable = $("input[type=checkbox][name='clusterEnable']");
+        let eleClusterAddress = $("input[name='clusterAddress']");
+        let eleClusterToken = $("input[name='clusterToken']");
+        let eleClusterTimeout = $("input[name='clusterTimeout']");
+
+        let clusterEnable = eleClusterEnable.is(':checked') ? 1 : 0;
+        let clusterAddress = eleClusterAddress.val().trim();
+        let clusterToken = eleClusterToken.val().trim();
+        let clusterTimeout = parseInt(eleClusterTimeout.val());
+
         $.ajax({
            url: "/system/openConfig",
            type: "post",
@@ -843,7 +898,13 @@
                "sipServerRealm":sipServerRealm,
                "sipServerPass":sipServerPass,
                "rtpTransferMode":rtpTransferMode,
-               "rtpTransferAudioType":rtpTransferAudioType
+               "rtpTransferAudioType":rtpTransferAudioType,
+
+               //clusterServer
+               "clusterEnable":clusterEnable,
+               "clusterAddress":clusterAddress,
+               "clusterToken":clusterToken,
+               "clusterTimeout":clusterTimeout
            },
            dataType: "json",
            timeout: 0,
