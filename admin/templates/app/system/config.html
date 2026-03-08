@@ -427,6 +427,13 @@
                   <div class="config_two_cols">
                     <div class="config_col">
                       <div class="config_form_group">
+                        <label class="config_label">软件编号</label>
+                        <div class="config_control">
+                          <input type="text" name="code" required="required" value="{{config.code}}" class="config_input">
+                        </div>
+                      </div>
+
+                      <div class="config_form_group">
                         <label class="config_label">软件名称</label>
                         <div class="config_control">
                           <input type="text" name="name" required="required" value="{{config.name}}" class="config_input">
@@ -726,13 +733,29 @@
                           <input type="text" name="clusterAddress" value="{{config.clusterServer.address}}" class="config_input">
                         </div>
                       </div>
-                    </div>
 
-                    <div class="config_col">
                       <div class="config_form_group">
                         <label class="config_label">认证Token</label>
                         <div class="config_control">
                           <input type="text" name="clusterToken" value="{{config.clusterServer.token}}" class="config_input">
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="config_col">
+
+   <div class="config_form_group">
+                        <label class="config_label">重连间隔(秒)</label>
+                        <div class="config_control">
+                          <input type="number" name="clusterReconnectInterval" value="{{config.clusterServer.reconnectInterval}}" class="config_input config_input_small">
+                        </div>
+                      </div>
+
+                        <div class="config_form_group">
+                        <label class="config_label">心跳间隔(秒)</label>
+                        <div class="config_control">
+                          <input type="number" name="clusterHeartbeatInterval" value="{{config.clusterServer.heartbeatInterval}}" class="config_input config_input_small">
                         </div>
                       </div>
 
@@ -742,6 +765,8 @@
                           <input type="number" name="clusterTimeout" value="{{config.clusterServer.timeout}}" class="config_input config_input_small">
                         </div>
                       </div>
+
+
                     </div>
                   </div>
                 </div>
@@ -792,6 +817,7 @@
 
     function f_openConfig() {
         //基础参数
+        let eleCode = $("input[name='code']");
         let eleName = $("input[name='name']");
         let eleDescribe = $("input[name='describe']");
         let ele_install = $("input[name='install']");
@@ -814,6 +840,16 @@
         let eleCoreProcessMode = $("input[type=radio][name='coreProcessMode']:checked");
         let eleCoreProcessNum = $("input[name='coreProcessNum']");
 
+
+        let code = eleCode.val().trim();
+        if (!code) {
+            myToast2025("软件编号不能为空","error");
+            return;
+        }
+        if (!/^[a-zA-Z0-9]+$/.test(code)) {
+            myToast2025("软件编号仅支持大小写英文字母和数字的组合","error");
+            return;
+        }
 
         let name = eleName.val().trim();
         let describe = eleDescribe.val().trim();
@@ -859,17 +895,22 @@
         let eleClusterAddress = $("input[name='clusterAddress']");
         let eleClusterToken = $("input[name='clusterToken']");
         let eleClusterTimeout = $("input[name='clusterTimeout']");
+        let eleClusterReconnectInterval = $("input[name='clusterReconnectInterval']");
+        let eleClusterHeartbeatInterval = $("input[name='clusterHeartbeatInterval']");
 
         let clusterEnable = eleClusterEnable.is(':checked') ? 1 : 0;
         let clusterAddress = eleClusterAddress.val().trim();
         let clusterToken = eleClusterToken.val().trim();
         let clusterTimeout = parseInt(eleClusterTimeout.val());
+        let clusterReconnectInterval = parseInt(eleClusterReconnectInterval.val());
+        let clusterHeartbeatInterval = parseInt(eleClusterHeartbeatInterval.val());
 
         $.ajax({
            url: "/system/openConfig",
            type: "post",
            async: true,
            data: {
+               "code":code,
                "name":name,
                "describe":describe,
                "install":install,
@@ -904,7 +945,9 @@
                "clusterEnable":clusterEnable,
                "clusterAddress":clusterAddress,
                "clusterToken":clusterToken,
-               "clusterTimeout":clusterTimeout
+               "clusterTimeout":clusterTimeout,
+               "clusterReconnectInterval":clusterReconnectInterval,
+               "clusterHeartbeatInterval":clusterHeartbeatInterval
            },
            dataType: "json",
            timeout: 0,

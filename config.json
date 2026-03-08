@@ -54,6 +54,8 @@
         "enable": false,
         "address": "ws://127.0.0.1:9824/ws/cluster",
         "token": "cp_server_safe_key_2026",
-        "timeout": 30
+        "timeout": 30,
+        "reconnectInterval": 10,
+        "heartbeatInterval": 30
     }
 }
