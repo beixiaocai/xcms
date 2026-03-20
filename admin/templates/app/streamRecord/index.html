@@ -233,7 +233,9 @@
     /* 操作按钮 */
     .xc_actions {
         display: flex;
+        flex-direction: row;
         gap: 8px;
+        align-items: center;
         flex-wrap: nowrap;
         justify-content: flex-start;
     }
@@ -244,9 +246,9 @@
         border-radius: 4px;
         border: 1px solid #d1d5db;
         background: white;
-        color: #374151;
+        color: #6b7280;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: all 0.2s ease;
         display: inline-flex;
         align-items: center;
         gap: 4px;
@@ -262,9 +264,9 @@
     }
     
     .xc_btn-icon.delete:hover {
+        background: #fef2f2;
         border-color: #ef4444;
         color: #ef4444;
-        background: #fef2f2;
     }
     
     /* 分页样式 */
@@ -335,6 +337,13 @@
     .xc_empty-state p {
         font-size: 16px;
         color: #6b7280;
+    }
+    
+    /* 编号列样式 */
+    .xc_record-code {
+        font-size: 11px;
+        color: #6b7280;
+        font-family: 'Courier New', monospace;
     }
     
     /* 弹窗样式 */
@@ -604,7 +613,7 @@
                   {% for d in data %}
                   <tr>
                     <td>{{ d.id }}</td>
-                    <td>{{ d.code }}</td>
+                    <td><span class="xc_record-code">{{ d.code }}</span></td>
                     <td>
                       {% if d.stream_active == 1 %}
                         <span class="xc_stream-status xc_stream-status-active"><span class="xc_stream-status-icon"></span>在线</span><a href="javascript:f_open_player('{{ d.stream_app }}','{{ d.stream_name }}')" class="sun-a-label">播放</a>

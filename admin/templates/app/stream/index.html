@@ -521,47 +521,48 @@
     /* 操作按钮样式 */
     .xc_action_buttons {
         display: flex;
-        gap: 8px;
+        flex-direction: row;
+        gap: 6px;
+        align-items: center;
+        flex-wrap: nowrap;
+        padding-top: 6px;
+        padding-bottom: 6px;
     }
 
     .xc_action_btn {
-        width: 28px;
-        height: 30px;
+        padding: 2px 8px;
+        font-size: 12px;
         border-radius: 4px;
-        background-color: #F2F3F5;
-        border: none;
-        color: #4E5969;
-        display: flex;
+        border: 1px solid #d1d5db;
+        background: white;
+        color: #6b7280;
+        cursor: pointer !important;
+        transition: all 0.2s ease;
+        display: inline-flex;
         align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        gap: 3px;
+        white-space: nowrap;
+        height: 24px;
+        line-height: 1;
     }
 
     .xc_action_btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        background: #f9fafb;
+        border-color: #3b82f6;
+        color: #3b82f6;
+        cursor: pointer !important;
     }
 
     .xc_action_btn.view:hover {
-        background-color: #165DFF;
-        color: white;
-        cursor: pointer;
-    }
-
-    .xc_action_btn.start:hover {
-        background-color: #2b542c;
-        color: white;
-    }
-
-    .xc_action_btn.stop:hover {
-        background-color: #FF7D00;
-        color: white;
+        background: #f9fafb;
+        border-color: #3b82f6;
+        color: #3b82f6;
     }
 
     .xc_action_btn.delete:hover {
-        background-color: #F53F3F;
-        color: white;
+        background: #fef2f2;
+        border-color: #ef4444;
+        color: #ef4444;
     }
 
 
@@ -582,6 +583,13 @@
     .xc-icon-lg {
         width: 24px;
         height: 24px;
+    }
+
+    /* 编号列样式 */
+    .xc_stream-code {
+        font-size: 11px;
+        color: #6b7280;
+        font-family: 'Courier New', monospace;
     }
 
     /* 响应式调整 */
@@ -1289,7 +1297,7 @@
                                     let d = dd[i];
                                    item_html+="<tr>";
                                 item_html+="<td>"+d["id"]+"</td>";
-                                item_html+="<td style='width:15%;'>"+d["code"]+"</td>";
+                                item_html+="<td style='width:15%;'><span class='xc_stream-code'>"+d["code"]+"</span></td>";
 
                                 item_html+="<td style='width:8%;'>"+get_pull_stream_type(d["pull_stream_type"])+"</td>";
 
@@ -1306,10 +1314,8 @@
                                 item_html += "<td>"+d["last_update_time"]+"</td>";
                                 item_html+="<td class=\"xc_action_buttons\">";
 
-                                    item_html+="<button class=\"xc_action_btn view\" onclick=\"f_edit('"+d["code"]+"')\" title=\"编辑\"><i class=\"fa fa-edit\"></i></button>";
-                                    item_html+="<button class=\"xc_action_btn delete\" onclick=\"f_del('"+d["code"]+"')\"  title=\"删除\">";
-                                        item_html+="<svg class=\"xc-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"> <polyline points=\"3 6 5 6 21 6\"/><path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\"/></svg>";
-                                    item_html+="</button>";
+                                    item_html+="<button class=\"xc_action_btn view\" onclick=\"f_edit('"+d["code"]+"')\" title=\"编辑\"><i class=\"fa fa-edit\"></i> 编辑</button>";
+                                    item_html+="<button class=\"xc_action_btn delete\" onclick=\"f_del('"+d["code"]+"')\" title=\"删除\"><i class=\"fa fa-trash\"></i> 删除</button>";
 
                                 item_html+="</td>";
                             item_html+="</tr>";

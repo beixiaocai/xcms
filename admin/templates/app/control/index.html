@@ -215,9 +215,9 @@
     }
 
     .xc_code-text {
-        font-size: 14px;
-        color: #374151;
-        font-weight: 500;
+        font-size: 11px;
+        color: #6b7280;
+        font-family: 'Courier New', monospace;
     }
 
     .xc_stream-link {
@@ -380,6 +380,14 @@
         border-color: #ef4444;
     }
 
+    .xc_more_btn {
+        min-width: 28px;
+        height: 28px;
+        width: 28px;
+        padding: 0;
+        justify-content: center;
+    }
+
     .xc_control-btn {
         padding: 4px 8px;
         font-size: 12px;
@@ -394,12 +402,15 @@
     }
 
     .xc_control-btn.start {
-        background: #3b82f6;
-        color: white;
+        background: white;
+        color: #374151;
+        border: 1px solid #d1d5db;
     }
 
     .xc_control-btn.start:hover {
-        background: #2563eb;
+        background: #f9fafb;
+        border-color: #3b82f6;
+        color: #3b82f6;
     }
 
     .xc_control-btn.stop {
@@ -672,9 +683,21 @@
     .xc_modal-footer {
         padding: 14px 18px;
         border-top: 1px solid #e5e7eb;
-        text-align: right;
         background: #fafafa;
         border-radius: 0 0 8px 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .xc_modal-footer-left {
+        flex: 1;
+        text-align: left;
+    }
+
+    .xc_modal-footer-right {
+        display: flex;
+        gap: 10px;
     }
 
     .xc_modal-btn {
@@ -683,7 +706,6 @@
         border-radius: 4px;
         border: 1px solid #d1d5db;
         cursor: pointer;
-        margin-left: 10px;
         transition: all 0.2s;
         font-weight: 400;
         background: white;
@@ -1132,13 +1154,18 @@
                 </div>
             </div>
             <div class="xc_modal-footer">
-                <button class="xc_modal-btn" onclick="closeControlModal()">取消</button>
-                <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitControlForm()">
-                    <span id="submit_loading" style="display: none;">
-                        <span class="xc_loading-spinner"></span>
-                    </span>
-                    <span id="submit_text">提交</span>
-                </button>
+                <div class="xc_modal-footer-left">
+                    <span id="control_time_info" style="color: #9ca3af; font-size: 12px;"></span>
+                </div>
+                <div class="xc_modal-footer-right">
+                    <button class="xc_modal-btn" onclick="closeControlModal()">取消</button>
+                    <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitControlForm()">
+                        <span id="submit_loading" style="display: none;">
+                            <span class="xc_loading-spinner"></span>
+                        </span>
+                        <span id="submit_text">提交</span>
+                    </button>
+                </div>
             </div>
         </div>
       </div>
@@ -1154,6 +1181,18 @@
 
 <script src="/static/lib/easyPlayer/js/easyplayer-pro.js?02"></script>
 <script>
+    function formatDateTime(dateStr) {
+        if(!dateStr) return '';
+        let d = new Date(dateStr);
+        if(isNaN(d.getTime())) return dateStr;
+        let year = d.getFullYear();
+        let month = String(d.getMonth() + 1).padStart(2, '0');
+        let day = String(d.getDate()).padStart(2, '0');
+        let hours = String(d.getHours()).padStart(2, '0');
+        let minutes = String(d.getMinutes()).padStart(2, '0');
+        return year + '/' + month + '/' + day + ' ' + hours + ':' + minutes;
+    }
+
     let eleTopLoading = $("#top_loading");
     let eleTopMsg= $("#top_msg");
     let eleData = $("#data");
@@ -1196,6 +1235,7 @@
     let eleInputDeployProcessIndex = $("#deploy_process_index");
     let eleTextareaOsdParams = $("#osd_params");
     let eleTextareaExtendParams = $("#extend_params");
+    let eleControlTimeInfo = $("#control_time_info");
     let eleSubmitLoading = $("#submit_loading");
     let eleSubmitText = $("#submit_text");
     
@@ -1668,7 +1708,7 @@
                                 actionBtns += '<button class="xc_action-btn" onclick="f_open_player(\''+control["push_stream_app"]+'\',\''+control["push_stream_name"]+'\')">算法流</button>';
                                 
                                 actionBtns += '<div class="xc_more_menu">';
-                                actionBtns += '<button class="xc_action-btn" onclick="f_toggle_more_menu(this)"><i class="fa fa-ellipsis-v"></i></button>';
+                                actionBtns += '<button class="xc_action-btn xc_more_btn" onclick="f_toggle_more_menu(this)"><i class="fa fa-ellipsis-v"></i></button>';
                                 actionBtns += '<div class="xc_more_dropdown">';
                                 actionBtns += '<a class="xc_more_item" href="javascript:f_settings(\''+control["code"]+'\')"><i class="fa fa-cog"></i> 快捷设置</a>';
                                 actionBtns += '<a class="xc_more_item" href="javascript:f_edit(\''+control["code"]+'\')"><i class="fa fa-pencil"></i> 编辑</a>';
@@ -1889,6 +1929,7 @@
         eleInputDeployProcessIndex.val('');
         eleTextareaOsdParams.val('');
         eleTextareaExtendParams.val('');
+        eleControlTimeInfo.text('');
         mVideoUrl = null;
         if(ePlayer){
             ePlayer.destroy();
@@ -2057,6 +2098,18 @@
                     eleInputDeployProcessIndex.val(control.deploy_process_index);
                     eleTextareaOsdParams.val(control.osd_params);
                     eleTextareaExtendParams.val(control.extend_params);
+                    
+                    let createTimeStr = formatDateTime(control.create_time);
+                    let updateTimeStr = formatDateTime(control.last_update_time);
+                    let timeInfoHtml = '';
+                    if(createTimeStr){
+                        timeInfoHtml += '添加时间: ' + createTimeStr;
+                    }
+                    if(updateTimeStr){
+                        if(timeInfoHtml) timeInfoHtml += '　';
+                        timeInfoHtml += '更新时间: ' + updateTimeStr;
+                    }
+                    eleControlTimeInfo.text(timeInfoHtml);
                     
                     if(control_stream){
                         eleInputVideoUrl.val(control_stream.wsMp4Url);
