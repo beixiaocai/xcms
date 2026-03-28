@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 
-{% block title %} 录像计划管理 {% endblock title %}
+{% block title %} {{ T.recordplan_title|default:'录像计划管理' }} {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
@@ -575,20 +575,20 @@
             <div class="xc_page-header">
               <div class="xc_page-title">
                 <i class="fa fa-video-camera"></i>
-                录像计划管理
+                {{ T.recordplan_title|default:'录像计划管理' }}
               </div>
               <div class="xc_header-actions">
                 <button class="xc_btn-modern" onclick="openAddModal()">
-                  <i class="fa fa-plus"></i> 添加
+                  <i class="fa fa-plus"></i> {{ T.recordplan_add|default:'添加' }}
                 </button>
                 <button class="xc_btn-modern" onclick="f_reload()">
-                  <i class="fa fa-refresh"></i> 刷新
+                  <i class="fa fa-refresh"></i> {{ T.recordplan_refresh|default:'刷新' }}
                 </button>
               </div>
               <div>
                 <span id="top_loading" style="display: none;">
                   <span class="xc_loading-spinner"></span>
-                  <span class="xc_loading-text">加载中...</span>
+                  <span class="xc_loading-text">{{ T.recordplan_loading|default:'加载中...' }}</span>
                 </span>
                 <span id="top_msg"></span>
               </div>
@@ -600,13 +600,13 @@
                 <thead>
                   <tr>
                     <th style="width: 50px;">ID</th>
-                    <th style="width: 110px;">编号</th>
-                    <th style="width: 200px;">摄像头</th>
-                    <th style="width: 80px;">录像天数</th>
-                    <th style="width: 90px;">音频</th>
-                    <th style="width: 70px;">状态</th>
-                    <th style="width: 140px;">添加时间</th>
-                    <th style="width: 180px;">操作</th>
+                    <th style="width: 110px;">{{ T.recordplan_code|default:'编号' }}</th>
+                    <th style="width: 200px;">{{ T.recordplan_camera|default:'摄像头' }}</th>
+                    <th style="width: 80px;">{{ T.recordplan_days|default:'录像天数' }}</th>
+                    <th style="width: 90px;">{{ T.recordplan_audio|default:'音频' }}</th>
+                    <th style="width: 70px;">{{ T.recordplan_status|default:'状态' }}</th>
+                    <th style="width: 140px;">{{ T.recordplan_create_time|default:'添加时间' }}</th>
+                    <th style="width: 180px;">{{ T.recordplan_action|default:'操作' }}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -616,12 +616,12 @@
                     <td><span class="xc_record-code">{{ d.code }}</span></td>
                     <td>
                       {% if d.stream_active == 1 %}
-                        <span class="xc_stream-status xc_stream-status-active"><span class="xc_stream-status-icon"></span>在线</span><a href="javascript:f_open_player('{{ d.stream_app }}','{{ d.stream_name }}')" class="sun-a-label">播放</a>
+                        <span class="xc_stream-status xc_stream-status-active"><span class="xc_stream-status-icon"></span>{{ T.recordplan_online|default:'在线' }}</span><a href="javascript:f_open_player('{{ d.stream_app }}','{{ d.stream_name }}')" class="sun-a-label">{{ T.recordplan_play|default:'播放' }}</a>
                       {% else %}
-                        <span class="xc_stream-status xc_stream-status-inactive"><span class="xc_stream-status-icon"></span>离线</span>
+                        <span class="xc_stream-status xc_stream-status-inactive"><span class="xc_stream-status-icon"></span>{{ T.recordplan_offline|default:'离线' }}</span>
                       {% endif %}
                     </td>
-                    <td>{{ d.record_day }} 天</td>
+                    <td>{{ d.record_day }}{{ T.recordplan_day_unit|default:'天' }}</td>
                     <td>
                       {% for item in audio_types %}
                         {% if item.type == d.audio_type %}{{ item.name }}{% endif %}
@@ -629,22 +629,22 @@
                     </td>
                     <td>
                       {% if d.is_record == 1 %}
-                        <span class="xc_status-enabled"><i class="fa fa-circle"></i> 开启</span>
+                        <span class="xc_status-enabled"><i class="fa fa-circle"></i> {{ T.recordplan_enable|default:'开启' }}</span>
                       {% else %}
-                        <span class="xc_status-disabled"><i class="fa fa-circle"></i> 关闭</span>
+                        <span class="xc_status-disabled"><i class="fa fa-circle"></i> {{ T.recordplan_disable|default:'关闭' }}</span>
                       {% endif %}
                     </td>
                     <td>{{ d.create_time }}</td>
                     <td>
                       <div class="xc_actions">
-                        <button onclick="f_timeplayer('{{ d.code }}')" class="xc_btn-icon" title="播放">
-                          <i class="fa fa-play"></i> 播放
+                        <button onclick="f_timeplayer('{{ d.code }}')" class="xc_btn-icon" title="{{ T.recordplan_play|default:'播放' }}">
+                          <i class="fa fa-play"></i> {{ T.recordplan_play|default:'播放' }}
                         </button>
-                        <button onclick="openEditModal('{{ d.code }}')" class="xc_btn-icon" title="编辑">
-                          <i class="fa fa-edit"></i> 编辑
+                        <button onclick="openEditModal('{{ d.code }}')" class="xc_btn-icon" title="{{ T.recordplan_edit|default:'编辑' }}">
+                          <i class="fa fa-edit"></i> {{ T.recordplan_edit|default:'编辑' }}
                         </button>
-                        <button onclick="f_del('{{ d.code }}')" class="xc_btn-icon delete" title="删除">
-                          <i class="fa fa-trash"></i> 删除
+                        <button onclick="f_del('{{ d.code }}')" class="xc_btn-icon delete" title="{{ T.recordplan_delete|default:'删除' }}">
+                          <i class="fa fa-trash"></i> {{ T.recordplan_delete|default:'删除' }}
                         </button>
                       </div>
                     </td>
@@ -656,14 +656,14 @@
             {% else %}
             <div class="xc_empty-state">
               <i class="fa fa-video-camera"></i>
-              <p>暂无录像计划</p>
+              <p>{{ T.recordplan_no_data|default:'暂无录像计划' }}</p>
             </div>
             {% endif %}
           </div>
 
           {% if pageData.page_num > 1 %}
           <div class="xc_pagination">
-            <div class="xc_page-info">共 {{ pageData.page_num }} 页 / {{ pageData.count }} 条</div>
+            <div class="xc_page-info">{{ T.recordplan_total|default:'共' }} {{ pageData.page_num }} {{ T.recordplan_page_unit|default:'页' }} / {{ pageData.count }} {{ T.recordplan_item_unit|default:'条' }}</div>
             {% for d in pageData.pageLabels %}
               {% if d.cur == 1 %}
                 <div class="xc_page-btn active">{{ d.name }}</div>
@@ -682,53 +682,53 @@
   <div class="xc_modal-overlay" id="recordModal">
     <div class="xc_modal-container">
       <div class="xc_modal-header">
-        <div class="xc_modal-title" id="modalTitle">添加录像计划</div>
+        <div class="xc_modal-title" id="modalTitle">{{ T.recordplan_add_title|default:'添加录像计划' }}</div>
         <button class="xc_modal-close" onclick="closeRecordModal()">×</button>
       </div>
       <div class="xc_modal-body">
         <div class="xc_form-group">
-          <label class="xc_form-label">录像编号<span class="required">*</span></label>
-          <input type="text" id="input_code" class="xc_form-input" placeholder="自动生成" disabled>
+          <label class="xc_form-label">{{ T.recordplan_record_code|default:'录像编号' }}<span class="required">*</span></label>
+          <input type="text" id="input_code" class="xc_form-input" placeholder="{{ T.recordplan_auto_generate|default:'自动生成' }}" disabled>
         </div>
         
         <div class="xc_form-group" id="stream_group">
-          <label class="xc_form-label">摄像头<span class="required">*</span></label>
+          <label class="xc_form-label">{{ T.recordplan_camera|default:'摄像头' }}<span class="required">*</span></label>
           <select id="input_stream_code" class="xc_form-select">
-            <option value="">请选择摄像头</option>
+            <option value="">{{ T.recordplan_select_camera|default:'请选择摄像头' }}</option>
           </select>
         </div>
         
         <div class="xc_form-group">
-          <label class="xc_form-label">录像天数<span class="required">*</span></label>
-          <input type="number" id="input_record_day" class="xc_form-input" placeholder="请输入录像天数" value="7" min="1" max="365">
-          <div class="xc_form-hint">录像保存天数，超过后自动删除</div>
+          <label class="xc_form-label">{{ T.recordplan_days|default:'录像天数' }}<span class="required">*</span></label>
+          <input type="number" id="input_record_day" class="xc_form-input" placeholder="{{ T.recordplan_input_days|default:'请输入录像天数' }}" value="7" min="1" max="365">
+          <div class="xc_form-hint">{{ T.recordplan_days_hint|default:'录像保存天数，超过后自动删除' }}</div>
         </div>
         
         <div class="xc_form-group">
-          <label class="xc_form-label">音频输出<span class="required">*</span></label>
+          <label class="xc_form-label">{{ T.recordplan_audio_output|default:'音频输出' }}<span class="required">*</span></label>
           <select id="input_audio_type" class="xc_form-select">
-            <option value="0">静音</option>
-            <option value="1">原始声音</option>
+            <option value="0">{{ T.audio_pull_mute|default:'静音' }}</option>
+            <option value="1">{{ T.audio_pull_original|default:'原始声音' }}</option>
           </select>
         </div>
         
         <div class="xc_form-group">
-          <label class="xc_form-label">状态<span class="required">*</span></label>
+          <label class="xc_form-label">{{ T.recordplan_status|default:'状态' }}<span class="required">*</span></label>
           <div class="xc_radio-group">
             <div class="xc_radio-item">
               <input type="radio" id="status_enabled" name="is_record" value="1" checked>
-              <label for="status_enabled">开启</label>
+              <label for="status_enabled">{{ T.recordplan_enable|default:'开启' }}</label>
             </div>
             <div class="xc_radio-item">
               <input type="radio" id="status_disabled" name="is_record" value="0">
-              <label for="status_disabled">关闭</label>
+              <label for="status_disabled">{{ T.recordplan_disable|default:'关闭' }}</label>
             </div>
           </div>
         </div>
       </div>
       <div class="xc_modal-footer">
-        <button class="xc_modal-btn" onclick="closeRecordModal()">取消</button>
-        <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitRecord()">提交</button>
+        <button class="xc_modal-btn" onclick="closeRecordModal()">{{ T.recordplan_cancel|default:'取消' }}</button>
+        <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitRecord()">{{ T.recordplan_submit|default:'提交' }}</button>
       </div>
     </div>
   </div>
@@ -750,7 +750,7 @@
     // 打开添加弹窗
     function openAddModal() {
         currentHandle = "add";
-        $("#modalTitle").text("添加录像计划");
+        $("#modalTitle").text(_t("recordplan_add_title", "添加录像计划"));
         
         // 生成新编号
         let timestamp = new Date().getTime();
@@ -776,7 +776,7 @@
     function openEditModal(code) {
         currentHandle = "edit";
         currentCode = code;
-        $("#modalTitle").text("编辑录像计划");
+        $("#modalTitle").text(_t("recordplan_edit_title", "编辑录像计划"));
         
         eleTopLoading.show();
         
@@ -807,12 +807,12 @@
                     
                     $("#recordModal").addClass("active");
                 } else {
-                    myToast2025(res.msg || "录像计划不存在", "error");
+                    myToast2025(res.msg || _t("recordplan_not_exist", "录像计划不存在"), "error");
                 }
             },
             error: function () {
                 eleTopLoading.hide();
-                myToast2025("网络异常，请确定网络正常！", "error");
+                myToast2025(_t("recordplan_net_error", "网络异常，请确定网络正常！"), "error");
             }
         });
     }
@@ -837,7 +837,7 @@
                         streams = streams.concat(group);
                     }
                     
-                    let html = '<option value="">请选择摄像头</option>';
+                    let html = '<option value="">' + _t("recordplan_select_camera", "请选择摄像头") + '</option>';
                     for (let stream of streams) {
                         let selected = selectedCode && stream.code === selectedCode ? 'selected' : '';
                         html += `<option value="${stream.code}" ${selected}>${stream.nickname}</option>`;
@@ -846,7 +846,7 @@
                 }
             },
             error: function () {
-                myToast2025("加载摄像头列表失败", "error");
+                myToast2025(_t("recordplan_load_camera_fail", "加载摄像头列表失败"), "error");
             }
         });
     }
@@ -861,17 +861,17 @@
         
         // 表单验证
         if (!code) {
-            myToast2025("请输入录像编号", "error");
+            myToast2025(_t("recordplan_code_required", "请输入录像编号"), "error");
             return;
         }
         
         if (!stream_code) {
-            myToast2025("请选择摄像头", "error");
+            myToast2025(_t("recordplan_camera_required", "请选择摄像头"), "error");
             return;
         }
         
         if (!record_day || record_day < 1 || record_day > 365) {
-            myToast2025("请输入有效的录像天数（1-365天）", "error");
+            myToast2025(_t("recordplan_days_invalid", "请输入有效的录像天数（1-365天）"), "error");
             return;
         }
         
@@ -906,7 +906,7 @@
             },
             error: function () {
                 eleTopLoading.hide();
-                myToast2025("网络异常，请确定网络正常！", "error");
+                myToast2025(_t("recordplan_net_error", "网络异常，请确定网络正常！"), "error");
             }
         });
     }
@@ -921,7 +921,7 @@
     }
 
     function f_del(code) {
-        if (!confirm("确认删除该录像计划吗？")) {
+        if (!confirm(_t("recordplan_confirm_delete", "确认删除该录像计划吗？"))) {
             return;
         }
         
@@ -935,7 +935,7 @@
             timeout: 0,
             error: function () {
                 eleTopLoading.hide();
-                myToast2025("网络异常，请确定网络正常！", "error");
+                myToast2025(_t("recordplan_net_error", "网络异常，请确定网络正常！"), "error");
             },
             success: function (res) {
                 eleTopLoading.hide();

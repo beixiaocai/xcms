@@ -55,7 +55,7 @@
         currentFlowMode = 'add';
         currentFlowCode = '';
         
-        elements.modalTitle.text('添加业务算法');
+        elements.modalTitle.text(_t('flow_modal_add_title', '添加业务算法'));
         elements.modal.addClass('active');
         
         // 加载添加所需数据
@@ -71,7 +71,7 @@
                 }
             },
             error: function() {
-                myToast2025('网络异常，请确定网络正常！', 'error');
+                myToast2025(_t('flow_net_error', '网络异常，请确定网络正常！'), 'error');
             }
         });
     };
@@ -79,9 +79,9 @@
     // 打开编辑弹窗
     window.openEditFlowModal = function(code) {
         currentFlowMode = 'edit';
-        currentFlowCode = code;
+        currentFlowCode = '';
         
-        elements.modalTitle.text('编辑业务算法');
+        elements.modalTitle.text(_t('flow_modal_edit_title', '编辑业务算法'));
         elements.modal.addClass('active');
         
         // 加载编辑所需数据
@@ -98,7 +98,7 @@
                 }
             },
             error: function() {
-                myToast2025('网络异常，请确定网络正常！', 'error');
+                myToast2025(_t('flow_net_error', '网络异常，请确定网络正常！'), 'error');
             }
         });
     };
@@ -121,7 +121,7 @@
             });
             
             // 填充模式下拉框
-            let modeHtml = '<option value="0">请选择算法模式</option>';
+            let modeHtml = '<option value="0">' + _t('flow_please_select_mode', '请选择算法模式') + '</option>';
             data.modes.forEach(function(m) {
                 if (m.state === 1) {
                     modeHtml += '<option value="' + m.id + '">' + m.name + '</option>';
@@ -144,7 +144,7 @@
         // 构建行为算法字典并填充下拉框
         behaviourDict = {};
         if (data.behaviours) {
-            let behaviourHtml = '<option value="0">选择行为算法</option>';
+            let behaviourHtml = '<option value="0">' + _t('flow_please_select_behaviour', '选择行为算法') + '</option>';
             data.behaviours.forEach(function(b) {
                 behaviourDict[b.code] = b;
                 behaviourHtml += '<option value="' + b.code + '">' + b.name + ' (' + b.way_code +'/'+ b.way_value + ')</option>';
@@ -234,7 +234,7 @@
     
     // 填充算法下拉框
     function fillAlgorithmSelect(selector, algorithmArray) {
-        let html = '<option value="0">选择算法</option>';
+        let html = '<option value="0">' + _t('flow_please_select_algorithm', '选择算法') + '</option>';
         if (algorithmArray) {
             algorithmArray.forEach(function(alg) {
                 html += '<option value="' + alg.code + '">' + alg.name + 
@@ -266,8 +266,8 @@
         elements.flowDiagram.show();
         elements.flowConfig.show();
         
-        const modeName = modeDict[mode] ? modeDict[mode].name : '未知模式';
-        elements.flowModeName.html('<i class="fa fa-info-circle"></i> 当前选择：' + modeName);
+        const modeName = modeDict[mode] ? modeDict[mode].name : _t('flow_unknown_mode', '未知模式');
+        elements.flowModeName.html('<i class="fa fa-info-circle"></i> ' + _t('flow_current_selection', '当前选择：') + modeName);
         
         switch (mode) {
             case 1: // 检测算法>>行为算法
@@ -383,12 +383,12 @@
         const name = elements.flowName.val().trim();
         
         if (!name) {
-            myToast2025('请输入算法名称', 'error');
+            myToast2025(_t('flow_please_input_name', '请输入算法名称'), 'error');
             return;
         }
         
         if (mode === 0) {
-            myToast2025('请选择算法模式', 'error');
+            myToast2025(_t('flow_please_select_mode', '请选择算法模式'), 'error');
             return;
         }
         
@@ -406,208 +406,208 @@
             case 1: // 检测>>行为
                 algorithmDetectCode = $('#select_algorithm_detect').val();
                 if (algorithmDetectCode === '0') {
-                    myToast2025('请选择检测算法', 'error');
+                    myToast2025(_t('flow_please_select_detect', '请选择检测算法'), 'error');
                     return;
                 }
                 detectClassNames = calcOptionStr($('#select_detect_class_name').val());
                 if (!detectClassNames) {
-                    myToast2025('请至少选择1个检测目标', 'error');
+                    myToast2025(_t('flow_please_select_detect_target', '请至少选择 1 个检测目标'), 'error');
                     return;
                 }
                 behaviourCode = $('#select_behaviour').val();
                 if (behaviourCode === '0') {
-                    myToast2025('请选择行为算法', 'error');
+                    myToast2025(_t('flow_please_select_behaviour', '请选择行为算法'), 'error');
                     return;
                 }
                 break;
             case 2: // 检测>>特征>>行为
                 algorithmDetectCode = $('#select_algorithm_detect').val();
                 if (algorithmDetectCode === '0') {
-                    myToast2025('请选择检测算法', 'error');
+                    myToast2025(_t('flow_please_select_detect', '请选择检测算法'), 'error');
                     return;
                 }
                 detectClassNames = calcOptionStr($('#select_detect_class_name').val());
                 if (!detectClassNames) {
-                    myToast2025('请至少选择1个检测目标', 'error');
+                    myToast2025(_t('flow_please_select_detect_target', '请至少选择 1 个检测目标'), 'error');
                     return;
                 }
                 algorithmTrackCode = $('#select_algorithm_track').val();
                 if (algorithmTrackCode === '0') {
-                    myToast2025('请选择特征算法', 'error');
+                    myToast2025(_t('flow_please_select_track', '请选择特征算法'), 'error');
                     return;
                 }
                 behaviourCode = $('#select_behaviour').val();
                 if (behaviourCode === '0') {
-                    myToast2025('请选择行为算法', 'error');
+                    myToast2025(_t('flow_please_select_behaviour', '请选择行为算法'), 'error');
                     return;
                 }
                 break;
             case 3: // 检测>>分类>>行为
                 algorithmDetectCode = $('#select_algorithm_detect').val();
                 if (algorithmDetectCode === '0') {
-                    myToast2025('请选择检测算法', 'error');
+                    myToast2025(_t('flow_please_select_detect', '请选择检测算法'), 'error');
                     return;
                 }
                 detectClassNames = calcOptionStr($('#select_detect_class_name').val());
                 if (!detectClassNames) {
-                    myToast2025('请至少选择1个检测目标', 'error');
+                    myToast2025(_t('flow_please_select_detect_target', '请至少选择 1 个检测目标'), 'error');
                     return;
                 }
                 algorithmClassifyCode = $('#select_algorithm_classify').val();
                 if (algorithmClassifyCode === '0') {
-                    myToast2025('请选择分类算法', 'error');
+                    myToast2025(_t('flow_please_select_classify', '请选择分类算法'), 'error');
                     return;
                 }
                 classifyClassNames = calcOptionStr($('#select_classify_class_name').val());
                 if (!classifyClassNames) {
-                    myToast2025('请至少选择1个分类目标', 'error');
+                    myToast2025(_t('flow_please_select_classify_target', '请至少选择 1 个分类目标'), 'error');
                     return;
                 }
                 behaviourCode = $('#select_behaviour').val();
                 if (behaviourCode === '0') {
-                    myToast2025('请选择行为算法', 'error');
+                    myToast2025(_t('flow_please_select_behaviour', '请选择行为算法'), 'error');
                     return;
                 }
                 break;
             case 4: // 分类>>行为
                 algorithmClassifyCode = $('#select_algorithm_classify').val();
                 if (algorithmClassifyCode === '0') {
-                    myToast2025('请选择分类算法', 'error');
+                    myToast2025(_t('flow_please_select_classify', '请选择分类算法'), 'error');
                     return;
                 }
                 classifyClassNames = calcOptionStr($('#select_classify_class_name').val());
                 if (!classifyClassNames) {
-                    myToast2025('请至少选择1个分类目标', 'error');
+                    myToast2025(_t('flow_please_select_classify_target', '请至少选择 1 个分类目标'), 'error');
                     return;
                 }
                 behaviourCode = $('#select_behaviour').val();
                 if (behaviourCode === '0') {
-                    myToast2025('请选择行为算法', 'error');
+                    myToast2025(_t('flow_please_select_behaviour', '请选择行为算法'), 'error');
                     return;
                 }
                 break;
             case 5: // 行为
                 behaviourCode = $('#select_behaviour').val();
                 if (behaviourCode === '0') {
-                    myToast2025('请选择行为算法', 'error');
+                    myToast2025(_t('flow_please_select_behaviour', '请选择行为算法'), 'error');
                     return;
                 }
                 break;
             case 6: // 分类>>检测>>行为
                 algorithmClassifyCode = $('#select_algorithm_classify').val();
                 if (algorithmClassifyCode === '0') {
-                    myToast2025('请选择分类算法', 'error');
+                    myToast2025(_t('flow_please_select_classify', '请选择分类算法'), 'error');
                     return;
                 }
                 classifyClassNames = calcOptionStr($('#select_classify_class_name').val());
                 if (!classifyClassNames) {
-                    myToast2025('请至少选择1个分类目标', 'error');
+                    myToast2025(_t('flow_please_select_classify_target', '请至少选择 1 个分类目标'), 'error');
                     return;
                 }
                 algorithmDetectCode = $('#select_algorithm_detect').val();
                 if (algorithmDetectCode === '0') {
-                    myToast2025('请选择检测算法', 'error');
+                    myToast2025(_t('flow_please_select_detect', '请选择检测算法'), 'error');
                     return;
                 }
                 detectClassNames = calcOptionStr($('#select_detect_class_name').val());
                 if (!detectClassNames) {
-                    myToast2025('请至少选择1个检测目标', 'error');
+                    myToast2025(_t('flow_please_select_detect_target', '请至少选择 1 个检测目标'), 'error');
                     return;
                 }
                 behaviourCode = $('#select_behaviour').val();
                 if (behaviourCode === '0') {
-                    myToast2025('请选择行为算法', 'error');
+                    myToast2025(_t('flow_please_select_behaviour', '请选择行为算法'), 'error');
                     return;
                 }
                 break;
             case 7: // 检测>>分类>>特征>>行为
                 algorithmDetectCode = $('#select_algorithm_detect').val();
                 if (algorithmDetectCode === '0') {
-                    myToast2025('请选择检测算法', 'error');
+                    myToast2025(_t('flow_please_select_detect', '请选择检测算法'), 'error');
                     return;
                 }
                 detectClassNames = calcOptionStr($('#select_detect_class_name').val());
                 if (!detectClassNames) {
-                    myToast2025('请至少选择1个检测目标', 'error');
+                    myToast2025(_t('flow_please_select_detect_target', '请至少选择 1 个检测目标'), 'error');
                     return;
                 }
                 algorithmClassifyCode = $('#select_algorithm_classify').val();
                 if (algorithmClassifyCode === '0') {
-                    myToast2025('请选择分类算法', 'error');
+                    myToast2025(_t('flow_please_select_classify', '请选择分类算法'), 'error');
                     return;
                 }
                 classifyClassNames = calcOptionStr($('#select_classify_class_name').val());
                 if (!classifyClassNames) {
-                    myToast2025('请至少选择1个分类目标', 'error');
+                    myToast2025(_t('flow_please_select_classify_target', '请至少选择 1 个分类目标'), 'error');
                     return;
                 }
                 algorithmTrackCode = $('#select_algorithm_track').val();
                 if (algorithmTrackCode === '0') {
-                    myToast2025('请选择特征算法', 'error');
+                    myToast2025(_t('flow_please_select_track', '请选择特征算法'), 'error');
                     return;
                 }
                 behaviourCode = $('#select_behaviour').val();
                 if (behaviourCode === '0') {
-                    myToast2025('请选择行为算法', 'error');
+                    myToast2025(_t('flow_please_select_behaviour', '请选择行为算法'), 'error');
                     return;
                 }
                 break;
             case 8: // 检测>>检测>>行为
                 algorithmDetectCode = $('#select_algorithm_detect').val();
                 if (algorithmDetectCode === '0') {
-                    myToast2025('请选择检测算法', 'error');
+                    myToast2025(_t('flow_please_select_detect', '请选择检测算法'), 'error');
                     return;
                 }
                 detectClassNames = calcOptionStr($('#select_detect_class_name').val());
                 if (!detectClassNames) {
-                    myToast2025('请至少选择1个检测目标', 'error');
+                    myToast2025(_t('flow_please_select_detect_target', '请至少选择 1 个检测目标'), 'error');
                     return;
                 }
                 algorithmDetect2Code = $('#select_algorithm_detect2').val();
                 if (algorithmDetect2Code === '0') {
-                    myToast2025('请选择第二个检测算法', 'error');
+                    myToast2025(_t('flow_please_select_detect2', '请选择第二个检测算法'), 'error');
                     return;
                 }
                 detect2ClassNames = calcOptionStr($('#select_detect2_class_name').val());
                 if (!detect2ClassNames) {
-                    myToast2025('请至少选择1个二次检测目标', 'error');
+                    myToast2025(_t('flow_please_select_detect2_target', '请至少选择 1 个二次检测目标'), 'error');
                     return;
                 }
                 behaviourCode = $('#select_behaviour').val();
                 if (behaviourCode === '0') {
-                    myToast2025('请选择行为算法', 'error');
+                    myToast2025(_t('flow_please_select_behaviour', '请选择行为算法'), 'error');
                     return;
                 }
                 break;
             case 9: // 检测>>特征>>检测>>行为
                 algorithmDetectCode = $('#select_algorithm_detect').val();
                 if (algorithmDetectCode === '0') {
-                    myToast2025('请选择检测算法', 'error');
+                    myToast2025(_t('flow_please_select_detect', '请选择检测算法'), 'error');
                     return;
                 }
                 detectClassNames = calcOptionStr($('#select_detect_class_name').val());
                 if (!detectClassNames) {
-                    myToast2025('请至少选择1个检测目标', 'error');
+                    myToast2025(_t('flow_please_select_detect_target', '请至少选择 1 个检测目标'), 'error');
                     return;
                 }
                 algorithmTrackCode = $('#select_algorithm_track').val();
                 if (algorithmTrackCode === '0') {
-                    myToast2025('请选择特征算法', 'error');
+                    myToast2025(_t('flow_please_select_track', '请选择特征算法'), 'error');
                     return;
                 }
                 algorithmDetect2Code = $('#select_algorithm_detect2').val();
                 if (algorithmDetect2Code === '0') {
-                    myToast2025('请选择二次检测算法', 'error');
+                    myToast2025(_t('flow_please_select_detect2', '请选择二次检测算法'), 'error');
                     return;
                 }
                 detect2ClassNames = calcOptionStr($('#select_detect2_class_name').val());
                 if (!detect2ClassNames) {
-                    myToast2025('请至少选择1个二次检测目标', 'error');
+                    myToast2025(_t('flow_please_select_detect2_target', '请至少选择 1 个二次检测目标'), 'error');
                     return;
                 }
                 behaviourCode = $('#select_behaviour').val();
                 if (behaviourCode === '0') {
-                    myToast2025('请选择行为算法', 'error');
+                    myToast2025(_t('flow_please_select_behaviour', '请选择行为算法'), 'error');
                     return;
                 }
                 break;
@@ -648,7 +648,7 @@
         
         // 禁用提交按钮
         elements.submitBtn.prop('disabled', true);
-        elements.submitBtnText.html('<span class="xc_loading-icon"></span> 提交中...');
+        elements.submitBtnText.html('<span class="xc_loading-icon"></span> ' + _t('flow_submit_ing', '提交中...'));
         
         $.ajax({
             url: url,
@@ -657,7 +657,7 @@
             dataType: 'json',
             success: function(res) {
                 elements.submitBtn.prop('disabled', false);
-                elements.submitBtnText.text('提交');
+                elements.submitBtnText.text(_t('flow_submit', '提交'));
                 
                 if (res.code === 1000) {
                     myToast2025(res.msg, 'success', 1000);
@@ -671,8 +671,8 @@
             },
             error: function() {
                 elements.submitBtn.prop('disabled', false);
-                elements.submitBtnText.text('提交');
-                myToast2025('网络异常，请确定网络正常！', 'error');
+                elements.submitBtnText.text(_t('flow_submit', '提交'));
+                myToast2025(_t('flow_net_error', '网络异常，请确定网络正常！'), 'error');
             }
         });
     };

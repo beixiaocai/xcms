@@ -1,12 +1,107 @@
 {
-    "name": "视频行为分析系统",
-    "welcome": "欢迎",
-    "logo_url": "/static/images/logo.png",
-    "bottom_name": "视频行为分析系统",
-    "is_show_author": true,
-    "author": "宇图瑞视",
-    "author_link": "https://www.yuturuishi.com",
-    "auth_online_link": "https://www.yuturuishi.com",
-    "auth_buy_link": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/rebekah/bvda5lrygo8nq21q",
-    "check_version_download_url": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/rebekah/e05dce83e5129785b9f316978a14b896"
+  "lang_default": "zh",
+  "languages": {
+    "zh": {
+      "code": "zh",
+      "name": "简体中文",
+      "filename": "language-zh.json",
+      "oem": {
+        "name": "视频行为分析系统",
+        "welcome": "欢迎",
+        "logo_url": "/static/images/logo.png",
+        "bottom_name": "视频行为分析系统",
+        "is_show_author": true,
+        "author": "宇图瑞视",
+        "author_link": "https://www.yuturuishi.com",
+        "auth_online_link": "https://www.yuturuishi.com",
+        "auth_buy_link": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/rebekah/bvda5lrygo8nq21q",
+        "check_version_download_url": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/rebekah/e05dce83e5129785b9f316978a14b896"
+      }
+    },
+    "zh-hk": {
+      "code": "zh-hk",
+      "name": "繁體中文",
+      "filename": "language-zh-hk.json",
+      "oem": {
+        "name": "視頻行為分析系統",
+        "welcome": "歡迎",
+        "logo_url": "/static/images/logo.png",
+        "bottom_name": "視頻行為分析系統",
+        "is_show_author": true,
+        "author": "宇圖瑞視",
+        "author_link": "https://www.yuturuishi.com",
+        "auth_online_link": "https://www.yuturuishi.com",
+        "auth_buy_link": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/rebekah/bvda5lrygo8nq21q",
+        "check_version_download_url": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/rebekah/e05dce83e5129785b9f316978a14b896"
+      }
+    },
+    "en": {
+      "code": "en",
+      "name": "English",
+      "filename": "language-en.json",
+      "oem": {
+        "name": "Video Analysis",
+        "welcome": "Welcome",
+        "logo_url": "/static/images/logo.png",
+        "bottom_name": "Video Behavior Analysis System",
+        "is_show_author": true,
+        "author": "YutuRuiShi",
+        "author_link": "https://www.yuturuishi.com",
+        "auth_online_link": "https://www.yuturuishi.com",
+        "auth_buy_link": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/rebekah/bvda5lrygo8nq21q",
+        "check_version_download_url": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/rebekah/e05dce83e5129785b9f316978a14b896"
+      }
+    },
+    "es": {
+      "code": "es",
+      "name": "Español",
+      "filename": "language-es.json",
+      "oem": {
+        "name": "Sistema de Análisis de Comportamiento de Video",
+        "welcome": "Bienvenido",
+        "logo_url": "/static/images/logo.png",
+        "bottom_name": "Sistema de Análisis de Comportamiento de Video",
+        "is_show_author": true,
+        "author": "YutuRuiShi",
+        "author_link": "https://www.yuturuishi.com",
+        "auth_online_link": "https://www.yuturuishi.com",
+        "auth_buy_link": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/rebekah/bvda5lrygo8nq21q",
+        "check_version_download_url": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/rebekah/e05dce83e5129785b9f316978a14b896"
+      }
+    },
+    "ru": {
+      "code": "ru",
+      "name": "Русский",
+      "filename": "language-ru.json",
+      "oem": {
+        "name": "Система анализа видеоповедения",
+        "welcome": "Добро пожаловать",
+        "logo_url": "/static/images/logo.png",
+        "bottom_name": "Система анализа видеоповедения",
+        "is_show_author": true,
+        "author": "YutuRuiShi",
+        "author_link": "https://www.yuturuishi.com",
+        "auth_online_link": "https://www.yuturuishi.com",
+        "auth_buy_link": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/rebekah/bvda5lrygo8nq21q",
+        "check_version_download_url": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/rebekah/e05dce83e5129785b9f316978a14b896"
+      }
+    },
+    "ko": {
+      "code": "ko",
+      "name": "한국어",
+      "filename": "language-ko.json",
+      "oem": {
+        "name": "비디오 행동 분석 시스템",
+        "welcome": "환영합니다",
+        "logo_url": "/static/images/logo.png",
+        "bottom_name": "비디오 행동 분석 시스템",
+        "is_show_author": true,
+        "author": "YutuRuiShi",
+        "author_link": "https://www.yuturuishi.com",
+        "auth_online_link": "https://www.yuturuishi.com",
+        "auth_buy_link": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/rebekah/bvda5lrygo8nq21q",
+        "check_version_download_url": "https://beixiaocai.yuque.com/org-wiki-beixiaocai-vo72oa/rebekah/e05dce83e5129785b9f316978a14b896"
+      }
+    }
+  }
 }

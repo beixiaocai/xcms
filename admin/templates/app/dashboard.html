@@ -1,16 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ T_SELECTED_LANG|default:'zh' }}">
 <head>
    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!--<link rel="shortcut icon" href="/static/images/user.ico">-->
     <link type="image/png" href="/static/images/logo.png?123456" rel="shortcut icon" />
-  <title>{{ settings.name }} | 大屏管理</title>
+  <title>{{ settings.name }} | {{ T.dashboard_title|default:'大屏管理' }}</title>
     <!-- Font Awesome -->
     <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- fancybox -->
     <link rel="stylesheet" href="/static/lib/jquery/fancybox/3.5.7/jquery.fancybox.min.css" />
+  <script>
+    window.LANG = {{ T_JSON|safe|default:"{}" }};
+    function _t(key, default_val) {
+        if (!window.LANG) return default_val || key;
+        return window.LANG[key] !== undefined ? window.LANG[key] : (default_val || key);
+    }
+  </script>
   <style>
     * {
       margin: 0;
@@ -964,15 +971,15 @@
   <div class="xc_container">
     <!-- 左侧侧边栏 -->
     <div class="xc_sidebar">
-      <div class="xc_sidebar-title">最近7日告警趋势</div>
+      <div class="xc_sidebar-title">{{ T.dashboard_recent_alarm_trend|default:'最近7日告警趋势' }}</div>
       <div class="xc_chart-box">
             <div id="left_alarm_chart" style="width: 100%;height:180px"></div>
       </div>
 
-      <div class="xc_sidebar-title">最近7日告警类型排行</div>
+      <div class="xc_sidebar-title">{{ T.dashboard_recent_alarm_rank|default:'最近7日告警类型排行' }}</div>
       <div class="xc_rank-box" id="left_alarm_rank">
             <div class="xc_rank-item">
-                <span>加载中</span>
+                <span>{{ T.common_loading|default:'加载中...' }}</span>
             </div>
             <div class="xc_progress-bar">
                 <div class="xc_progress-fill" style="width: 1%;"></div>
@@ -988,7 +995,7 @@
            -->
       </div>
 
-      <div class="xc_sidebar-title">接入视频</div>
+      <div class="xc_sidebar-title">{{ T.dashboard_access_video|default:'接入视频' }}</div>
       <div class="xc_status-box">
         <div class="xc_status-icon">
              <svg viewBox="0 0 24 24" width="24" height="24" fill="#1e90ff">
@@ -1002,7 +1009,7 @@
         </div>
         <div class="xc_status-info">
           <div class="xc_num" id="stream_count">0/0</div>
-          <div class="xc_label">在线数量/总数量</div>
+          <div class="xc_label">{{ T.dashboard_online_total|default:'在线数量/总数量' }}</div>
         </div>
       </div>
     </div>
@@ -1013,7 +1020,7 @@
 
         <div class="xc_top-bar-left">
            <select id="select_stream" class="xc_stream-select">
-                <option value="0">请选择视频流</option>
+                <option value="0">{{ T.dashboard_select_stream|default:'请选择视频流' }}</option>
                 {% for gitem in group_streams %}
                   <optgroup label="{{ gitem.group_name_ch }}">
                      {% for stream in gitem.streams %}
@@ -1041,17 +1048,17 @@
             </select>
 
           <div class="xc_control-buttons">
-                 <div class="xc_control-button" onclick="f_clickPlayStart()"><i class="fa fa-play-circle-o" title="开始播放"></i></div>
-                 <div class="xc_control-button" onclick="f_clickPlayStop()"><i class="fa fa-stop" title="停止播放"></i></div>
-              <div class="xc_control-button" onclick="f_createGridVideoContainer(1)" title="1分屏">1</div>
-              <div class="xc_control-button" onclick="f_createGridVideoContainer(4)" title="4分屏">4</div>
-              <div class="xc_control-button" onclick="f_createGridVideoContainer(9)" title="9分屏">9</div>
-              <div class="xc_control-button" onclick="f_createGridVideoContainer(16)" title="16分屏">16</div>
-               <div class="xc_control-button" onclick="f_openUpdateDashboardData()"><i class="fa fa-save" title="保存配置"></i></div>
-                <div class="xc_control-button" onclick="f_clickFullScreen()"><i class="fa fa-retweet"  title="全屏播放"></i></div>
-                <div class="xc_control-button" ><div id="handle_audio_player"><i class="fa fa-bell-o" title="关闭声音" ></i></div></div>
+                 <div class="xc_control-button" onclick="f_clickPlayStart()"><i class="fa fa-play-circle-o" title="{{ T.dashboard_start_play|default:'开始播放' }}"></i></div>
+                 <div class="xc_control-button" onclick="f_clickPlayStop()"><i class="fa fa-stop" title="{{ T.dashboard_stop_play|default:'停止播放' }}"></i></div>
+              <div class="xc_control-button" onclick="f_createGridVideoContainer(1)" title="1{{ T.dashboard_split_screen|default:'分屏' }}">1</div>
+              <div class="xc_control-button" onclick="f_createGridVideoContainer(4)" title="4{{ T.dashboard_split_screen|default:'分屏' }}">4</div>
+              <div class="xc_control-button" onclick="f_createGridVideoContainer(9)" title="9{{ T.dashboard_split_screen|default:'分屏' }}">9</div>
+              <div class="xc_control-button" onclick="f_createGridVideoContainer(16)" title="16{{ T.dashboard_split_screen|default:'分屏' }}">16</div>
+               <div class="xc_control-button" onclick="f_openUpdateDashboardData()"><i class="fa fa-save" title="{{ T.dashboard_save_config|default:'保存配置' }}"></i></div>
+                <div class="xc_control-button" onclick="f_clickFullScreen()"><i class="fa fa-retweet"  title="{{ T.dashboard_fullscreen|default:'全屏播放' }}"></i></div>
+                <div class="xc_control-button" ><div id="handle_audio_player"><i class="fa fa-bell-o" title="{{ T.dashboard_mute_off|default:'关闭声音' }}" ></i></div></div>
                 <div><audio id="audio_player"  controls style="display: none;" >
-                浏览器不支持音频播放
+                {{ T.dashboard_audio_not_support|default:'浏览器不支持音频播放' }}
                 </audio></div>
               <!--
                 <div class="xc_control-button">□</div>
@@ -1084,24 +1091,24 @@
 
       <div class="xc_bottom-stat">
         <div class="xc_bottom-stat-item">
-          <div class="xc_label">今日告警总数</div>
+          <div class="xc_label">{{ T.dashboard_today_alarm_total|default:'今日告警总数' }}</div>
           <div>
             <span class="xc_num" id="today_alarm_total_count">0</span>
-            <span class="xc_unit">条</span>
+            <span class="xc_unit">{{ T.alarm_item_unit|default:'条' }}</span>
           </div>
         </div>
         <div class="xc_bottom-stat-item">
-          <div class="xc_label">今日已处理</div>
+          <div class="xc_label">{{ T.dashboard_today_handled|default:'今日已处理' }}</div>
           <div>
             <span class="xc_num" id="today_alarm_handle_count">0</span>
-            <span class="xc_unit">条</span>
+            <span class="xc_unit">{{ T.alarm_item_unit|default:'条' }}</span>
           </div>
         </div>
         <div class="xc_bottom-stat-item">
-          <div class="xc_label">今日未处理</div>
+          <div class="xc_label">{{ T.dashboard_today_unhandled|default:'今日未处理' }}</div>
           <div>
            <span class="xc_num" id="today_alarm_unhandle_count">0</span>
-            <span class="xc_unit">条</span>
+            <span class="xc_unit">{{ T.alarm_item_unit|default:'条' }}</span>
           </div>
         </div>
       </div>
@@ -1109,10 +1116,10 @@
 
     <!-- 右侧侧边栏 -->
     <div class="xc_rightbar">
-      <div class="xc_sidebar-title">最新告警</div>
+      <div class="xc_sidebar-title">{{ T.dashboard_latest_alarm|default:'最新告警' }}</div>
         <div id="right_alarm_data">
             <div class="xc_alarm-item">
-                <span>加载中</span>
+                <span>{{ T.common_loading|default:'加载中...' }}</span>
             </div>
           <!--
             <div class="xc_alarm-item">
@@ -1142,7 +1149,7 @@
     <div id="bxc_dialog">
         <div class="dialog_title">
             <span class="dialog_alarm_count"></span>
-            <button class="close" onclick="f_close_newAlarmDialog()">关闭</button>
+            <button class="close" onclick="f_close_newAlarmDialog()">{{ T.ulog_close|default:'关闭' }}</button>
         </div>
         <div class="dialog_content">
             <div class="content_top">
@@ -1169,15 +1176,15 @@
 <div class="xcd_modal-overlay" id="alarmDetailModal">
     <div class="xcd_modal-container">
         <div class="xcd_modal-header">
-            <div class="xcd_modal-title">查看报警详情</div>
+            <div class="xcd_modal-title">{{ T.alarm_detail_title|default:'查看报警详情' }}</div>
             <button class="xcd_modal-close" onclick="closeAlarmDetailModal()">×</button>
         </div>
         <div class="xcd_modal-body" id="alarmModalBody">
             <!-- 动态加载内容 -->
         </div>
         <div class="xcd_modal-footer">
-            <button class="xcd_modal-btn xcd_modal-btn-cancel" onclick="closeAlarmDetailModal()">取消</button>
-            <button class="xcd_modal-btn xcd_modal-btn-submit" onclick="submitAlarmReview()">提交</button>
+            <button class="xcd_modal-btn xcd_modal-btn-cancel" onclick="closeAlarmDetailModal()">{{ T.alarm_cancel|default:'取消' }}</button>
+            <button class="xcd_modal-btn xcd_modal-btn-submit" onclick="submitAlarmReview()">{{ T.alarm_submit|default:'提交' }}</button>
         </div>
     </div>
 </div>
@@ -1193,7 +1200,9 @@
 <!-- highcharts -->
 <script src="/static/lib/highcharts/highcharts.js"></script>
 <script src="/static/lib/highcharts/modules/exporting.js"></script>
+{% if T_SELECTED_LANG == 'zh' %}
 <script src="/static/lib/highcharts-plugins/highcharts-zh_CN.js"></script>
+{% endif %}
 <!-- fancybox -->
 <script src="/static/lib/jquery/fancybox/3.5.7/jquery.fancybox.min.js"></script>
 <script src="/static/app/common/js/toast.js"></script>
@@ -1225,7 +1234,7 @@
 
     eleHandleAudioPlayer.click(function () {
         if(mAudioPlayerIsOpen){//当前开启，点击则关闭
-            $(this).html("<i class=\"fa fa-bell-slash-o\" title='开启声音'></i>");
+            $(this).html("<i class=\"fa fa-bell-slash-o\" title='" + _t("dashboard_mute_on", "开启声音") + "'></i>");
             mAudioPlayerIsOpen = false;
             try {
                 if(!eleAudioPlayer.paused){
@@ -1236,7 +1245,7 @@
             }
         }else{//当前关闭中，点击则开启
             mAudioPlayerIsOpen = true;
-            $(this).html("<i class=\"fa fa-bell-o\" title='关闭声音'></i>");
+            $(this).html("<i class=\"fa fa-bell-o\" title='" + _t("dashboard_mute_off", "关闭声音") + "'></i>");
         }
     })
 
@@ -1271,7 +1280,7 @@
             videoBufferDelay: Number(3), // 1000s 达到延迟重播(s)
             decoder: '/static/lib/easyPlayer/js/decoder-pro.js',
             isResize: true,
-            loadingText: "加载中",
+            loadingText: _t("common_loading", "加载中..."),
             debug: false,
             debugLevel: "debug",
             useMSE: true,
@@ -1294,7 +1303,7 @@
             },
             background: "/static/images/player_poster.jpg",
             timeout: 10,
-            qualityConfig: ['普清', '高清', '超清'],
+            qualityConfig: [_t("player_quality_low", "普清"), _t("player_quality_medium", "高清"), _t("player_quality_high", "超清")],
             forceNoOffscreen: true,
             isNotMute: false,
             heartTimeout: Number(7),//超出时间无数据重连(s)
@@ -1419,15 +1428,15 @@
     function f_clickPlayStart() {
         console.log("f_clickPlayStart()",mSelectedGridVideoCount,mSelectedGridItemClass,mSelectedVideoId,mSelectedVideoPlayerMap)
         if(mSelectedVideoId===null){
-            myToast2025("请选中一个窗口！","error");
+            myToast2025(_t("dashboard_select_window","请选中一个窗口！"),"error");
             return false;
         }
         streamCode = eleSelectStream.val().trim();//typeof string
         if(streamCode==="-1"){
-            myToast2025("暂无视频流","error");
+            myToast2025(_t("dashboard_no_stream","暂无视频流"),"error");
             return false;
         }else if(streamCode==="0"){
-            myToast2025("请选择视频流","error");
+            myToast2025(_t("dashboard_select_stream","请选择视频流"),"error");
             return false;
         }
         let stream = streamCodeDict[streamCode];
@@ -1440,7 +1449,7 @@
 
         let video_url = stream["wsMp4Url"];
         if(typeof video_url === "undefined" || !video_url.startsWith("ws://") || !video_url.endsWith(".mp4")){
-            myToast2025("视频流地址格式不正确！","error");
+            myToast2025(_t("dashboard_stream_invalid","视频流地址格式不正确！"),"error");
             return false;
         }
         f_playStart(mSelectedVideoId,video_url);
@@ -1513,7 +1522,7 @@
                     enabled: false //隐藏底部类别名称
             },
             series: [{
-                name: '报警数量',
+                name: _t("dashboard_alarm_count", "报警数量"),
                 data: data
             }]
         });
@@ -1548,7 +1557,7 @@
         }else{
 
             html+="<div class=\"xc_rank-item\">";
-              html+="<span>暂无数据</span>";
+              html+="<span>" + _t("alarm_no_data", "暂无报警数据") + "</span>";
               html+="<span>0</span>";
             html+="</div>";
             html+="<div class=\"xc_progress-bar\">";
@@ -1567,13 +1576,13 @@
                    let state = d["state"];
                    let state_str;
                     if(state===0) {//未读
-                        state_str = "<span style=\"border-radius: 3px;font-size:11px;padding:2px 4px;color:#337ab7;margin:0 3px;\">未处理</span>";
+                        state_str = "<span style=\"border-radius: 3px;font-size:11px;padding:2px 4px;color:#337ab7;margin:0 3px;\">" + _t("alarm_unprocessed", "未处理") + "</span>";
                     }else if(state===1){//已读-正常报警
-                        state_str = "<span style=\"border-radius: 3px;font-size:11px;padding:2px 4px;color:#ac0b0b;margin:0 3px;\">报警</span>";
+                        state_str = "<span style=\"border-radius: 3px;font-size:11px;padding:2px 4px;color:#ac0b0b;margin:0 3px;\">" + _t("alarm_label", "报警") + "</span>";
                     }else if(state===2){//已读-误报
-                        state_str = "<span style=\"border-radius: 3px;font-size:11px;padding:2px 4px;color:#bb751a;margin:0 3px;\">误报</span>";
+                        state_str = "<span style=\"border-radius: 3px;font-size:11px;padding:2px 4px;color:#bb751a;margin:0 3px;\">" + _t("alarm_false_alarm", "误报") + "</span>";
                     }else{
-                        state_str = "<span>未知</span>";
+                        state_str = "<span>" + _t("alarm_unknown", "未知") + "</span>";
                     }
 
                  html += "<div class=\"xc_alarm-item\">";
@@ -1581,20 +1590,20 @@
                  html += "<img src=\""+d["imageUrl"]+"\" alt=\"alarm\" style=\"width: 100%; height: 100%; object-fit: cover;\">";
                  html += "</div>";
                  html += "<div class=\"xc_alarm-info\">";
-                 html += "<span>ID："+ d["id"] +"</span>";
-                 html += "<span>视频："+d["stream_nickname"] +"</span>";
-                 html += "<span>类型："+d["flow_name"]+"</span>";
-                 html += "<span>时间："+d["create_time_str"]+"</span>";
+                 html += "<span>" + _t("dashboard_id_label", "ID：") + d["id"] +"</span>";
+                 html += "<span>" + _t("dashboard_video_label", "视频：") + d["stream_nickname"] +"</span>";
+                 html += "<span>" + _t("dashboard_type_label", "类型：") + d["flow_name"]+"</span>";
+                 html += "<span>" + _t("dashboard_time_label", "时间：") + d["create_time_str"]+"</span>";
                  html += "</div>";
                  html += "<div class=\"xc_alarm-status\">";
                  html += "<div>"+state_str+"</div>";
-                 html += "<div class=\"xc_action-button\" onclick='f_open_alarm_edit(\""+d["code"]+"\")'>查看详情</div>";
+                 html += "<div class=\"xc_action-button\" onclick='f_open_alarm_edit(\""+d["code"]+"\")'>" + _t("alarm_detail_title", "查看报警详情") + "</div>";
                  html += "</div>";
                  html += "</div>";
              }
         }else{
             html +="<div class=\"xc_alarm-item\">";
-                html +="<span>暂无数据</span>";
+                html +="<span>" + _t("alarm_no_data", "暂无报警数据") + "</span>";
             html +="</div>";
         }
 
@@ -1640,7 +1649,7 @@
            dataType: "json",
            timeout: 0,
            error: function () {
-               myToast2025("网络异常，请确定网络正常！","error");
+               myToast2025(_t("version_net_error_toast","网络异常，请确定网络正常！"),"error");
            },
            success: function (res) {
                if(res.code === 1000){
@@ -1665,7 +1674,7 @@
            dataType: "json",
            timeout: 0,
            error: function () {
-               myToast2025("网络异常，请确定网络正常！","error");
+               myToast2025(_t("version_net_error_toast","网络异常，请确定网络正常！"),"error");
            },
            success: function (res) {
                if(res.code === 1000){
@@ -1718,7 +1727,7 @@
            dataType: "json",
            timeout: 0,
            error: function () {
-               myToast2025("网络异常，请确定网络正常！","error");
+               myToast2025(_t("version_net_error_toast","网络异常，请确定网络正常！"),"error");
            },
            success: function (res) {
                if(res.code === 1000){
@@ -1798,11 +1807,11 @@
                     for (let i = 0; i < show_len; i++) {
                         content_list+="<div class=\"content_item\"><img src=\""+imageUrlArray[i]+"\"></div>";
                     }
-                    content_list+="<div class=\"content_item\"><span style='margin-left:1px;'>共"+mCurAlarmImageCount+"张</span></div>"
+                    content_list+="<div class=\"content_item\"><span style='margin-left:1px;'>" + _t("dashboard_image_total", "共") + mCurAlarmImageCount + _t("dashboard_image_unit", "张") + "</span></div>"
 
-                    eleDialogAlarmCount.html("发现"+mCurAlarmCount+"条新的报警");
+                    eleDialogAlarmCount.html(_t("dashboard_found_alarm_prefix", "发现") + mCurAlarmCount + _t("dashboard_found_alarm_suffix", "条新的报警"));
                     eleDialogAlarmTime.html(alarm["create_time_str"]);
-                    eleDialogAlarmLink.html("<a href='javascript:f_open_alarm_edit(\""+alarm["code"]+"\")'>查看报警详情</a>");
+                    eleDialogAlarmLink.html("<a href='javascript:f_open_alarm_edit(\""+alarm["code"]+"\")'>" + _t("alarm_detail_title", "查看报警详情") + "</a>");
                     eleDialogAlarmContentList.html(content_list);
                     //弹窗显示报警数据end
 
@@ -1859,12 +1868,12 @@
                 if(res.code === 1000) {
                     renderModalContent(res.info);
                 } else {
-                    myToast2025(res.msg || '报警不存在', 'error');
+                    myToast2025(res.msg || _t("dashboard_alarm_not_exist", "报警不存在"), 'error');
                     closeAlarmDetailModal();
                 }
             },
             error: function() {
-                myToast2025('加载失败，请稍后重试', 'error');
+                myToast2025(_t("ulog_load_retry", "加载失败，请稍后重试"), 'error');
                 closeAlarmDetailModal();
             }
         });
@@ -1878,19 +1887,19 @@
         
         // 视频
         if(alarm.video_count > 0) {
-            html += '<div class="xcd_modal-section-title"><i class="fa fa-video-camera"></i> 报警视频（' + alarm.video_count + '）</div>';
+            html += '<div class="xcd_modal-section-title"><i class="fa fa-video-camera"></i> ' + _t("alarm_video", "报警视频") + '（' + alarm.video_count + '）</div>';
             html += '<video controls muted loop preload="none" class="xcd_modal-video-player" poster="' + alarm.imageUrl + '" src="' + alarm.videoUrl + '"></video>';
         }
         
         // 图片
-        html += '<div class="xcd_modal-section-title"><i class="fa fa-image"></i> 报警图片（' + alarm.image_count + '）</div>';
+        html += '<div class="xcd_modal-section-title"><i class="fa fa-image"></i> ' + _t("alarm_image", "报警图片") + '（' + alarm.image_count + '）</div>';
         html += '<div class="xcd_modal-image-grid">';
         for(let i = 0; i < alarm.imageUrlArray.length; i++) {
             let imageUrl = alarm.imageUrlArray[i];
             html += '<div class="xcd_modal-image-item">';
             html += '<img class="xcd_modal-image-thumb" src="' + imageUrl + '" onclick="viewImage(\'' + imageUrl + '\')">';
             html += '<div class="xcd_modal-image-info">';
-            html += '<span>第' + (i+1) + '张</span>';
+            html += '<span>' + _t("dashboard_image_index_prefix", "第") + (i+1) + _t("dashboard_image_unit", "张") + '</span>';
             html += '<a href="' + imageUrl + '" target="_blank" download><i class="fa fa-download"></i></a>';
             html += '</div></div>';
         }
@@ -1901,33 +1910,33 @@
         
         // 基本信息
         html += '<div class="xcd_modal-info-card">';
-        html += '<div class="xcd_modal-section-title">基本信息</div>';
-        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">报警ID：</span><span class="xcd_modal-info-value">' + alarm.id + '</span></div>';
-        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">报警编号：</span><span class="xcd_modal-info-value">' + alarm.code + '</span></div>';
-        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">报警时间：</span><span class="xcd_modal-info-value">' + alarm.create_time + '</span></div>';
+        html += '<div class="xcd_modal-section-title">' + _t("alarm_basic_info", "基本信息") + '</div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">' + _t("alarm_id", "报警ID") + '：</span><span class="xcd_modal-info-value">' + alarm.id + '</span></div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">' + _t("alarm_code", "报警编号") + '：</span><span class="xcd_modal-info-value">' + alarm.code + '</span></div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">' + _t("alarm_time", "报警时间") + '：</span><span class="xcd_modal-info-value">' + alarm.create_time + '</span></div>';
         html += '</div>';
         
         // 关联信息
         html += '<div class="xcd_modal-info-card">';
-        html += '<div class="xcd_modal-section-title">关联信息</div>';
-        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">关联视频：</span><span class="xcd_modal-info-value"><a href="/stream/index?code=' + alarm.stream_code + '" target="_blank">前往查看</a></span></div>';
-        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">关联布控：</span><span class="xcd_modal-info-value"><a href="/control/index?code=' + alarm.control_code + '" target="_blank">前往查看</a></span></div>';
-        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">关联算法：</span><span class="xcd_modal-info-value"><a href="/algorithmFlow/index?search=' + alarm.flow_code + '" target="_blank">' + alarm.flow_name + '</a></span></div>';
+        html += '<div class="xcd_modal-section-title">' + _t("alarm_related_info", "关联信息") + '</div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">' + _t("alarm_related_video", "关联视频") + '：</span><span class="xcd_modal-info-value"><a href="/stream/index?code=' + alarm.stream_code + '" target="_blank">' + _t("alarm_go_to_view", "前往查看") + '</a></span></div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">' + _t("alarm_related_control", "关联布控") + '：</span><span class="xcd_modal-info-value"><a href="/control/index?code=' + alarm.control_code + '" target="_blank">' + _t("alarm_go_to_view", "前往查看") + '</a></span></div>';
+        html += '<div class="xcd_modal-info-item"><span class="xcd_modal-info-label">' + _t("alarm_related_algorithm", "关联算法") + '：</span><span class="xcd_modal-info-value"><a href="/algorithmFlow/index?search=' + alarm.flow_code + '" target="_blank">' + alarm.flow_name + '</a></span></div>';
         html += '</div>';
         
         // 审核操作
         html += '<div class="xcd_modal-info-card">';
-        html += '<div class="xcd_modal-section-title">审核操作</div>';
+        html += '<div class="xcd_modal-section-title">' + _t("alarm_review_action", "审核操作") + '</div>';
         html += '<div class="xcd_modal-radio-item">';
         html += '<input type="radio" ' + (alarm.state === 0 ? 'checked' : '') + ' value="0" name="modal_state" id="modal_state_0">';
-        html += '<label for="modal_state_0">未处理</label></div>';
+        html += '<label for="modal_state_0">' + _t("alarm_unprocessed", "未处理") + '</label></div>';
         html += '<div class="xcd_modal-radio-item">';
         html += '<input type="radio" ' + (alarm.state === 1 ? 'checked' : '') + ' value="1" name="modal_state" id="modal_state_1">';
-        html += '<label for="modal_state_1">审核确认为正常报警</label></div>';
+        html += '<label for="modal_state_1">' + _t("alarm_confirm_normal", "审核确认为正常报警") + '</label></div>';
         html += '<div class="xcd_modal-radio-item">';
         html += '<input type="radio" ' + (alarm.state === 2 ? 'checked' : '') + ' value="2" name="modal_state" id="modal_state_2">';
-        html += '<label for="modal_state_2">审核确认为误报</label></div>';
-        html += '<input type="text" name="modal_review_remark" value="' + (alarm.review_remark || '') + '" placeholder="请输入审核备注" class="xcd_modal-form-input">';
+        html += '<label for="modal_state_2">' + _t("alarm_confirm_false", "审核确认为误报") + '</label></div>';
+        html += '<input type="text" name="modal_review_remark" value="' + (alarm.review_remark || '') + '" placeholder="' + _t("alarm_input_review_remark", "请输入审核备注") + '" class="xcd_modal-form-input">';
         html += '</div>';
         
         html += '</div></div>';
@@ -1963,7 +1972,7 @@
                 }
             },
             error: function() {
-                myToast2025('网络异常，请确定网络正常！', 'error');
+                myToast2025(_t("version_net_error_toast", "网络异常，请确定网络正常！"), 'error');
             }
         });
     }

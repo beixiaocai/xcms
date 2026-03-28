@@ -26,13 +26,13 @@
                 // 只在添加模式下提示错误
                 if (this.mode === 'add') {
                     if (pullType === 0) {
-                        myToast2025("请选择接入协议", "error");
+                        myToast2025(_t("streamform_protocol_required", "请选择接入协议"), "error");
                     } else if (pullType === 21) {
-                        myToast2025("如需接入GB28181，请到摄像头管理平台配置", "error");
+                        myToast2025(_t("streamform_gb28181_tip", "如需接入GB28181，请到摄像头管理平台配置"), "error");
                     } else if (pullType === 31) {
-                        myToast2025("如需接入cRTSP，请主动推流", "error");
+                        myToast2025(_t("streamform_crtsp_tip", "如需接入cRTSP，请主动推流"), "error");
                     } else if (pullType === 32) {
-                        myToast2025("如需接入cRTMP，请主动推流", "error");
+                        myToast2025(_t("streamform_crtmp_tip", "如需接入cRTMP，请主动推流"), "error");
                     }
                 }
             }
@@ -43,7 +43,7 @@
             this.mode = 'add';
             this.currentCode = null;
 
-            $('#stream_modal_title').text('添加摄像头');
+            $('#stream_modal_title').text(_t('streamform_add_title', '添加摄像头'));
             this.resetForm();
 
             // 加载默认参数
@@ -69,7 +69,7 @@
                         // 填充接入协议和音频类型选项
                         if (res.pull_stream_types) {
                             this.pullStreamTypes = res.pull_stream_types;
-                            let pullTypeHtml = '<option value="0">请选择</option>';
+                            let pullTypeHtml = '<option value="0">' + _t('streamform_select', '请选择') + '</option>';
                             res.pull_stream_types.forEach(item => {
                                 pullTypeHtml += `<option value="${item.id}">${item.name}</option>`;
                             });
@@ -101,11 +101,11 @@
                             $('#stream_onvif_password').val(stream.pull_stream_password);
                         }
                     } else {
-                        myToast2025(res.msg || '加载失败', 'error');
+                        myToast2025(res.msg || _t('streamform_load_fail', '加载失败'), 'error');
                     }
                 },
                 error: () => {
-                    myToast2025('网络异常，请确定网络正常！', 'error');
+                    myToast2025(_t('streamform_net_error', '网络异常，请确定网络正常！'), 'error');
                 }
             });
         },
@@ -115,7 +115,7 @@
             this.mode = 'edit';
             this.currentCode = code;
 
-            $('#stream_modal_title').text('编辑摄像头');
+            $('#stream_modal_title').text(_t('streamform_edit_title', '编辑摄像头'));
             this.resetForm();
 
             // 加载数据
@@ -138,7 +138,7 @@
                         // 填充接入协议和音频类型选项
                         if (res.pull_stream_types) {
                             this.pullStreamTypes = res.pull_stream_types;
-                            let pullTypeHtml = '<option value="0">请选择</option>';
+                            let pullTypeHtml = '<option value="0">' + _t('streamform_select', '请选择') + '</option>';
                             res.pull_stream_types.forEach(item => {
                                 pullTypeHtml += `<option value="${item.id}">${item.name}</option>`;
                             });
@@ -177,12 +177,12 @@
 
                         this.onPullTypeChange();
                     } else {
-                        myToast2025(res.msg || '加载失败', 'error');
+                        myToast2025(res.msg || _t('streamform_load_fail', '加载失败'), 'error');
                         this.close();
                     }
                 },
                 error: () => {
-                    myToast2025('网络异常，请确定网络正常！', 'error');
+                    myToast2025(_t('streamform_net_error', '网络异常，请确定网络正常！'), 'error');
                     this.close();
                 }
             });
@@ -204,29 +204,29 @@
         validate: function() {
             const code = $('#stream_code').val().trim();
             if (!code) {
-                myToast2025("请输入编号", "error");
+                myToast2025(_t("streamform_input_code", "请输入编号"), "error");
                 return false;
             }
 
             const nickname = $('#stream_nickname').val().trim();
             if (!nickname) {
-                myToast2025("请输入名称", "error");
+                myToast2025(_t("streamform_input_name", "请输入名称"), "error");
                 return false;
             }
 
             const pullType = parseInt($('#stream_pull_type').val());
             if (pullType === 0) {
-                myToast2025("请选择接入协议", "error");
+                myToast2025(_t("streamform_protocol_required", "请选择接入协议"), "error");
                 return false;
             }
 
             // 只在添加模式下限制特殊协议
             if (this.mode === 'add') {
                 if (pullType === 21) {
-                    myToast2025("如需接入GB28181，请到摄像头管理平台配置", "error");
+                    myToast2025(_t("streamform_gb28181_tip", "如需接入GB28181，请到摄像头管理平台配置"), "error");
                     return false;
                 } else if (pullType === 31 || pullType === 32) {
-                    myToast2025("如需接入cRTSP/cRTMP，请主动推流", "error");
+                    myToast2025(_t("streamform_cr_stream_tip", "如需接入cRTSP/cRTMP，请主动推流"), "error");
                     return false;
                 }
             }
@@ -235,24 +235,24 @@
             if (pullType === 1 || pullType === 2 || pullType === 3 || pullType === 4) {
                 const pullUrl = $('#stream_pull_url').val().trim();
                 if (!pullUrl) {
-                    myToast2025("请输入直播流地址", "error");
+                    myToast2025(_t("streamform_input_url", "请输入直播流地址"), "error");
                     return false;
                 }
 
                 // 验证URL格式
                 if (pullType === 1) {
                     if (!pullUrl.startsWith("rtsp://") && !pullUrl.startsWith("rtsps://")) {
-                        myToast2025("直播流地址格式不正确", "error");
+                        myToast2025(_t("streamform_url_invalid", "直播流地址格式不正确"), "error");
                         return false;
                     }
                 } else if (pullType === 2) {
                     if (!pullUrl.startsWith("rtmp://") && !pullUrl.startsWith("rtmps://")) {
-                        myToast2025("直播流地址格式不正确", "error");
+                        myToast2025(_t("streamform_url_invalid", "直播流地址格式不正确"), "error");
                         return false;
                     }
                 } else if (pullType === 3 || pullType === 4) {
                     if (!pullUrl.startsWith("http://") && !pullUrl.startsWith("https://")) {
-                        myToast2025("直播流地址格式不正确", "error");
+                        myToast2025(_t("streamform_url_invalid", "直播流地址格式不正确"), "error");
                         return false;
                     }
                 }
@@ -294,7 +294,7 @@
                 dataType: 'json',
                 success: (res) => {
                     if (res.code === 1000) {
-                        myToast2025(res.msg || '操作成功', 'success');
+                        myToast2025(res.msg || _t('streamform_success', '操作成功'), 'success');
                         this.close();
 
                         // 刷新列表
@@ -306,11 +306,11 @@
                             }
                         }, 500);
                     } else {
-                        myToast2025(res.msg || '操作失败', 'error');
+                        myToast2025(res.msg || _t('streamform_fail', '操作失败'), 'error');
                     }
                 },
                 error: () => {
-                    myToast2025('网络异常，请确定网络正常！', 'error');
+                    myToast2025(_t('streamform_net_error', '网络异常，请确定网络正常！'), 'error');
                 }
             });
         }

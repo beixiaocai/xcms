@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 
-{% block title %} 大模型管理 {% endblock title %}
+{% block title %} {{ T.llm_title|default:'大模型管理' }} {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
@@ -603,20 +603,20 @@
                         <div class="xc_page-header">
                             <div class="xc_page-title">
                                 <!--<i class="fa fa-plug"></i>-->
-                                大模型管理
+                                {{ T.llm_title|default:'大模型管理' }}
                             </div>
                             <div class="xc_header-actions">
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="openAddModal()">
-                                    <i class="fa fa-plus"></i> 添加
+                                    <i class="fa fa-plus"></i> {{ T.llm_add|default:'添加' }}
                                 </button>
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="f_reload()">
-                                    <i class="fa fa-refresh"></i> 刷新
+                                    <i class="fa fa-refresh"></i> {{ T.llm_refresh|default:'刷新' }}
                                 </button>
                             </div>
                             <div>
                                 <span id="top_loading" style="display: none;">
                                     <span class="xc_loading-spinner"></span>
-                                    <span class="xc_loading-text">加载中...</span>
+                                    <span class="xc_loading-text">{{ T.common_loading|default:'加载中...' }}</span>
                                 </span>
                                 <span id="top_msg">{{top_msg}}</span>
                             </div>
@@ -627,13 +627,13 @@
                                 <thead class="xc_table-header">
                                     <tr>
                                         <th>ID</th>
-                                        <th>编号</th>
-                                        <th>模型名称</th>
-                                        <th>推理工具</th>
-                                        <th>超时时间</th>
-                                        <th>是否启用</th>
-                                        <th>更新时间</th>
-                                        <th style="text-align: center;">操作</th>
+                                        <th>{{ T.camera_code|default:'编号' }}</th>
+                                        <th>{{ T.llm_model_name|default:'模型名称' }}</th>
+                                        <th>{{ T.llm_inference_tool|default:'推理工具' }}</th>
+                                        <th>{{ T.llm_timeout|default:'超时时间' }}</th>
+                                        <th>{{ T.llm_enabled_label|default:'是否启用' }}</th>
+                                        <th>{{ T.camera_update_time|default:'更新时间' }}</th>
+                                        <th style="text-align: center;">{{ T.camera_action|default:'操作' }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="xc_table-body">
@@ -643,25 +643,25 @@
                                         <td><span class="xc_interface-code">{{ d.code }}</span></td>
                                         <td>{{ d.model_name }}</td>
                                         <td>{{ d.inference_tool }}</td>
-                                        <td>{{ d.timeout }}秒</td>
+                                        <td>{{ d.timeout }}{{ T.task_second|default:'秒' }}</td>
                                         <td>
                                             {% if d.state == 1 %}
-                                                <span class="xc_badge xc_badge-enable">启用</span>
+                                                <span class="xc_badge xc_badge-enable">{{ T.task_enable_action|default:'启用' }}</span>
                                             {% else %}
-                                                <span class="xc_badge xc_badge-disable">禁用</span>
+                                                <span class="xc_badge xc_badge-disable">{{ T.task_disable_action|default:'禁用' }}</span>
                                             {% endif %}
                                         </td>
                                         <td><span class="xc_time-text">{{ d.last_update_time }}</span></td>
                                         <td>
                                             <div class="xc_actions">
                                                 <button onclick="openEditModal('{{ d.code }}')" class="xc_btn-icon">
-                                                    <i class="fa fa-edit"></i> 编辑
+                                                    <i class="fa fa-edit"></i> {{ T.camera_edit|default:'编辑' }}
                                                 </button>
                                                 <button onclick="f_del('{{ d.code }}')" class="xc_btn-icon delete">
-                                                    <i class="fa fa-trash"></i> 删除
+                                                    <i class="fa fa-trash"></i> {{ T.camera_delete|default:'删除' }}
                                                 </button>
                                                 <button onclick="openTestModal('{{ d.code }}')" class="xc_btn-icon test">
-                                                    <i class="fa fa-play"></i> 测试
+                                                    <i class="fa fa-play"></i> {{ T.face_test|default:'测试' }}
                                                 </button>
                                             </div>
                                         </td>
@@ -673,14 +673,14 @@
                             {% if data|length == 0 %}
                             <div class="xc_empty-state">
                                 <i class="fa fa-plug"></i>
-                                <p>暂无大模型配置</p>
+                                <p>{{ T.llm_no_data|default:'暂无大模型配置' }}</p>
                             </div>
                             {% endif %}
                         </div>
                     </div>
 
                     <div class="xc_pagination">
-                        <span class="xc_page-info">共 {{ pageData.page_num }} 页 / {{ pageData.count }} 条</span>
+                        <span class="xc_page-info">{{ T.alarm_total|default:'共' }} {{ pageData.page_num }} {{ T.alarm_page_unit|default:'页' }} / {{ pageData.count }} {{ T.alarm_item_unit|default:'条' }}</span>
                         {%  for d  in pageData.pageLabels%}
                           {% if d.cur == 1 %}
                             <div class="xc_page-btn active">{{ d.name }}</div>
@@ -700,12 +700,12 @@
 <div class="xc_modal-overlay" id="llmModal">
     <div class="xc_modal-container">
         <div class="xc_modal-header">
-            <div class="xc_modal-title" id="modalTitle">添加大模型配置</div>
+            <div class="xc_modal-title" id="modalTitle">{{ T.llm_modal_add_title|default:'添加大模型配置' }}</div>
             <button class="xc_modal-close" onclick="closeLLMModal()">×</button>
         </div>
         <div class="xc_modal-body">
             <div class="xc_form-group">
-                <label class="xc_form-label">编号</label>
+                <label class="xc_form-label">{{ T.camera_code|default:'编号' }}</label>
                 <input type="text" id="input_code" class="xc_form-input" disabled>
             </div>
             <!--
@@ -716,12 +716,12 @@
             -->
 
             <div class="xc_form-group">
-                <label class="xc_form-label">模型名称<span class="required">*</span></label>
-                <input type="text" id="input_model_name" class="xc_form-input" placeholder="请输入模型名称">
+                <label class="xc_form-label">{{ T.llm_model_name|default:'模型名称' }}<span class="required">*</span></label>
+                <input type="text" id="input_model_name" class="xc_form-input" placeholder="{{ T.llm_input_model_name|default:'请输入模型名称' }}">
             </div>
             
             <div class="xc_form-group">
-                <label class="xc_form-label">推理工具<span class="required">*</span></label>
+                <label class="xc_form-label">{{ T.llm_inference_tool|default:'推理工具' }}<span class="required">*</span></label>
                 <select id="input_inference_tool" class="xc_form-input">
                     <option value="LMStudio">LMStudio</option>
                     <option value="OpenAI">OpenAI</option>
@@ -730,32 +730,32 @@
             </div>
             
             <div class="xc_form-group">
-                <label class="xc_form-label">API地址<span class="required">*</span></label>
-                <input type="text" id="input_api_url" class="xc_form-input" placeholder="请输入API地址">
+                <label class="xc_form-label">{{ T.llm_api_url|default:'API地址' }}<span class="required">*</span></label>
+                <input type="text" id="input_api_url" class="xc_form-input" placeholder="{{ T.llm_input_api_url|default:'请输入API地址' }}">
                 <!--<div class="xc_form-hint">例: http://192.168.1.105:1234/v1/chat/completions</div>-->
 
             </div>
             
             <div class="xc_form-group">
-                <label class="xc_form-label">API密钥<span class="required">*</span></label>
-                <input type="password" id="input_api_key" class="xc_form-input" placeholder="请输入API密钥">
+                <label class="xc_form-label">{{ T.llm_api_key|default:'API密钥' }}<span class="required">*</span></label>
+                <input type="password" id="input_api_key" class="xc_form-input" placeholder="{{ T.llm_input_api_key|default:'请输入API密钥' }}">
             </div>
             
             <div class="xc_form-group">
-                <label class="xc_form-label">超时时间(秒)<span class="required">*</span></label>
-                <input type="number" id="input_timeout" class="xc_form-input" placeholder="请输入超时时间" value="30">
+                <label class="xc_form-label">{{ T.llm_timeout_sec|default:'超时时间(秒)' }}<span class="required">*</span></label>
+                <input type="number" id="input_timeout" class="xc_form-input" placeholder="{{ T.llm_input_timeout|default:'请输入超时时间' }}" value="30">
             </div>
             
             <div class="xc_form-group">
-                <label class="xc_form-label">是否启用<span class="required">*</span></label>
+                <label class="xc_form-label">{{ T.llm_enabled_label|default:'是否启用' }}<span class="required">*</span></label>
                 <div class="xc_radio-group">
                     <label class="xc_radio-item">
                         <input type="radio" id="enable_yes" name="state" value="1" checked>
-                        <label for="enable_yes">启用</label>
+                        <label for="enable_yes">{{ T.task_enable_action|default:'启用' }}</label>
                     </label>
                     <label class="xc_radio-item">
                         <input type="radio" id="enable_no" name="state" value="0">
-                        <label for="enable_no">禁用</label>
+                        <label for="enable_no">{{ T.task_disable_action|default:'禁用' }}</label>
                     </label>
                 </div>
             </div>
@@ -766,8 +766,8 @@
             </div>-->
         </div>
         <div class="xc_modal-footer">
-            <button class="xc_modal-btn" onclick="closeLLMModal()">取消</button>
-            <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitLLMForm()">提交</button>
+            <button class="xc_modal-btn" onclick="closeLLMModal()">{{ T.camera_cancel|default:'取消' }}</button>
+            <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitLLMForm()">{{ T.camera_submit|default:'提交' }}</button>
         </div>
     </div>
 </div>
@@ -792,7 +792,7 @@
         currentHandle = 'add';
         currentCode = generateCode();
         
-        $('#modalTitle').text('添加大模型配置');
+        $('#modalTitle').text(_t("llm_modal_add_title",'添加大模型配置'));
         $('#input_code').val(currentCode);
         //$('#input_name').val('');
         $('#input_model_name').val('');
@@ -811,7 +811,7 @@
         currentHandle = 'edit';
         currentCode = code;
         
-        $('#modalTitle').text('编辑大模型配置');
+        $('#modalTitle').text(_t("llm_modal_edit_title",'编辑大模型配置'));
         
         // 加载数据
         ele_top_loading.show();
@@ -838,12 +838,12 @@
                     
                     $('#llmModal').addClass('active');
                 } else {
-                    myToast2025(res.msg || '大模型配置不存在', 'error');
+                    myToast2025(res.msg || _t("llm_not_exist",'大模型配置不存在'), 'error');
                 }
             },
             error: function() {
                 ele_top_loading.hide();
-                myToast2025('网络异常，请确定网络正常！', 'error');
+                myToast2025(_t("version_net_error_toast",'网络异常，请确定网络正常！'), 'error');
             }
         });
     }
@@ -887,27 +887,27 @@
         }*/
         
         if(model_name === '') {
-            myToast2025('请输入模型名称！', 'error');
+            myToast2025(_t("llm_input_model_name",'请输入模型名称'), 'error');
             return;
         }
         
         if(inference_tool === '') {
-            myToast2025('请选择推理工具！', 'error');
+            myToast2025(_t("llm_select_inference_tool",'请选择推理工具'), 'error');
             return;
         }
         
         if(api_url === '') {
-            myToast2025('请输入API地址！', 'error');
+            myToast2025(_t("llm_input_api_url",'请输入API地址'), 'error');
             return;
         }
         
         if(api_key === '') {
-            myToast2025('请输入API密钥！', 'error');
+            myToast2025(_t("llm_input_api_key",'请输入API密钥'), 'error');
             return;
         }
         
         if(timeout === '') {
-            myToast2025('请输入超时时间！', 'error');
+            myToast2025(_t("llm_input_timeout",'请输入超时时间'), 'error');
             return;
         }
         
@@ -946,13 +946,13 @@
             },
             error: function() {
                 ele_top_loading.hide();
-                myToast2025('网络异常，请确定网络正常！', 'error');
+                myToast2025(_t("version_net_error_toast",'网络异常，请确定网络正常！'), 'error');
             }
         });
     }
     
     function f_del(code){
-        if(!confirm('确定要删除这个大模型配置吗？')) {
+        if(!confirm(_t("llm_confirm_delete",'确定要删除这个大模型配置吗？'))) {
             return;
         }
         
@@ -966,7 +966,7 @@
             timeout: 0,
             error: function() {
                 ele_top_loading.hide();
-                myToast2025("网络异常，请确定网络正常！","error");
+                myToast2025(_t("version_net_error_toast","网络异常，请确定网络正常！"),"error");
             },
             success: function(res) {
                 ele_top_loading.hide();
@@ -987,7 +987,7 @@
         const iframe = document.getElementById('testIframe');
         const modalTitle = document.getElementById('testModalTitle');
         
-        modalTitle.textContent = '大模型测试';
+        modalTitle.textContent = _t("llm_test_title", '大模型测试');
         iframe.src = '/llm/test?code=' + encodeURIComponent(code);
         modal.classList.add('active');
     }
@@ -1016,7 +1016,7 @@
 <div class="xc_modal-overlay" id="testModal">
     <div class="xc_modal-container" style="max-width: 900px; width: 90%; max-height: 90vh;">
         <div class="xc_modal-header">
-            <div class="xc_modal-title" id="testModalTitle">大模型测试</div>
+            <div class="xc_modal-title" id="testModalTitle">{{ T.llm_test_title|default:'大模型测试' }}</div>
             <button class="xc_modal-close" onclick="closeTestModal()">×</button>
         </div>
         <div class="xc_modal-body" style="padding: 0; overflow: hidden; flex: 1;">

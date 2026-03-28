@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 
-{% block title %} 音频管理 {% endblock title %}
+{% block title %} {{ T.audio_title|default:'音频管理' }} {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
@@ -638,26 +638,26 @@
                         <div class="xc_page-header">
                             <div class="xc_page-title">
                                 <i class="fa fa-music"></i>
-                                音频管理
+                                {{ T.audio_title|default:'音频管理' }}
                             </div>
                             <div class="xc_audio-player-compact">
                                 <i class="fa fa-volume-up xc_audio-player-compact-icon"></i>
                                 <audio id="top_audio" controls>
-                                    浏览器不支持音频播放
+                                    {{ T.audio_browser_not_support|default:'浏览器不支持音频播放' }}
                                 </audio>
                             </div>
                             <div class="xc_header-actions">
                                 <button onclick="openAudioModal('add')" class="xc_btn-modern xc_btn-secondary">
-                                    <i class="fa fa-plus"></i> 添加
+                                    <i class="fa fa-plus"></i> {{ T.audio_add|default:'添加' }}
                                 </button>
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="window.location.reload()">
-                                    <i class="fa fa-refresh"></i> 刷新
+                                    <i class="fa fa-refresh"></i> {{ T.audio_refresh|default:'刷新' }}
                                 </button>
                             </div>
                             <div>
                                 <span id="top_loading" style="display: none;">
                                     <span class="xc_loading-spinner"></span>
-                                    <span class="xc_loading-text">加载中...</span>
+                                    <span class="xc_loading-text">{{ T.audio_loading|default:'加载中...' }}</span>
                                 </span>
                                 <span id="top_msg"></span>
                             </div>
@@ -669,10 +669,10 @@
                                 <thead class="xc_table-header">
                                     <tr>
                                         <th style="width: 80px;">ID</th>
-                                        <th style="width: 180px;">编号</th>
-                                        <th style="width: 200px;">名称</th>
-                                        <th style="width: 180px;">更新时间</th>
-                                        <th style="width: 200px;">操作</th>
+                                        <th style="width: 180px;">{{ T.audio_code|default:'编号' }}</th>
+                                        <th style="width: 200px;">{{ T.audio_name|default:'名称' }}</th>
+                                        <th style="width: 180px;">{{ T.audio_update_time|default:'更新时间' }}</th>
+                                        <th style="width: 200px;">{{ T.audio_action|default:'操作' }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="xc_table-body">
@@ -695,14 +695,14 @@
                                         </td>
                                         <td>
                                             <div class="xc_action-group">
-                                                <button onclick="openAudioModal('edit', '{{ d.code }}')" class="xc_btn-action" title="编辑">
-                                                    <i class="fa fa-edit"></i> 编辑
+                                                <button onclick="openAudioModal('edit', '{{ d.code }}')" class="xc_btn-action" title="{{ T.audio_edit|default:'编辑' }}">
+                                                    <i class="fa fa-edit"></i> {{ T.audio_edit|default:'编辑' }}
                                                 </button>
-                                                <button onclick="f_play('{{ d.audio_path }}')" class="xc_btn-action" title="播放">
-                                                    <i class="fa fa-play"></i> 播放
+                                                <button onclick="f_play('{{ d.audio_path }}')" class="xc_btn-action" title="{{ T.audio_play|default:'播放' }}">
+                                                    <i class="fa fa-play"></i> {{ T.audio_play|default:'播放' }}
                                                 </button>
-                                                <button onclick="f_del('{{ d.code }}')" class="xc_btn-action delete" title="删除">
-                                                    <i class="fa fa-trash-o"></i> 删除
+                                                <button onclick="f_del('{{ d.code }}')" class="xc_btn-action delete" title="{{ T.audio_delete|default:'删除' }}">
+                                                    <i class="fa fa-trash-o"></i> {{ T.audio_delete|default:'删除' }}
                                                 </button>
                                             </div>
                                         </td>
@@ -714,7 +714,7 @@
                         {% else %}
                         <div class="xc_empty-state">
                             <i class="fa fa-music"></i>
-                            <p>暂无音频数据</p>
+                            <p>{{ T.audio_no_data|default:'暂无音频数据' }}</p>
                         </div>
                         {% endif %}
                     </div>
@@ -722,7 +722,7 @@
                     {% if pageData.count > 0 %}
                     <div class="xc_pagination">
                         <div class="xc_page-info">
-                            共 {{ pageData.page_num }} 页 / {{ pageData.count }} 条
+                            {{ T.audio_total|default:'共' }} {{ pageData.page_num }} {{ T.audio_page_unit|default:'页' }} / {{ pageData.count }} {{ T.audio_item_unit|default:'条' }}
                         </div>
                         {% for d in pageData.pageLabels %}
                             {% if d.cur == 1 %}
@@ -745,7 +745,7 @@
         <div class="xc_modal-header">
             <div class="xc_modal-title">
                 <i class="fa fa-music"></i>
-                <span id="modalTitle">添加音频</span>
+                <span id="modalTitle">{{ T.audio_add_title|default:'添加音频' }}</span>
             </div>
             <button class="xc_modal-close" onclick="closeAudioModal()">×</button>
         </div>
@@ -755,35 +755,35 @@
                 <input type="hidden" id="input_code" name="code" value="">
                 
                 <div class="xc_form-group">
-                    <label class="xc_form-label">音频编号</label>
+                    <label class="xc_form-label">{{ T.audio_id_label|default:'音频编号' }}</label>
                     <input type="text" id="display_code" class="xc_form-input" disabled>
                 </div>
                 
                 <div class="xc_form-group">
-                    <label class="xc_form-label">音频名称<span class="required">*</span></label>
-                    <input type="text" id="input_name" name="name" class="xc_form-input" placeholder="请输入音频名称" required>
+                    <label class="xc_form-label">{{ T.audio_name_label|default:'音频名称' }}<span class="required">*</span></label>
+                    <input type="text" id="input_name" name="name" class="xc_form-input" placeholder="{{ T.audio_name_placeholder|default:'请输入音频名称' }}" required>
                 </div>
                 
                 <div class="xc_form-group" id="fileGroup">
-                    <label class="xc_form-label">音频文件<span class="required">*</span></label>
+                    <label class="xc_form-label">{{ T.audio_file_label|default:'音频文件' }}<span class="required">*</span></label>
                     <input type="file" id="input_file" name="file" class="xc_form-file" accept="audio/wav,audio/mpeg">
-                    <div class="xc_form-help">支持WAV、MP3格式，文件大小不超过20M</div>
+                    <div class="xc_form-help">{{ T.audio_file_help|default:'支持WAV、MP3格式，文件大小不超过20M' }}</div>
                 </div>
                 
                 <div class="xc_form-group" id="pathGroup" style="display: none;">
-                    <label class="xc_form-label">音频文件路径</label>
+                    <label class="xc_form-label">{{ T.audio_path_label|default:'音频文件路径' }}</label>
                     <input type="text" id="input_path" class="xc_form-input" disabled>
                 </div>
                 
                 <div class="xc_form-group">
-                    <label class="xc_form-label">备注</label>
-                    <input type="text" id="input_remark" name="remark" class="xc_form-input" placeholder="可选">
+                    <label class="xc_form-label">{{ T.audio_remark_label|default:'备注' }}</label>
+                    <input type="text" id="input_remark" name="remark" class="xc_form-input" placeholder="{{ T.audio_remark_placeholder|default:'可选' }}">
                 </div>
             </form>
         </div>
         <div class="xc_modal-footer">
-            <button class="xc_modal-btn xc_modal-btn-cancel" onclick="closeAudioModal()">取消</button>
-            <button class="xc_modal-btn xc_modal-btn-submit" onclick="submitAudioForm()">提交</button>
+            <button class="xc_modal-btn xc_modal-btn-cancel" onclick="closeAudioModal()">{{ T.audio_cancel|default:'取消' }}</button>
+            <button class="xc_modal-btn xc_modal-btn-submit" onclick="submitAudioForm()">{{ T.audio_submit|default:'提交' }}</button>
         </div>
     </div>
 </div>
@@ -818,7 +818,7 @@
         $('#audioForm')[0].reset();
         
         if (handle === 'add') {
-            $('#modalTitle').text('添加音频');
+            $('#modalTitle').text(_t('audio_add_title', '添加音频'));
             let newCode = generateAudioCode();
             $('#input_code').val(newCode);
             $('#display_code').val(newCode);
@@ -828,7 +828,7 @@
             $('#pathGroup').hide();
             $('#input_file').prop('disabled', false);
         } else {
-            $('#modalTitle').text('编辑音频');
+            $('#modalTitle').text(_t('audio_edit_title', '编辑音频'));
             loadAudioData(code);
         }
         
@@ -864,13 +864,13 @@
                     $('#pathGroup').show();
                     $('#input_file').prop('disabled', true);
                 } else {
-                    myToast2025(res.msg || '音频不存在', 'error');
+                    myToast2025(res.msg || _t('audio_not_exist', '音频不存在'), 'error');
                     closeAudioModal();
                 }
             },
             error: function() {
                 ele_top_loading.hide();
-                myToast2025('加载失败，请稍后重试', 'error');
+                myToast2025(_t('audio_load_fail_retry', '加载失败，请稍后重试'), 'error');
                 closeAudioModal();
             }
         });
@@ -879,14 +879,14 @@
     function submitAudioForm() {
         let name = $('#input_name').val().trim();
         if (!name) {
-            myToast2025('请输入音频名称', 'error');
+            myToast2025(_t('audio_name_required', '请输入音频名称'), 'error');
             return;
         }
         
         if (currentHandle === 'add') {
             let fileInput = $('#input_file')[0];
             if (!fileInput.files || fileInput.files.length === 0) {
-                myToast2025('请上传音频文件', 'error');
+                myToast2025(_t('audio_file_required', '请上传音频文件'), 'error');
                 return;
             }
             
@@ -895,7 +895,7 @@
             let fileSizeM = parseInt(fileSize / 1024 / 1024);
             
             if (fileSizeM > 20) {
-                myToast2025('音频文件不能超过20M: ' + fileSizeM + 'M', 'error');
+                myToast2025(_t('audio_file_limit', '音频文件不能超过20M') + ': ' + fileSizeM + 'M', 'error');
                 return;
             }
         }
@@ -928,7 +928,7 @@
             error: function(xhr, status, error) {
                 ele_top_loading.hide();
                 console.error('AJAX错误:', {status: status, error: error, responseText: xhr.responseText});
-                myToast2025('网络异常，请确定网络正常！', 'error');
+                myToast2025(_t('audio_net_error', '网络异常，请确定网络正常！'), 'error');
             }
         });
     }
@@ -946,7 +946,7 @@
     });
 
     function f_del(code) {
-        let ret = confirm("确认删除该音频吗？");
+        let ret = confirm(_t('audio_confirm_delete', '确认删除该音频吗？'));
         if (!ret) return;
         
         ele_top_loading.show();
@@ -959,7 +959,7 @@
             timeout: 0,
             error: function () {
                 ele_top_loading.hide();
-                myToast2025("网络异常，请确定网络正常！", "error");
+                myToast2025(_t('audio_net_error', '网络异常，请确定网络正常！'), "error");
             },
             success: function (res) {
                 ele_top_loading.hide();
@@ -977,7 +977,7 @@
     
     function f_play(audio_path) {
         if (!audio_path) {
-            myToast2025('音频文件路径为空', 'error');
+            myToast2025(_t('audio_path_empty', '音频文件路径为空'), 'error');
             return;
         }
         
@@ -999,13 +999,13 @@
                     error: eleAudioPlayer.error,
                     src: eleAudioPlayer.src
                 });
-                myToast2025('音频加载失败，请检查文件是否存在: ' + audio_url, 'error');
+                myToast2025(_t('audio_load_fail', '音频加载失败，请检查文件是否存在') + ': ' + audio_url, 'error');
             };
             
             eleAudioPlayer.play();
         } catch (e) {
             console.error("播放错误:", e);
-            myToast2025("播放失败，请检查音频文件", "error");
+            myToast2025(_t('audio_play_fail', '播放失败，请检查音频文件'), "error");
         }
     }
 

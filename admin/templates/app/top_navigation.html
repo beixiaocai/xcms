@@ -11,9 +11,35 @@
           <span class="fa fa-angle-down"></span>
         </a>
         <ul class="dropdown-menu dropdown-usermenu pull-right">
-          <li><a href="/logout"><i class="fa fa-sign-out pull-right"></i> 注销</a></li>
+          <li><a href="/logout"><i class="fa fa-sign-out pull-right"></i> {{ T.logout|default:"注销" }}</a></li>
         </ul>
       </li>
+
+      <li class="">
+        <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          <i class="fa fa-language"></i> 
+          {% for language in T_SETTINGS_LANGUAGES %}{% if language.code == T_SELECTED_LANG %}{{ language.name }}{% endif %}{% endfor %}
+          <span class="fa fa-angle-down"></span>
+        </a>
+        <ul class="dropdown-menu dropdown-usermenu pull-right">
+          {% for language in T_SETTINGS_LANGUAGES %}
+          <li><a href="javascript:switchLanguage('{{ language.code }}');">{{ language.name }}</a></li>
+          {% endfor %}
+        </ul>
+      </li>
+
+      <script>
+      function switchLanguage(lang) {
+          $.ajax({
+              url: '/index/openSwitchLang',
+              type: 'GET',
+              data: {lang: lang},
+              success: function(res) {
+                  window.location.reload();
+              }
+          });
+      }
+      </script>
 
       <!--
       <li role="presentation" class="dropdown">

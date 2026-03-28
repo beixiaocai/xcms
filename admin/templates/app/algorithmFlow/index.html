@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 
-{% block title %} 业务算法管理 {% endblock title %}
+{% block title %} {{ T.flow_title|default:'业务算法管理' }} {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
@@ -371,32 +371,32 @@
                         <div class="xc_page-header">
                             <div class="xc_page-title">
                                 <i class="fa fa-sitemap"></i>
-                                业务算法管理
+                                {{ T.flow_title|default:'业务算法管理' }}
                             </div>
                             <div class="xc_search-box">
-                                <input type="text" id="searchInput" class="xc_search-input" placeholder="输入算法名称或编号" value="{{ search_key }}">
+                                <input type="text" id="searchInput" class="xc_search-input" placeholder="{{ T.flow_search_placeholder|default:'输入算法名称或编号' }}" value="{{ search_key }}">
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="doSearch()">
-                                    <i class="fa fa-search"></i> 搜索
+                                    <i class="fa fa-search"></i> {{ T.flow_search|default:'搜索' }}
                                 </button>
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="resetSearch()" {% if not search_key %}style="display:none;"{% endif %} id="resetBtn">
-                                    <i class="fa fa-times"></i> 重置
+                                    <i class="fa fa-times"></i> {{ T.flow_reset|default:'重置' }}
                                 </button>
                             </div>
                             <div class="xc_header-actions">
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="openAddFlowModal()">
-                                    <i class="fa fa-plus"></i> 添加
+                                    <i class="fa fa-plus"></i> {{ T.flow_add|default:'添加' }}
                                 </button>
                                 <button class="xc_btn-modern xc_btn-secondary" data-toggle="modal" data-target="#ImportFileDialog">
-                                    <i class="fa fa-download"></i> 导入
+                                    <i class="fa fa-download"></i> {{ T.flow_import|default:'导入' }}
                                 </button>
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="window.location.reload()">
-                                    <i class="fa fa-refresh"></i> 刷新
+                                    <i class="fa fa-refresh"></i> {{ T.flow_refresh|default:'刷新' }}
                                 </button>
                             </div>
                             <div>
                                 <span id="top_loading" style="display: none;">
                                     <span class="xc_loading-spinner"></span>
-                                    <span class="xc_loading-text">加载中...</span>
+                                    <span class="xc_loading-text">{{ T.flow_loading|default:'加载中...' }}</span>
                                 </span>
                                 <span id="top_msg">{{top_msg}}</span>
                             </div>
@@ -406,15 +406,15 @@
                             <table class="xc_table">
                                 <thead class="xc_table-header">
                                     <tr>
-                                        <th>ID</th>
-                                        <th>算法编号</th>
-                                        <th>算法名称</th>
-                                        <th>算法模式</th>
-                                        <th style="display: none;">分析进程</th>
-                                        <th>最大实例数</th>
-                                        <th>单元长度</th>
-                                        <th>更新时间</th>
-                                        <th style="text-align: center;">操作</th>
+                                        <th>{{ T.flow_id|default:'ID' }}</th>
+                                        <th>{{ T.flow_code|default:'算法编号' }}</th>
+                                        <th>{{ T.flow_name|default:'算法名称' }}</th>
+                                        <th>{{ T.flow_mode|default:'算法模式' }}</th>
+                                        <th style="display: none;">{{ T.flow_process|default:'分析进程' }}</th>
+                                        <th>{{ T.flow_max_instances|default:'最大实例数' }}</th>
+                                        <th>{{ T.flow_unit_length|default:'单元长度' }}</th>
+                                        <th>{{ T.flow_update_time|default:'更新时间' }}</th>
+                                        <th style="text-align: center;">{{ T.flow_action|default:'操作' }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="xc_table-body">
@@ -433,13 +433,13 @@
                                         <td>
                                             <div class="xc_actions">
                                                 <button onclick="f_edit('{{ d.code }}')" class="xc_btn-icon">
-                                                    <i class="fa fa-edit"></i> 编辑
+                                                    <i class="fa fa-edit"></i> {{ T.flow_edit|default:'编辑' }}
                                                 </button>
                                                 <button onclick="f_openExport('{{ d.code }}')" class="xc_btn-icon">
-                                                    <i class="fa fa-share"></i> 导出
+                                                    <i class="fa fa-share"></i> {{ T.flow_export|default:'导出' }}
                                                 </button>
                                                 <button onclick="f_openDel('{{ d.code }}')" class="xc_btn-icon delete">
-                                                    <i class="fa fa-trash"></i> 删除
+                                                    <i class="fa fa-trash"></i> {{ T.flow_delete|default:'删除' }}
                                                 </button>
                                             </div>
                                         </td>
@@ -451,14 +451,14 @@
                             {% if data|length == 0 %}
                             <div class="xc_empty-state">
                                 <i class="fa fa-sitemap"></i>
-                                <p>暂无业务算法数据</p>
+                                <p>{{ T.flow_no_data|default:'暂无业务算法数据' }}</p>
                             </div>
                             {% endif %}
                         </div>
                     </div>
 
                     <div class="xc_pagination">
-                        <span class="xc_page-info">共 {{ pageData.page_num }} 页 / {{ pageData.count }} 条</span>
+                        <span class="xc_page-info">{{ T.algo_total|default:'共' }} {{ pageData.page_num }} {{ T.algo_page_unit|default:'页' }} / {{ pageData.count }} {{ T.algo_item_unit|default:'条' }}</span>
                         {%  for d  in pageData.pageLabels%}
                           {% if d.cur == 1 %}
                             <div class="xc_page-btn active">{{ d.name }}</div>
@@ -473,28 +473,28 @@
         </div>
     </div>
 
-    <!--导入业务算法弹窗start -->
+    <!--导入业务算法弹窗 start -->
     <div id="ImportFileDialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
 
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title" >导入业务算法</h4>
+            <h4 class="modal-title" >{{ T.flow_import_title|default:'导入业务算法' }}</h4>
           </div>
           <div class="modal-body">
             <div style="padding: 5px 20px;">
               <form class="form-horizontal calender" role="form">
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">导入文件</label>
+                  <label class="col-sm-3 control-label">{{ T.flow_import_file_label|default:'导入文件' }}</label>
                   <div class="col-sm-9">
                     <input type="file" class="form-control" accept=".xcflow" name="file"  >
                   </div>
                 </div>
                   <!--
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">导入备注</label>
+                  <label class="col-sm-3 control-label">{{ T.flow_import_remark_label|default:'导入备注' }}</label>
                   <div class="col-sm-9">
                     <textarea class="form-control" style="height:55px;" name="import_remark"></textarea>
                   </div>
@@ -504,13 +504,13 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" onclick="f_openImport()" class="btn btn-dark">提交</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">{{ T.flow_cancel|default:'取消' }}</button>
+            <button type="button" onclick="f_openImport()" class="btn btn-dark">{{ T.flow_submit|default:'提交' }}</button>
           </div>
         </div>
       </div>
     </div>
-    <!--导入业务算法弹窗end -->
+    <!--导入业务算法弹窗 end -->
     
     <!-- 引入添加/编辑弹窗模板 -->
     {% include 'app/algorithmFlow/modal_form.html' %}
@@ -572,7 +572,7 @@
                timeout: 0,
                error: function () {
                    ele_top_loading.hide();
-                   myToast2025("网络异常，请确定网络正常！","error");
+                   myToast2025(_t("flow_net_error", "网络异常，请确定网络正常！"),"error");
                },
                success: function (res) {
                       ele_top_loading.hide();
@@ -600,7 +600,7 @@
            timeout: 0,
            error: function () {
                ele_top_loading.hide();
-               myToast2025("网络异常，请确定网络正常！","error");
+               myToast2025(_t("flow_net_error", "网络异常，请确定网络正常！"),"error");
            },
            success: function (res) {
                ele_top_loading.hide();
@@ -641,7 +641,7 @@
                   dataType: "json",
                   timeout: 0,
                   error: function () {
-                    myToast2025("网络异常，请确定网络正常！","error");
+                    myToast2025(_t("flow_net_error", "网络异常，请确定网络正常！"),"error");
                   },
                   success: function (res) {
                     if (1000 === res.code) {
@@ -660,10 +660,10 @@
                   }
                 });
           }else{
-               myToast2025("上传文件大小不能超过200M！","error");
+               myToast2025(_t("flow_file_too_large", "上传文件大小不能超过 200M！"),"error");
           }
         }else{
-            myToast2025("未选择上传文件！","error");
+            myToast2025(_t("flow_no_file_selected", "未选择上传文件！"),"error");
         }
         return false;
     }

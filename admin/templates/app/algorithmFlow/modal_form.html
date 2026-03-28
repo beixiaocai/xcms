@@ -312,7 +312,7 @@
         <div class="xc_modal-header">
             <div class="xc_modal-title">
                 <i class="fa fa-sitemap"></i>
-                <span id="flowModalTitle">业务算法</span>
+                <span id="flowModalTitle">{{ T.flow_modal_add_title|default:'业务算法' }}</span>
             </div>
             <button class="xc_modal-close" onclick="closeFlowModal()">
                 <i class="fa fa-times"></i>
@@ -323,14 +323,14 @@
             <div class="xc_form-row">
                 <div class="xc_form-col">
                     <div class="xc_form-group">
-                        <label class="xc_form-label">算法编号<span class="required">*</span></label>
+                        <label class="xc_form-label">{{ T.flow_code|default:'算法编号' }}<span class="required">*</span></label>
                         <input type="text" id="flow_code" class="xc_form-input" disabled>
                     </div>
                 </div>
                 <div class="xc_form-col">
                     <div class="xc_form-group">
-                        <label class="xc_form-label">算法名称<span class="required">*</span></label>
-                        <input type="text" id="flow_name" class="xc_form-input" placeholder="请输入算法名称">
+                        <label class="xc_form-label">{{ T.flow_name|default:'算法名称' }}<span class="required">*</span></label>
+                        <input type="text" id="flow_name" class="xc_form-input" placeholder="{{ T.flow_name_placeholder|default:'请输入算法名称' }}">
                     </div>
                 </div>
             </div>
@@ -338,9 +338,9 @@
             <div class="xc_form-row">
                 <div class="xc_form-col full">
                     <div class="xc_form-group">
-                        <label class="xc_form-label">算法模式<span class="required">*</span></label>
+                        <label class="xc_form-label">{{ T.flow_mode|default:'算法模式' }}<span class="required">*</span></label>
                         <select id="flow_mode" class="xc_form-select">
-                            <option value="0">请选择算法模式</option>
+                            <option value="0">{{ T.algo_select|default:'请选择算法模式' }}</option>
                         </select>
                     </div>
                 </div>
@@ -354,15 +354,15 @@
                 <div id="flow_box_detect" class="xc_flow-step" style="display:none;">
                     <div class="xc_step-header">
                         <div class="xc_step-icon"><i class="fa fa-search"></i></div>
-                        <div class="xc_step-title">检测算法</div>
+                        <div class="xc_step-title">{{ T.algo_detect|default:'检测算法' }}</div>
                     </div>
                     <div class="xc_step-body">
                         <select id="select_algorithm_detect" class="xc_form-select">
-                            <option value="0">选择检测算法</option>
+                            <option value="0">{{ T.algo_select|default:'选择检测算法' }}</option>
                         </select>
                         <div id="flow_box_detect_class" class="xc_step-target" style="display:none; margin-top:8px;">
                             <select id="select_detect_class_name" class="xc_form-select" multiple>
-                                <option value="0">选择检测目标</option>
+                                <option value="0">{{ T.algo_select|default:'选择检测目标' }}</option>
                             </select>
                         </div>
                     </div>
@@ -376,15 +376,15 @@
                 <div id="flow_box_detect2" class="xc_flow-step" style="display:none;">
                     <div class="xc_step-header">
                         <div class="xc_step-icon"><i class="fa fa-search-plus"></i></div>
-                        <div class="xc_step-title">二次检测</div>
+                        <div class="xc_step-title">{{ T.flow_secondary_detect|default:'二次检测' }}</div>
                     </div>
                     <div class="xc_step-body">
                         <select id="select_algorithm_detect2" class="xc_form-select">
-                            <option value="0">选择检测算法</option>
+                            <option value="0">{{ T.algo_select|default:'选择检测算法' }}</option>
                         </select>
                         <div id="flow_box_detect2_class" class="xc_step-target" style="display:none; margin-top:8px;">
                             <select id="select_detect2_class_name" class="xc_form-select" multiple>
-                                <option value="0">选择检测目标</option>
+                                <option value="0">{{ T.algo_select|default:'选择检测目标' }}</option>
                             </select>
                         </div>
                     </div>
@@ -398,15 +398,15 @@
                 <div id="flow_box_classify" class="xc_flow-step" style="display:none;">
                     <div class="xc_step-header">
                         <div class="xc_step-icon"><i class="fa fa-sitemap"></i></div>
-                        <div class="xc_step-title">分类算法</div>
+                        <div class="xc_step-title">{{ T.algo_classify|default:'分类算法' }}</div>
                     </div>
                     <div class="xc_step-body">
                         <select id="select_algorithm_classify" class="xc_form-select">
-                            <option value="0">选择分类算法</option>
+                            <option value="0">{{ T.algo_select|default:'选择分类算法' }}</option>
                         </select>
                         <div id="flow_box_classify_class" class="xc_step-target" style="display:none; margin-top:8px;">
                             <select id="select_classify_class_name" class="xc_form-select" multiple>
-                                <option value="0">选择分类目标</option>
+                                <option value="0">{{ T.algo_select|default:'选择分类目标' }}</option>
                             </select>
                         </div>
                     </div>
@@ -420,11 +420,11 @@
                 <div id="flow_box_track" class="xc_flow-step" style="display:none;">
                     <div class="xc_step-header">
                         <div class="xc_step-icon"><i class="fa fa-fingerprint"></i></div>
-                        <div class="xc_step-title">特征算法</div>
+                        <div class="xc_step-title">{{ T.algo_track|default:'特征算法' }}</div>
                     </div>
                     <div class="xc_step-body">
                         <select id="select_algorithm_track" class="xc_form-select">
-                            <option value="0">选择特征算法</option>
+                            <option value="0">{{ T.algo_select|default:'选择特征算法' }}</option>
                         </select>
                     </div>
                 </div>
@@ -437,11 +437,11 @@
                 <div id="flow_box_behaviour" class="xc_flow-step" style="display:none;">
                     <div class="xc_step-header">
                         <div class="xc_step-icon"><i class="fa fa-cogs"></i></div>
-                        <div class="xc_step-title">行为算法</div>
+                        <div class="xc_step-title">{{ T.menu_algorithm_behavior|default:'行为算法' }}</div>
                     </div>
                     <div class="xc_step-body">
                         <select id="select_behaviour" class="xc_form-select">
-                            <option value="0">选择行为算法</option>
+                            <option value="0">{{ T.algo_select|default:'选择行为算法' }}</option>
                         </select>
                     </div>
                 </div>
@@ -452,19 +452,19 @@
                 <div class="xc_form-row">
                     <div class="xc_form-col" style="display: none;">
                         <div class="xc_form-group">
-                            <label class="xc_form-label">分析进程<span class="required">*</span></label>
+                            <label class="xc_form-label">{{ T.flow_process|default:'分析进程' }}<span class="required">*</span></label>
                             <input type="number" id="deploy_process_index" class="xc_form-input" value="0" min="0">
                         </div>
                     </div>
                     <div class="xc_form-col">
                         <div class="xc_form-group">
-                            <label class="xc_form-label">最大实例数<span class="required">*</span></label>
+                            <label class="xc_form-label">{{ T.flow_max_instances|default:'最大实例数' }}<span class="required">*</span></label>
                             <input type="number" id="max_concurrency" class="xc_form-input" value="1" min="1">
                         </div>
                     </div>
                     <div class="xc_form-col">
                         <div class="xc_form-group">
-                            <label class="xc_form-label">并发单元长度<span class="required">*</span></label>
+                            <label class="xc_form-label">{{ T.flow_unit_length|default:'并发单元长度' }}<span class="required">*</span></label>
                             <input type="number" id="concurrency_unit_length" class="xc_form-input" value="1" min="1">
                         </div>
                     </div>
@@ -474,19 +474,19 @@
                 <div id="mode3_config" class="xc_form-row" style="display:none;">
                     <div class="xc_form-col">
                         <div class="xc_form-group">
-                            <label class="xc_form-label">分类是否计算背景<span class="required">*</span></label>
+                            <label class="xc_form-label">{{ T.flow_m3_classify_bg|default:'分类是否计算背景' }}<span class="required">*</span></label>
                             <select id="m3ClassifyInputIsBg" class="xc_form-select">
-                                <option value="0">否</option>
-                                <option value="1">是</option>
+                                <option value="0">{{ T.task_disable_action|default:'否' }}</option>
+                                <option value="1">{{ T.task_enable_action|default:'是' }}</option>
                             </select>
                         </div>
                     </div>
                     <div class="xc_form-col">
                         <div class="xc_form-group">
-                            <label class="xc_form-label">分类结果是否覆盖<span class="required">*</span></label>
+                            <label class="xc_form-label">{{ T.flow_m3_cover|default:'分类结果是否覆盖' }}<span class="required">*</span></label>
                             <select id="m3ClassifyOutputIsCover" class="xc_form-select">
-                                <option value="0">否</option>
-                                <option value="1" selected>是</option>
+                                <option value="0">{{ T.task_disable_action|default:'否' }}</option>
+                                <option value="1" selected>{{ T.task_enable_action|default:'是' }}</option>
                             </select>
                         </div>
                     </div>
@@ -496,16 +496,16 @@
                 <div id="mode8_config" class="xc_form-row" style="display:none;">
                     <div class="xc_form-col">
                         <div class="xc_form-group">
-                            <label class="xc_form-label">二步检测是否计算背景<span class="required">*</span></label>
+                            <label class="xc_form-label">{{ T.flow_m8_detect2_bg|default:'二步检测是否计算背景' }}<span class="required">*</span></label>
                             <select id="m8Detect2InputIsBg" class="xc_form-select">
-                                <option value="0">否</option>
-                                <option value="1" selected>是</option>
+                                <option value="0">{{ T.task_disable_action|default:'否' }}</option>
+                                <option value="1" selected>{{ T.task_enable_action|default:'是' }}</option>
                             </select>
                         </div>
                     </div>
                     <div class="xc_form-col">
                         <div class="xc_form-group">
-                            <label class="xc_form-label">计算逻辑<span class="required">*</span></label>
+                            <label class="xc_form-label">{{ T.flow_m8_logic|default:'计算逻辑' }}<span class="required">*</span></label>
                             <select id="m8m9Type" class="xc_form-select">
                                 <option value="0" selected>0</option>
                                 <option value="1">1</option>
@@ -520,7 +520,7 @@
                 <div id="mode9_config" class="xc_form-row" style="display:none;">
                     <div class="xc_form-col">
                         <div class="xc_form-group">
-                            <label class="xc_form-label">计算逻辑<span class="required">*</span></label>
+                            <label class="xc_form-label">{{ T.flow_m9_logic|default:'计算逻辑' }}<span class="required">*</span></label>
                             <select id="m8m9Type_mode9" class="xc_form-select">
                                 <option value="0" selected>0</option>
                                 <option value="1">1</option>
@@ -535,8 +535,8 @@
                 <div class="xc_form-row">
                     <div class="xc_form-col full">
                         <div class="xc_form-group">
-                            <label class="xc_form-label">备注</label>
-                            <textarea id="flow_remark" class="xc_form-textarea" placeholder="请输入备注信息"></textarea>
+                            <label class="xc_form-label">{{ T.flow_remark_label|default:'备注' }}</label>
+                            <textarea id="flow_remark" class="xc_form-textarea" placeholder="{{ T.flow_remark_placeholder|default:'请输入备注信息' }}"></textarea>
                         </div>
                     </div>
                 </div>
@@ -546,9 +546,9 @@
             </div>
         </div>
         <div class="xc_modal-footer">
-            <button class="xc_btn xc_btn-cancel" onclick="closeFlowModal()">取消</button>
+            <button class="xc_btn xc_btn-cancel" onclick="closeFlowModal()">{{ T.flow_cancel|default:'取消' }}</button>
             <button class="xc_btn xc_btn-submit" id="flowSubmitBtn" onclick="submitFlowForm()">
-                <span id="submitBtnText">提交</span>
+                <span id="submitBtnText">{{ T.flow_submit|default:'提交' }}</span>
             </button>
         </div>
     </div>

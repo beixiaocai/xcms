@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 
-{% block title %} 录像播放器 {% endblock title %}
+{% block title %} {{ T.timeplayer_title|default:'录像播放器' }} {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
@@ -177,8 +177,8 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="x_panel">
             <div class="x_title">
-                 <h2>录像播放器
-                    <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
+                 <h2>{{ T.timeplayer_title|default:'录像播放器' }}
+                    <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">{{ T.timeplayer_loading|default:'加载中' }}</span>
                     <span id="top_msg">{{top_msg}}</span>
                  </h2>
 
@@ -222,11 +222,11 @@
                 <div class="timeline-legend">
                     <div class="timeline-legend-item">
                       <div class="timeline-legend-color valid"></div>
-                      <span>已录像</span>
+                      <span>{{ T.timeplayer_recorded|default:'已录像' }}</span>
                     </div>
                     <div class="timeline-legend-item">
                       <div class="timeline-legend-color invalid"></div>
-                      <span>无录像</span>
+                      <span>{{ T.timeplayer_not_recorded|default:'无录像' }}</span>
                     </div>
                   </div>
               </div>
@@ -235,9 +235,9 @@
                      <div class="form-horizontal form-label-left" >
                         <div class="form-group">
                           <div class="col-md-4 col-sm-4 col-xs-12">
-                             <input type="text"  class="form-control" id="record_video_address" placeholder="当前录像播放地址">
+                             <input type="text"  class="form-control" id="record_video_address" placeholder="{{ T.timeplayer_current_address|default:'当前录像播放地址' }}">
                           </div>
-                            <button type="button" onclick="f_downloadRecordVideo()" class="btn btn-dark">下载</button>
+                            <button type="button" onclick="f_downloadRecordVideo()" class="btn btn-dark">{{ T.timeplayer_download|default:'下载' }}</button>
                         </div>
                      </div>
 
@@ -309,7 +309,7 @@
         if(url.startsWith("/storage/openAccess?filename=")){
             window.open(url);
         }else{
-               myToast2025("录像播放地址不正确！","error");
+               myToast2025(_t("timeplayer_address_invalid", "录像播放地址不正确！"),"error");
         }
     }
     function f_openRecordFilename(timestamp){
@@ -328,7 +328,7 @@
            },
            timeout: 0,
            error: function () {
-                myToast2025("网络异常，请确定网络正常！","error");
+                myToast2025(_t("timeplayer_net_error", "网络异常，请确定网络正常！"),"error");
            },
            success: function (res) {
                if(1000 === res.code){
@@ -421,7 +421,7 @@
            },
            timeout: 0,
            error: function () {
-                myToast2025("网络异常，请确定网络正常！","error");
+                myToast2025(_t("timeplayer_net_error", "网络异常，请确定网络正常！"),"error");
            },
            success: function (res) {
 
@@ -435,7 +435,7 @@
                         let record = data[i].record;
                         let timestamp = data[i].timestamp;
                         if(record === 1){
-                            html += "<div class='item-valid' data-timestamp='" + timestamp + "' onclick='f_openRecordFilename(" + timestamp + ")' title='点击播放'></div>";
+                            html += "<div class='item-valid' data-timestamp='" + timestamp + "' onclick='f_openRecordFilename(" + timestamp + ")' title='" + _t("timeplayer_click_play", "点击播放") + "'></div>";
                         }else{
                             html += "<div class='item-invalid'></div>";
                         }
@@ -501,7 +501,8 @@
         //toLocaleDateString参考文档： https://www.cnblogs.com/bokemoqi/p/17656900.html
 
         //en-US,zh-CN
-        return d.toLocaleDateString("zh-CN", {
+        let locale = "{{ T_SELECTED_LANG }}" === "en" ? "en-US" : "zh-CN";
+        return d.toLocaleDateString(locale, {
             //year: 'numeric',
             month: 'long',
             day: 'numeric',
@@ -511,7 +512,7 @@
         });
     }
     eleInputRecordDate.dateRangePicker({
-        language:'cn',//cn,en
+        language: "{{ T_SELECTED_LANG }}" === "en" ? "en" : "cn",
         autoClose: true,
         singleDate : true,
         showShortcuts: false,
@@ -526,7 +527,7 @@
                 valid = true;
             }
             //valid = !(time.getDay() == 0 || time.getDay() == 6);  //disable saturday and sunday
-            let tip = valid ? '' : '未录像';
+            let tip = valid ? '' : _t("timeplayer_not_recorded_tip", "未录像");
             return [valid,'',tip];
         }
     }).bind('datepicker-change',function(event,obj)

@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 
-{% block title %} 系统设置 {% endblock title %}
+{% block title %} {{ T.sysset_title|default:'系统设置' }} {% endblock title %}
 {% block stylesheets %}
   {{ block.super }}
 <style>
@@ -359,8 +359,8 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="x_panel">
             <div class="x_title">
-              <h2>系统设置
-                <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
+              <h2>{{ T.sysset_title|default:'系统设置' }}
+                <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">{{ T.common_loading|default:'加载中...' }}</span>
                 <span id="top_msg">{{top_msg}}</span>
               </h2>
               <div class="clearfix"></div>
@@ -370,9 +370,9 @@
               <!-- 系统设置卡片 -->
               <div class="settings_card">
                 <div class="settings_card_title">
-                  <i class="fa fa-cogs"></i>系统设置
+                  <i class="fa fa-cogs"></i>{{ T.sysset_title|default:'系统设置' }}
                   <span class="settings_loading" id="settings_loading">
-                    <img src="/static/images/load.gif" alt="loading">加载中
+                    <img src="/static/images/load.gif" alt="loading">{{ T.common_loading|default:'加载中...' }}
                   </span>
                 </div>
 
@@ -381,70 +381,70 @@
                   <div class="settings_col" style="max-width: 600px; margin: 0 auto;">
                     <!-- 重启 -->
                     <div class="settings_group">
-                      <div class="settings_group_title">重启</div>
+                      <div class="settings_group_title">{{ T.sysset_restart_group|default:'重启' }}</div>
                       <div class="settings_actions">
                         <button type="button" onclick="f_restartApp()" class="settings_btn settings_btn_warning">
-                          <i class="fa fa-refresh"></i>重启软件
+                          <i class="fa fa-refresh"></i>{{ T.sysset_restart_app|default:'重启软件' }}
                         </button>
                         <button type="button" onclick="f_restartOS()" class="settings_btn settings_btn_warning">
-                          <i class="fa fa-power-off"></i>重启系统
+                          <i class="fa fa-power-off"></i>{{ T.sysset_restart_os|default:'重启系统' }}
                         </button>
                       </div>
                     </div>
 
                     <!-- 日志 -->
                     <div class="settings_group">
-                      <div class="settings_group_title">日志</div>
+                      <div class="settings_group_title">{{ T.sysset_log_group|default:'日志' }}</div>
                       <div class="settings_log_options">
                         <div class="xc_switch_container">
                           <label class="xc_switch">
                             <input type="checkbox" name="export_stream" value="1">
                             <span class="xc_switch_slider"></span>
                           </label>
-                          <span class="xc_switch_label">导出流日志</span>
+                          <span class="xc_switch_label">{{ T.sysset_export_stream_log|default:'导出流日志' }}</span>
                         </div>
                       </div>
                       <div class="settings_actions" style="margin-top: 12px;">
                         <button type="button" onclick="f_openExportLogs()" class="settings_btn settings_btn_primary">
-                          <i class="fa fa-download"></i>导出日志
+                          <i class="fa fa-download"></i>{{ T.sysset_export_logs|default:'导出日志' }}
                         </button>
                       </div>
-                      <span class="settings_desc">导出日志，提供给开发者排查问题</span>
+                      <span class="settings_desc">{{ T.sysset_export_logs_desc|default:'导出日志，提供给开发者排查问题' }}</span>
                     </div>
 
                     <!-- 导出配置 -->
                     <div class="settings_group">
-                      <div class="settings_group_title">导出配置</div>
+                      <div class="settings_group_title">{{ T.sysset_export_config_group|default:'导出配置' }}</div>
                       <div class="settings_actions">
                         <button type="button" onclick="f_openExportSettings()" class="settings_btn settings_btn_primary">
-                          <i class="fa fa-download"></i>导出配置
+                          <i class="fa fa-download"></i>{{ T.sysset_export_config|default:'导出配置' }}
                         </button>
                       </div>
-                      <span class="settings_desc">导出软件配置参数，不包括报警数据</span>
+                      <span class="settings_desc">{{ T.sysset_export_config_desc|default:'导出软件配置参数，不包括报警数据' }}</span>
                     </div>
 
                     <!-- 升级版本 -->
                     <div class="settings_group">
                       <div class="settings_group_title">
-                        升级版本
+                        {{ T.sysset_upgrade_group|default:'升级版本' }}
                         <span class="version">v{{ project_version }} {{ project_flag }}</span>
                       </div>
                       <input type="file" name="xcupdate_file" accept=".xcupdate" class="settings_file_input">
                       <div class="settings_actions">
                         <button type="button" onclick="f_openImportUpdate()" class="settings_btn settings_btn_primary">
-                          <i class="fa fa-upload"></i>升级版本
+                          <i class="fa fa-upload"></i>{{ T.sysset_upgrade|default:'升级版本' }}
                         </button>
                       </div>
-                      <span class="settings_desc">升级过程需要1-5分钟，请不要关闭电源，完成升级后将自动重启</span>
+                      <span class="settings_desc">{{ T.sysset_upgrade_desc|default:'升级过程需要1-5分钟，请不要关闭电源，完成升级后将自动重启' }}</span>
                     </div>
 
                     <!-- 导入配置 -->
                     <div class="settings_group">
-                      <div class="settings_group_title">导入配置</div>
+                      <div class="settings_group_title">{{ T.sysset_import_group|default:'导入配置' }}</div>
                       <input type="file" name="xcsettings_file" accept=".xcsettings" class="settings_file_input">
                       <div class="settings_actions">
                         <button type="button" onclick="f_openImportSettings()" class="settings_btn settings_btn_primary">
-                          <i class="fa fa-upload"></i>导入配置
+                          <i class="fa fa-upload"></i>{{ T.sysset_import_config|default:'导入配置' }}
                         </button>
                       </div>
                     </div>
@@ -470,7 +470,7 @@
     let eleXcUpdateFile = $("input[name='xcupdate_file']");
 
     function f_restartApp() {
-        let ret = confirm("确定重启软件吗？");
+        let ret = confirm(_t("sysset_confirm_restart_app","确定重启软件吗？"));
         if (ret) {
             $.ajax({
                url: "/open/restartApp",
@@ -481,7 +481,7 @@
                dataType: "json",
                timeout: 0,
                error: function () {
-                    myToast2025("网络异常，请确定网络正常！","error");
+                    myToast2025(_t("sysset_net_error","网络异常，请确定网络正常！"),"error");
                },
                success: function (res) {
                    if(res.code === 1000){
@@ -495,7 +495,7 @@
 
     }
     function f_restartOS() {
-        let ret = confirm("确定重启操作系统吗？");
+        let ret = confirm(_t("sysset_confirm_restart_os","确定重启操作系统吗？"));
         if (ret) {
             $.ajax({
                 url: "/open/restartOS",
@@ -505,7 +505,7 @@
                 dataType: "json",
                 timeout: 0,
                 error: function () {
-                    myToast2025("网络异常，请确定网络正常！", "error");
+                    myToast2025(_t("sysset_net_error","网络异常，请确定网络正常！"), "error");
                 },
                 success: function (res) {
                     if(res.code === 1000){
@@ -529,7 +529,7 @@
            timeout: 0,
            error: function () {
                ele_settings_loading.hide();
-               myToast2025("网络异常，请确定网络正常！","error");
+               myToast2025(_t("sysset_net_error","网络异常，请确定网络正常！"),"error");
            },
            success: function (res) {
                ele_settings_loading.hide();
@@ -561,7 +561,7 @@
            timeout: 0,
            error: function () {
                ele_settings_loading.hide();
-               myToast2025("网络异常，请确定网络正常！","error");
+               myToast2025(_t("sysset_net_error","网络异常，请确定网络正常！"),"error");
            },
            success: function (res) {
                ele_settings_loading.hide();
@@ -601,7 +601,7 @@
               timeout: 0,
               error: function () {
                   ele_settings_loading.hide();
-                  myToast2025("网络异常，请确定网络正常！","error");
+                  myToast2025(_t("sysset_net_error","网络异常，请确定网络正常！"),"error");
               },
               success: function (res) {
                   ele_settings_loading.hide();
@@ -614,7 +614,7 @@
             });
 
         }else{
-            myToast2025("请选择配置文件！","error");
+            myToast2025(_t("sysset_select_config_file","请选择配置文件！"),"error");
         }
 
     }
@@ -655,7 +655,7 @@
             });
 
         }else{
-            myToast2025("请选择升级包文件！","error");
+            myToast2025(_t("sysset_select_upgrade_file","请选择升级包文件！"),"error");
         }
 
     }

@@ -1,6 +1,6 @@
 <html lang="en">
 <head>
-<title>提示中</title>
+<title>{{ T.message_title|default:'提示中' }}</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/static/lib/message/message.css">
@@ -8,9 +8,9 @@
 
 <body>
     <div class="sweetalert_content">
-        <img src="/static/lib/message/{% if is_success %}message-success{% else %}message-error{% endif %}.png"  alt="提示图片"/>
+        <img src="/static/lib/message/{% if is_success %}message-success{% else %}message-error{% endif %}.png"  alt="{{ T.message_image_alt|default:'提示图片' }}"/>
         <h3>{{msg}}</h3>
-        <button class="confirm" onclick="redirect()" >返回上一页</button>
+        <button class="confirm" onclick="redirect()" >{{ T.message_back|default:'返回上一页' }}</button>
     </div>
 </body>
 <script>

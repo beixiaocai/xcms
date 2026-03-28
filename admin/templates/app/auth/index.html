@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 
-{% block title %} 系统授权 {% endblock title %}
+{% block title %} {{ T.auth_title|default:'系统授权' }} {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
@@ -280,24 +280,24 @@
           <div class="modern-card">
             <div class="card-header">
               <!--<i class="fa fa-info-circle icon-info"></i>-->
-              <h3>设备信息</h3>
+              <h3>{{ T.auth_device_info|default:'设备信息' }}</h3>
               <span id="top_loading" style="margin-left: auto; display: none;">
                 <span class="loading-spinner"></span>
-                <span style="color: #667eea;">加载中...</span>
+                <span style="color: #667eea;">{{ T.auth_loading|default:'加载中...' }}</span>
               </span>
             </div>
             
             <div class="row">
               <div class="col-md-6">
                 <div class="info-row">
-                  <span class="info-label">设备指纹</span>
-                  <span class="info-value" id="projectFinger">无</span>
+                  <span class="info-label">{{ T.auth_device_finger|default:'设备指纹' }}</span>
+                  <span class="info-value" id="projectFinger">{{ T.auth_none|default:'无' }}</span>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="info-row">
-                  <span class="info-label">软件标记</span>
-                  <span class="info-value"  id="projectFlag">无</span>
+                  <span class="info-label">{{ T.auth_software_flag|default:'软件标记' }}</span>
+                  <span class="info-value"  id="projectFlag">{{ T.auth_none|default:'无' }}</span>
                 </div>
               </div>
 
@@ -308,13 +308,13 @@
           <div class="modern-card">
             <div class="card-header">
               <i class="fa fa-key icon-key"></i>
-              <h3>系统授权</h3>
+              <h3>{{ T.auth_license_section|default:'系统授权' }}</h3>
             </div>
             
             <form method="post" data-parsley-validate>
               <div class="form-group-modern">
                 <label class="form-label-modern">
-                  授权码输入
+                  {{ T.auth_license_input|default:'授权码输入' }}
                   <span class="required">*</span>
                 </label>
                 <textarea 
@@ -322,43 +322,43 @@
                   name="license" 
                   class="form-control-modern" 
                   rows="3" 
-                  placeholder="请输入授权码"></textarea>
+                  placeholder="{{ T.auth_license_placeholder|default:'请输入授权码' }}"></textarea>
               </div>
 
               <!-- 授权码状态信息 -->
               <div class="auth-info-card">
                 <div class="auth-info-header">
-                  <i class="fa fa-info-circle" style="margin-right: 4px;"></i>授权码状态：
-                  <span id="auth_msg" class="status-error">未授权</span>
+                  <i class="fa fa-info-circle" style="margin-right: 4px;"></i>{{ T.auth_license_status|default:'授权码状态：' }}
+                  <span id="auth_msg" class="status-error">{{ T.auth_unauthorized|default:'未授权' }}</span>
                 </div>
                 
                 <div class="row">
                   <div class="col-md-6">
                     <div class="info-row">
-                      <span class="info-label">生效时间</span>
-                      <span class="info-value" id="create_date_str">无</span>
+                      <span class="info-label">{{ T.auth_create_time|default:'生效时间' }}</span>
+                      <span class="info-value" id="create_date_str">{{ T.auth_none|default:'无' }}</span>
                     </div>
                     <div class="info-row">
-                      <span class="info-label">过期时间</span>
-                      <span class="info-value" id="expire_date_str">无</span>
+                      <span class="info-label">{{ T.auth_expire_time|default:'过期时间' }}</span>
+                      <span class="info-value" id="expire_date_str">{{ T.auth_none|default:'无' }}</span>
                     </div>
                     <div class="info-row">
-                      <span class="info-label">授权天数</span>
-                      <span class="info-value" id="expire_day">无</span>
+                      <span class="info-label">{{ T.auth_expire_days|default:'授权天数' }}</span>
+                      <span class="info-value" id="expire_day">{{ T.auth_none|default:'无' }}</span>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="info-row">
-                      <span class="info-label">绑定指纹</span>
-                      <span class="info-value" id="finger">无</span>
+                      <span class="info-label">{{ T.auth_bind_finger|default:'绑定指纹' }}</span>
+                      <span class="info-value" id="finger">{{ T.auth_none|default:'无' }}</span>
                     </div>
                     <div class="info-row">
-                      <span class="info-label">绑定标记</span>
-                      <span class="info-value" id="flag">无</span>
+                      <span class="info-label">{{ T.auth_bind_flag|default:'绑定标记' }}</span>
+                      <span class="info-value" id="flag">{{ T.auth_none|default:'无' }}</span>
                     </div>
                     <div class="info-row">
-                      <span class="info-label">备注信息</span>
-                      <span class="info-value" id="remark">无</span>
+                      <span class="info-label">{{ T.auth_remark|default:'备注信息' }}</span>
+                      <span class="info-value" id="remark">{{ T.auth_none|default:'无' }}</span>
                     </div>
                   </div>
                 </div>
@@ -369,17 +369,17 @@
                 <div>
                   {% if settings.auth_online_link != "" %}
                     <button type="button" onclick="f_link('{{ settings.auth_online_link }}')" class="btn-modern btn-default-modern">
-                      <i class="fa fa-external-link"></i> 申请试用
+                      <i class="fa fa-external-link"></i> {{ T.auth_apply_trial|default:'申请试用' }}
                     </button>
                   {% endif %}
                   {% if settings.auth_buy_link != "" %}
                     <button type="button" onclick="f_link('{{ settings.auth_buy_link }}')" class="btn-modern btn-secondary-modern">
-                      <i class="fa fa-shopping-cart"></i> 购买授权
+                      <i class="fa fa-shopping-cart"></i> {{ T.auth_buy_license|default:'购买授权' }}
                     </button>
                   {% endif %}
                 </div>
                 <button type="submit" class="btn-modern btn-activate-modern">
-                  <i class="fa fa-check-circle"></i> 激活授权码
+                  <i class="fa fa-check-circle"></i> {{ T.auth_activate|default:'激活授权码' }}
                 </button>
               </div>
             </form>
@@ -460,14 +460,14 @@
       
       let license = eleLicense.val().trim();
       if (license === "") {
-        myToast2025("请输入授权码", "error");
+        myToast2025(_t("auth_input_required", "请输入授权码"), "error");
         return false;
       }
       
       // 显示loading
       eleTopLoading.show();
       
-      // 发起AJAX请求
+      // 发起 AJAX 请求
       $.ajax({
         url: '/auth/openAdd',
         type: "post",
@@ -479,7 +479,7 @@
         timeout: 0,
         error: function () {
           eleTopLoading.hide();
-          myToast2025("网络异常，请确定网络正常！", "error");
+          myToast2025(_t("auth_net_error", "网络异常，请确定网络正常！"), "error");
         },
         success: function (res) {
           eleTopLoading.hide();

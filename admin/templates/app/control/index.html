@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 
-{% block title %} 布控管理 {% endblock title %}
+{% block title %} {{ T.control_title|default:'布控管理' }} {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
@@ -844,39 +844,39 @@
         <div class="xc_toolbar">
             <div class="xc_page-title">
                 <i class="fa fa-cube"></i>
-                布控管理
+                {{ T.control_title|default:'布控管理' }}
             </div>
             
             <select id="search_status_select" class="xc_status-filter">
-                <option value="-1">全部状态</option>
-                <option value="1">布控中</option>
-                <option value="0">未布控</option>
+                <option value="-1">{{ T.control_all_status|default:'全部状态' }}</option>
+                <option value="1">{{ T.control_running|default:'布控中' }}</option>
+                <option value="0">{{ T.control_stopped|default:'未布控' }}</option>
             </select>
             
-            <input type="text" id="search_text_input" class="xc_search-input" placeholder="视频流名称或布控编号"  value="{{ code }}">
+            <input type="text" id="search_text_input" class="xc_search-input" placeholder="{{ T.control_search_placeholder|default:'视频流名称或布控编号' }}"  value="{{ code }}">
             
             <button class="xc_btn-modern" onclick="doSearch()">
-                <i class="fa fa-search"></i> 搜索
+                <i class="fa fa-search"></i> {{ T.camera_search|default:'搜索' }}
             </button>
             
             <button class="xc_btn-modern" onclick="openControlModal('add')">
-                <i class="fa fa-plus"></i> 添加
+                <i class="fa fa-plus"></i> {{ T.camera_add|default:'添加' }}
             </button>
             
             <div style="position: relative; display: inline-block;">
                 <button class="xc_btn-modern" onclick="toggleMoreDialog()">
-                    <i class="fa fa-ellipsis-v"></i> 更多
+                    <i class="fa fa-ellipsis-v"></i> {{ T.control_more|default:'更多' }}
                 </button>
                 
                 <div class="xc_bullet-dialog" id="moreDialog">
                     <button class="xc_bullet-dialog-btn" onclick="f_openHandle('addAll',''); toggleMoreDialog()">
-                        <i class="fa fa-play"></i> 全部执行
+                        <i class="fa fa-play"></i> {{ T.control_all_execute|default:'全部执行' }}
                     </button>
                     <button class="xc_bullet-dialog-btn" onclick="f_openHandle('cancelAll',''); toggleMoreDialog()">
-                        <i class="fa fa-pause"></i> 全部取消
+                        <i class="fa fa-pause"></i> {{ T.control_all_cancel|default:'全部取消' }}
                     </button>
                     <button class="xc_bullet-dialog-btn xc_bullet-dialog-btn-danger" onclick="f_openHandle('deleteAll',''); toggleMoreDialog()">
-                        <i class="fa fa-trash"></i> 全部删除
+                        <i class="fa fa-trash"></i> {{ T.control_all_delete|default:'全部删除' }}
                     </button>
                 </div>
             </div>
@@ -884,7 +884,7 @@
             <div>
                 <span id="top_loading" style="display: none; margin-left: 10px;">
                     <span class="xc_loading-spinner"></span>
-                    <span class="xc_loading-text">加载中...</span>
+                    <span class="xc_loading-text">{{ T.common_loading|default:'加载中...' }}</span>
                 </span>
                 <span id="top_msg">{{top_msg}}</span>
             </div>
@@ -895,11 +895,11 @@
                 <thead>
                     <tr>
                         <th width="60">ID</th>
-                        <th width="140">布控编号</th>
-                        <th width="200">视频流</th>
-                        <th width="160">状态</th>
-                        <th>选中算法</th>
-                        <th width="200">操作</th>
+                        <th width="140">{{ T.control_code|default:'布控编号' }}</th>
+                        <th width="200">{{ T.control_stream|default:'视频流' }}</th>
+                        <th width="160">{{ T.camera_status|default:'状态' }}</th>
+                        <th>{{ T.control_selected_algorithm|default:'选中算法' }}</th>
+                        <th width="200">{{ T.camera_action|default:'操作' }}</th>
                     </tr>
                 </thead>
                 <tbody id="data">
@@ -921,20 +921,20 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                  <h4 class="modal-title">布控日志</h4>
+                  <h4 class="modal-title">{{ T.control_log_title|default:'布控日志' }}</h4>
               </div>
               <div class="modal-body">
                 <div style="padding: 5px 20px;">
                   <div class="form-inline" style="margin-bottom: 15px;">
                     <div class="form-group">
-                      <label>布控编号：</label>
-                      <input type="text" class="xc_form-input" id="log_control_code_input" placeholder="留空查询所有" style="width: 200px; height: 28px;">
+                      <label>{{ T.control_log_code|default:'布控编号：' }}</label>
+                      <input type="text" class="xc_form-input" id="log_control_code_input" placeholder="{{ T.control_log_placeholder|default:'留空查询所有' }}" style="width: 200px; height: 28px;">
                     </div>
                     <button type="button" class="xc_btn-modern" style="height: 28px; padding: 0 8px; font-size: 12px;" onclick="f_searchLog(1)">
-                      <i class="fa fa-search"></i> 查询
+                      <i class="fa fa-search"></i> {{ T.ulog_search|default:'查询' }}
                     </button>
                     <button type="button" class="xc_btn-modern xc_btn-secondary" style="height: 28px; padding: 0 8px; font-size: 12px;" onclick="f_resetLogSearch()">
-                      <i class="fa fa-refresh"></i> 重置
+                      <i class="fa fa-refresh"></i> {{ T.ulog_reset|default:'重置' }}
                     </button>
                   </div>
                   <div style="max-height: 400px; overflow-y: auto;">
@@ -942,9 +942,9 @@
                       <thead>
                         <tr>
                           <th width="60">ID</th>
-                          <th width="150">布控编号</th>
-                          <th>日志内容</th>
-                          <th width="150">时间</th>
+                          <th width="150">{{ T.control_code|default:'布控编号' }}</th>
+                          <th>{{ T.control_log_content|default:'日志内容' }}</th>
+                          <th width="150">{{ T.alarm_time|default:'时间' }}</th>
                         </tr>
                       </thead>
                       <tbody id="control_log_data">
@@ -965,27 +965,27 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                  <h4 class="modal-title" >复制布控</h4>
+                  <h4 class="modal-title" >{{ T.control_copy_title|default:'复制布控' }}</h4>
               </div>
               <div class="modal-body">
                 <div style="padding: 5px 20px;">
                   <form class="form-horizontal calender" role="form">
                     <div class="form-group">
-                          <label class="col-sm-3 control-label">布控编号</label>
+                          <label class="col-sm-3 control-label">{{ T.control_code|default:'布控编号' }}</label>
                           <div class="col-sm-9">
                             <input type="text" readonly class="form-control" id="copy_code_input"/>
                           </div>
                     </div>
                    <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12">视频流</label>
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ T.control_stream|default:'视频流' }}</label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
                         <select id="copy_streams_select" style="height: 200px;"  class="select2_multiple form-control" required="required"  multiple="multiple" >
-                            <option value="0">---请选择视频流(可多选)---</option>
+                            <option value="0">{{ T.control_copy_stream_placeholder|default:'---请选择视频流(可多选)---' }}</option>
                         </select>
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-sm-3 control-label">备注</label>
+                      <label class="col-sm-3 control-label">{{ T.audio_remark_label|default:'备注' }}</label>
                       <div class="col-sm-9">
                         <textarea class="form-control" style="height:40px;" id="copy_remark_textarea"></textarea>
                       </div>
@@ -994,8 +994,8 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" onclick="f_openCopy()" class="btn btn-default">提交</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ T.camera_cancel|default:'取消' }}</button>
+                <button type="button" onclick="f_openCopy()" class="btn btn-default">{{ T.camera_submit|default:'提交' }}</button>
               </div>
             </div>
           </div>
@@ -1008,41 +1008,41 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                  <h4 class="modal-title" >快捷设置</h4>
+                  <h4 class="modal-title" >{{ T.control_qk_title|default:'快捷设置' }}</h4>
               </div>
               <div class="modal-body">
                 <div style="padding: 5px 20px;">
                   <form class="form-horizontal calender" role="form">
                    <div class="form-group">
-                          <label class="col-sm-3 control-label">布控编号</label>
+                          <label class="col-sm-3 control-label">{{ T.control_code|default:'布控编号' }}</label>
                           <div class="col-sm-9">
                             <input type="text" readonly class="form-control" id="qk_settings_code"/>
                           </div>
                     </div>
                    <div class="form-group">
-                      <label class="col-sm-3 control-label">报警间隔</label>
+                      <label class="col-sm-3 control-label">{{ T.control_alarm_interval|default:'报警间隔' }}</label>
                       <div class="col-sm-9">
                         <input type="number" class="form-control" id="qk_min_interval"/>
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-sm-3 control-label">OSD参数</label>
+                      <label class="col-sm-3 control-label">{{ T.control_osd_params|default:'OSD参数' }}</label>
                       <div class="col-sm-9">
                         <textarea class="form-control" style="height:40px;" id="qk_osd_params"></textarea>
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-sm-3 control-label">扩展参数</label>
+                      <label class="col-sm-3 control-label">{{ T.control_extend_params|default:'扩展参数' }}</label>
                       <div class="col-sm-9">
                         <textarea class="form-control" style="height:60px;" id="qk_extend_params"></textarea>
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-sm-3 control-label">修改范围</label>
+                      <label class="col-sm-3 control-label">{{ T.control_modify_range|default:'修改范围' }}</label>
                       <div class="col-sm-9">
                           <select id="qk_modify_range"  class="form-control">
-                            <option value="0">当前布控</option>
-                            <option value="1">所有布控</option>
+                            <option value="0">{{ T.control_current|default:'当前布控' }}</option>
+                            <option value="1">{{ T.control_all|default:'所有布控' }}</option>
                         </select>
                       </div>
                     </div>
@@ -1050,8 +1050,8 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" onclick="f_openSettings()" class="btn btn-default">提交</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ T.camera_cancel|default:'取消' }}</button>
+                <button type="button" onclick="f_openSettings()" class="btn btn-default">{{ T.camera_submit|default:'提交' }}</button>
               </div>
             </div>
           </div>
@@ -1062,7 +1062,7 @@
       <div class="xc_modal-overlay" id="controlModal">
         <div class="xc_modal-container">
             <div class="xc_modal-header">
-                <div class="xc_modal-title" id="modalTitle">添加布控</div>
+                <div class="xc_modal-title" id="modalTitle">{{ T.control_modal_add_title|default:'添加布控' }}</div>
                 <button class="xc_modal-close" onclick="closeControlModal()">×</button>
             </div>
             <div class="xc_modal-body" style="display: flex; gap: 16px;">
@@ -1074,78 +1074,78 @@
                     
                     <div style="margin-top: 8px; padding: 8px; background: #f8f9fa; border-radius: 6px;">
                         <button type="button" onclick="f_clickPlayStart()" class="xc_btn-modern">
-                            <i class="fa fa-play"></i> 播放
+                            <i class="fa fa-play"></i> {{ T.control_play|default:'播放' }}
                         </button>
                         <button type="button" onclick="f_clickPlayStop()" class="xc_btn-modern" style="margin-left: 8px; background: #f3f4f6; color: #6b7280;">
-                            <i class="fa fa-stop"></i> 停止
+                            <i class="fa fa-stop"></i> {{ T.control_stop|default:'停止' }}
                         </button>
                     </div>
                 </div>
                 
                 <div class="xc_modal-right" style="flex: 0.8; min-width: 280px;">
                 <div class="xc_form-group">
-                    <label class="xc_form-label">布控编号</label>
+                    <label class="xc_form-label">{{ T.control_code|default:'布控编号' }}</label>
                     <input type="text" id="input_code" class="xc_form-input" disabled>
                 </div>
 
                 <div class="xc_form-group">
-                    <label class="xc_form-label">选择视频流<span class="required">*</span></label>
+                    <label class="xc_form-label">{{ T.control_select_stream|default:'选择视频流' }}<span class="required">*</span></label>
                     <select id="select_stream" class="xc_form-input" required="required">
-                        <option value="0">请选择视频流</option>
+                        <option value="0">{{ T.dashboard_select_stream|default:'请选择视频流' }}</option>
                     </select>
                 </div>
 
                 <div class="xc_form-group">
-                    <label class="xc_form-label">视频信息</label>
+                    <label class="xc_form-label">{{ T.control_video_info|default:'视频信息' }}</label>
                     <input type="text" id="input_video" class="xc_form-input" disabled>
                 </div>
 
                 <div class="xc_form-group">
-                    <label class="xc_form-label">音频信息</label>
+                    <label class="xc_form-label">{{ T.control_audio_info|default:'音频信息' }}</label>
                     <input type="text" id="input_audio" class="xc_form-input" disabled>
                 </div>
 
                 <div class="xc_form-group">
-                    <label class="xc_form-label">播放地址</label>
+                    <label class="xc_form-label">{{ T.control_play_url|default:'播放地址' }}</label>
                     <input type="text" id="input_video_url" class="xc_form-input" disabled>
                 </div>
 
                 <div class="xc_form-group">
-                    <label class="xc_form-label">报警音频<span class="required">*</span></label>
+                    <label class="xc_form-label">{{ T.control_alarm_audio|default:'报警音频' }}<span class="required">*</span></label>
                     <select id="select_audio" class="xc_form-input" required="required">
-                        <option value="0">请选择报警音频</option>
+                        <option value="0">{{ T.control_select_alarm_audio|default:'请选择报警音频' }}</option>
                     </select>
                 </div>
 
                 <div class="xc_form-group">
-                    <label class="xc_form-label">报警接口<span class="required">*</span></label>
+                    <label class="xc_form-label">{{ T.control_alarm_interface|default:'报警接口' }}<span class="required">*</span></label>
                     <select id="select_alarm_interface" class="xc_form-input" required="required">
-                        <option value="0">请选择报警接口</option>
+                        <option value="0">{{ T.control_select_alarm_interface|default:'请选择报警接口' }}</option>
                     </select>
                 </div>
 
                 <div class="xc_form-group">
-                    <label class="xc_form-label">报警间隔<span class="required">*</span></label>
+                    <label class="xc_form-label">{{ T.control_alarm_interval|default:'报警间隔' }}<span class="required">*</span></label>
                     <input type="number" id="min_interval" class="xc_form-input" value="180">
                 </div>
 
                 <div class="xc_form-group">
-                    <label class="xc_form-label">重叠比例<span class="required">*</span></label>
+                    <label class="xc_form-label">{{ T.control_overlap_ratio|default:'重叠比例' }}<span class="required">*</span></label>
                     <input type="number" id="overlap_thresh" class="xc_form-input" value="0.5" step="0.01">
                 </div>
 
                 <div class="xc_form-group">
-                    <label class="xc_form-label">分配进程<span class="required">*</span></label>
+                    <label class="xc_form-label">{{ T.control_deploy_process|default:'分配进程' }}<span class="required">*</span></label>
                     <input type="number" id="deploy_process_index" class="xc_form-input" value="0" min="0">
                 </div>
 
                 <div class="xc_form-group">
-                    <label class="xc_form-label">OSD</label>
+                    <label class="xc_form-label">{{ T.control_osd|default:'OSD' }}</label>
                     <textarea id="osd_params" class="xc_form-textarea" rows="2"></textarea>
                 </div>
 
                 <div class="xc_form-group">
-                    <label class="xc_form-label">扩展参数</label>
+                    <label class="xc_form-label">{{ T.control_extend_params|default:'扩展参数' }}</label>
                     <textarea id="extend_params" class="xc_form-textarea" rows="2"></textarea>
                 </div>
 
@@ -1158,12 +1158,12 @@
                     <span id="control_time_info" style="color: #9ca3af; font-size: 12px;"></span>
                 </div>
                 <div class="xc_modal-footer-right">
-                    <button class="xc_modal-btn" onclick="closeControlModal()">取消</button>
+                    <button class="xc_modal-btn" onclick="closeControlModal()">{{ T.camera_cancel|default:'取消' }}</button>
                     <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitControlForm()">
                         <span id="submit_loading" style="display: none;">
                             <span class="xc_loading-spinner"></span>
                         </span>
-                        <span id="submit_text">提交</span>
+                        <span id="submit_text">{{ T.camera_submit|default:'提交' }}</span>
                     </button>
                 </div>
             </div>
@@ -1275,7 +1275,7 @@
     }
 
     function f_openDel(controlCode) {
-        let ret = confirm("确认删除吗？");
+        let ret = confirm(_t("control_confirm_delete","确认删除吗？"));
         if (ret){
             eleTopLoading.show();
             $.ajax({
@@ -1287,7 +1287,7 @@
                    timeout: 0,
                    error: function () {
                        eleTopLoading.hide();
-                       myToast2025("网络异常，请确定网络正常！","error");
+                       myToast2025(_t("control_net_error","网络异常，请确定网络正常！"),"error");
                    },
                    success: function (res) {
                           eleTopLoading.hide();
@@ -1329,7 +1329,7 @@
             timeout: 0,
             error: function () {
                 eleTopLoading.hide();
-                myToast2025("网络异常，请确定网络正常！","error");
+                myToast2025(_t("control_net_error","网络异常，请确定网络正常！"),"error");
             },
             success: function (res) {
                 eleTopLoading.hide();
@@ -1341,7 +1341,7 @@
                     if(0 === data_length){
                         let item_html = "";
                         item_html += "<tr>";
-                        item_html += "<td colspan='4' style='text-align:center; color:#999;'>暂无日志</td>";
+                        item_html += "<td colspan='4' style='text-align:center; color:#999;'>" + _t("control_no_log","暂无日志") + "</td>";
                         item_html += "</tr>";
                         eleControlLogData.append(item_html);
                     } else {
@@ -1369,7 +1369,7 @@
     function f_show_logPageData(pageData) {
         let page_size = pageData["page_size"];
         let html = "";
-        html += "<div class='xc_page-info'>共" + pageData["page_num"] + "页 / " + pageData["count"] + "条</div>";
+        html += "<div class='xc_page-info'>" + _t("alarm_total","共") + pageData["page_num"] + _t("alarm_page_unit","页") + " / " + pageData["count"] + _t("alarm_item_unit","条") + "</div>";
         let pageLabels = pageData["pageLabels"];
 
         for (let i = 0; i < pageLabels.length; i++) {
@@ -1399,13 +1399,13 @@
                timeout: 0,
                error: function () {
                    eleTopLoading.hide();
-                   myToast2025("网络异常，请确定网络正常！","error");
+                   myToast2025(_t("control_net_error","网络异常，请确定网络正常！"),"error");
                },
                success: function (res) {
                    eleTopLoading.hide();
                    if(1000 === res.code){
                        let data = res.data;
-                       let html = "<option value=\"0\">---请选择视频流(可多选)---</option>";
+                       let html = "<option value=\"0\">" + _t("control_copy_stream_placeholder","---请选择视频流(可多选)---") + "</option>";
                        for (let i = 0; i < data.length; i++) {
                            let d = data[i];
                            let d_code = d["code"];
@@ -1414,7 +1414,7 @@
                        }
                        eleCopyDialog.modal("toggle");
                        eleCopyCodeInput.val(controlCode)
-                       eleCopyRemarkTextarea.val("copy from "+controlCode)
+                       eleCopyRemarkTextarea.val(_t("control_copy_remark_prefix","copy from ") + controlCode)
                        eleCopyStreamsSelect.html(html);
                    }else{
                        myToast2025(res.msg,"error");
@@ -1430,7 +1430,7 @@
         } else {
             let val = eleCopyStreamsSelect.val();
             if(val===null){
-                myToast2025("请至少选择1个摄像头","error");
+                myToast2025(_t("control_pick_camera","请至少选择1个摄像头"),"error");
                 return false;
             }else{
                 let vals = [];
@@ -1455,7 +1455,7 @@
                            timeout: 0,
                            error: function () {
                                eleTopLoading.hide();
-                               myToast2025("网络异常，请确定网络正常！","error");
+                               myToast2025(_t("control_net_error","网络异常，请确定网络正常！"),"error");
                            },
                            success: function (res) {
                                eleTopLoading.hide();
@@ -1467,7 +1467,7 @@
                            }
                         });
                 }else{
-                    myToast2025("请至少选择1个摄像头","error");
+                    myToast2025(_t("control_pick_camera","请至少选择1个摄像头"),"error");
                     return false;
                 }
             }
@@ -1485,7 +1485,7 @@
                timeout: 0,
                error: function () {
                    eleTopLoading.hide();
-                   myToast2025("网络异常，请确定网络正常！","error");
+                   myToast2025(_t("control_net_error","网络异常，请确定网络正常！"),"error");
                },
                success: function (res) {
                    eleTopLoading.hide();
@@ -1532,7 +1532,7 @@
            timeout: 0,
            error: function () {
                eleTopLoading.hide();
-               myToast2025("网络异常，请确定网络正常！","error");
+               myToast2025(_t("control_net_error","网络异常，请确定网络正常！"),"error");
            },
            success: function (res) {
                eleTopLoading.hide();
@@ -1621,7 +1621,7 @@
     function f_show_pageData(pageData) {
         let page_size = pageData["page_size"];
         let html = "";
-        html+="<div class=\"xc_page-info\">共"+pageData["page_num"]+"页 / "+pageData["count"]+"条</div>";
+        html+="<div class=\"xc_page-info\">" + _t("alarm_total","共") + pageData["page_num"] + _t("alarm_page_unit","页") + " / " + pageData["count"] + _t("alarm_item_unit","条") + "</div>";
         let pageLabels = pageData["pageLabels"];
 
         for (let i = 0; i < pageLabels.length; i++) {
@@ -1650,7 +1650,7 @@
                timeout: 0,
                error: function () {
                    eleTopLoading.hide();
-                   myToast2025("网络异常，请确定网络正常！","error");
+                   myToast2025(_t("control_net_error","网络异常，请确定网络正常！"),"error");
                },
                success: function (res) {
                    eleTopLoading.hide();
@@ -1659,7 +1659,7 @@
                        let data = res.data;
 
                        if(data.length === 0){
-                            eleData.html("<tr><td colspan='6' class='xc_empty-state'><i class='fa fa-video-camera'></i><p>暂无数据</p></td></tr>");
+                            eleData.html("<tr><td colspan='6' class='xc_empty-state'><i class='fa fa-video-camera'></i><p>" + _t("camera_no_data","暂无数据") + "</p></td></tr>");
                             f_show_pageData(res.pageData)
                        }else{
                             eleData.html("");
@@ -1672,8 +1672,8 @@
                                 let controlId = control["id"] || "";
                                 
                                 let statusBadge = isControlled 
-                                    ? '<span class="xc_status-badge controlled"><i class="fa fa-check-circle"></i> 布控中</span>'
-                                    : '<span class="xc_status-badge not-controlled"><i class="fa fa-times-circle"></i> 未布控</span>';
+                                    ? '<span class="xc_status-badge controlled"><i class="fa fa-check-circle"></i> ' + _t("control_running","布控中") + '</span>'
+                                    : '<span class="xc_status-badge not-controlled"><i class="fa fa-times-circle"></i> ' + _t("control_stopped","未布控") + '</span>';
                                 
                                 let streamLink = isOnline
                                     ? '<a class="xc_stream-link" href="javascript:f_open_player(\''+control["stream_app"]+'\',\''+control["stream_name"]+'\')"><i class="fa fa-eye"></i> '+stream_nickname+'</a>'
@@ -1688,7 +1688,7 @@
                                 }
                                 
                                 let algorithmsHtml = '<div class="xc_algorithm-tags">';
-                                algorithmsHtml += '<span class="xc_add-algorithm-btn" onclick="f_add_algorithm_redirect(\''+control["code"]+'\')"><i class="fa fa-plus"></i> 添加</span>';
+                                algorithmsHtml += '<span class="xc_add-algorithm-btn" onclick="f_add_algorithm_redirect(\''+control["code"]+'\')"><i class="fa fa-plus"></i> ' + _t("control_add_algorithm","添加") + '</span>';
                                 
                                 if(control['algorithms'] && control['algorithms'].length > 0){
                                     for(let j=0;j<control['algorithms'].length;j++){
@@ -1700,21 +1700,21 @@
                                 algorithmsHtml += '</div>';
                                 
                                 let controlBtn = isControlled 
-                                    ? '<button class="xc_control-btn stop" onclick="f_openHandle(\'cancel\',\''+control["code"]+'\')"><i class="fa fa-stop"></i> 取消</button>'
-                                    : '<button class="xc_control-btn start" onclick="f_openHandle(\'add\',\''+control["code"]+'\')"><i class="fa fa-play"></i> 执行</button>';
+                                    ? '<button class="xc_control-btn stop" onclick="f_openHandle(\'cancel\',\''+control["code"]+'\')"><i class="fa fa-stop"></i> ' + _t("alarm_cancel","取消") + '</button>'
+                                    : '<button class="xc_control-btn start" onclick="f_openHandle(\'add\',\''+control["code"]+'\')"><i class="fa fa-play"></i> ' + _t("control_execute","执行") + '</button>';
                                 
                                 let actionBtns = '<div class="xc_action-btns">';
                                 actionBtns += controlBtn;
-                                actionBtns += '<button class="xc_action-btn" onclick="f_open_player(\''+control["push_stream_app"]+'\',\''+control["push_stream_name"]+'\')">算法流</button>';
+                                actionBtns += '<button class="xc_action-btn" onclick="f_open_player(\''+control["push_stream_app"]+'\',\''+control["push_stream_name"]+'\')">' + _t("control_algorithm_stream","算法流") + '</button>';
                                 
                                 actionBtns += '<div class="xc_more_menu">';
                                 actionBtns += '<button class="xc_action-btn xc_more_btn" onclick="f_toggle_more_menu(this)"><i class="fa fa-ellipsis-v"></i></button>';
                                 actionBtns += '<div class="xc_more_dropdown">';
-                                actionBtns += '<a class="xc_more_item" href="javascript:f_settings(\''+control["code"]+'\')"><i class="fa fa-cog"></i> 快捷设置</a>';
-                                actionBtns += '<a class="xc_more_item" href="javascript:f_edit(\''+control["code"]+'\')"><i class="fa fa-pencil"></i> 编辑</a>';
-                                actionBtns += '<a class="xc_more_item" href="javascript:f_copy(\''+control["code"]+'\')"><i class="fa fa-copy"></i> 复制</a>';
-                                actionBtns += '<a class="xc_more_item" href="javascript:f_openLog(\''+control["code"]+'\')"><i class="fa fa-file-text-o"></i> 日志</a>';
-                                actionBtns += '<a class="xc_more_item xc_menu_danger" href="javascript:f_openDel(\''+control["code"]+'\')"><i class="fa fa-trash"></i> 删除</a>';
+                                actionBtns += '<a class="xc_more_item" href="javascript:f_settings(\''+control["code"]+'\')"><i class="fa fa-cog"></i> ' + _t("control_quick_settings","快捷设置") + '</a>';
+                                actionBtns += '<a class="xc_more_item" href="javascript:f_edit(\''+control["code"]+'\')"><i class="fa fa-pencil"></i> ' + _t("camera_edit","编辑") + '</a>';
+                                actionBtns += '<a class="xc_more_item" href="javascript:f_copy(\''+control["code"]+'\')"><i class="fa fa-copy"></i> ' + _t("control_copy_action","复制") + '</a>';
+                                actionBtns += '<a class="xc_more_item" href="javascript:f_openLog(\''+control["code"]+'\')"><i class="fa fa-file-text-o"></i> ' + _t("control_log","日志") + '</a>';
+                                actionBtns += '<a class="xc_more_item xc_menu_danger" href="javascript:f_openDel(\''+control["code"]+'\')"><i class="fa fa-trash"></i> ' + _t("camera_delete","删除") + '</a>';
                                 actionBtns += '</div></div>';
                                 
                                 actionBtns += '</div>';
@@ -1745,13 +1745,13 @@
 
     function f_openHandle(handle,controlCode) {
         if(handle === "addAll"){
-            let ret = confirm("确认全部执行吗？");
+            let ret = confirm(_t("control_confirm_execute_all","确认全部执行吗？"));
             if (!ret) return false;
         }else if(handle === "cancelAll"){
-            let ret = confirm("确认全部取消吗？");
+            let ret = confirm(_t("control_confirm_cancel_all","确认全部取消吗？"));
             if (!ret) return false;
         }else if(handle === "deleteAll"){
-            let ret = confirm("确认全部删除吗？");
+            let ret = confirm(_t("control_confirm_delete_all","确认全部删除吗？"));
             if (!ret) return false;
         }
 
@@ -1765,7 +1765,7 @@
            timeout: 0,
            error: function () {
                 eleTopLoading.hide();
-                myToast2025("网络异常，请确定网络正常！","error");
+                myToast2025(_t("control_net_error","网络异常，请确定网络正常！"),"error");
            },
            success: function (res) {
                 eleTopLoading.hide();
@@ -1848,7 +1848,7 @@
         const iframe = document.getElementById('algorithmIframe');
         const modalTitle = document.getElementById('algorithmModalTitle');
         
-        modalTitle.textContent = '编辑布控算法';
+        modalTitle.textContent = _t("control_edit_algorithm", "编辑布控算法");
         iframe.src = '/controlAlgorithm/edit?code=' + encodeURIComponent(currentAlgorithmCode);
         modal.classList.add('active');
     }
@@ -1856,7 +1856,7 @@
     function f_delete_algorithm() {
         f_close_algorithm_menu();
         
-        if (confirm('确定要删除布控算法 "' + currentAlgorithmName + '" 吗？')) {
+        if (confirm(_t("control_algorithm_delete_confirm_prefix",'确定要删除布控算法 “') + currentAlgorithmName + _t("control_algorithm_delete_confirm_suffix",'” 吗？'))) {
             $.ajax({
                 url: '/controlAlgorithm/openDel',
                 type: 'POST',
@@ -1866,14 +1866,14 @@
                 dataType: 'json',
                 success: function(res) {
                     if (res.code === 1000) {
-                        myToast2025('删除成功', 'success');
+                        myToast2025(_t("control_delete_success",'删除成功'), 'success');
                         f_openIndex(curPage, curPageSize);
                     } else {
                         myToast2025(res.msg, 'error');
                     }
                 },
                 error: function() {
-                    myToast2025('网络异常，请稍后重试', 'error');
+                    myToast2025(_t("control_net_retry",'网络异常，请稍后重试'), 'error');
                 }
             });
         }
@@ -1884,11 +1884,11 @@
         currentControlCode = code || '';
         
         if(handle === 'add'){
-            eleModalTitle.text('添加布控');
+            eleModalTitle.text(_t("control_modal_add_title",'添加布控'));
         resetControlForm();
             loadAddParams();
         }else if(handle === 'edit'){
-            eleModalTitle.text('编辑布控');
+            eleModalTitle.text(_t("control_modal_edit_title",'编辑布控'));
             resetControlForm();
             loadEditParams(code);
         }
@@ -1946,7 +1946,7 @@
             dataType: 'json',
             timeout: 0,
             error: function() {
-                myToast2025("加载参数失败，请稍后重试","error");
+                myToast2025(_t("control_load_params_fail","加载参数失败，请稍后重试"),"error");
             },
             success: function(res) {
                 if(res.code === 1000){
@@ -1968,7 +1968,7 @@
                         }
                     }
                     
-                    let streamHtml = "<option value=\"0\">请选择视频流</option>";
+                    let streamHtml = "<option value=\"0\">" + _t("dashboard_select_stream","请选择视频流") + "</option>";
                     if(context.streams && context.streams.length > 0){
                         for(let i = 0; i < context.streams.length; i++){
                             let stream = context.streams[i];
@@ -1991,7 +1991,7 @@
                     }
                     eleSelectStream.html(streamHtml);
                     
-                    let audioHtml = "<option value=\"0\">请选择报警音频</option>";
+                    let audioHtml = "<option value=\"0\">" + _t("control_select_alarm_audio","请选择报警音频") + "</option>";
                     if(context.audios && context.audios.length > 0){
                         for(let i = 0; i < context.audios.length; i++){
                             let audio = context.audios[i];
@@ -2004,7 +2004,7 @@
                     }
                     eleSelectAudio.html(audioHtml);
                     
-                    let alarmHtml = "<option value=\"0\">请选择报警接口</option>";
+                    let alarmHtml = "<option value=\"0\">" + _t("control_select_alarm_interface","请选择报警接口") + "</option>";
                     if(context.alarmInterfaces && context.alarmInterfaces.length > 0){
                         for(let i = 0; i < context.alarmInterfaces.length; i++){
                             let alarm = context.alarmInterfaces[i];
@@ -2032,7 +2032,7 @@
             dataType: 'json',
             timeout: 0,
             error: function() {
-                myToast2025("加载参数失败，请稍后重试","error");
+                myToast2025(_t("control_load_params_fail","加载参数失败，请稍后重试"),"error");
             },
             success: function(res) {
                 if(res.code === 1000){
@@ -2042,7 +2042,7 @@
                     
                     eleInputCode.val(control.code);
                     
-                    let streamHtml = "<option value=\"0\">请选择视频流</option>";
+                    let streamHtml = "<option value=\"0\">" + _t("dashboard_select_stream","请选择视频流") + "</option>";
                     if(control_stream){
                         streamCodeDict[control_stream.code] = {
                             'code':control_stream.code,
@@ -2065,7 +2065,7 @@
                     eleSelectStream.val(control_stream.code);
                     eleSelectStream.prop('disabled', true);
                     
-                    let audioHtml = "<option value=\"0\">请选择报警音频</option>";
+                    let audioHtml = "<option value=\"0\">" + _t("control_select_alarm_audio","请选择报警音频") + "</option>";
                     if(context.audios && context.audios.length > 0){
                         for(let i = 0; i < context.audios.length; i++){
                             let audio = context.audios[i];
@@ -2078,7 +2078,7 @@
                     }
                     eleSelectAudio.html(audioHtml);
                     
-                    let alarmHtml = "<option value=\"0\">请选择报警接口</option>";
+                    let alarmHtml = "<option value=\"0\">" + _t("control_select_alarm_interface","请选择报警接口") + "</option>";
                     if(context.alarmInterfaces && context.alarmInterfaces.length > 0){
                         for(let i = 0; i < context.alarmInterfaces.length; i++){
                             let alarm = context.alarmInterfaces[i];
@@ -2103,11 +2103,11 @@
                     let updateTimeStr = formatDateTime(control.last_update_time);
                     let timeInfoHtml = '';
                     if(createTimeStr){
-                        timeInfoHtml += '添加时间: ' + createTimeStr;
+                        timeInfoHtml += _t("control_add_time", '添加时间') + ': ' + createTimeStr;
                     }
                     if(updateTimeStr){
                         if(timeInfoHtml) timeInfoHtml += '　';
-                        timeInfoHtml += '更新时间: ' + updateTimeStr;
+                        timeInfoHtml += _t("control_update_time", '更新时间') + ': ' + updateTimeStr;
                     }
                     eleControlTimeInfo.text(timeInfoHtml);
                     
@@ -2171,8 +2171,8 @@
             videoBufferDelay: Number(3),
             decoder: '/static/lib/easyPlayer/js/decoder-pro.js',
             isResize: true,
-            text: "布控预览",
-            loadingText: "加载中",
+            text: _t("control_preview_text", "布控预览"),
+            loadingText: _t("common_loading", "加载中..."),
             debug: false,
             debugLevel: "debug",
             useMSE: true,
@@ -2195,7 +2195,7 @@
             },
             background: "/static/images/player_poster.jpg",
             timeout: 10,
-            qualityConfig: ['普清', '高清', '超清'],
+            qualityConfig: [_t("player_quality_low", "普清"), _t("player_quality_medium", "高清"), _t("player_quality_high", "超清")],
             forceNoOffscreen: true,
             isNotMute: false,
             heartTimeout: Number(7),
@@ -2215,7 +2215,7 @@
     
     function f_playStart(video_url){
         if(video_url === "" || typeof video_url === "undefined"){
-            myToast2025("请输入播放地址（支持ws-fmp4/http-fmp4）！","error");
+            myToast2025(_t("player_input_required","请输入播放地址（支持ws-fmp4/http-fmp4）！"),"error");
             return false;
         }
         if(video_url.startsWith("ws://") || video_url.startsWith("http://")){
@@ -2229,7 +2229,7 @@
                 ePlayer.play(video_url);
             }
         }else{
-             myToast2025("视频流地址格式不正确！","error");
+             myToast2025(_t("player_url_invalid","视频流地址格式不正确！"),"error");
              return false;
         }
     }
@@ -2254,44 +2254,44 @@
     function submitControlForm() {
         streamCode = eleSelectStream.val().trim();
         if(streamCode==="0"){
-            myToast2025("请选择视频流","error");
+            myToast2025(_t("dashboard_select_stream","请选择视频流"),"error");
             return;
         }
 
         audioCode = eleSelectAudio.val().trim();
         if(audioCode==="0"){
-            myToast2025("请选择音频","error");
+            myToast2025(_t("control_select_audio","请选择音频"),"error");
             return;
         }
 
         alarmInterfaceCode = eleSelectAlarmInterface.val().trim();
         if(alarmInterfaceCode==="0"){
-            myToast2025("请选择报警接口","error");
+            myToast2025(_t("control_select_alarm_interface","请选择报警接口"),"error");
             return;
         }
 
         let minInterval = parseInt(eleInputMinInterval.val());
         if(isNaN(minInterval)){
-            myToast2025("报警间隔时间不能为空","error");
+            myToast2025(_t("control_interval_required","报警间隔时间不能为空"),"error");
             return;
         }
         if(minInterval<0){
-            myToast2025("报警间隔时间不能小于0秒","error");
+            myToast2025(_t("control_interval_min","报警间隔时间不能小于0秒"),"error");
             return;
         }
 
         let overlapThresh = parseFloat(eleInputOverlapThresh.val());
         if(isNaN(overlapThresh)){
-            myToast2025("重叠阈值不能为空","error");
+            myToast2025(_t("control_overlap_required","重叠阈值不能为空"),"error");
             return;
         }
 
         if(overlapThresh<=0){
-            myToast2025("重叠阈值不能小于等于0","error");
+            myToast2025(_t("control_overlap_min","重叠阈值不能小于等于0"),"error");
             return;
         }
         if(overlapThresh>1){
-            myToast2025("重叠阈值不能大于1","error");
+            myToast2025(_t("control_overlap_max","重叠阈值不能大于1"),"error");
             return;
         }
 
@@ -2335,7 +2335,7 @@
         }
 
         eleSubmitLoading.show();
-        eleSubmitText.text('提交中...');
+        eleSubmitText.text(_t("control_submit_ing",'提交中...'));
 
         $.ajax({
            url: handleUrl,
@@ -2346,12 +2346,12 @@
            timeout: 0,
            error: function () {
                 eleSubmitLoading.hide();
-                eleSubmitText.text('提交');
-                myToast2025("网络异常，请确定网络正常！","error");
+                eleSubmitText.text(_t("camera_submit",'提交'));
+                myToast2025(_t("control_net_error","网络异常，请确定网络正常！"),"error");
            },
            success: function (res) {
                 eleSubmitLoading.hide();
-                eleSubmitText.text('提交');
+                eleSubmitText.text(_t("camera_submit",'提交'));
 
                 if(1000 === res.code){
                     myToast2025(res.msg,"success");
@@ -2371,7 +2371,7 @@
         const iframe = document.getElementById('algorithmIframe');
         const modalTitle = document.getElementById('algorithmModalTitle');
         
-        modalTitle.textContent = '添加布控算法';
+        modalTitle.textContent = _t("control_add_algorithm_title", "添加布控算法");
         iframe.src = '/controlAlgorithm/add?controlCode=' + encodeURIComponent(controlCode);
         modal.classList.add('active');
     }
@@ -2387,15 +2387,15 @@
 </script>
 
 <div id="algorithmMenu">
-    <div class="xc_menu_item" onclick="f_view_algorithm()"><i class="fa fa-eye"></i> 查看业务算法</div>
-    <div class="xc_menu_item" onclick="f_edit_algorithm()"><i class="fa fa-pencil"></i> 编辑布控算法</div>
-    <div class="xc_menu_item xc_menu_danger" onclick="f_delete_algorithm()"><i class="fa fa-trash"></i> 删除布控算法</div>
+    <div class="xc_menu_item" onclick="f_view_algorithm()"><i class="fa fa-eye"></i> {{ T.control_view_algorithm|default:'查看业务算法' }}</div>
+    <div class="xc_menu_item" onclick="f_edit_algorithm()"><i class="fa fa-pencil"></i> {{ T.control_edit_algorithm|default:'编辑布控算法' }}</div>
+    <div class="xc_menu_item xc_menu_danger" onclick="f_delete_algorithm()"><i class="fa fa-trash"></i> {{ T.control_delete_algorithm|default:'删除布控算法' }}</div>
 </div>
 
 <div class="xc_modal-overlay" id="algorithmModal">
     <div class="xc_modal-container" style="max-width: 900px; max-height: 90vh;">
         <div class="xc_modal-header">
-            <div class="xc_modal-title" id="algorithmModalTitle">添加布控算法</div>
+            <div class="xc_modal-title" id="algorithmModalTitle">{{ T.control_add_algorithm_title|default:'添加布控算法' }}</div>
             <button class="xc_modal-close" onclick="closeAlgorithmModal()">×</button>
         </div>
         <div class="xc_modal-body" style="padding: 0; overflow: hidden; flex: 1;">

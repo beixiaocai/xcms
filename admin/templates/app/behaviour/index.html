@@ -1,5 +1,5 @@
 {% extends "app/base_site.html" %}
-{% block title %} 行为算法管理 {% endblock title %}
+{% block title %} {{ T.behaviour_title|default:'行为算法管理' }} {% endblock title %}
 {% block stylesheets %}
   {{ block.super }}
 <style>
@@ -591,29 +591,29 @@
                         <div class="xc_page-header">
                             <div class="xc_page-title">
                                 <i class="fa fa-code-fork"></i>
-                                行为算法管理
+                                {{ T.behaviour_title|default:'行为算法管理' }}
                             </div>
                             <div class="xc_search-box">
-                                <input type="text" id="searchInput" class="xc_search-input" placeholder="输入算法名称或编号" value="{{ search_key }}">
+                                <input type="text" id="searchInput" class="xc_search-input" placeholder="{{ T.behaviour_search_placeholder|default:'输入算法名称或编号' }}" value="{{ search_key }}">
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="doSearch()">
-                                    <i class="fa fa-search"></i> 搜索
+                                    <i class="fa fa-search"></i> {{ T.camera_search|default:'搜索' }}
                                 </button>
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="resetSearch()" {% if not search_key %}style="display:none;"{% endif %} id="resetBtn">
-                                    <i class="fa fa-times"></i> 重置
+                                    <i class="fa fa-times"></i> {{ T.ulog_reset|default:'重置' }}
                                 </button>
                             </div>
                             <div class="xc_header-actions">
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="openAddModal()">
-                                    <i class="fa fa-plus"></i> 添加
+                                    <i class="fa fa-plus"></i> {{ T.camera_add|default:'添加' }}
                                 </button>
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="f_reload()">
-                                    <i class="fa fa-refresh"></i> 刷新
+                                    <i class="fa fa-refresh"></i> {{ T.camera_refresh|default:'刷新' }}
                                 </button>
                             </div>
                             <div>
                                 <span id="top_loading" style="display: none;">
                                     <span class="xc_loading-spinner"></span>
-                                    <span class="xc_loading-text">加载中...</span>
+                                    <span class="xc_loading-text">{{ T.common_loading|default:'加载中...' }}</span>
                                 </span>
                                 <span id="top_msg">{{top_msg}}</span>
                             </div>
@@ -624,12 +624,12 @@
                                 <thead class="xc_table-header">
                                     <tr>
                                         <th>ID</th>
-                                        <th>算法编号</th>
-                                        <th>算法名称</th>
-                                        <th>接入方式</th>
-                                        <th>接入参数</th>
-                                        <th>更新时间</th>
-                                        <th style="text-align: center;">操作</th>
+                                        <th>{{ T.behaviour_algorithm_code|default:'算法编号' }}</th>
+                                        <th>{{ T.behaviour_algorithm_name|default:'算法名称' }}</th>
+                                        <th>{{ T.behaviour_access_mode|default:'接入方式' }}</th>
+                                        <th>{{ T.behaviour_access_params|default:'接入参数' }}</th>
+                                        <th>{{ T.camera_update_time|default:'更新时间' }}</th>
+                                        <th style="text-align: center;">{{ T.camera_action|default:'操作' }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="xc_table-body">
@@ -658,10 +658,10 @@
                                         <td>
                                             <div class="xc_actions">
                                                 <button onclick="f_edit('{{ d.code }}')" class="xc_btn-icon">
-                                                    <i class="fa fa-edit"></i> 编辑
+                                                    <i class="fa fa-edit"></i> {{ T.camera_edit|default:'编辑' }}
                                                 </button>
                                                 <button onclick="f_del('{{ d.code }}')" class="xc_btn-icon delete">
-                                                    <i class="fa fa-trash"></i> 删除
+                                                    <i class="fa fa-trash"></i> {{ T.camera_delete|default:'删除' }}
                                                 </button>
                                             </div>
                                         </td>
@@ -673,14 +673,14 @@
                             {% if data|length == 0 %}
                             <div class="xc_empty-state">
                                 <i class="fa fa-code-fork"></i>
-                                <p>暂无行为算法数据</p>
+                                <p>{{ T.behaviour_no_data|default:'暂无行为算法数据' }}</p>
                             </div>
                             {% endif %}
                         </div>
                     </div>
 
                     <div class="xc_pagination">
-                        <span class="xc_page-info">共 {{ pageData.page_num }} 页 / {{ pageData.count }} 条</span>
+                        <span class="xc_page-info">{{ T.alarm_total|default:'共' }} {{ pageData.page_num }} {{ T.alarm_page_unit|default:'页' }} / {{ pageData.count }} {{ T.alarm_item_unit|default:'条' }}</span>
                         {%  for d  in pageData.pageLabels%}
                           {% if d.cur == 1 %}
                             <div class="xc_page-btn active">{{ d.name }}</div>
@@ -702,7 +702,7 @@
         <div class="xc_modal-header">
             <div class="xc_modal-title" id="modalTitle">
                 <i class="fa fa-plus-circle"></i>
-                添加行为算法
+                {{ T.behaviour_modal_add_title|default:'添加行为算法' }}
             </div>
             <button class="xc_modal-close" onclick="closeBehaviourModal()">×</button>
         </div>
@@ -712,45 +712,45 @@
                 <input type="hidden" id="form_code" value="">
                 
                 <div class="xc_form-group" id="code_group" style="display: none;">
-                    <label class="xc_form-label">算法编号</label>
+                    <label class="xc_form-label">{{ T.behaviour_algorithm_code|default:'算法编号' }}</label>
                     <input type="text" id="input_code_display" class="xc_form-input" disabled>
-                    <span class="xc_form-hint">系统自动生成，不可修改</span>
+                    <span class="xc_form-hint">{{ T.behaviour_code_auto|default:'系统自动生成，不可修改' }}</span>
                 </div>
                 
                 <div class="xc_form-group">
-                    <label class="xc_form-label">算法名称<span class="required">*</span></label>
-                    <input type="text" id="input_name" class="xc_form-input" placeholder="请输入算法名称">
+                    <label class="xc_form-label">{{ T.behaviour_algorithm_name|default:'算法名称' }}<span class="required">*</span></label>
+                    <input type="text" id="input_name" class="xc_form-input" placeholder="{{ T.behaviour_input_name|default:'请输入算法名称' }}">
                 </div>
                 
                 <div class="xc_form-group" id="way_code_group">
-                    <label class="xc_form-label">接入方式<span class="required">*</span></label>
+                    <label class="xc_form-label">{{ T.behaviour_access_mode|default:'接入方式' }}<span class="required">*</span></label>
                     <select id="input_way_code" class="xc_form-select">
-                        <option value="0">请选择接入方式</option>
+                        <option value="0">{{ T.behaviour_select_way|default:'请选择接入方式' }}</option>
                         <option value="SYSTEM">SYSTEM</option>
                         <option value="API">API</option>
                         <option value="APIv2">APIv2</option>
                         <option value="APIv3">APIv3</option>
                     </select>
-                    <span class="xc_form-hint" id="way_code_hint" style="display: none;">编辑模式下不可修改接入方式</span>
+                    <span class="xc_form-hint" id="way_code_hint" style="display: none;">{{ T.behaviour_way_edit_tip|default:'编辑模式下不可修改接入方式' }}</span>
                 </div>
                 
                 <div class="xc_form-group">
-                    <label class="xc_form-label">接入参数<span class="required">*</span></label>
-                    <textarea id="input_way_value" class="xc_form-textarea" rows="1" placeholder="请输入接入参数" style="min-height: 36px; height: 36px;"></textarea>
-                    <span class="xc_form-hint">根据接入方式填写相应的参数</span>
+                    <label class="xc_form-label">{{ T.behaviour_access_params|default:'接入参数' }}<span class="required">*</span></label>
+                    <textarea id="input_way_value" class="xc_form-textarea" rows="1" placeholder="{{ T.behaviour_input_way_value|default:'请输入接入参数' }}" style="min-height: 36px; height: 36px;"></textarea>
+                    <span class="xc_form-hint">{{ T.behaviour_way_hint|default:'根据接入方式填写相应的参数' }}</span>
                 </div>
                 
                 <div class="xc_form-group">
-                    <label class="xc_form-label">扩展参数</label>
-                    <textarea id="input_extend_params" class="xc_form-textarea" rows="3" placeholder="请输入扩展参数（可选）"></textarea>
+                    <label class="xc_form-label">{{ T.control_extend_params|default:'扩展参数' }}</label>
+                    <textarea id="input_extend_params" class="xc_form-textarea" rows="3" placeholder="{{ T.behaviour_input_extend|default:'请输入扩展参数（可选）' }}"></textarea>
                     <!--<span class="xc_form-hint">用于配置额外的扩展参数（可选）</span>-->
                 </div>
             </form>
         </div>
         <div class="xc_modal-footer">
-            <button class="xc_modal-btn" onclick="closeBehaviourModal()">取消</button>
+            <button class="xc_modal-btn" onclick="closeBehaviourModal()">{{ T.camera_cancel|default:'取消' }}</button>
             <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitBehaviourForm()">
-                <span id="submit_text">提交</span>
+                <span id="submit_text">{{ T.camera_submit|default:'提交' }}</span>
             </button>
         </div>
     </div>
@@ -806,7 +806,7 @@
         currentBehaviourCode = '';
         
         // 设置标题
-        $("#modalTitle").html('<i class="fa fa-plus-circle"></i> 添加行为算法');
+        $("#modalTitle").html('<i class="fa fa-plus-circle"></i> ' + _t("behaviour_modal_add_title",'添加行为算法'));
         $("#form_handle").val('add');
         $("#form_code").val('');
         
@@ -834,7 +834,7 @@
         currentBehaviourCode = code;
         
         // 设置标题
-        $("#modalTitle").html('<i class="fa fa-edit"></i> 编辑行为算法');
+        $("#modalTitle").html('<i class="fa fa-edit"></i> ' + _t("behaviour_modal_edit_title",'编辑行为算法'));
         $("#form_handle").val('edit');
         $("#form_code").val(code);
         
@@ -859,7 +859,7 @@
             timeout: 0,
             error: function () {
                 ele_top_loading.hide();
-                myToast2025("网络异常，请确定网络正常！", "error");
+                myToast2025(_t("version_net_error_toast","网络异常，请确定网络正常！"), "error");
                 closeBehaviourModal();
             },
             success: function (res) {
@@ -893,19 +893,19 @@
         
         // 验证
         if(name === "") {
-            myToast2025("请输入算法名称", "error");
+            myToast2025(_t("behaviour_input_name","请输入算法名称"), "error");
             $("#input_name").focus();
             return false;
         }
         
         if(way_code === "0" || way_code === "") {
-            myToast2025("请选择接入方式", "error");
+            myToast2025(_t("behaviour_select_way","请选择接入方式"), "error");
             $("#input_way_code").focus();
             return false;
         }
         
         if(way_value === "") {
-            myToast2025("请输入接入参数", "error");
+            myToast2025(_t("behaviour_input_way_value","请输入接入参数"), "error");
             $("#input_way_value").focus();
             return false;
         }
@@ -927,7 +927,7 @@
         }
         
         ele_top_loading.show();
-        $("#submit_text").text('提交中...');
+        $("#submit_text").text(_t("behaviour_submit_ing",'提交中...'));
         
         $.ajax({
             url: url,
@@ -938,12 +938,12 @@
             timeout: 0,
             error: function () {
                 ele_top_loading.hide();
-                $("#submit_text").text('提交');
-                myToast2025("网络异常，请确定网络正常！", "error");
+                $("#submit_text").text(_t("camera_submit",'提交'));
+                myToast2025(_t("version_net_error_toast","网络异常，请确定网络正常！"), "error");
             },
             success: function (res) {
                 ele_top_loading.hide();
-                $("#submit_text").text('提交');
+                $("#submit_text").text(_t("camera_submit",'提交'));
                 
                 if(1000 === res.code) {
                     myToast2025(res.msg, "success");
@@ -959,7 +959,7 @@
     }
 
     function f_del(code) {
-        if(!confirm('确认删除该行为算法吗？')) {
+        if(!confirm(_t("behaviour_confirm_delete",'确认删除该行为算法吗？'))) {
             return;
         }
         
@@ -973,12 +973,12 @@
             timeout: 0,
             error: function () {
                 ele_top_loading.hide();
-                myToast2025("网络异常，请确定网络正常！", "error");
+                myToast2025(_t("version_net_error_toast","网络异常，请确定网络正常！"), "error");
             },
             success: function (res) {
                 ele_top_loading.hide();
                 if(1000 === res.code) {
-                    myToast2025("删除成功", "success");
+                    myToast2025(_t("behaviour_delete_success","删除成功"), "success");
                     setTimeout(function() {
                         window.location.reload();
                     }, 800);

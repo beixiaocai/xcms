@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 
-{% block title %} 报警管理 {% endblock title %}
+{% block title %} {{ T.alarm_manage|default:'报警管理' }} {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
@@ -838,28 +838,28 @@
             <div class="xc_page-header">
                 <div class="xc_page-title">
                     <!--<i class="fa fa-exclamation-triangle"></i>-->
-                    报警管理
+                    {{ T.alarm_manage|default:'报警管理' }}
                 </div>
                 <div class="xc_header-actions">
                     <div class="xc_filter-item" style="margin: 0;">
                         <input type="checkbox" id="check_all" class="xc_checkbox-modern">
-                        <span class="xc_filter-label">全选</span>
+                        <span class="xc_filter-label">{{ T.alarm_check_all|default:'全选' }}</span>
                     </div>
                     <button class="xc_btn-modern xc_btn-secondary" onclick="f_handle('delete')">
-                        <i class="fa fa-trash-o"></i> 批量删除
+                        <i class="fa fa-trash-o"></i> {{ T.alarm_batch_delete|default:'批量删除' }}
                     </button>
                     <button class="xc_btn-modern xc_btn-secondary" onclick="f_openExport('labelme')">
-                        <i class="fa fa-download"></i> 批量导出
+                        <i class="fa fa-download"></i> {{ T.alarm_batch_export|default:'批量导出' }}
                     </button>
                     <button class="xc_btn-modern xc_btn-secondary" onclick="f_handle('deleteAll')">
-                        <i class="fa fa-remove"></i> 全部删除
+                        <i class="fa fa-remove"></i> {{ T.alarm_delete_all|default:'全部删除' }}
                     </button>
                 </div>
                 <div>
                     <span id="top_msg"></span>
                     <span id="top_loading" style="display: none;">
                         <span class="xc_loading-spinner"></span>
-                        <span class="xc_loading-text">加载中...</span>
+                        <span class="xc_loading-text">{{ T.common_loading|default:'加载中...' }}</span>
                     </span>
 
                 </div>
@@ -867,44 +867,44 @@
 
             <div class="xc_filter-bar">
                 <div class="xc_filter-item">
-                    <label class="xc_filter-label">状态:</label>
+                    <label class="xc_filter-label">{{ T.alarm_status|default:'状态:' }}</label>
                     <select id="select_state" class="xc_filter-select">
-                        <option value="-1">全部</option>
-                        <option value="0">未处理</option>
-                        <option value="1">报警</option>
-                        <option value="2">误报</option>
+                        <option value="-1">{{ T.alarm_all|default:'全部' }}</option>
+                        <option value="0">{{ T.alarm_unprocessed|default:'未处理' }}</option>
+                        <option value="1">{{ T.alarm_label|default:'报警' }}</option>
+                        <option value="2">{{ T.alarm_false_alarm|default:'误报' }}</option>
                     </select>
                 </div>
                 <div class="xc_filter-item">
-                    <label class="xc_filter-label">布控:</label>
+                    <label class="xc_filter-label">{{ T.alarm_control|default:'布控:' }}</label>
                     <select id="select_control" class="xc_filter-select">
-                        <option value="-1">全部</option>
+                        <option value="-1">{{ T.alarm_all|default:'全部' }}</option>
                         {% for control in controls %}
                         <option value="{{ control.code }}">{{ control.code }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="xc_filter-item">
-                    <label class="xc_filter-label">视频:</label>
+                    <label class="xc_filter-label">{{ T.alarm_video_label|default:'视频:' }}</label>
                     <select id="select_stream" class="xc_filter-select">
-                        <option value="-1">全部</option>
+                        <option value="-1">{{ T.alarm_all|default:'全部' }}</option>
                         {% for stream in streams %}
                         <option value="{{ stream.code }}">{{ stream.nickname }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="xc_filter-item">
-                    <label class="xc_filter-label">算法:</label>
+                    <label class="xc_filter-label">{{ T.alarm_algorithm|default:'算法:' }}</label>
                     <select id="select_flow" class="xc_filter-select">
-                        <option value="-1">全部</option>
+                        <option value="-1">{{ T.alarm_all|default:'全部' }}</option>
                         {% for flow in flows %}
                         <option value="{{ flow.code }}">{{ flow.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="xc_filter-item">
-                    <label class="xc_filter-label">日期:</label>
-                    <input type="text" id="input_dateRange" class="xc_date-input" value="{{ startDate }} 至 {{ endDate }}">
+                    <label class="xc_filter-label">{{ T.alarm_date|default:'日期:' }}</label>
+                    <input type="text" id="input_dateRange" class="xc_date-input" value="{{ startDate }} {{ T.alarm_to|default:'至' }} {{ endDate }}">
                 </div>
             </div>
 
@@ -924,15 +924,15 @@
 <div class="xc_modal-overlay" id="alarmDetailModal">
     <div class="xc_modal-container">
         <div class="xc_modal-header">
-            <div class="xc_modal-title">查看报警详情</div>
+            <div class="xc_modal-title">{{ T.alarm_detail_title|default:'查看报警详情' }}</div>
             <button class="xc_modal-close" onclick="closeAlarmModal()">×</button>
         </div>
         <div class="xc_modal-body" id="modalBody">
             <!-- 动态加载内容 -->
         </div>
         <div class="xc_modal-footer">
-            <button class="xc_modal-btn xc_modal-btn-cancel" onclick="closeAlarmModal()">取消</button>
-            <button class="xc_modal-btn xc_modal-btn-submit" onclick="submitModalReview()">提交</button>
+            <button class="xc_modal-btn xc_modal-btn-cancel" onclick="closeAlarmModal()">{{ T.alarm_cancel|default:'取消' }}</button>
+            <button class="xc_modal-btn xc_modal-btn-submit" onclick="submitModalReview()">{{ T.alarm_submit|default:'提交' }}</button>
         </div>
     </div>
 </div>
@@ -997,7 +997,7 @@
             timeout: 0,
             error: function () {
                 eleTopLoading.hide();
-                myToast2025("网络异常，请确定网络正常！", "error");
+                myToast2025(_t("online_net_error", "网络异常，请确定网络正常！"), "error");
             },
             success: function (res) {
                 eleTopLoading.hide();
@@ -1020,7 +1020,7 @@
     function f_openExport(export_format) {
         let alarm_ids_str = __f_get_alarm_ids_str();
         if(alarm_ids_str === "") {
-            myToast2025("请至少选择一条数据", "error");
+            myToast2025(_t("alarm_please_select_data", "请至少选择一条数据"), "error");
             return;
         }
         eleTopLoading.show();
@@ -1033,7 +1033,7 @@
             timeout: 0,
             error: function () {
                 eleTopLoading.hide();
-                myToast2025("网络异常，请确定网络正常！", "error");
+                myToast2025(_t("online_net_error", "网络异常，请确定网络正常！"), "error");
             },
             success: function (res) {
                 eleTopLoading.hide();
@@ -1053,14 +1053,14 @@
 
     function f_handle(handle_type) {
         if(handle_type === "deleteAll") {
-            let ret = confirm("确认全部删除吗？");
+            let ret = confirm(_t("alarm_confirm_delete_all", "确认全部删除吗？"));
             if (ret) {
                 f_openHandle(handle_type, "", true);
             }
         } else if(handle_type === "delete") {
             let alarm_ids_str = __f_get_alarm_ids_str();
             if(alarm_ids_str === "") {
-                myToast2025("请至少选择一条数据", "error");
+                myToast2025(_t("alarm_please_select_data", "请至少选择一条数据"), "error");
             } else {
                 f_openHandle(handle_type, alarm_ids_str, true);
             }
@@ -1070,7 +1070,7 @@
     function f_show_pageData(pageData) {
         let page_size = pageData["page_size"];
         let html = "";
-        html += "<div class=\"xc_page-info\">共 " + pageData["page_num"] + " 页 / " + pageData["count"] + " 条</div>";
+        html += "<div class=\"xc_page-info\">" + _t("alarm_total", "共") + " " + pageData["page_num"] + " " + _t("alarm_page_unit", "页") + " / " + pageData["count"] + " " + _t("alarm_item_unit", "条") + "</div>";
         let pageLabels = pageData["pageLabels"];
 
         for (let i = 0; i < pageLabels.length; i++) {
@@ -1109,7 +1109,7 @@
             timeout: 0,
             error: function () {
                 eleTopLoading.hide();
-                myToast2025("网络异常，请确定网络正常！", "error");
+                myToast2025(_t("online_net_error", "网络异常，请确定网络正常！"), "error");
             },
             success: function (res) {
                 eleTopLoading.hide();
@@ -1119,7 +1119,7 @@
                     let data_length = data.length;
 
                     if(0 === data_length) {
-                        eleData.html("<div class=\"xc_empty-state\"><i class=\"fa fa-inbox\"></i><p>暂无报警数据</p></div>");
+                        eleData.html("<div class=\"xc_empty-state\"><i class=\"fa fa-inbox\"></i><p>" + _t("alarm_no_data", "暂无报警数据") + "</p></div>");
                     } else {
                         let html = "";
                         for (let i = 0; i < data_length; i++) {
@@ -1133,13 +1133,13 @@
                             let state = d["state"];
                             let state_str;
                             if(state === 0) {
-                                state_str = "<span class=\"xc_status-badge xc_status-unread\">未处理</span>";
+                                state_str = "<span class=\"xc_status-badge xc_status-unread\">" + _t("alarm_unprocessed", "未处理") + "</span>";
                             } else if(state === 1) {
-                                state_str = "<span class=\"xc_status-badge xc_status-alarm\">报警</span>";
+                                state_str = "<span class=\"xc_status-badge xc_status-alarm\">" + _t("alarm_label", "报警") + "</span>";
                             } else if(state === 2) {
-                                state_str = "<span class=\"xc_status-badge xc_status-false\">误报</span>";
+                                state_str = "<span class=\"xc_status-badge xc_status-false\">" + _t("alarm_false_alarm", "误报") + "</span>";
                             } else {
-                                state_str = "<span class=\"xc_status-badge\">未知</span>";
+                                state_str = "<span class=\"xc_status-badge\">" + _t("alarm_unknown", "未知") + "</span>";
                             }
 
                             html += "<div class=\"xc_video-card\">";
@@ -1192,7 +1192,7 @@
     });
 
     eleInputDateRange.dateRangePicker({
-        language: 'cn',
+        language: '{{ T_SELECTED_LANG|default:"cn" }}' === 'en' ? 'en' : 'cn',
     }).bind('datepicker-apply', function(event, obj) {
         f_openIndex(1, temp_cur_page_size);
     });
@@ -1245,7 +1245,7 @@
                 }
             },
             error: function() {
-                myToast2025('加载失败，请稍后重试', 'error');
+                myToast2025(_t('alarm_load_fail', '加载失败，请稍后重试'), 'error');
                 closeAlarmModal();
             }
         });
@@ -1260,20 +1260,20 @@
         // 视频
         if(alarm.video_count > 0) {
             html += '<div class="xc_modal-video-container">';
-            html += '<div class="xc_modal-section-title"><i class="fa fa-video-camera"></i> 报警视频（' + alarm.video_count + '）</div>';
+            html += '<div class="xc_modal-section-title"><i class="fa fa-video-camera"></i> ' + _t("alarm_video", "报警视频") + '（' + alarm.video_count + '）</div>';
             html += '<video controls muted loop preload="none" class="xc_modal-video-player" poster="' + alarm.imageUrl + '" src="' + alarm.videoUrl + '"></video>';
             html += '</div>';
         }
         
         // 图片
-        html += '<div class="xc_modal-section-title"><i class="fa fa-image"></i> 报警图片（' + alarm.image_count + '）</div>';
+        html += '<div class="xc_modal-section-title"><i class="fa fa-image"></i> ' + _t("alarm_image", "报警图片") + '（' + alarm.image_count + '）</div>';
         html += '<div class="xc_modal-image-grid">';
         for(let i = 0; i < alarm.imageUrlArray.length; i++) {
             let imageUrl = alarm.imageUrlArray[i];
             html += '<div class="xc_modal-image-item">';
             html += '<img class="xc_modal-image-thumb" src="' + imageUrl + '" onclick="viewImage(\'' + imageUrl + '\')">';
             html += '<div class="xc_modal-image-info">';
-            html += '<span class="xc_modal-image-label">第' + (i+1) + '张</span>';
+            html += '<span class="xc_modal-image-label">' + _t("alarm_image_num", "第") + (i+1) + _t("alarm_image_num_suffix", "张") + '</span>';
             html += '<a class="xc_modal-image-download" href="' + imageUrl + '" target="_blank" download><i class="fa fa-download"></i></a>';
             html += '</div></div>';
         }
@@ -1284,35 +1284,35 @@
         
         // 基本信息
         html += '<div class="xc_modal-info-card">';
-        html += '<div class="xc_modal-section-title">基本信息</div>';
-        html += '<div class="xc_modal-info-item"><div class="xc_modal-info-label">报警ID</div><div class="xc_modal-info-value">' + alarm.id + '</div></div>';
-        html += '<div class="xc_modal-info-item"><div class="xc_modal-info-label">报警编号</div><div class="xc_modal-info-value">' + alarm.code + '</div></div>';
-        html += '<div class="xc_modal-info-item"><div class="xc_modal-info-label">报警时间</div><div class="xc_modal-info-value">' + alarm.create_time + '</div></div>';
+        html += '<div class="xc_modal-section-title">' + _t("alarm_basic_info", "基本信息") + '</div>';
+        html += '<div class="xc_modal-info-item"><div class="xc_modal-info-label">' + _t("alarm_id", "报警ID") + '</div><div class="xc_modal-info-value">' + alarm.id + '</div></div>';
+        html += '<div class="xc_modal-info-item"><div class="xc_modal-info-label">' + _t("alarm_code", "报警编号") + '</div><div class="xc_modal-info-value">' + alarm.code + '</div></div>';
+        html += '<div class="xc_modal-info-item"><div class="xc_modal-info-label">' + _t("alarm_time", "报警时间") + '</div><div class="xc_modal-info-value">' + alarm.create_time + '</div></div>';
         html += '</div>';
         
         // 关联信息
         html += '<div class="xc_modal-info-card">';
-        html += '<div class="xc_modal-section-title">关联信息</div>';
-        html += '<div class="xc_modal-info-item"><div class="xc_modal-info-label">关联视频</div><div class="xc_modal-info-value"><a href="/stream/index?code=' + alarm.stream_code + '" target="_blank">前往查看</a></div></div>';
-        html += '<div class="xc_modal-info-item"><div class="xc_modal-info-label">关联布控</div><div class="xc_modal-info-value"><a href="/control/index?code=' + alarm.control_code + '" target="_blank">前往查看</a></div></div>';
-        html += '<div class="xc_modal-info-item"><div class="xc_modal-info-label">关联算法</div><div class="xc_modal-info-value"><a href="/algorithmFlow/index?search=' + alarm.flow_code + '" target="_blank">' + alarm.flow_name + '</a></div></div>';
+        html += '<div class="xc_modal-section-title">' + _t("alarm_related_info", "关联信息") + '</div>';
+        html += '<div class="xc_modal-info-item"><div class="xc_modal-info-label">' + _t("alarm_related_video", "关联视频") + '</div><div class="xc_modal-info-value"><a href="/stream/index?code=' + alarm.stream_code + '" target="_blank">' + _t("alarm_go_to_view", "前往查看") + '</a></div></div>';
+        html += '<div class="xc_modal-info-item"><div class="xc_modal-info-label">' + _t("alarm_related_control", "关联布控") + '</div><div class="xc_modal-info-value"><a href="/control/index?code=' + alarm.control_code + '" target="_blank">' + _t("alarm_go_to_view", "前往查看") + '</a></div></div>';
+        html += '<div class="xc_modal-info-item"><div class="xc_modal-info-label">' + _t("alarm_related_algorithm", "关联算法") + '</div><div class="xc_modal-info-value"><a href="/algorithmFlow/index?search=' + alarm.flow_code + '" target="_blank">' + alarm.flow_name + '</a></div></div>';
         html += '</div>';
         
         // 审核操作
         html += '<div class="xc_modal-review-section">';
-        html += '<div class="xc_modal-section-title">审核操作</div>';
+        html += '<div class="xc_modal-section-title">' + _t("alarm_review_action", "审核操作") + '</div>';
         html += '<div class="xc_modal-radio-group">';
         html += '<div class="xc_modal-radio-item">';
         html += '<input type="radio" ' + (alarm.state === 0 ? 'checked' : '') + ' value="0" name="modal_state" id="modal_state_0">';
-        html += '<label for="modal_state_0">未处理</label></div>';
+        html += '<label for="modal_state_0">' + _t("alarm_unprocessed", "未处理") + '</label></div>';
         html += '<div class="xc_modal-radio-item">';
         html += '<input type="radio" ' + (alarm.state === 1 ? 'checked' : '') + ' value="1" name="modal_state" id="modal_state_1">';
-        html += '<label for="modal_state_1">审核确认为正常报警</label></div>';
+        html += '<label for="modal_state_1">' + _t("alarm_confirm_normal", "审核确认为正常报警") + '</label></div>';
         html += '<div class="xc_modal-radio-item">';
         html += '<input type="radio" ' + (alarm.state === 2 ? 'checked' : '') + ' value="2" name="modal_state" id="modal_state_2">';
-        html += '<label for="modal_state_2">审核确认为误报</label></div>';
+        html += '<label for="modal_state_2">' + _t("alarm_confirm_false", "审核确认为误报") + '</label></div>';
         html += '</div>';
-        html += '<textarea name="modal_review_remark" placeholder="请输入审核备注" class="xc_modal-form-input" rows="2">' + (alarm.review_remark || '') + '</textarea>';
+        html += '<textarea name="modal_review_remark" placeholder="' + _t("alarm_input_review_remark", "请输入审核备注") + '" class="xc_modal-form-input" rows="2">' + (alarm.review_remark || '') + '</textarea>';
         html += '</div>';
         
         html += '</div></div>';
@@ -1347,7 +1347,7 @@
                 }
             },
             error: function() {
-                myToast2025('网络异常，请确定网络正常！', 'error');
+                myToast2025(_t("online_net_error", "网络异常，请确定网络正常！"), "error");
             }
         });
     }

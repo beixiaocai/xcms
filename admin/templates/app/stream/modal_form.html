@@ -241,7 +241,7 @@
         <div class="xc_stream-modal-header">
             <div class="xc_stream-modal-title">
                 <i class="fa fa-video-camera"></i>
-                <span id="stream_modal_title">添加摄像头</span>
+                <span id="stream_modal_title">{{ T.streamform_add_title|default:'添加摄像头' }}</span>
             </div>
             <button class="xc_stream-modal-close" onclick="streamModal.close()">
                 <i class="fa fa-times"></i>
@@ -253,24 +253,24 @@
                 <!-- 基本信息 - 两列布局 -->
                 <div class="xc_stream-form-row">
                     <div class="xc_stream-form-group">
-                        <label class="xc_stream-form-label">编号<span class="required">*</span></label>
-                        <input type="text" id="stream_code" class="xc_stream-form-input" placeholder="请输入编号">
+                        <label class="xc_stream-form-label">{{ T.streamform_code|default:'编号' }}<span class="required">*</span></label>
+                        <input type="text" id="stream_code" class="xc_stream-form-input" placeholder="{{ T.streamform_code_placeholder|default:'请输入编号' }}">
                     </div>
                     <div class="xc_stream-form-group">
-                        <label class="xc_stream-form-label">分组编号<span class="required">*</span></label>
-                        <input type="text" id="stream_camera_device_id" class="xc_stream-form-input" placeholder="请输入分组编号">
+                        <label class="xc_stream-form-label">{{ T.streamform_group_code|default:'分组编号' }}<span class="required">*</span></label>
+                        <input type="text" id="stream_camera_device_id" class="xc_stream-form-input" placeholder="{{ T.streamform_group_code_placeholder|default:'请输入分组编号' }}">
                     </div>
                 </div>
                 
                 <div class="xc_stream-form-row">
                     <div class="xc_stream-form-group">
-                        <label class="xc_stream-form-label">名称<span class="required">*</span></label>
-                        <input type="text" id="stream_nickname" class="xc_stream-form-input" placeholder="请输入名称">
+                        <label class="xc_stream-form-label">{{ T.streamform_name|default:'名称' }}<span class="required">*</span></label>
+                        <input type="text" id="stream_nickname" class="xc_stream-form-input" placeholder="{{ T.streamform_name_placeholder|default:'请输入名称' }}">
                     </div>
                     <div class="xc_stream-form-group">
-                        <label class="xc_stream-form-label">接入协议<span class="required">*</span></label>
+                        <label class="xc_stream-form-label">{{ T.streamform_protocol|default:'接入协议' }}<span class="required">*</span></label>
                         <select id="stream_pull_type" class="xc_stream-form-select">
-                            <option value="0">请选择</option>
+                            <option value="0">{{ T.streamform_select|default:'请选择' }}</option>
                         </select>
                     </div>
                 </div>
@@ -279,71 +279,71 @@
                 <div class="xc_stream-onvif-section" id="onvif_section" style="display: none;">
                     <div class="xc_stream-onvif-title">
                         <i class="fa fa-search"></i>
-                        ONVIF设备探测
+                        {{ T.streamform_onvif_detect|default:'ONVIF设备探测' }}
                     </div>
                     <div class="xc_stream-form-row">
                         <div class="xc_stream-form-group">
-                            <label class="xc_stream-form-label">探测IP</label>
-                            <input type="text" id="stream_onvif_ip" class="xc_stream-form-input" placeholder="请输入IP地址">
+                            <label class="xc_stream-form-label">{{ T.streamform_detect_ip|default:'探测IP' }}</label>
+                            <input type="text" id="stream_onvif_ip" class="xc_stream-form-input" placeholder="{{ T.streamform_ip_placeholder|default:'请输入IP地址' }}">
                         </div>
                         <div class="xc_stream-form-group">
-                            <label class="xc_stream-form-label">用户名</label>
-                            <input type="text" id="stream_onvif_username" class="xc_stream-form-input" placeholder="请输入用户名">
+                            <label class="xc_stream-form-label">{{ T.streamform_username|default:'用户名' }}</label>
+                            <input type="text" id="stream_onvif_username" class="xc_stream-form-input" placeholder="{{ T.streamform_username_placeholder|default:'请输入用户名' }}">
                         </div>
                     </div>
                     <div class="xc_stream-form-row">
                         <div class="xc_stream-form-group">
-                            <label class="xc_stream-form-label">密码</label>
-                            <input type="password" id="stream_onvif_password" class="xc_stream-form-input" placeholder="请输入密码">
+                            <label class="xc_stream-form-label">{{ T.streamform_password|default:'密码' }}</label>
+                            <input type="password" id="stream_onvif_password" class="xc_stream-form-input" placeholder="{{ T.streamform_password_placeholder|default:'请输入密码' }}">
                         </div>
                         <div class="xc_stream-form-group" style="display: flex; align-items: flex-end;">
                             <button type="button" class="xc_stream-btn xc_stream-btn-default" style="width: 100%; height: 34px;" onclick="f_openCheckDevice()">
-                                <i class="fa fa-search"></i> 探测设备
+                                <i class="fa fa-search"></i> {{ T.streamform_detect_device|default:'探测设备' }}
                             </button>
                         </div>
                     </div>
                 </div>
                 
                 <div class="xc_stream-form-group">
-                    <label class="xc_stream-form-label">直播流地址<span class="required">*</span></label>
-                    <input type="text" id="stream_pull_url" class="xc_stream-form-input" placeholder="请输入直播流地址">
+                    <label class="xc_stream-form-label">{{ T.streamform_pull_url|default:'直播流地址' }}<span class="required">*</span></label>
+                    <input type="text" id="stream_pull_url" class="xc_stream-form-input" placeholder="{{ T.streamform_pull_url_placeholder|default:'请输入直播流地址' }}">
                 </div>
                 
                 <div class="xc_stream-form-row">
                     <div class="xc_stream-form-group">
-                        <label class="xc_stream-form-label">音频类型<span class="required">*</span></label>
+                        <label class="xc_stream-form-label">{{ T.streamform_audio_type|default:'音频类型' }}<span class="required">*</span></label>
                         <select id="stream_is_audio" class="xc_stream-form-select">
-                            <option value="0">请选择</option>
+                            <option value="0">{{ T.streamform_select|default:'请选择' }}</option>
                         </select>
                     </div>
                     <div class="xc_stream-form-group">
-                        <label class="xc_stream-form-label">直播流IP</label>
-                        <input type="text" id="stream_pull_ip" class="xc_stream-form-input" placeholder="请输入直播流IP">
+                        <label class="xc_stream-form-label">{{ T.streamform_pull_ip|default:'直播流IP' }}</label>
+                        <input type="text" id="stream_pull_ip" class="xc_stream-form-input" placeholder="{{ T.streamform_pull_ip_placeholder|default:'请输入直播流IP' }}">
                     </div>
                 </div>
                 
                 <div class="xc_stream-form-row">
                     <div class="xc_stream-form-group">
-                        <label class="xc_stream-form-label">摄像头名称</label>
-                        <input type="text" id="stream_camera_name" class="xc_stream-form-input" placeholder="请输入摄像头名称">
+                        <label class="xc_stream-form-label">{{ T.streamform_camera_name|default:'摄像头名称' }}</label>
+                        <input type="text" id="stream_camera_name" class="xc_stream-form-input" placeholder="{{ T.streamform_camera_name_placeholder|default:'请输入摄像头名称' }}">
                     </div>
                     <div class="xc_stream-form-group">
-                        <label class="xc_stream-form-label">摄像头厂商</label>
-                        <input type="text" id="stream_camera_manufacturer" class="xc_stream-form-input" placeholder="请输入摄像头厂商">
+                        <label class="xc_stream-form-label">{{ T.streamform_camera_vendor|default:'摄像头厂商' }}</label>
+                        <input type="text" id="stream_camera_manufacturer" class="xc_stream-form-input" placeholder="{{ T.streamform_camera_vendor_placeholder|default:'请输入摄像头厂商' }}">
                     </div>
                 </div>
                 
                 <div class="xc_stream-form-group">
-                    <label class="xc_stream-form-label">备注</label>
-                    <textarea id="stream_remark" class="xc_stream-form-textarea" placeholder="请输入备注信息"></textarea>
+                    <label class="xc_stream-form-label">{{ T.streamform_remark|default:'备注' }}</label>
+                    <textarea id="stream_remark" class="xc_stream-form-textarea" placeholder="{{ T.streamform_remark_placeholder|default:'请输入备注信息' }}"></textarea>
                 </div>
             </form>
         </div>
         
         <div class="xc_stream-modal-footer">
-            <button class="xc_stream-btn xc_stream-btn-default" onclick="streamModal.close()">取消</button>
+            <button class="xc_stream-btn xc_stream-btn-default" onclick="streamModal.close()">{{ T.streamform_cancel|default:'取消' }}</button>
             <button class="xc_stream-btn xc_stream-btn-primary" onclick="streamModal.submit()">
-                <i class="fa fa-check"></i> 提交
+                <i class="fa fa-check"></i> {{ T.streamform_submit|default:'提交' }}
             </button>
         </div>
     </div>

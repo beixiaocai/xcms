@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 
-{% block title %} 人脸管理 {% endblock title %}
+{% block title %} {{ T.face_title|default:'人脸管理' }} {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
@@ -824,33 +824,33 @@
                     <div class="xc_face-toolbar">
                         <div class="xc_page-title">
                             <i class="fa fa-user"></i>
-                            人脸管理
+                            {{ T.face_title|default:'人脸管理' }}
                         </div>
 
-                        <input type="text" id="search_text_input" class="xc_search-input" placeholder="输入姓名搜索">
+                        <input type="text" id="search_text_input" class="xc_search-input" placeholder="{{ T.face_search_placeholder|default:'输入姓名搜索' }}">
                         
                         <button class="xc_btn-modern xc_btn-secondary" onclick="doSearch()">
-                            <i class="fa fa-search"></i> 搜索
+                            <i class="fa fa-search"></i> {{ T.camera_search|default:'搜索' }}
                         </button>
 
                         <button class="xc_btn-modern xc_btn-secondary" onclick="openAddModal()">
-                            <i class="fa fa-plus"></i> 添加
+                            <i class="fa fa-plus"></i> {{ T.camera_add|default:'添加' }}
                         </button>
                          <button class="xc_btn-modern xc_btn-danger" onclick="deleteAllFaces()">
-                            <i class="fa fa-trash"></i> 全部删除
+                            <i class="fa fa-trash"></i> {{ T.face_delete_all|default:'全部删除' }}
                         </button>
 
                         <button class="xc_btn-modern xc_btn-secondary" id="update_facedb">
-                            <i class="fa fa-refresh"></i> 更新人脸库
+                            <i class="fa fa-refresh"></i> {{ T.face_update_db|default:'更新人脸库' }}
                         </button>
                         <button class="xc_btn-modern xc_btn-secondary" onclick="openFaceRecognizeModal()">
-                            测试
+                            {{ T.face_test|default:'测试' }}
                         </button>
 
                         <div>
                             <span id="top_loading" style="display: none;">
                                 <span class="xc_loading-spinner"></span>
-                                <span class="xc_loading-text">加载中...</span>
+                                <span class="xc_loading-text">{{ T.common_loading|default:'加载中...' }}</span>
                             </span>
                             <span id="top_msg">{{top_msg}}</span>
                         </div>
@@ -863,12 +863,12 @@
                                 <thead class="xc_table-header">
                                     <tr>
                                         <th style="width: 80px;">ID</th>
-                                        <th style="width: 180px;">编号</th>
-                                        <th style="width: 120px;">原图</th>
-                                        <th style="width: 120px;">头像</th>
-                                        <th style="width: 120px;">姓名</th>
-                                        <th style="width: 180px;">更新时间</th>
-                                        <th style="width: 150px;">操作</th>
+                                        <th style="width: 180px;">{{ T.camera_code|default:'编号' }}</th>
+                                        <th style="width: 120px;">{{ T.face_original|default:'原图' }}</th>
+                                        <th style="width: 120px;">{{ T.face_avatar|default:'头像' }}</th>
+                                        <th style="width: 120px;">{{ T.face_name|default:'姓名' }}</th>
+                                        <th style="width: 180px;">{{ T.camera_update_time|default:'更新时间' }}</th>
+                                        <th style="width: 150px;">{{ T.camera_action|default:'操作' }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="xc_table-body" id="face_data_body">
@@ -890,41 +890,41 @@
 <div class="xc_modal-overlay" id="faceModal">
     <div class="xc_modal-container">
         <div class="xc_modal-header">
-            <div class="xc_modal-title" id="modalTitle">添加人脸</div>
+            <div class="xc_modal-title" id="modalTitle">{{ T.face_modal_add_title|default:'添加人脸' }}</div>
             <button class="xc_modal-close" onclick="closeFaceModal()">×</button>
         </div>
         <div class="xc_modal-body">
             <div class="xc_form-group">
-                <label class="xc_form-label">编号</label>
+                <label class="xc_form-label">{{ T.camera_code|default:'编号' }}</label>
                 <input type="text" id="input_code" class="xc_form-input">
             </div>
 
             
             <div class="xc_form-group">
-                <label class="xc_form-label">分组名称<span class="required">*</span></label>
+                <label class="xc_form-label">{{ T.face_group_name|default:'分组名称' }}<span class="required">*</span></label>
                 <input type="text" id="input_group_name" class="xc_form-input" value="default">
             </div>
 
             <div class="xc_form-group">
-                <label class="xc_form-label">人脸算法<span class="required">*</span></label>
+                <label class="xc_form-label">{{ T.face_algorithm|default:'人脸算法' }}<span class="required">*</span></label>
                 <select id="input_flow_code" class="xc_form-input">
-                    <option value="">请选择人脸算法</option>
+                    <option value="">{{ T.face_select_algorithm|default:'请选择人脸算法' }}</option>
                 </select>
             </div>
             <div class="xc_form-group">
-                <label class="xc_form-label">名称<span class="required">*</span></label>
+                <label class="xc_form-label">{{ T.face_name|default:'名称' }}<span class="required">*</span></label>
                 <input type="text" id="input_name" class="xc_form-input">
             </div>
             
 
             <div class="xc_form-group">
-                <label class="xc_form-label">选择人员照片<span class="required">*</span></label>
+                <label class="xc_form-label">{{ T.face_select_photo|default:'选择人员照片' }}<span class="required">*</span></label>
                 <div class="xc_file-upload-wrapper">
                     <div class="xc_file-upload-btn">
                         <i class="fa fa-cloud-upload-alt"></i>
-                        <span>选择图片</span>
+                        <span>{{ T.face_select_image|default:'选择图片' }}</span>
                     </div>
-                    <span class="xc_file-name" id="file_name_display">未选择文件</span>
+                    <span class="xc_file-name" id="file_name_display">{{ T.face_no_file|default:'未选择文件' }}</span>
                     <input type="file" id="input_file" accept="image/png,image/jpeg,image/jpg">
                 </div>
             </div>
@@ -932,29 +932,29 @@
             <div class="xc_form-group" id="preview_section" style="display: none;">
                 <div class="xc_preview-images">
                     <div class="xc_preview-item">
-                        <div class="xc_preview-label">人员照片</div>
+                        <div class="xc_preview-label">{{ T.face_person_photo|default:'人员照片' }}</div>
                         <img id="preview_person" class="xc_preview-img" onclick="viewImage(this.src)">
                     </div>
                     <div class="xc_preview-item">
-                        <div class="xc_preview-label">人脸特征图</div>
+                        <div class="xc_preview-label">{{ T.face_feature_photo|default:'人脸特征图' }}</div>
                         <img id="preview_face" class="xc_preview-img" onclick="viewImage(this.src)">
                     </div>
                 </div>
             </div>
             <!--
             <div class="xc_form-group">
-                <label class="xc_form-label">备注</label>
+                <label class="xc_form-label">{{ T.audio_remark_label|default:'备注' }}</label>
                 <textarea id="input_remark" class="xc_form-textarea"></textarea>
             </div>
             -->
         </div>
         <div class="xc_modal-footer">
-            <button class="xc_modal-btn" onclick="closeFaceModal()">取消</button>
+            <button class="xc_modal-btn" onclick="closeFaceModal()">{{ T.camera_cancel|default:'取消' }}</button>
             <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitFaceForm()">
                 <span id="submit_loading" style="display: none;">
                     <span class="xc_loading-spinner"></span>
                 </span>
-                <span id="submit_text">提交</span>
+                <span id="submit_text">{{ T.camera_submit|default:'提交' }}</span>
             </button>
         </div>
     </div>
@@ -964,45 +964,45 @@
 <div class="xc_modal-overlay" id="faceRecognizeModal">
     <div class="xc_modal-container" style="max-width: 500px;">
         <div class="xc_modal-header">
-            <div class="xc_modal-title">测试识别</div>
+            <div class="xc_modal-title">{{ T.face_recognize_title|default:'测试识别' }}</div>
             <button class="xc_modal-close" onclick="closeFaceRecognizeModal()">×</button>
         </div>
         <div class="xc_modal-body">
             <div class="xc_form-group">
-                <label class="xc_form-label">分组名称<span class="required">*</span></label>
+                <label class="xc_form-label">{{ T.face_group_name|default:'分组名称' }}<span class="required">*</span></label>
                 <input type="text" id="recognize_group_name" class="xc_form-input" value="default">
             </div>
             <div class="xc_form-group">
-                <label class="xc_form-label">人脸识别算法<span class="required">*</span></label>
+                <label class="xc_form-label">{{ T.face_recognize_algorithm|default:'人脸识别算法' }}<span class="required">*</span></label>
                 <select id="recognize_flow_code" class="xc_form-input">
-                    <option value="">加载中...</option>
+                    <option value="">{{ T.common_loading|default:'加载中...' }}</option>
                 </select>
             </div>
             <div class="xc_form-group">
-                <label class="xc_form-label">选择人员照片<span class="required">*</span></label>
+                <label class="xc_form-label">{{ T.face_select_photo|default:'选择人员照片' }}<span class="required">*</span></label>
                 <div class="xc_file-upload-wrapper">
                     <div class="xc_file-upload-btn">
                         <i class="fa fa-cloud-upload-alt"></i>
-                        <span>选择图片</span>
+                        <span>{{ T.face_select_image|default:'选择图片' }}</span>
                     </div>
-                    <span class="xc_file-name" id="recognize_file_name">未选择文件</span>
+                    <span class="xc_file-name" id="recognize_file_name">{{ T.face_no_file|default:'未选择文件' }}</span>
                     <input type="file" id="recognize_file" accept="image/png,image/jpeg,image/jpg">
                 </div>
             </div>
             <div class="xc_form-group" id="recognize_result_section" style="display: none;">
-                <label class="xc_form-label">识别结果</label>
+                <label class="xc_form-label">{{ T.face_recognize_result|default:'识别结果' }}</label>
                 <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 6px; padding: 12px; font-size: 13px; color: #374151; max-height: 200px; overflow-y: auto;">
                     <pre id="recognize_result_text" style="margin: 0; white-space: pre-wrap; word-break: break-all;"></pre>
                 </div>
             </div>
         </div>
         <div class="xc_modal-footer">
-            <button class="xc_modal-btn" onclick="closeFaceRecognizeModal()">取消</button>
+            <button class="xc_modal-btn" onclick="closeFaceRecognizeModal()">{{ T.camera_cancel|default:'取消' }}</button>
             <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitFaceRecognize()">
                 <span id="recognize_loading" style="display: none;">
                     <span class="xc_loading-spinner"></span>
                 </span>
-                <span id="recognize_text">提交</span>
+                <span id="recognize_text">{{ T.camera_submit|default:'提交' }}</span>
             </button>
         </div>
     </div>
@@ -1060,7 +1060,7 @@
             timeout: 0,
             error: function() {
                 eleTopLoading.hide();
-                myToast2025("网络异常，请确定网络正常！", "error");
+                myToast2025(_t("version_net_error_toast","网络异常，请确定网络正常！"), "error");
             },
             success: function(res) {
                 eleTopLoading.hide();
@@ -1068,7 +1068,7 @@
                     let data = res.data;
                     
                     if(data.length === 0) {
-                        eleData.html("<tr><td colspan='7'><div class='xc_empty-state'><i class='fa fa-user-times'></i><p>暂无人脸数据</p></div></td></tr>");
+                        eleData.html("<tr><td colspan='7'><div class='xc_empty-state'><i class='fa fa-user-times'></i><p>" + _t("face_no_data","暂无人脸数据") + "</p></div></td></tr>");
                         f_show_pageData(res.pageData);
                     } else {
                         let html = "";
@@ -1083,21 +1083,21 @@
                             html += "<td>";
                             html += "<div class='xc_face-image-item'>";
                             html += "<div class='xc_face-image' onclick=\"viewImage('" + personImgUrl + "')\">";
-                            html += "<img src='" + personImgUrl + "' alt='原图'>";
+                            html += "<img src='" + personImgUrl + "' alt='" + _t("face_original","原图") + "'>";
                             html += "</div></div></td>";
                             html += "<td>";
                             html += "<div class='xc_face-image-item'>";
                             html += "<div class='xc_face-image' onclick=\"viewImage('" + faceImgUrl + "')\">";
-                            html += "<img src='" + faceImgUrl + "' alt='头像'>";
+                            html += "<img src='" + faceImgUrl + "' alt='" + _t("face_avatar","头像") + "'>";
                             html += "</div></div></td>";
                             html += "<td>" + d.name + "</td>";
                             html += "<td><span class='xc_time-text'>" + d.last_update_time + "</span></td>";
                             html += "<td>";
                             html += "<div class='xc_action-group'>";
-                            html += "<button onclick=\"openEditModal('" + d.code + "')\" class='xc_btn-action' title='编辑'>";
-                            html += "<i class='fa fa-edit'></i> 编辑</button>";
-                            html += "<button onclick=\"f_del('" + d.code + "')\" class='xc_btn-action delete' title='删除'>";
-                            html += "<i class='fa fa-trash'></i> 删除</button>";
+                            html += "<button onclick=\"openEditModal('" + d.code + "')\" class='xc_btn-action' title='" + _t("face_edit","编辑") + "'>";
+                            html += "<i class='fa fa-edit'></i> " + _t("face_edit","编辑") + "</button>";
+                            html += "<button onclick=\"f_del('" + d.code + "')\" class='xc_btn-action delete' title='" + _t("face_delete","删除") + "'>";
+                            html += "<i class='fa fa-trash'></i> " + _t("face_delete","删除") + "</button>";
                             html += "</div></td>";
                             html += "</tr>";
                         }
@@ -1114,7 +1114,7 @@
     function f_show_pageData(pageData) {
         let page_size = pageData["page_size"];
         let html = "";
-        html += "<span class='xc_page-info'>共 " + pageData["page_num"] + " 页 / " + pageData["count"] + " 条</span>";
+        html += "<span class='xc_page-info'>" + _t("alarm_total","共") + " " + pageData["page_num"] + " " + _t("alarm_page_unit","页") + " / " + pageData["count"] + " " + _t("alarm_item_unit","条") + "</span>";
         let pageLabels = pageData["pageLabels"];
         
         for (let i = 0; i < pageLabels.length; i++) {
@@ -1137,15 +1137,15 @@
         currentHandle = 'add';
         
         // 重置表单
-        $('#modalTitle').text('添加人脸');
-        $('#input_code').val('加载中...').prop('disabled', false);
+        $('#modalTitle').text(_t("face_modal_add_title",'添加人脸'));
+        $('#input_code').val(_t("common_loading",'加载中...')).prop('disabled', false);
         $('#input_group_name').val('default').prop('disabled', false);
         $('#input_name').val('');
         $('#input_file').val('');
-        $('#file_name_display').text('未选择文件').removeClass('has-file');
+        $('#file_name_display').text(_t("face_no_file",'未选择文件')).removeClass('has-file');
         //$('#input_remark').val('');
         $('#preview_section').hide();
-        $('#input_flow_code').html('<option value="">加载中...</option>');
+        $('#input_flow_code').html('<option value="">' + _t("common_loading",'加载中...') + '</option>');
         
         // 获取人脸算法列表
         $.ajax({
@@ -1160,24 +1160,24 @@
 
                     $('#input_code').val(currentFaceCode);
 
-                    let flowHtml = '<option value="">请选择算法</option>';
+                    let flowHtml = '<option value="">' + _t("face_select_algorithm_short",'请选择算法') + '</option>';
                     if(flows.length > 0){
                         for(let i = 0; i < flows.length; i++) {
                             let flow = flows[i];
                             flowHtml += '<option value="'+flow.code+'">'+flow.name+'</option>';
                         }
                     } else {
-                        flowHtml = '<option value="">暂无可用算法</option>';
+                        flowHtml = '<option value="">' + _t("face_no_algorithm",'暂无可用算法') + '</option>';
                     }
                     $('#input_flow_code').html(flowHtml);
                     
                     $('#faceModal').addClass('active');
                 } else {
-                    myToast2025(res.msg || '获取数据失败', 'error');
+                    myToast2025(res.msg || _t("face_get_data_fail",'获取数据失败'), 'error');
                 }
             },
             error: function() {
-                myToast2025('加载失败，请稍后重试', 'error');
+                myToast2025(_t("face_load_fail_retry",'加载失败，请稍后重试'), 'error');
             }
         });
     }
@@ -1186,7 +1186,7 @@
         currentHandle = 'edit';
         currentFaceCode = code;
         
-        $('#modalTitle').text('编辑人脸');
+        $('#modalTitle').text(_t("face_modal_edit_title",'编辑人脸'));
         
         // 加载编辑人脸的原数据
         eleTopLoading.show();
@@ -1208,10 +1208,10 @@
                     $('#input_name').val(face.name);
                     //$('#input_remark').val(face.remark || '');
                     $('#input_file').val('');
-                    $('#file_name_display').text('未选择文件').removeClass('has-file');
+                    $('#file_name_display').text(_t("face_no_file",'未选择文件')).removeClass('has-file');
                     
                     // 填充算法选择框
-                    let flowHtml = '<option value="">请选择算法</option>';
+                    let flowHtml = '<option value="">' + _t("face_select_algorithm_short",'请选择算法') + '</option>';
                     if(flows.length > 0){
                         for(let i = 0; i < flows.length; i++) {
                             let flow = flows[i];
@@ -1219,7 +1219,7 @@
                             flowHtml += '<option value="'+flow.code+'"'+selected+'>'+flow.name+'</option>';
                         }
                     } else {
-                        flowHtml = '<option value="">暂无可用算法</option>';
+                        flowHtml = '<option value="">' + _t("face_no_algorithm",'暂无可用算法') + '</option>';
                     }
                     $('#input_flow_code').html(flowHtml);
                     
@@ -1234,12 +1234,12 @@
                     
                     $('#faceModal').addClass('active');
                 } else {
-                    myToast2025(res.msg || '人脸不存在', 'error');
+                    myToast2025(res.msg || _t("face_not_exist",'人脸不存在'), 'error');
                 }
             },
             error: function() {
                 eleTopLoading.hide();
-                myToast2025('加载失败，请稍后重试', 'error');
+                myToast2025(_t("face_load_fail_retry",'加载失败，请稍后重试'), 'error');
             }
         });
     }
@@ -1274,7 +1274,7 @@
         if(fileName) {
             $('#file_name_display').text(fileName).addClass('has-file');
         } else {
-            $('#file_name_display').text('未选择文件').removeClass('has-file');
+            $('#file_name_display').text(_t("face_no_file",'未选择文件')).removeClass('has-file');
         }
     });
     
@@ -1287,15 +1287,15 @@
         //let remark = $('#input_remark').val().trim();
         
         if(code === '') {
-            myToast2025('请输入编号', 'error');
+            myToast2025(_t("face_input_code",'请输入编号'), 'error');
             return false;
         }
         if(flow_code === '') {
-            myToast2025('请选择人脸算法', 'error');
+            myToast2025(_t("face_select_flow",'请选择人脸算法'), 'error');
             return false;
         }
         if(name === '') {
-            myToast2025('请输入名称', 'error');
+            myToast2025(_t("face_input_name",'请输入名称'), 'error');
             return false;
         }
         
@@ -1315,25 +1315,25 @@
             let fs_size_m = parseInt(fs_size / 1024 / 1024);
             
             if(fs_size_m > 10) {
-                myToast2025('文件不能超过10M: ' + fs_size_m + 'M', 'error');
+                myToast2025(_t("face_file_limit",'文件不能超过10M: ') + fs_size_m + 'M', 'error');
                 return false;
             }
             formData.append('file', file);
         } else {
             if(currentHandle === 'add') {
-                myToast2025('请选择人员照片', 'error');
+                myToast2025(_t("face_select_person_photo",'请选择人员照片'), 'error');
                 return false;
             }
         }
         
         if(curIsPost) {
-            myToast2025('正在提交中，请勿重复提交！', 'error', 500);
+            myToast2025(_t("face_submitting",'正在提交中，请勿重复提交！'), 'error', 500);
             return false;
         }
         curIsPost = true;
         
         $('#submit_loading').show();
-        $('#submit_text').text('提交中...');
+        $('#submit_text').text(_t("face_submit_ing",'提交中...'));
         
         $.ajax({
             url: handleUrl,
@@ -1347,13 +1347,13 @@
             error: function() {
                 curIsPost = false;
                 $('#submit_loading').hide();
-                $('#submit_text').text('提交');
-                myToast2025('网络异常，请确定网络正常！', 'error');
+                $('#submit_text').text(_t("camera_submit",'提交'));
+                myToast2025(_t("version_net_error_toast",'网络异常，请确定网络正常！'), 'error');
             },
             success: function(res) {
                 curIsPost = false;
                 $('#submit_loading').hide();
-                $('#submit_text').text('提交');
+                $('#submit_text').text(_t("camera_submit",'提交'));
                 
                 if(1000 === res.code) {
                     myToast2025(res.msg, 'success', 1000);
@@ -1372,13 +1372,13 @@
     function openFaceRecognizeModal() {
         // 重置表单
         $('#recognize_group_name').val('default');
-        $('#recognize_flow_code').html('<option value="">加载中...</option>');
+        $('#recognize_flow_code').html('<option value="">' + _t("common_loading",'加载中...') + '</option>');
         $('#recognize_file').val('');
-        $('#recognize_file_name').text('未选择文件').removeClass('has-file');
+        $('#recognize_file_name').text(_t("face_no_file",'未选择文件')).removeClass('has-file');
         $('#recognize_result_section').hide();
         $('#recognize_result_text').text('');
         $('#recognize_loading').hide();
-        $('#recognize_text').text('提交');
+        $('#recognize_text').text(_t("camera_submit",'提交'));
         
         // 获取人脸识别算法列表
         $.ajax({
@@ -1388,22 +1388,22 @@
             success: function(res) {
                 if(res.code === 1000) {
                     let flows = res.data || [];
-                    let flowHtml = '<option value="">请选择算法</option>';
+                    let flowHtml = '<option value="">' + _t("face_select_algorithm_short",'请选择算法') + '</option>';
                     if(flows.length > 0){
                         for(let i = 0; i < flows.length; i++) {
                             let flow = flows[i];
                             flowHtml += '<option value="'+flow.code+'">'+flow.name+'</option>';
                         }
                     } else {
-                        flowHtml = '<option value="">暂无可用算法</option>';
+                        flowHtml = '<option value="">' + _t("face_no_algorithm",'暂无可用算法') + '</option>';
                     }
                     $('#recognize_flow_code').html(flowHtml);
                 } else {
-                    $('#recognize_flow_code').html('<option value="">获取算法列表失败</option>');
+                    $('#recognize_flow_code').html('<option value="">' + _t("face_algorithm_list_fail",'获取算法列表失败') + '</option>');
                 }
             },
             error: function() {
-                $('#recognize_flow_code').html('<option value="">网络异常</option>');
+                $('#recognize_flow_code').html('<option value="">' + _t("face_net_error_short",'网络异常') + '</option>');
             }
         });
         
@@ -1415,7 +1415,7 @@
     }
     
     function deleteAllFaces() {
-        if(!confirm('确定要删除所有人脸数据吗？此操作不可恢复！')) {
+        if(!confirm(_t("face_confirm_delete_all",'确定要删除所有人脸数据吗？此操作不可恢复！'))) {
             return;
         }
         
@@ -1428,14 +1428,14 @@
             dataType: 'json',
             success: function(res) {
                 if(res.code === 1000) {
-                    myToast2025('删除成功', 'success');
+                    myToast2025(_t("face_delete_success",'删除成功'), 'success');
                     f_openIndex(1, curPageSize);
                 } else {
-                    myToast2025(res.msg || '删除失败', 'error');
+                    myToast2025(res.msg || _t("face_delete_fail",'删除失败'), 'error');
                 }
             },
             error: function() {
-                myToast2025('网络异常，请稍后重试', 'error');
+                myToast2025(_t("face_net_retry",'网络异常，请稍后重试'), 'error');
             }
         });
     }
@@ -1446,15 +1446,15 @@
         let fileInput = document.getElementById('recognize_file');
         
         if(!groupName) {
-            myToast2025('请输入分组名称', 'error');
+            myToast2025(_t("face_input_group_name",'请输入分组名称'), 'error');
             return false;
         }
         if(!flowCode) {
-            myToast2025('请选择人脸识别算法', 'error');
+            myToast2025(_t("face_select_recognize_algorithm",'请选择人脸识别算法'), 'error');
             return false;
         }
         if(fileInput.files.length === 0) {
-            myToast2025('请选择图片', 'error');
+            myToast2025(_t("face_select_image_required",'请选择图片'), 'error');
             return false;
         }
         
@@ -1463,12 +1463,12 @@
         let fs_size_m = parseInt(fs_size / 1024 / 1024);
         
         if(fs_size_m > 10) {
-            myToast2025('文件不能超过10M: ' + fs_size_m + 'M', 'error');
+            myToast2025(_t("face_file_limit",'文件不能超过10M: ') + fs_size_m + 'M', 'error');
             return false;
         }
         
         $('#recognize_loading').show();
-        $('#recognize_text').text('识别中...');
+        $('#recognize_text').text(_t("face_recognizing",'识别中...'));
         
         let formData = new FormData();
         formData.append('group_name', groupName);
@@ -1486,12 +1486,12 @@
             timeout: 0,
             error: function() {
                 $('#recognize_loading').hide();
-                $('#recognize_text').text('提交');
-                myToast2025('网络异常，请稍后重试', 'error');
+                $('#recognize_text').text(_t("camera_submit",'提交'));
+                myToast2025(_t("face_net_retry",'网络异常，请稍后重试'), 'error');
             },
             success: function(res) {
                 $('#recognize_loading').hide();
-                $('#recognize_text').text('提交');
+                $('#recognize_text').text(_t("camera_submit",'提交'));
 
                 if(res.code === 1000) {
                     // 显示识别结果
@@ -1512,7 +1512,7 @@
         if(fileName) {
             $('#recognize_file_name').text(fileName).addClass('has-file');
         } else {
-            $('#recognize_file_name').text('未选择文件').removeClass('has-file');
+            $('#recognize_file_name').text(_t("face_no_file",'未选择文件')).removeClass('has-file');
         }
     });
     
@@ -1524,7 +1524,7 @@
     });
     
     function f_del(code){
-        if(!confirm('确定要删除这个人脸数据吗？')) {
+        if(!confirm(_t("face_confirm_delete",'确定要删除这个人脸数据吗？'))) {
             return;
         }
         
@@ -1538,7 +1538,7 @@
             timeout: 0,
             error: function () {
                 eleTopLoading.hide();
-                myToast2025("网络异常，请确定网络正常！","error");
+                myToast2025(_t("version_net_error_toast","网络异常，请确定网络正常！"),"error");
             },
             success: function (res) {
                 eleTopLoading.hide();
@@ -1562,13 +1562,13 @@
             timeout: 0,
             error: function () {
                 eleTopLoading.hide();
-                myToast2025("网络异常，请确定网络正常！","error");
+                myToast2025(_t("version_net_error_toast","网络异常，请确定网络正常！"),"error");
             },
             success: function (res) {
                 eleTopLoading.hide();
                 if(1000 === res.code){
                     let count = res.info["count"];
-                    eleBtnUpdateFaceDb.html('<i class="fa fa-refresh"></i> 更新人脸库('+count.toString()+')');
+                    eleBtnUpdateFaceDb.html('<i class="fa fa-refresh"></i> ' + _t("face_update_db",'更新人脸库') + '(' + count.toString() + ')');
                     myToast2025(res.msg,"success",1000);
                 }else{
                     myToast2025(res.msg,"error");
@@ -1597,7 +1597,7 @@
             success: function(res) {
                 if(res.code === 1000 && res.info) {
                     let count = res.info.count || 0;
-                    eleBtnUpdateFaceDb.html('<i class="fa fa-refresh"></i> 更新人脸库('+count.toString()+')');
+                    eleBtnUpdateFaceDb.html('<i class="fa fa-refresh"></i> ' + _t("face_update_db",'更新人脸库') + '(' + count.toString() + ')');
                 }
             }
         });

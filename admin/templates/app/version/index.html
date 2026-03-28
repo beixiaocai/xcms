@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 
-{% block title %} 关于系统 {% endblock title %}
+{% block title %} {{ T.version_title|default:'关于系统' }} {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
@@ -328,7 +328,7 @@
           <div class="modern-card">
             <div class="card-header">
               <!--<i class="fa fa-cube"></i>-->
-              <h3>关于系统</h3>
+              <h3>{{ T.version_about_system|default:'关于系统' }}</h3>
             </div>
             
             <div class="system-info-item">
@@ -336,7 +336,7 @@
                 <i class="fa fa-desktop"></i>
               </div>
               <div class="info-content">
-                <div class="info-label">应用名称</div>
+                <div class="info-label">{{ T.version_app_name|default:'应用名称' }}</div>
                 <div class="info-value">{{ settings.name }}</div>
               </div>
             </div>
@@ -346,7 +346,7 @@
                 <i class="fa fa-tag"></i>
               </div>
               <div class="info-content">
-                <div class="info-label">软件版本</div>
+                <div class="info-label">{{ T.version_software_version|default:'软件版本' }}</div>
                 <div class="info-value">v{{ project_version }}</div>
               </div>
             </div>
@@ -356,7 +356,7 @@
                 <i class="fa fa-bookmark"></i>
               </div>
               <div class="info-content">
-                <div class="info-label">软件标记</div>
+                <div class="info-label">{{ T.version_software_flag|default:'软件标记' }}</div>
                 <div class="info-value">{{ project_flag }}</div>
               </div>
             </div>
@@ -370,7 +370,7 @@
             {% endif %}
             
             <button onclick="f_openCheckVersion()" class="btn-check">
-              <i class="fa fa-refresh"></i> 检测新版本
+              <i class="fa fa-refresh"></i> {{ T.version_check_new|default:'检测新版本' }}
             </button>
           </div>
         </div>
@@ -380,13 +380,13 @@
           <div class="modern-card">
             <div class="card-header">
               <!--<i class="fa fa-list-alt"></i>-->
-              <h3>版本检测结果</h3>
+              <h3>{{ T.version_result|default:'版本检测结果' }}</h3>
             </div>
             
             <div class="version-result" id="versionResult">
               <div class="loading-state">
                 <div class="loading-spinner"></div>
-                <div class="loading-text">正在检测版本...</div>
+                <div class="loading-text">{{ T.version_checking|default:'正在检测版本...' }}</div>
               </div>
             </div>
           </div>
@@ -405,7 +405,7 @@
       eleResult.html(`
         <div class="loading-state">
           <div class="loading-spinner"></div>
-          <div class="loading-text">正在检测版本...</div>
+          <div class="loading-text">{{ T.version_checking|default:'正在检测版本...' }}</div>
         </div>
       `);
       
@@ -422,11 +422,11 @@
               <div class="no-update-icon">
                 <i class="fa fa-exclamation-circle"></i>
               </div>
-              <div class="no-update-title">网络异常</div>
-              <div class="no-update-desc">请检查网络连接后重试</div>
+              <div class="no-update-title">{{ T.version_net_error_title|default:'网络异常' }}</div>
+              <div class="no-update-desc">{{ T.version_net_error_desc|default:'请检查网络连接后重试' }}</div>
             </div>
           `);
-          myToast2025("网络异常，请确定网络正常！", "error");
+          myToast2025(_t("version_net_error_toast", "网络异常，请确定网络正常！"), "error");
         },
         success: function (res) {
           let info = res.info;
@@ -443,9 +443,9 @@
               <div class="version-item">
                 <div class="version-header">
                   <span class="version-badge">
-                    <i class="fa fa-rocket"></i> NEW
+                    <i class="fa fa-rocket"></i> {{ T.version_new_badge|default:'NEW' }}
                   </span>
-                  <span class="version-title">发现新版本 v${version}</span>
+                  <span class="version-title">{{ T.version_found_new|default:'发现新版本' }} v${version}</span>
                   <span class="version-date">
                     <i class="fa fa-clock-o"></i>${pubdate}
                   </span>
@@ -461,10 +461,10 @@
                 </ul>
                 <div class="version-actions">
                   <a href="${url}" target="_blank" class="btn-link btn-download">
-                    <i class="fa fa-download"></i> 下载新版本
+                    <i class="fa fa-download"></i> {{ T.version_download_new|default:'下载新版本' }}
                   </a>
                   <a href="${historyVersionUrl}" target="_blank" class="btn-link btn-history">
-                    <i class="fa fa-archive"></i> 历史版本
+                    <i class="fa fa-archive"></i> {{ T.version_history|default:'历史版本' }}
                   </a>
                 </div>
               </div>
@@ -485,7 +485,7 @@
             if (historyVersionUrl) {
               html += `
                 <a href="${historyVersionUrl}" target="_blank" class="btn-link btn-history">
-                  <i class="fa fa-archive"></i> 查看历史版本
+                  <i class="fa fa-archive"></i> {{ T.version_view_history|default:'查看历史版本' }}
                 </a>
               `;
             }

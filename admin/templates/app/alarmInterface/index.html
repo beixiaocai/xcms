@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 
-{% block title %} 报警存储管理 {% endblock title %}
+{% block title %} {{ T.alarm_interface_title|default:'报警存储管理' }} {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
@@ -622,20 +622,20 @@
                         <div class="xc_page-header">
                             <div class="xc_page-title">
                                 <!--<i class="fa fa-plug"></i>-->
-                                报警存储管理
+                                {{ T.alarm_interface_title|default:'报警存储管理' }}
                             </div>
                             <div class="xc_header-actions">
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="openAddModal()">
-                                    <i class="fa fa-plus"></i> 添加
+                                    <i class="fa fa-plus"></i> {{ T.alarm_interface_add|default:'添加' }}
                                 </button>
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="f_reload()">
-                                    <i class="fa fa-refresh"></i> 刷新
+                                    <i class="fa fa-refresh"></i> {{ T.alarm_interface_refresh|default:'刷新' }}
                                 </button>
                             </div>
                             <div>
                                 <span id="top_loading" style="display: none;">
                                     <span class="xc_loading-spinner"></span>
-                                    <span class="xc_loading-text">加载中...</span>
+                                    <span class="xc_loading-text">{{ T.common_loading|default:'加载中...' }}</span>
                                 </span>
                                 <span id="top_msg">{{top_msg}}</span>
                             </div>
@@ -645,13 +645,13 @@
                             <table class="xc_table">
                                 <thead class="xc_table-header">
                                     <tr>
-                                        <th>ID</th>
-                                        <th>编号</th>
-                                        <th>名称</th>
-                                        <th>保存本地</th>
-                                        <th>服务器类型</th>
-                                        <th>更新时间</th>
-                                        <th style="text-align: center;">操作</th>
+                                        <th>{{ T.alarm_interface_col_id|default:'ID' }}</th>
+                                        <th>{{ T.alarm_interface_col_code|default:'编号' }}</th>
+                                        <th>{{ T.alarm_interface_col_name|default:'名称' }}</th>
+                                        <th>{{ T.alarm_interface_col_save_local|default:'保存本地' }}</th>
+                                        <th>{{ T.alarm_interface_col_server_type|default:'服务器类型' }}</th>
+                                        <th>{{ T.alarm_interface_col_update_time|default:'更新时间' }}</th>
+                                        <th style="text-align: center;">{{ T.alarm_interface_col_action|default:'操作' }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="xc_table-body">
@@ -662,9 +662,9 @@
                                         <td><span class="xc_interface-name">{{ d.name }}</span></td>
                                         <td>
                                             {% if d.is_save_local == 1 %}
-                                                <span>是</span>
+                                                <span>{{ T.common_yes|default:'是' }}</span>
                                             {% else %}
-                                                <span>否</span>
+                                                <span>{{ T.common_no|default:'否' }}</span>
                                             {% endif %}
                                         </td>
                                         <td>
@@ -688,13 +688,13 @@
                                         <td>
                                             <div class="xc_actions">
                                                 <button onclick="openEditModal('{{ d.code }}')" class="xc_btn-icon">
-                                                    <i class="fa fa-edit"></i> 编辑
+                                                    <i class="fa fa-edit"></i> {{ T.alarm_interface_edit|default:'编辑' }}
                                                 </button>
                                                 <button onclick="f_del('{{ d.code }}')" class="xc_btn-icon delete">
-                                                    <i class="fa fa-trash"></i> 删除
+                                                    <i class="fa fa-trash"></i> {{ T.alarm_interface_delete|default:'删除' }}
                                                 </button>
                                                 <button onclick="f_test('{{ d.code }}')" class="xc_btn-icon test">
-                                                    <i class="fa fa-play"></i> 测试
+                                                    <i class="fa fa-play"></i> {{ T.alarm_interface_test|default:'测试' }}
                                                 </button>
                                             </div>
                                         </td>
@@ -706,7 +706,7 @@
                             {% if data|length == 0 %}
                             <div class="xc_empty-state">
                                 <i class="fa fa-plug"></i>
-                                <p>暂无报警存储配置</p>
+                                <p>{{ T.alarm_interface_no_data|default:'暂无报警存储配置' }}</p>
                             </div>
                             {% endif %}
                         </div>
@@ -733,36 +733,36 @@
 <div class="xc_modal-overlay" id="interfaceModal">
     <div class="xc_modal-container">
         <div class="xc_modal-header">
-            <div class="xc_modal-title" id="modalTitle">添加存储</div>
+            <div class="xc_modal-title" id="modalTitle">{{ T.alarm_interface_modal_add_title|default:'添加存储' }}</div>
             <button class="xc_modal-close" onclick="closeInterfaceModal()">×</button>
         </div>
         <div class="xc_modal-body">
             <div class="xc_form-group">
-                <label class="xc_form-label">编号</label>
+                <label class="xc_form-label">{{ T.alarm_interface_label_code|default:'编号' }}</label>
                 <input type="text" id="input_code" class="xc_form-input" disabled>
             </div>
             
             <div class="xc_form-group">
-                <label class="xc_form-label">名称<span class="required">*</span></label>
-                <input type="text" id="input_name" class="xc_form-input" placeholder="请输入名称">
+                <label class="xc_form-label">{{ T.alarm_interface_label_name|default:'名称' }}<span class="required">*</span></label>
+                <input type="text" id="input_name" class="xc_form-input" placeholder="{{ T.alarm_interface_input_name_ph|default:'请输入名称' }}">
             </div>
             
             <div class="xc_form-group">
-                <label class="xc_form-label">是否保存本地<span class="required">*</span></label>
+                <label class="xc_form-label">{{ T.alarm_interface_label_save_local|default:'是否保存本地' }}<span class="required">*</span></label>
                 <div class="xc_radio-group">
                     <label class="xc_radio-item">
                         <input type="radio" id="save_local_no" name="is_save_local" value="0">
-                        <label for="save_local_no">不保存本地</label>
+                        <label for="save_local_no">{{ T.alarm_interface_save_no|default:'不保存本地' }}</label>
                     </label>
                     <label class="xc_radio-item">
                         <input type="radio" id="save_local_yes" name="is_save_local" value="1" checked>
-                        <label for="save_local_yes">保存本地</label>
+                        <label for="save_local_yes">{{ T.alarm_interface_save_yes|default:'保存本地' }}</label>
                     </label>
                 </div>
             </div>
             
             <div class="xc_form-group">
-                <label class="xc_form-label">上传服务器类型<span class="required">*</span></label>
+                <label class="xc_form-label">{{ T.alarm_interface_server_type_label|default:'上传服务器类型' }}<span class="required">*</span></label>
                 <div class="xc_radio-group">
                     <label class="xc_radio-item">
                         <input type="radio" id="server_type_0" name="request_server_type" value="0" checked>
@@ -784,23 +784,23 @@
             </div>
             
             <div class="xc_form-group">
-                <label class="xc_form-label">上传服务器地址</label>
-                <input type="text" id="input_request_address" class="xc_form-input" placeholder="请输入服务器地址">
+                <label class="xc_form-label">{{ T.alarm_interface_server_addr|default:'上传服务器地址' }}</label>
+                <input type="text" id="input_request_address" class="xc_form-input" placeholder="{{ T.alarm_interface_input_addr_ph|default:'请输入服务器地址' }}">
             </div>
             
             <div class="xc_form-group">
-                <label class="xc_form-label">上传服务器参数</label>
-                <textarea id="input_request_params" class="xc_form-textarea" placeholder="请输入服务器参数"></textarea>
+                <label class="xc_form-label">{{ T.alarm_interface_server_params|default:'上传服务器参数' }}</label>
+                <textarea id="input_request_params" class="xc_form-textarea" placeholder="{{ T.alarm_interface_input_params_ph|default:'请输入服务器参数' }}"></textarea>
             </div>
             
             <div class="xc_form-group">
-                <label class="xc_form-label">上传服务器内容扩展参数</label>
-                <textarea id="input_request_content_extend_params" class="xc_form-textarea" placeholder="请输入扩展参数"></textarea>
+                <label class="xc_form-label">{{ T.alarm_interface_server_extend|default:'上传服务器内容扩展参数' }}</label>
+                <textarea id="input_request_content_extend_params" class="xc_form-textarea" placeholder="{{ T.alarm_interface_input_extend_ph|default:'请输入扩展参数' }}"></textarea>
             </div>
         </div>
         <div class="xc_modal-footer">
-            <button class="xc_modal-btn" onclick="closeInterfaceModal()">取消</button>
-            <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitInterfaceForm()">提交</button>
+            <button class="xc_modal-btn" onclick="closeInterfaceModal()">{{ T.common_cancel|default:'取消' }}</button>
+            <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitInterfaceForm()">{{ T.common_submit|default:'提交' }}</button>
         </div>
     </div>
 </div>
@@ -809,7 +809,7 @@
 <div class="xc_modal-overlay" id="testModal">
     <div class="xc_modal-container" style="max-width: 900px; width: 90%; max-height: 90vh;">
         <div class="xc_modal-header">
-            <div class="xc_modal-title" id="testModalTitle">报警存储测试</div>
+            <div class="xc_modal-title" id="testModalTitle">{{ T.alarm_interface_test_modal_title|default:'报警存储测试' }}</div>
             <button class="xc_modal-close" onclick="closeTestModal()">×</button>
         </div>
         <div class="xc_modal-body" style="padding: 0; overflow: hidden; flex: 1;">
@@ -838,7 +838,7 @@
         currentHandle = 'add';
         currentCode = generateCode();
         
-        $('#modalTitle').text('添加存储');
+        $('#modalTitle').text(_t('alarm_interface_modal_add_title', '添加存储'));
         $('#input_code').val(currentCode);
         $('#input_name').val('');
         $('input[name="is_save_local"][value="1"]').prop('checked', true);
@@ -856,7 +856,7 @@
         currentHandle = 'edit';
         currentCode = code;
         
-        $('#modalTitle').text('编辑存储');
+        $('#modalTitle').text(_t('alarm_interface_modal_edit_title', '编辑存储'));
         
         // 加载数据
         ele_top_loading.show();
@@ -882,12 +882,12 @@
                     
                     $('#interfaceModal').addClass('active');
                 } else {
-                    myToast2025(res.msg || '报警存储不存在', 'error');
+                    myToast2025(res.msg || _t('alarm_interface_not_exist', '报警存储不存在'), 'error');
                 }
             },
             error: function() {
                 ele_top_loading.hide();
-                myToast2025('网络异常，请确定网络正常！', 'error');
+                myToast2025(_t('common_net_error', '网络异常，请确定网络正常！'), 'error');
             }
         });
     }
@@ -924,7 +924,7 @@
         
         // 验证
         if(name === '') {
-            myToast2025('请输入名称！', 'error');
+            myToast2025(_t('alarm_interface_name_required', '请输入名称！'), 'error');
             return;
         }
         
@@ -963,7 +963,7 @@
             },
             error: function() {
                 ele_top_loading.hide();
-                myToast2025('网络异常，请确定网络正常！', 'error');
+                myToast2025(_t('common_net_error', '网络异常，请确定网络正常！'), 'error');
             }
         });
     }
@@ -974,7 +974,7 @@
         const iframe = document.getElementById('testIframe');
         const modalTitle = document.getElementById('testModalTitle');
         
-        modalTitle.textContent = '报警存储测试';
+        modalTitle.textContent = _t('alarm_interface_test_modal_title', '报警存储测试');
         iframe.src = '/alarmInterface/test?code=' + encodeURIComponent(code);
         modal.classList.add('active');
     }
@@ -999,7 +999,7 @@
     });
     
     function f_del(code){
-        if(!confirm('确定要删除这个报警存储吗？')) {
+        if(!confirm(_t('alarm_interface_confirm_delete', '确定要删除这个报警存储吗？'))) {
             return;
         }
         
@@ -1013,7 +1013,7 @@
             timeout: 0,
             error: function () {
                 ele_top_loading.hide();
-                myToast2025("网络异常，请确定网络正常！","error");
+                myToast2025(_t('common_net_error', '网络异常，请确定网络正常！'), "error");
             },
             success: function (res) {
                 ele_top_loading.hide();

@@ -762,46 +762,46 @@
         <div class="xc_toolbar">
             <div class="xc_page-title">
                 <i class="fa fa-video-camera"></i>
-                摄像头管理
+                {{ T.camera_manage|default:'摄像头管理' }}
             </div>
             
             <select id="search_status_select" class="xc_status-filter">
-                <option value="-1">全部状态</option>
-                <option value="1">转发中</option>
-                <option value="0">未转发</option>
+                <option value="-1">{{ T.camera_all_status|default:'全部状态' }}</option>
+                <option value="1">{{ T.camera_forwarding|default:'转发中' }}</option>
+                <option value="0">{{ T.camera_not_forwarding|default:'未转发' }}</option>
             </select>
             
-            <input type="text" id="search_text_input" class="xc_search-input" placeholder="输入视频流名称或编号"  value="{{ search_text }}">
+            <input type="text" id="search_text_input" class="xc_search-input" placeholder="{{ T.camera_search_placeholder|default:'输入视频流名称或编号' }}"  value="{{ search_text }}">
             
             <button class="xc_btn-modern" onclick="doSearch()">
-                <i class="fa fa-search"></i> 搜索
+                <i class="fa fa-search"></i> {{ T.camera_search|default:'搜索' }}
             </button>
             
             <button class="xc_btn-modern" onclick="streamModal.openAdd()">
-                <i class="fa fa-plus"></i> 添加
+                <i class="fa fa-plus"></i> {{ T.camera_add|default:'添加' }}
             </button>
             
             <button class="xc_btn-modern" data-toggle="modal" data-target="#ImportFileDialog">
-                <i class="fa fa-upload"></i> 批量导入
+                <i class="fa fa-upload"></i> {{ T.camera_batch_import|default:'批量导入' }}
             </button>
             
             <!-- 更多按钮和子弹框 -->
             <div style="position: relative; display: inline-block;">
                 <button class="xc_btn-modern" onclick="toggleMoreDialog()">
-                    <i class="fa fa-ellipsis-v"></i> 更多
+                    <i class="fa fa-ellipsis-v"></i> {{ T.camera_more|default:'更多' }}
                 </button>
                 
                 <!-- 更多操作子弹框 -->
                 <div class="xc_bullet-dialog" id="moreDialog">
                     <div class="xc_bullet-dialog-content">
                         <button class="xc_bullet-dialog-btn" onclick="f_openHandleAllStreamProxy('add'); toggleMoreDialog()">
-                            <i class="fa fa-play"></i> 全部开启转发
+                            <i class="fa fa-play"></i> {{ T.camera_start_all_forward|default:'全部开启转发' }}
                         </button>
                         <button class="xc_bullet-dialog-btn" onclick="f_openHandleAllStreamProxy('del'); toggleMoreDialog()">
-                            <i class="fa fa-pause"></i> 全部停止转发
+                            <i class="fa fa-pause"></i> {{ T.camera_stop_all_forward|default:'全部停止转发' }}
                         </button>
                         <button class="xc_bullet-dialog-btn xc_bullet-dialog-btn-danger" onclick="f_delAll(); toggleMoreDialog()">
-                            <i class="fa fa-trash"></i> 全部删除
+                            <i class="fa fa-trash"></i> {{ T.camera_delete_all|default:'全部删除' }}
                         </button>
                     </div>
                 </div>
@@ -810,7 +810,7 @@
 
                 <span id="top_loading" style="display: none; margin-left: 10px;">
                     <span class="xc_loading-spinner"></span>
-                    <span class="xc_loading-text">加载中...</span>
+                    <span class="xc_loading-text">{{ T.common_loading|default:'加载中...' }}</span>
                 </span>
                 <span id="top_msg">{{top_msg}}</span>
 
@@ -841,26 +841,26 @@
 
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title" >批量导入摄像头</h4>
+            <h4 class="modal-title" >{{ T.camera_import_title|default:'批量导入摄像头' }}</h4>
           </div>
           <div class="modal-body">
             <div style="padding: 5px 20px;">
               <form class="form-horizontal calender" role="form">
                   <div class="form-group">
-                  <label class="col-sm-3 control-label">文件模板</label>
+                  <label class="col-sm-3 control-label">{{ T.camera_file_template|default:'文件模板' }}</label>
                   <div class="col-sm-9">
-                      <button onclick="f_downloadStreamTemplate()" class="btn btn-default"><i class="fa fa-download"></i> 下载模板</button>
+                      <button onclick="f_downloadStreamTemplate()" class="btn btn-default"><i class="fa fa-download"></i> {{ T.camera_download_template|default:'下载模板' }}</button>
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">导入文件</label>
+                  <label class="col-sm-3 control-label">{{ T.camera_import_file|default:'导入文件' }}</label>
                   <div class="col-sm-9">
                     <input type="file" class="form-control" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" name="file"  >
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">导入备注</label>
+                  <label class="col-sm-3 control-label">{{ T.camera_import_remark|default:'导入备注' }}</label>
                   <div class="col-sm-9">
                     <textarea class="form-control" style="height:55px;" name="import_remark"></textarea>
                   </div>
@@ -869,8 +869,8 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" onclick="f_openImportFile()" class="btn btn-dark">提交</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">{{ T.camera_cancel|default:'取消' }}</button>
+            <button type="button" onclick="f_openImportFile()" class="btn btn-dark">{{ T.camera_submit|default:'提交' }}</button>
           </div>
         </div>
       </div>
@@ -910,22 +910,22 @@
         const password = $('#stream_onvif_password').val().trim();
 
         if (!ip) {
-            myToast2025("ONVIF IP不能为空", "error");
+            myToast2025(_t("camera_onvif_ip_empty", "ONVIF IP不能为空"), "error");
             return;
         }
 
         if (!/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/.test(ip)) {
-            myToast2025("ONVIF IP格式不正确", "error");
+            myToast2025(_t("camera_onvif_ip_error", "ONVIF IP格式不正确"), "error");
             return;
         }
 
         if (!username) {
-            myToast2025("ONVIF用户名不能为空", "error");
+            myToast2025(_t("camera_onvif_user_empty", "ONVIF用户名不能为空"), "error");
             return;
         }
 
         if (!password) {
-            myToast2025("ONVIF密码不能为空", "error");
+            myToast2025(_t("camera_onvif_pwd_empty", "ONVIF密码不能为空"), "error");
             return;
         }
 
@@ -957,13 +957,13 @@
                     const remark = `FirmwareVersion=${deviceInfo.FirmwareVersion || ''},Model=${deviceInfo.Model || ''},SerialNumber=${deviceInfo.SerialNumber || ''}`;
                     $('#stream_remark').val(remark);
 
-                    myToast2025("探测成功", "success");
+                    myToast2025(_t("camera_probe_success", "探测成功"), "success");
                 } else {
-                    myToast2025(res.msg || '探测失败', "error");
+                    myToast2025(res.msg || _t("camera_probe_fail", "探测失败"), "error");
                 }
             },
             error: () => {
-                myToast2025("网络异常，请确定网络正常！", "error");
+                myToast2025(_t("online_net_error", "网络异常，请确定网络正常！"), "error");
             }
         });
     }
@@ -1016,13 +1016,13 @@
         streamModal.openEdit(code);
     }
     function f_delAll(){
-        let ret = confirm("确认全部删除吗？");
+        let ret = confirm(_t("camera_confirm_delete_all", "确认全部删除吗？"));
         if (ret) {
             f_openDel("all","");
         }
     }
     function f_del(code){
-        let ret = confirm("确认删除吗？");
+        let ret = confirm(_t("camera_confirm_delete", "确认删除吗？"));
         if (ret) {
             f_openDel("one",code);
         }
@@ -1039,7 +1039,7 @@
             timeout: 0,
             error: function () {
                 eleTopLoading.hide();
-                myToast2025("网络异常，请确定网络正常！", "error");
+                myToast2025(_t("online_net_error", "网络异常，请确定网络正常！"), "error");
             },
             success: function (res) {
                 eleTopLoading.hide();
@@ -1078,7 +1078,7 @@
                   dataType: "json",
                   timeout: 0,
                   error: function () {
-                    myToast2025("网络异常，请确定网络正常！","error");
+                    myToast2025(_t("online_net_error", "网络异常，请确定网络正常！"), "error");
                   },
                   success: function (res) {
                     if (1000 === res.code) {
@@ -1096,10 +1096,10 @@
                   }
                 });
           }else{
-               myToast2025("上传文件大小不能超过10M！","error");
+               myToast2025(_t("camera_file_size_limit", "上传文件大小不能超过10M！"), "error");
           }
         }else{
-            myToast2025("未选择上传文件！","error");
+            myToast2025(_t("camera_no_file", "未选择上传文件！"), "error");
         }
         return false;
     }
@@ -1125,7 +1125,7 @@
                timeout: 0,
                error: function () {
                    eleTopLoading.hide();
-                   myToast2025("网络异常，请确定网络正常！","error");
+                   myToast2025(_t("online_net_error", "网络异常，请确定网络正常！"), "error");
                },
                success: function (res) {
                       eleTopLoading.hide();
@@ -1168,7 +1168,7 @@
                timeout: 0,
                error: function () {
                    eleTopLoading.hide();
-                   myToast2025("网络异常，请确定网络正常！","error");
+                   myToast2025(_t("online_net_error", "网络异常，请确定网络正常！"), "error");
                },
                success: function (res) {
                    eleTopLoading.hide();
@@ -1188,7 +1188,7 @@
     function f_show_pageData(pageData) {
         let page_size = pageData["page_size"];
         let html = "";
-        html+="<div class=\"xc_page-info\">共"+pageData["page_num"]+"页 / "+pageData["count"]+"条</div>";
+        html+="<div class=\"xc_page-info\">" + _t("camera_total", "共") + pageData["page_num"] + _t("camera_page_unit", "页") + " / " + pageData["count"] + _t("camera_item_unit", "条") + "</div>";
         let pageLabels = pageData["pageLabels"];
 
         for (let i = 0; i < pageLabels.length; i++) {
@@ -1219,7 +1219,7 @@
                timeout: 0,
                error: function () {
                    eleTopLoading.hide();
-                   myToast2025("网络异常，请确定网络正常！","error");
+                   myToast2025(_t("online_net_error", "网络异常，请确定网络正常！"), "error");
                },
                success: function (res) {
                    eleTopLoading.hide();
@@ -1228,7 +1228,7 @@
                        let data = res.data;
 
                        if(data.length === 0){
-                            eleData.html("<div class='xc_empty-state'><i class='fa fa-video-camera'></i><p>暂无数据</p></div>");
+                            eleData.html("<div class='xc_empty-state'><i class='fa fa-video-camera'></i><p>" + _t("camera_no_data", "暂无数据") + "</p></div>");
                             f_show_pageData(res.pageData)
                        }else{
                             eleData.html("");
@@ -1280,15 +1280,15 @@
                     item_html+="<table class=\"xc_camera_table\">";
                         item_html+="<thead>";
                             item_html+="<tr>";
-                                item_html+="<th>ID</th>";
-                                item_html+="<th>编号</th>";
-                                item_html+="<th>接入协议</th>";
-                                item_html+="<th>名称</th>";
-                                item_html+="<th>IP</th>";
-                                item_html+="<th>音频</th>";
-                                item_html+="<th>状态</th>";
-                                item_html+="<th>更新时间</th>";
-                                item_html+="<th>操作</th>";
+                                item_html+="<th>" + _t("camera_id", "ID") + "</th>";
+                                item_html+="<th>" + _t("camera_code", "编号") + "</th>";
+                                item_html+="<th>" + _t("camera_protocol", "接入协议") + "</th>";
+                                item_html+="<th>" + _t("camera_name", "名称") + "</th>";
+                                item_html+="<th>" + _t("camera_ip", "IP") + "</th>";
+                                item_html+="<th>" + _t("camera_audio", "音频") + "</th>";
+                                item_html+="<th>" + _t("camera_status", "状态") + "</th>";
+                                item_html+="<th>" + _t("camera_update_time", "更新时间") + "</th>";
+                                item_html+="<th>" + _t("camera_action", "操作") + "</th>";
                             item_html+="</tr>";
                         item_html+="</thead>";
                         item_html+="<tbody>";
@@ -1306,16 +1306,16 @@
                                 item_html+="<td style='width:8%;'>"+get_audio_type(d["is_audio"])+"</td>";
                                 item_html+="<td style='width:15%;'>";
                                    if(d["forward_state"] === 1){
-                                       item_html+="<span class='xc_stream-status xc_stream-status-active'><span class='xc_stream-status-icon'></span>转发中</span><a href=\"javascript:f_open_player('"+d["app"]+"','"+d["name"]+"')\" class=\"sun-a-label\">播放</a><a href=\"javascript:f_openHandleStreamProxy('del','"+d["code"]+"','"+d["pull_stream_type"]+"')\" class=\"sun-a-label\">停止</a>";
+                                       item_html+="<span class='xc_stream-status xc_stream-status-active'><span class='xc_stream-status-icon'></span>" + _t("camera_forwarding", "转发中") + "</span><a href=\"javascript:f_open_player('"+d["app"]+"','"+d["name"]+"')\" class=\"sun-a-label\">" + _t("camera_play", "播放") + "</a><a href=\"javascript:f_openHandleStreamProxy('del','"+d["code"]+"','"+d["pull_stream_type"]+"')\" class=\"sun-a-label\">" + _t("camera_stop", "停止") + "</a>";
                                    }else{
-                                       item_html+="<span class='xc_stream-status xc_stream-status-inactive'><span class='xc_stream-status-icon'></span>未转发</span><a href=\"javascript:f_openHandleStreamProxy('add','"+d["code"]+"','"+d["pull_stream_type"]+"')\" class=\"sun-a-label\">开启</a>";
+                                       item_html+="<span class='xc_stream-status xc_stream-status-inactive'><span class='xc_stream-status-icon'></span>" + _t("camera_not_forwarding", "未转发") + "</span><a href=\"javascript:f_openHandleStreamProxy('add','"+d["code"]+"','"+d["pull_stream_type"]+"')\" class=\"sun-a-label\">" + _t("camera_start", "开启") + "</a>";
                                    }
                                 item_html+="</td>";
                                 item_html += "<td>"+d["last_update_time"]+"</td>";
                                 item_html+="<td class=\"xc_action_buttons\">";
 
-                                    item_html+="<button class=\"xc_action_btn view\" onclick=\"f_edit('"+d["code"]+"')\" title=\"编辑\"><i class=\"fa fa-edit\"></i> 编辑</button>";
-                                    item_html+="<button class=\"xc_action_btn delete\" onclick=\"f_del('"+d["code"]+"')\" title=\"删除\"><i class=\"fa fa-trash\"></i> 删除</button>";
+                                    item_html+="<button class=\"xc_action_btn view\" onclick=\"f_edit('"+d["code"]+"')\" title=\"" + _t("camera_edit", "编辑") + "\"><i class=\"fa fa-edit\"></i> " + _t("camera_edit", "编辑") + "</button>";
+                                    item_html+="<button class=\"xc_action_btn delete\" onclick=\"f_del('"+d["code"]+"')\" title=\"" + _t("camera_delete", "删除") + "\"><i class=\"fa fa-trash\"></i> " + _t("camera_delete", "删除") + "</button>";
 
                                 item_html+="</td>";
                             item_html+="</tr>";

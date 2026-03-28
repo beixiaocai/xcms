@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 
-{% block title %} 用户管理 {% endblock title %}
+{% block title %} {{ T.user_title|default:'用户管理' }} {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
@@ -787,20 +787,20 @@
                         <div class="xc_page-header">
                             <div class="xc_page-title">
                                 <i class="fa fa-users"></i>
-                                用户管理
+                                {{ T.user_title|default:'用户管理' }}
                             </div>
                             <div class="xc_header-actions">
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="openAddModal()">
-                                    <i class="fa fa-plus"></i> 添加
+                                    <i class="fa fa-plus"></i> {{ T.user_add|default:'添加' }}
                                 </button>
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="f_reload()">
-                                    <i class="fa fa-refresh"></i> 刷新
+                                    <i class="fa fa-refresh"></i> {{ T.user_refresh|default:'刷新' }}
                                 </button>
                             </div>
                             <div>
                                 <span id="top_loading" style="display: none;">
                                     <span class="xc_loading-spinner"></span>
-                                    <span class="xc_loading-text">加载中...</span>
+                                    <span class="xc_loading-text">{{ T.user_loading|default:'加载中...' }}</span>
                                 </span>
                                 <span id="top_msg">{{top_msg}}</span>
                             </div>
@@ -811,13 +811,13 @@
                                 <thead class="xc_table-header">
                                     <tr>
                                         <th>ID</th>
-                                        <th>用户名</th>
-                                        <th>邮箱</th>
-                                        <th>角色</th>
-                                        <th>状态</th>
-                                        <th>加入时间</th>
-                                        <th>上次登录</th>
-                                        <th style="text-align: center;">操作</th>
+                                        <th>{{ T.user_username|default:'用户名' }}</th>
+                                        <th>{{ T.user_email|default:'邮箱' }}</th>
+                                        <th>{{ T.user_role|default:'角色' }}</th>
+                                        <th>{{ T.user_status|default:'状态' }}</th>
+                                        <th>{{ T.user_join_time|default:'加入时间' }}</th>
+                                        <th>{{ T.user_last_login|default:'上次登录' }}</th>
+                                        <th style="text-align: center;">{{ T.user_action|default:'操作' }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="xc_table-body">
@@ -828,16 +828,16 @@
                                         <td>{{ d.email }}</td>
                                         <td>
                                             {% if d.is_superuser == 1 %}
-                                            <span>超级管理员</span>
+                                            <span>{{ T.user_super_admin|default:'超级管理员' }}</span>
                                             {% else %}
-                                            <span>普通用户</span>
+                                            <span>{{ T.user_normal_user|default:'普通用户' }}</span>
                                             {% endif %}
                                         </td>
                                         <td>
                                             {% if d.is_active == 1 %}
-                                            <span class="xc_status-active">● 正常</span>
+                                            <span class="xc_status-active">● {{ T.user_status_active|default:'正常' }}</span>
                                             {% else %}
-                                            <span class="xc_status-inactive">● 禁用</span>
+                                            <span class="xc_status-inactive">● {{ T.user_status_disabled|default:'禁用' }}</span>
                                             {% endif %}
                                         </td>
                                         <td>{{ d.date_joined }}</td>
@@ -845,15 +845,15 @@
                                         <td>
                                             <div class="xc_actions">
                                                 <button onclick="openEditModal('{{ d.id }}')" class="xc_btn-icon">
-                                                    <i class="fa fa-edit"></i> 编辑
+                                                    <i class="fa fa-edit"></i> {{ T.user_edit|default:'编辑' }}
                                                 </button>
                                                 {% if d.is_superuser != 1 %}
                                                 <button onclick="openPermissionModal('{{ d.id }}', '{{ d.username }}')" class="xc_btn-icon">
-                                                    <i class="fa fa-key"></i> 权限
+                                                    <i class="fa fa-key"></i> {{ T.user_permission|default:'权限' }}
                                                 </button>
                                                 {% endif %}
                                                 <button onclick="f_del('{{ d.id }}')" class="xc_btn-icon delete">
-                                                    <i class="fa fa-trash"></i> 删除
+                                                    <i class="fa fa-trash"></i> {{ T.user_delete|default:'删除' }}
                                                 </button>
                                             </div>
                                         </td>
@@ -865,14 +865,14 @@
                             {% if data|length == 0 %}
                             <div class="xc_empty-state">
                                 <i class="fa fa-users"></i>
-                                <p>暂无用户数据</p>
+                                <p>{{ T.user_no_data|default:'暂无用户数据' }}</p>
                             </div>
                             {% endif %}
                         </div>
                     </div>
 
                     <div class="xc_pagination">
-                        <span class="xc_page-info">共 {{ pageData.page_num }} 页 / {{ pageData.count }} 条</span>
+                        <span class="xc_page-info">{{ T.user_total|default:'共' }} {{ pageData.page_num }} {{ T.user_page_unit|default:'页' }} / {{ pageData.count }} {{ T.user_item_unit|default:'条' }}</span>
                         {%  for d  in pageData.pageLabels%}
                           {% if d.cur == 1 %}
                             <div class="xc_page-btn active">{{ d.name }}</div>
@@ -892,55 +892,55 @@
 <div class="xc_modal-overlay" id="userModal">
     <div class="xc_modal-container">
         <div class="xc_modal-header">
-            <div class="xc_modal-title" id="modalTitle">添加用户</div>
+            <div class="xc_modal-title" id="modalTitle">{{ T.user_add_title|default:'添加用户' }}</div>
             <button class="xc_modal-close" onclick="closeUserModal()">×</button>
         </div>
         <div class="xc_modal-body">
             <div class="xc_form-group">
-                <label class="xc_form-label">用户名<span class="required">*</span></label>
-                <input type="text" id="input_username" class="xc_form-input" placeholder="请输入用户名">
+                <label class="xc_form-label">{{ T.user_username|default:'用户名' }}<span class="required">*</span></label>
+                <input type="text" id="input_username" class="xc_form-input" placeholder="{{ T.user_input_username|default:'请输入用户名' }}">
             </div>
             
             <div class="xc_form-group">
-                <label class="xc_form-label">邮箱<span class="required">*</span></label>
-                <input type="email" id="input_email" class="xc_form-input" placeholder="请输入邮箱地址">
+                <label class="xc_form-label">{{ T.user_email|default:'邮箱' }}<span class="required">*</span></label>
+                <input type="email" id="input_email" class="xc_form-input" placeholder="{{ T.user_input_email|default:'请输入邮箱地址' }}">
             </div>
             
             <div class="xc_form-group" id="password_group">
-                <label class="xc_form-label">密码<span class="required">*</span></label>
-                <input type="password" id="input_password" class="xc_form-input" placeholder="6-16位密码">
-                <div class="xc_password-hint">密码长度须为6-16位</div>
+                <label class="xc_form-label">{{ T.user_input_password_required|default:'密码' }}<span class="required">*</span></label>
+                <input type="password" id="input_password" class="xc_form-input" placeholder="{{ T.user_input_password|default:'6-16位密码' }}">
+                <div class="xc_password-hint">{{ T.user_password_length_hint|default:'密码长度须为6-16位' }}</div>
             </div>
             
             <div class="xc_form-group" id="new_password_group" style="display: none;">
-                <label class="xc_form-label">新密码</label>
-                <input type="password" id="input_new_password" class="xc_form-input" placeholder="不修改请留空">
-                <div class="xc_password-hint">不修改密码请留空</div>
+                <label class="xc_form-label">{{ T.user_new_password|default:'新密码' }}</label>
+                <input type="password" id="input_new_password" class="xc_form-input" placeholder="{{ T.user_keep_empty|default:'不修改请留空' }}">
+                <div class="xc_password-hint">{{ T.user_keep_empty_hint|default:'不修改密码请留空' }}</div>
             </div>
             
             <div class="xc_form-group" id="re_password_group" style="display: none;">
-                <label class="xc_form-label">确认新密码</label>
-                <input type="password" id="input_re_password" class="xc_form-input" placeholder="再次输入新密码">
+                <label class="xc_form-label">{{ T.user_confirm_new_password|default:'确认新密码' }}</label>
+                <input type="password" id="input_re_password" class="xc_form-input" placeholder="{{ T.user_input_new_password_again|default:'再次输入新密码' }}">
             </div>
             
             <div class="xc_form-group">
-                <label class="xc_form-label">状态<span class="required">*</span></label>
+                <label class="xc_form-label">{{ T.user_status|default:'状态' }}<span class="required">*</span></label>
                 <div class="xc_radio-group">
                     <div class="xc_radio-item">
                         <input type="radio" id="status_active" name="is_active" value="1" checked>
-                        <label for="status_active">正常</label>
+                        <label for="status_active">{{ T.user_status_active|default:'正常' }}</label>
                     </div>
                     <div class="xc_radio-item">
                         <input type="radio" id="status_inactive" name="is_active" value="0">
-                        <label for="status_inactive">禁用</label>
+                        <label for="status_inactive">{{ T.user_status_disabled|default:'禁用' }}</label>
                     </div>
                 </div>
             </div>
         </div>
         <div class="xc_modal-footer">
-            <button class="xc_modal-btn" onclick="closeUserModal()">取消</button>
+            <button class="xc_modal-btn" onclick="closeUserModal()">{{ T.user_cancel|default:'取消' }}</button>
             <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitUserForm()">
-                <span id="submit_text">提交</span>
+                <span id="submit_text">{{ T.user_submit|default:'提交' }}</span>
             </button>
         </div>
     </div>
@@ -950,18 +950,18 @@
 <div class="xc_modal-overlay" id="permissionModal">
     <div class="xc_modal-container" style="max-width: 850px; max-height: 600px;">
         <div class="xc_modal-header">
-            <div class="xc_modal-title" id="permissionModalTitle">用户权限管理</div>
+            <div class="xc_modal-title" id="permissionModalTitle">{{ T.user_permission_title|default:'用户权限管理' }}</div>
             <button class="xc_modal-close" onclick="closePermissionModal()">×</button>
         </div>
         <div class="xc_modal-body" style="padding: 16px;">
             <div class="xc_form-group" style="margin-bottom: 12px;">
-                <label class="xc_form-label">用户名</label>
+                <label class="xc_form-label">{{ T.user_username|default:'用户名' }}</label>
                 <input type="text" id="perm_username" class="xc_form-input" disabled style="background: #f9fafb;">
             </div>
             
             <!-- 搜索框 -->
             <div class="xc_form-group" style="margin-bottom: 12px;">
-                <input type="text" id="perm_search" class="xc_form-input" placeholder="🔍 搜索权限名称或代码..." style="padding-left: 10px;">
+                <input type="text" id="perm_search" class="xc_form-input" placeholder="{{ T.user_search_permission|default:'🔍 搜索权限名称或代码...' }}" style="padding-left: 10px;">
             </div>
             
             <!-- 穿梭框容器 -->
@@ -971,29 +971,29 @@
                     <div class="xc_transfer-header">
                         <label>
                             <input type="checkbox" id="select_all_available" onchange="toggleAllAvailable()">
-                            <span>可用权限</span>
+                            <span>{{ T.user_available_permission|default:'可用权限' }}</span>
                         </label>
                         <span class="xc_transfer-count" id="available_count">0</span>
                     </div>
                     <div class="xc_transfer-body" id="available_list">
                         <div style="text-align: center; padding: 40px; color: #9ca3af;">
-                            <i class="fa fa-spinner fa-spin"></i> 加载中...
+                            <i class="fa fa-spinner fa-spin"></i> {{ T.user_loading|default:'加载中...' }}
                         </div>
                     </div>
                 </div>
                 
                 <!-- 操作按钮 -->
                 <div class="xc_transfer-actions">
-                    <button class="xc_transfer-btn" onclick="moveToSelected()" title="添加选中">
+                    <button class="xc_transfer-btn" onclick="moveToSelected()" title="{{ T.user_add_selected|default:'添加选中' }}">
                         <i class="fa fa-angle-right"></i>
                     </button>
-                    <button class="xc_transfer-btn" onclick="moveAllToSelected()" title="添加全部">
+                    <button class="xc_transfer-btn" onclick="moveAllToSelected()" title="{{ T.user_add_all|default:'添加全部' }}">
                         <i class="fa fa-angle-double-right"></i>
                     </button>
-                    <button class="xc_transfer-btn" onclick="moveToAvailable()" title="移除选中">
+                    <button class="xc_transfer-btn" onclick="moveToAvailable()" title="{{ T.user_remove_selected|default:'移除选中' }}">
                         <i class="fa fa-angle-left"></i>
                     </button>
-                    <button class="xc_transfer-btn" onclick="moveAllToAvailable()" title="移除全部">
+                    <button class="xc_transfer-btn" onclick="moveAllToAvailable()" title="{{ T.user_remove_all|default:'移除全部' }}">
                         <i class="fa fa-angle-double-left"></i>
                     </button>
                 </div>
@@ -1003,23 +1003,23 @@
                     <div class="xc_transfer-header">
                         <label>
                             <input type="checkbox" id="select_all_selected" onchange="toggleAllSelected()">
-                            <span>已选权限</span>
+                            <span>{{ T.user_selected_permission|default:'已选权限' }}</span>
                         </label>
                         <span class="xc_transfer-count" id="selected_count">0</span>
                     </div>
                     <div class="xc_transfer-body" id="selected_list">
                         <div class="xc_transfer-empty">
                             <i class="fa fa-inbox"></i>
-                            <p>暂无已选权限</p>
+                            <p>{{ T.user_no_selected_permission|default:'暂无已选权限' }}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="xc_modal-footer">
-            <button class="xc_modal-btn" onclick="closePermissionModal()">取消</button>
+            <button class="xc_modal-btn" onclick="closePermissionModal()">{{ T.user_cancel|default:'取消' }}</button>
             <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitPermissionForm()">
-                <span id="perm_submit_text">保存</span>
+                <span id="perm_submit_text">{{ T.user_save|default:'保存' }}</span>
             </button>
         </div>
     </div>
@@ -1045,7 +1045,7 @@
         currentHandle = 'add';
         currentUserId = '';
         
-        $('#modalTitle').text('添加用户');
+        $('#modalTitle').text(_t('user_add_title', '添加用户'));
         $('#input_username').val('').prop('disabled', false);
         $('#input_email').val('');
         $('#input_password').val('');
@@ -1065,7 +1065,7 @@
         currentHandle = 'edit';
         currentUserId = user_id;
         
-        $('#modalTitle').text('编辑用户');
+        $('#modalTitle').text(_t('user_edit_title', '编辑用户'));
         
         // 加载用户数据
         ele_top_loading.show();
@@ -1098,12 +1098,12 @@
                     
                     $('#userModal').addClass('active');
                 } else {
-                    myToast2025(res.msg || '用户不存在', 'error');
+                    myToast2025(res.msg || _t('user_not_exist', '用户不存在'), 'error');
                 }
             },
             error: function() {
                 ele_top_loading.hide();
-                myToast2025('加载失败，请稍后重试', 'error');
+                myToast2025(_t('user_load_fail_retry', '加载失败，请稍后重试'), 'error');
             }
         });
     }
@@ -1134,11 +1134,11 @@
         
         // 验证
         if(username === '') {
-            myToast2025('请输入用户名', 'error');
+            myToast2025(_t('user_input_username_required', '请输入用户名'), 'error');
             return false;
         }
         if(email === '') {
-            myToast2025('请输入邮箱', 'error');
+            myToast2025(_t('user_input_email_required', '请输入邮箱'), 'error');
             return false;
         }
         
@@ -1152,11 +1152,11 @@
         if(currentHandle === 'add') {
             let password = $('#input_password').val().trim();
             if(password === '') {
-                myToast2025('请输入密码', 'error');
+                myToast2025(_t('user_input_password_required', '请输入密码'), 'error');
                 return false;
             }
             if(password.length < 6 || password.length > 16) {
-                myToast2025('密码长度须为6-16位', 'error');
+                myToast2025(_t('user_password_length_error', '密码长度须为6-16位'), 'error');
                 return false;
             }
             formData.password = password;
@@ -1167,11 +1167,11 @@
             
             if(new_password !== '') {
                 if(new_password.length < 6 || new_password.length > 16) {
-                    myToast2025('密码长度须为6-16位', 'error');
+                    myToast2025(_t('user_password_length_error', '密码长度须为6-16位'), 'error');
                     return false;
                 }
                 if(new_password !== re_password) {
-                    myToast2025('两次输入的密码不一致', 'error');
+                    myToast2025(_t('user_password_not_match', '两次输入的密码不一致'), 'error');
                     return false;
                 }
                 formData.new_password = new_password;
@@ -1180,12 +1180,12 @@
         }
         
         if(curIsPost) {
-            myToast2025('正在提交中，请勿重复提交！', 'error', 500);
+            myToast2025(_t('user_submitting', '正在提交中，请勿重复提交！'), 'error', 500);
             return false;
         }
         curIsPost = true;
         
-        $('#submit_text').text('提交中...');
+        $('#submit_text').text(_t('user_submit_ing', '提交中...'));
         
         let handleUrl = currentHandle === 'add' ? '/user/openAdd' : '/user/openEdit';
         
@@ -1196,12 +1196,12 @@
             dataType: 'json',
             error: function() {
                 curIsPost = false;
-                $('#submit_text').text('提交');
-                myToast2025('网络异常，请确定网络正常！', 'error');
+                $('#submit_text').text(_t('user_submit', '提交'));
+                myToast2025(_t('user_net_error', '网络异常，请确定网络正常！'), 'error');
             },
             success: function(res) {
                 curIsPost = false;
-                $('#submit_text').text('提交');
+                $('#submit_text').text(_t('user_submit', '提交'));
                 
                 if(res.code === 1000) {
                     myToast2025(res.msg, 'success', 1000);
@@ -1217,7 +1217,7 @@
     }
 
     function f_del(user_id){
-        if(!confirm('确定要删除这个用户吗？')) {
+        if(!confirm(_t('user_confirm_delete', '确定要删除这个用户吗？'))) {
             return;
         }
         
@@ -1231,7 +1231,7 @@
             timeout: 0,
             error: function () {
                 ele_top_loading.hide();
-                myToast2025("网络异常，请确定网络正常！","error");
+                myToast2025(_t('user_net_error', '网络异常，请确定网络正常！'),"error");
             },
             success: function (res) {
                 ele_top_loading.hide();
@@ -1248,7 +1248,7 @@
     }
     
     function f_del(user_id){
-        if(!confirm('确定要删除这个用户吗？')) {
+        if(!confirm(_t('user_confirm_delete', '确定要删除这个用户吗？'))) {
             return;
         }
         ele_top_loading.show();
@@ -1261,7 +1261,7 @@
             timeout: 0,
             error: function () {
                 ele_top_loading.hide();
-                myToast2025("网络异常，请确定网络正常！","error");
+                myToast2025(_t('user_net_error', '网络异常，请确定网络正常！'),"error");
             },
             success: function (res) {
                 ele_top_loading.hide();
@@ -1287,7 +1287,7 @@
     function openPermissionModal(user_id, username) {
         currentPermUserId = user_id;
         $('#perm_username').val(username);
-        $('#permissionModalTitle').text('编辑用户权限 - ' + username);
+        $('#permissionModalTitle').text(_t('user_permission_edit_title', '编辑用户权限') + ' - ' + username);
         $('#perm_search').val('');
         
         // 显示弹窗
@@ -1313,8 +1313,8 @@
     });
     
     function loadUserPermissions(user_id) {
-        $('#available_list').html('<div style="text-align: center; padding: 40px; color: #9ca3af;"><i class="fa fa-spinner fa-spin"></i> 加载中...</div>');
-        $('#selected_list').html('<div class="xc_transfer-empty"><i class="fa fa-inbox"></i><p>暂无已选权限</p></div>');
+        $('#available_list').html('<div style="text-align: center; padding: 40px; color: #9ca3af;"><i class="fa fa-spinner fa-spin"></i> ' + _t('user_loading', '加载中...') + '</div>');
+        $('#selected_list').html('<div class="xc_transfer-empty"><i class="fa fa-inbox"></i><p>' + _t('user_no_selected_permission', '暂无已选权限') + '</p></div>');
         
         $.ajax({
             url: '/user/openGetPermissions',
@@ -1344,7 +1344,7 @@
                 }
             },
             error: function() {
-                $('#available_list').html('<div style="text-align: center; padding: 40px; color: #ef4444;">加载失败，请稍后重试</div>');
+                $('#available_list').html('<div style="text-align: center; padding: 40px; color: #ef4444;">' + _t('user_load_fail_retry', '加载失败，请稍后重试') + '</div>');
             }
         });
     }
@@ -1374,7 +1374,7 @@
         });
         
         if(availableHtml === '') {
-            availableHtml = '<div class="xc_transfer-empty"><i class="fa fa-inbox"></i><p>无匹配权限</p></div>';
+            availableHtml = '<div class="xc_transfer-empty"><i class="fa fa-inbox"></i><p>' + _t('user_no_match_permission', '无匹配权限') + '</p></div>';
         }
         $('#available_list').html(availableHtml);
         $('#available_count').text(filteredAvailable.length);
@@ -1386,7 +1386,7 @@
         });
         
         if(selectedHtml === '') {
-            selectedHtml = '<div class="xc_transfer-empty"><i class="fa fa-inbox"></i><p>暂无已选权限</p></div>';
+            selectedHtml = '<div class="xc_transfer-empty"><i class="fa fa-inbox"></i><p>' + _t('user_no_selected_permission', '暂无已选权限') + '</p></div>';
         }
         $('#selected_list').html(selectedHtml);
         $('#selected_count').text(filteredSelected.length);
@@ -1444,7 +1444,7 @@
         });
         
         if(checkedIds.length === 0) {
-            myToast2025('请先选择要添加的权限', 'warning', 1000);
+            myToast2025(_t('user_select_add_permission_first', '请先选择要添加的权限'), 'warning', 1000);
             return;
         }
         
@@ -1473,7 +1473,7 @@
         });
         
         if(checkedIds.length === 0) {
-            myToast2025('请先选择要移除的权限', 'warning', 1000);
+            myToast2025(_t('user_select_remove_permission_first', '请先选择要移除的权限'), 'warning', 1000);
             return;
         }
         
@@ -1502,7 +1502,7 @@
     
     function submitPermissionForm() {
         if(curPermIsPost) {
-            myToast2025('正在提交中，请勿重复提交！', 'error', 500);
+            myToast2025(_t('user_submitting', '正在提交中，请勿重复提交！'), 'error', 500);
             return false;
         }
         
@@ -1510,7 +1510,7 @@
         let permissionIds = selectedPermissions.map(p => p.id);
         
         curPermIsPost = true;
-        $('#perm_submit_text').text('保存中...');
+        $('#perm_submit_text').text(_t('user_save_ing', '保存中...'));
         
         $.ajax({
             url: '/user/openSetPermissions',
@@ -1522,12 +1522,12 @@
             dataType: 'json',
             error: function() {
                 curPermIsPost = false;
-                $('#perm_submit_text').text('保存');
-                myToast2025('网络异常，请确定网络正常！', 'error');
+                $('#perm_submit_text').text(_t('user_save', '保存'));
+                myToast2025(_t('user_net_error', '网络异常，请确定网络正常！'), 'error');
             },
             success: function(res) {
                 curPermIsPost = false;
-                $('#perm_submit_text').text('保存');
+                $('#perm_submit_text').text(_t('user_save', '保存'));
                 
                 if(res.code === 1000) {
                     myToast2025(res.msg, 'success', 1000);

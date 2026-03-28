@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>大模型测试</title>
+    <title>{{ T.llm_test_title|default:'大模型测试' }}</title>
     <link href="/static/lib/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <style>
@@ -100,26 +100,37 @@
         }
         
         .btn-test {
-            padding: 12px 32px;
-            background: #1a1a2e;
+            padding: 10px 32px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 6px;
+            font-size: 13px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            white-space: nowrap;
+            height: 32px;
+            line-height: 1;
+            box-sizing: border-box;
+            vertical-align: middle;
+            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
             margin-top: 10px;
         }
         
         .btn-test:hover {
-            background: #252545;
-            box-shadow: 0 4px 12px rgba(26, 26, 46, 0.3);
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
             transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
         }
         
         .btn-test:active {
             transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
         }
         
         .result-area {
@@ -285,9 +296,9 @@
     <div class="tool-container">
         <div class="left-panel">
             <div class="tool-section">
-                <h4>大模型测试</h4>
+                <h4>{{ T.llm_test_title|default:'大模型测试' }}</h4>
                 <div class="form-group">
-                    <label>推理工具</label>
+                    <label>{{ T.llm_test_tool|default:'推理工具' }}</label>
                     <select id="inferenceTool">
                         <option value="LMStudio" selected>LMStudio</option>
                         <option value="OpenAI">OpenAI</option>
@@ -295,19 +306,19 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>模型名称</label>
+                    <label>{{ T.llm_test_model|default:'模型名称' }}</label>
                     <input type="text" id="model" value="qwen/qwen3-vl-8b">
                 </div>
                 <div class="form-group">
-                    <label>API地址</label>
+                    <label>{{ T.llm_test_api_url|default:'API地址' }}</label>
                     <textarea id="apiUrl" rows="3">http://192.168.1.105:1234/v1/chat/completions</textarea>
                 </div>
                 <div class="form-group">
-                    <label>API密钥</label>
-                    <input type="password" id="apiKey" placeholder="可选">
+                    <label>{{ T.llm_api_key|default:'API密钥' }}</label>
+                    <input type="password" id="apiKey" placeholder="{{ T.llm_test_api_key_opt|default:'可选' }}">
                 </div>
                 <div class="form-group">
-                    <label>超时时间(秒)</label>
+                    <label>{{ T.llm_test_timeout_sec|default:'超时时间(秒)' }}</label>
                     <input type="number" id="timeout" value="30">
                 </div>
             </div>
@@ -315,33 +326,33 @@
         
         <div class="right-panel">
             <div class="tool-section">
-                <h4>测试</h4>
+                <h4>{{ T.llm_test_section|default:'测试' }}</h4>
                 <form id="imageTestForm">
                     <div class="image-upload-section">
                         <div class="form-group">
-                            <label>选择图片</label>
+                            <label>{{ T.llm_test_select_img|default:'选择图片' }}</label>
                             <input type="file" id="testImage" accept="image/*">
                         </div>
                         <div id="imagePreviewContainer" class="image-preview-container">
                             <div id="imagePreviewPlaceholder" class="image-preview-placeholder">
-                                预览区域
+                                {{ T.llm_test_preview_area|default:'预览区域' }}
                             </div>
-                            <img id="imagePreview" class="image-preview" src="" alt="预览图片" style="display:none;">
+                            <img id="imagePreview" class="image-preview" src="" alt="{{ T.llm_test_preview_area|default:'预览图片' }}" style="display:none;">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>提示词</label>
-                        <textarea id="prompt" rows="2" placeholder="请输入提示词..." style="min-height: 53px; height: 53px;">请详细描述图片中的内容，包括人物、物体、场景等信息。</textarea>
+                        <label>{{ T.llm_test_prompt|default:'提示词' }}</label>
+                        <textarea id="prompt" rows="2" placeholder="{{ T.llm_test_prompt_placeholder|default:'请输入提示词...' }}" style="min-height: 53px; height: 53px;">{{ T.llm_test_default_prompt|default:'请详细描述图片中的内容，包括人物、物体、场景等信息。' }}</textarea>
                     </div>
                     <!-- 图片放大预览模态框 -->
                     <div id="imageModal" class="modal">
                         <span class="close">&times;</span>
                         <img class="modal-content" id="modalImage">
                     </div>
-                    <button type="submit" class="btn-test">开始分析</button>
+                    <button type="submit" class="btn-test">{{ T.llm_test_btn|default:'测试' }}</button>
                 </form>
                 <div id="testLoading" style="display:none;">
-                    <i class="fa fa-spinner fa-spin"></i> 分析中...
+                    <i class="fa fa-spinner fa-spin"></i> {{ T.llm_test_analyzing|default:'分析中...' }}
                 </div>
                 <div id="testResult" class="result-area" style="display:none;"></div>
             </div>
@@ -350,6 +361,9 @@
 
     <script src="/static/lib/jquery/jquery.min.js"></script>
     <script>
+        window.LANG = {{ T_JSON|safe|default:'{}' }};
+        function _t(key, def) { return (window.LANG && window.LANG[key]) ? window.LANG[key] : (def !== undefined ? def : key); }
+
         // 页面加载时检查是否有code参数
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -441,7 +455,7 @@
             const files = document.getElementById('testImage').files;
             
             if (files.length === 0) {
-                alert('请选择测试图片');
+                alert(_t('llm_test_select_img_err', '请选择测试图片'));
                 return;
             }
 
@@ -472,18 +486,18 @@
                 if (data.code === 1000) {
                     document.getElementById('testResult').innerHTML = `
                         <div>
-                            <div style="margin:0 0 10px 0;font-size:14px;color:#666;font-weight:500;">分析时间：${(duration / 1000).toFixed(2)}秒</div>
+                            <div style="margin:0 0 10px 0;font-size:14px;color:#666;font-weight:500;">${_t('llm_test_time_prefix', '分析时间：')}${(duration / 1000).toFixed(2)}秒</div>
                             <div style="font-size:14px;white-space:pre-wrap;word-break:break-all;">${JSON.stringify(data.result, null, 2)}</div>
                         </div>
                     `;
                 } else {
-                    document.getElementById('testResult').innerHTML = `<div style="color:red;font-weight:500;">分析失败：${data.msg}</div>`;
+                    document.getElementById('testResult').innerHTML = `<div style="color:red;font-weight:500;">${_t('llm_test_fail_prefix', '分析失败：')}${data.msg}</div>`;
                 }
             })
             .catch(error => {
                 document.getElementById('testLoading').style.display = 'none';
                 document.getElementById('testResult').style.display = 'block';
-                document.getElementById('testResult').innerHTML = `<div style="color:red;font-weight:500;">请求失败：${error.message}</div>`;
+                document.getElementById('testResult').innerHTML = `<div style="color:red;font-weight:500;">${_t('llm_test_req_fail_prefix', '请求失败：')}${error.message}</div>`;
             });
         }
     </script>

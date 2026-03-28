@@ -21,7 +21,7 @@
         }
         submitTimer = setInterval(function() {
             submitTimerSeconds++;
-            $("#submit_timer").text("耗时" + submitTimerSeconds + "秒");
+            $("#submit_timer").text(_t("algo_submit_cost", "耗时") + submitTimerSeconds + "s");
         }, 1000);
     }
     
@@ -37,14 +37,14 @@
     window.copyModelClassNames = function() {
         let text = $("#input_model_class_names").val();
         if(!text) {
-            myToast2025("模型目标为空，无法复制", "warning");
+            myToast2025(_t("algo_copy_empty", "模型目标为空，无法复制"), "warning");
             return;
         }
         
         // 使用 Clipboard API
         if(navigator.clipboard) {
             navigator.clipboard.writeText(text).then(function() {
-                myToast2025("复制成功！", "success");
+                myToast2025(_t("algo_copy_success", "复制成功！"), "success");
             }).catch(function() {
                 // 降级方案
                 fallbackCopy(text);
@@ -64,9 +64,9 @@
         textarea.select();
         try {
             document.execCommand('copy');
-            myToast2025("复制成功！", "success");
+            myToast2025(_t("algo_copy_success", "复制成功！"), "success");
         } catch(err) {
-            myToast2025("复制失败，请手动复制", "error");
+            myToast2025(_t("algo_copy_fail", "复制失败，请手动复制"), "error");
         }
         document.body.removeChild(textarea);
     }
@@ -79,7 +79,7 @@
             async: true,
             dataType: "json",
             error: function () {
-                myToast2025("网络异常，请确定网络正常！", "error");
+                myToast2025(_t("algo_net_error", "网络异常，请确定网络正常！"), "error");
             },
             success: function (res) {
                 if(1000 === res.code) {
@@ -99,7 +99,7 @@
         
         f_loadAlgorithmAddContext(function(data) {
             // 设置标题
-            $("#modalTitle").html('<i class="fa fa-plus-circle"></i> 添加基础算法');
+            $("#modalTitle").html('<i class="fa fa-plus-circle"></i> ' + _t("algo_modal_add_title", "添加基础算法"));
             $("#form_handle").val('add');
             $("#form_code").val(data.default_code || '');
             
@@ -125,8 +125,8 @@
             $("#input_code_display").val('');
             $("#input_name").val('');
             $("#input_algorithm_type").val('0');
-            $("#input_framework").html('<option value="0">请先选择算法类型</option>');
-            $("#input_inference").html('<option value="0">请先选择算法类型</option>');
+            $("#input_framework").html('<option value="0">' + _t("algo_select_type_first", "请先选择算法类型") + '</option>');
+            $("#input_inference").html('<option value="0">' + _t("algo_select_type_first", "请先选择算法类型") + '</option>');
             $("#input_inference_device").val(data.default_inference_device || 'CPU');
             $("#input_extend_params").val(data.default_extend_params || '');
             $("#input_model_convert_params").val(data.default_model_convert_params || '--fp16');
@@ -134,7 +134,7 @@
             $("#input_model_file").val('');
             
             // 填充算法类型
-            let html = '<option value="0">请选择</option>';
+            let html = '<option value="0">' + _t("algo_select", "请选择") + '</option>';
             for(let i = 0; i < algorithmTypes.length; i++) {
                 html += '<option value="' + algorithmTypes[i].code + '">' + algorithmTypes[i].name + '</option>';
             }
@@ -151,7 +151,7 @@
         currentAlgorithmCode = code;
         
         // 设置标题
-        $("#modalTitle").html('<i class="fa fa-edit"></i> 编辑基础算法');
+        $("#modalTitle").html('<i class="fa fa-edit"></i> ' + _t("algo_modal_edit_title", "编辑基础算法"));
         $("#form_handle").val('edit');
         $("#form_code").val(code);
         
@@ -189,7 +189,7 @@
                 if (typeof ele_top_loading !== 'undefined') {
                     ele_top_loading.hide();
                 }
-                myToast2025("网络异常，请确定网络正常！", "error");
+                myToast2025(_t("algo_net_error", "网络异常，请确定网络正常！"), "error");
                 closeAlgorithmModal();
             },
             success: function (res) {
@@ -226,9 +226,9 @@
                     
                     // 显示模型文件状态
                     if(d.absolute_model_dir_exist) {
-                        $("#model_status_display").html('<span style="color: #10b981; font-weight: 500;">✔ 正常</span>');
+                        $("#model_status_display").html('<span style="color: #10b981; font-weight: 500;">✔ ' + _t("algo_model_normal", "正常") + '</span>');
                     } else {
-                        $("#model_status_display").html('<span style="color: #ef4444; font-weight: 500;">✖ 异常</span>');
+                        $("#model_status_display").html('<span style="color: #ef4444; font-weight: 500;">✖ ' + _t("algo_model_abnormal", "异常") + '</span>');
                     }
                 } else {
                     myToast2025(res.msg, "error");
@@ -255,13 +255,13 @@
                 data: {"algorithm_type_code": algorithm_type_code},
                 dataType: "json",
                 error: function () {
-                    myToast2025("网络异常！", "error");
+                    myToast2025(_t("algo_net_error", "网络异常，请确定网络正常！"), "error");
                 },
                 success: function (res) {
                     if(res.code === 1000) {
                         let info = res.info;
                         // 设置框架
-                        let html = '<option value="0">请选择</option>';
+                        let html = '<option value="0">' + _t("algo_select", "请选择") + '</option>';
                         let frameworks = info.frameworks || [];
                         for(let i = 0; i < frameworks.length; i++) {
                             html += '<option value="' + frameworks[i] + '">' + frameworks[i] + '</option>';
@@ -269,28 +269,28 @@
                         $("#input_framework").html(html);
                         
                         // 设置推理引擎
-                        html = '<option value="0">请选择</option>';
+                        html = '<option value="0">' + _t("algo_select", "请选择") + '</option>';
                         let inferences = info.inferences || [];
                         for(let i = 0; i < inferences.length; i++) {
                             html += '<option value="' + inferences[i] + '">' + inferences[i] + '</option>';
                         }
                         $("#input_inference").html(html);
                     } else {
-                        $("#input_framework").html('<option value="0">请选择</option>');
-                        $("#input_inference").html('<option value="0">请选择</option>');
+                        $("#input_framework").html('<option value="0">' + _t("algo_select", "请选择") + '</option>');
+                        $("#input_inference").html('<option value="0">' + _t("algo_select", "请选择") + '</option>');
                     }
                 }
             });
         } else {
-            $("#input_framework").html('<option value="0">请先选择算法类型</option>');
-            $("#input_inference").html('<option value="0">请先选择算法类型</option>');
+            $("#input_framework").html('<option value="0">' + _t("algo_select_type_first", "请先选择算法类型") + '</option>');
+            $("#input_inference").html('<option value="0">' + _t("algo_select_type_first", "请先选择算法类型") + '</option>');
         }
     });
     
     // 提交表单
     window.submitAlgorithmForm = function() {
         if(isSubmitting) {
-            myToast2025("正在提交中，请勿重复操作！", "warning");
+            myToast2025(_t("algo_repeat_submit", "正在提交中，请勿重复操作！"), "warning");
             return false;
         }
         
@@ -303,37 +303,37 @@
         
         // 验证
         if(!name) {
-            myToast2025("请输入算法名称", "error");
+            myToast2025(_t("algo_input_name", "请输入算法名称"), "error");
             $("#input_name").focus();
             return false;
         }
         
         if(!algorithm_type || algorithm_type === '0') {
-            myToast2025("请选择算法类型", "error");
+            myToast2025(_t("algo_select_type", "请选择算法类型"), "error");
             $("#input_algorithm_type").focus();
             return false;
         }
         
         if(!framework || framework === '0') {
-            myToast2025("请选择算法框架", "error");
+            myToast2025(_t("algo_select_framework", "请选择算法框架"), "error");
             $("#input_framework").focus();
             return false;
         }
         
         if(!inference || inference === '0') {
-            myToast2025("请选择推理引擎", "error");
+            myToast2025(_t("algo_select_inference", "请选择推理引擎"), "error");
             $("#input_inference").focus();
             return false;
         }
         
         if(!inference_device) {
-            myToast2025("请输入推理设备", "error");
+            myToast2025(_t("algo_input_device", "请输入推理设备"), "error");
             $("#input_inference_device").focus();
             return false;
         }
         
         if(!extend_params) {
-            myToast2025("请输入模型推理参数", "error");
+            myToast2025(_t("algo_input_infer_params", "请输入模型推理参数"), "error");
             $("#input_extend_params").focus();
             return false;
         }
@@ -345,19 +345,19 @@
             let modelFile = $("#input_model_file")[0].files[0];
             
             if(!model_convert_params) {
-                myToast2025("请输入模型转换参数", "error");
+                myToast2025(_t("algo_input_convert_params", "请输入模型转换参数"), "error");
                 $("#input_model_convert_params").focus();
                 return false;
             }
             
             if(!model_class_names) {
-                myToast2025("请输入模型目标", "error");
+                myToast2025(_t("algo_input_targets", "请输入模型目标"), "error");
                 $("#input_model_class_names").focus();
                 return false;
             }
             
             if(!modelFile) {
-                myToast2025("请上传模型文件", "error");
+                myToast2025(_t("algo_upload_model", "请上传模型文件"), "error");
                 $("#input_model_file").focus();
                 return false;
             }
@@ -366,7 +366,7 @@
             let fileSize = modelFile.size;
             let fileSizeM = parseInt(fileSize / 1024 / 1024);
             if(fileSizeM > 1000) {
-                myToast2025("模型文件不能超过1000M：" + fileSizeM + "M", "error");
+                myToast2025(_t("algo_model_limit", "模型文件不能超过1000M") + "：" + fileSizeM + "M", "error");
                 return false;
             }
             
@@ -374,27 +374,27 @@
             let fileName = modelFile.name;
             if(inference === 'TensorRT') {
                 if(!fileName.endsWith('.onnx') && !fileName.endsWith('.engine')) {
-                    myToast2025("TensorRT仅支持onnx或engine格式的模型", "error");
+                    myToast2025(_t("algo_tensorrt_only", "TensorRT仅支持onnx或engine格式的模型"), "error");
                     return false;
                 }
             } else if(inference === 'OpenVINO') {
                 if(!fileName.endsWith('.tar')) {
-                    myToast2025("OpenVINO仅支持tar格式的模型", "error");
+                    myToast2025(_t("algo_openvino_only", "OpenVINO仅支持tar格式的模型"), "error");
                     return false;
                 }
             } else if(inference === 'ONNXRuntime') {
                 if(!fileName.endsWith('.onnx')) {
-                    myToast2025("ONNXRuntime仅支持onnx格式的模型", "error");
+                    myToast2025(_t("algo_onnx_only", "ONNXRuntime仅支持onnx格式的模型"), "error");
                     return false;
                 }
             } else if(inference === 'Ascend') {
                 if(!fileName.endsWith('.om')) {
-                    myToast2025("Ascend仅支持om格式的模型", "error");
+                    myToast2025(_t("algo_ascend_only", "Ascend仅支持om格式的模型"), "error");
                     return false;
                 }
             } else if(inference === 'RKNPU') {
                 if(!fileName.endsWith('.rknn')) {
-                    myToast2025("RKNPU仅支持rknn格式的模型", "error");
+                    myToast2025(_t("algo_rknpu_only", "RKNPU仅支持rknn格式的模型"), "error");
                     return false;
                 }
             }
@@ -425,7 +425,7 @@
             ele_top_loading.show();
         }
         $("#submitBtn").prop('disabled', true);
-        $("#submit_text").text('提交中...');
+        $("#submit_text").text(_t("algo_submit_ing", "提交中..."));
         $("#submit_loading").show();
         $("#submit_timer").show();
         
@@ -447,11 +447,11 @@
                     ele_top_loading.hide();
                 }
                 $("#submitBtn").prop('disabled', false);
-                $("#submit_text").text('提交');
+                $("#submit_text").text(_t("algo_submit", "提交"));
                 $("#submit_loading").hide();
                 $("#submit_timer").hide();
                 stopSubmitTimer();
-                myToast2025("网络异常，请确定网络正常！", "error");
+                myToast2025(_t("algo_net_error", "网络异常，请确定网络正常！"), "error");
             },
             success: function (res) {
                 isSubmitting = false;
@@ -459,7 +459,7 @@
                     ele_top_loading.hide();
                 }
                 $("#submitBtn").prop('disabled', false);
-                $("#submit_text").text('提交');
+                $("#submit_text").text(_t("algo_submit", "提交"));
                 $("#submit_loading").hide();
                 stopSubmitTimer();
                 

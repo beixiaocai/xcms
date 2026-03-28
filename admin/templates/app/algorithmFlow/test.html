@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 
-{% block title %} 算法测试 {% endblock title %}
+{% block title %} {{ T.flow_test_title|default:'算法测试' }} {% endblock title %}
 {% block stylesheets %}
   {{ block.super }}
   <link rel="stylesheet" href="/static/lib/jquery/fancybox/3.5.7/jquery.fancybox.min.css" />
@@ -268,11 +268,11 @@ let flowCode;
             <!-- xc page start -->
             <div class="xc_algorithm_container">
                 <div class="xc_algorithm_sidebar">
-                    <h2>算法测试 <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">计算中</span></h2>
+                    <h2>{{ T.flow_test_title|default:'算法测试' }} <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">{{ T.flow_test_computing|default:'计算中' }}</span></h2>
                     <div class="xc_algorithm_form_group">
-                        <label class="xc_algorithm_label" for="select_flow">选择业务算法<a href="javascript:f_openFlowRelease()" style="margin-left: 6px;font-size: 12px;cursor: pointer;color: #4f8cff;">释放所有实例</a></label>
+                        <label class="xc_algorithm_label" for="select_flow">{{ T.flow_test_select_flow|default:'选择业务算法' }}<a href="javascript:f_openFlowRelease()" style="margin-left: 6px;font-size: 12px;cursor: pointer;color: #4f8cff;">{{ T.flow_test_release|default:'释放所有实例' }}</a></label>
                         <select class="xc_algorithm_select" id="select_flow">
-                            <option value="0">请选择业务算法</option>
+                            <option value="0">{{ T.flow_test_select_placeholder|default:'请选择业务算法' }}</option>
                             {% for flow in flows %}
                                 <script>
                                     flowCode = '{{ flow.code }}';
@@ -287,20 +287,20 @@ let flowCode;
                         </select>
                     </div>
                     <div class="xc_algorithm_form_group">
-                        <label class="xc_algorithm_label" for="file-input">上传图片</label>
+                        <label class="xc_algorithm_label" for="file-input">{{ T.flow_test_upload_img|default:'上传图片' }}</label>
                         <div class="xc_algorithm_file_input_wrapper">
                             <!--<input type="file" id="file-input" accept="image/*,video/*">-->
                             <input type="file" id="file-input" accept="image/*">
                             <div class="xc_algorithm_upload_icon">📁</div>
-                            <div class="xc_algorithm_upload_text">点击或拖拽文件到此处</div>
+                            <div class="xc_algorithm_upload_text">{{ T.flow_test_click_drag|default:'点击或拖拽文件到此处' }}</div>
                         </div>
                         <div id="preview"></div>
                     </div>
 
-                    <button class="xc_algorithm_btn" id="run-btn">计算</button>
+                    <button class="xc_algorithm_btn" id="run-btn">{{ T.flow_test_btn|default:'计算' }}</button>
                 </div>
                 <div class="xc_algorithm_main">
-                    <div class="xc_algorithm_result_title">检测结果</div>
+                    <div class="xc_algorithm_result_title">{{ T.flow_test_result_title|default:'检测结果' }}</div>
                     <div class="xc_algorithm_result_box">
                         <div class="flow_result_content" id="flow_result_content">
                             <!--
@@ -372,20 +372,20 @@ let flowCode;
     runBtn.addEventListener('click', function() {
         flowCode = eleSelectFlow.val().trim();
         if(flowCode === "0"){
-            myToast2025("请选择业务算法！","error");
+            myToast2025(_t("flow_test_select_err", "请选择业务算法！"), "error");
             return false;
         }
         let flow = flowDict[flowCode];
         if(flow){
             //ok
         }else{
-            myToast2025("请选择业务算法！","error");
+            myToast2025(_t("flow_test_select_err", "请选择业务算法！"), "error");
             return false;
         }
         if(mFileType === "image"){
             //ok
         }else{
-            myToast2025("请上传图片类型的文件！","error");
+            myToast2025(_t("flow_test_img_only_err", "请上传图片类型的文件！"), "error");
             return false;
         }
         let formData = new FormData();
@@ -396,12 +396,12 @@ let flowCode;
             let fs_size = parseInt(file.size);//文件字节大小
             let fs_size_m = parseInt(fs_size / 1024 / 1024); //换算成M单位
             if(fs_size_m > 20){
-                myToast2025("图片文件不能超过（20）M："+String(fs_size_m),"error");
+                myToast2025(_t("flow_test_file_too_large_prefix", "图片文件不能超过（20）M：") + String(fs_size_m), "error");
                 return false;
             }
             formData.append("file",file);
         }else{
-             myToast2025("请至少上传一个文件！","error");
+             myToast2025(_t("flow_test_no_file_err", "请至少上传一个文件！"), "error");
              return false;
         }
 
@@ -418,7 +418,7 @@ let flowCode;
                timeout: 0,
                error: function () {
                    eleTopLoading.hide();
-                   myToast2025("网络异常，请确定网络正常！","error");
+                   myToast2025(_t("common_net_error", "网络异常，请确定网络正常！"), "error");
                },
                success: function (res) {
                    eleTopLoading.hide();
@@ -437,10 +437,10 @@ let flowCode;
 
                         let resultHtml = '';
                         resultHtml += "<div class=\"xc_algorithm_result_info\">";
-                        resultHtml += `<div class="xc_algorithm_model_info"><b>业务算法：</b> ${flow["name"]}</div>
-                                <div class="xc_algorithm_file_info"><b>计算耗时：</b> ${duration}(s)</div>`;
+                        resultHtml += `<div class="xc_algorithm_model_info"><b>${_t('flow_test_flow_label', '业务算法：')}</b> ${flow["name"]}</div>
+                                <div class="xc_algorithm_file_info"><b>${_t('flow_test_time_label', '计算耗时：')}</b> ${duration}(s)</div>`;
                             let num = detects.length;
-                            resultHtml += `<div class="xc_algorithm_target_details"><b>检测到目标：</b> ${num}<br>`;
+                            resultHtml += `<div class="xc_algorithm_target_details"><b>${_t('flow_test_detected_label', '检测到目标：')}</b> ${num}<br>`;
                                 for (let i = 0; i < num; i++) {
                                     let x1 = detects[i]["x1"];
                                     let y1 = detects[i]["y1"];
@@ -456,8 +456,8 @@ let flowCode;
                         resultHtml += `</div>`;
 
                         resultHtml += `<div class="flow_result_preview">`;
-                            resultHtml += `<div class="flow_result_preview_title">渲染结果预览（点击放大）</div>`;
-                            resultHtml += `<div id="result-preview"><img class="flow_result_preview_content" src="${predictUrl}" alt="检测结果"></div>`;
+                            resultHtml += `<div class="flow_result_preview_title">${_t('flow_test_result_preview', '渲染结果预览（点击放大）')}</div>`;
+                            resultHtml += `<div id="result-preview"><img class="flow_result_preview_content" src="${predictUrl}" alt="${_t('flow_test_result_title', '检测结果')}"></div>`;
                         resultHtml += `</div>`;
 
                         eleFlowResultContent.innerHTML = resultHtml;
@@ -468,7 +468,7 @@ let flowCode;
                                 src: $(this).attr('src'),
                                 type: 'image',
                                 opts: {
-                                    caption: '检测结果 - 点击任意处关闭',
+                                    caption: _t('flow_test_result_caption', '检测结果 - 点击任意处关闭'),
                                     thumb: $(this).attr('src')
                                 }
                             });
@@ -496,7 +496,7 @@ let flowCode;
                timeout: 0,
                error: function () {
                    eleTopLoading.hide();
-                   myToast2025("网络异常，请确定网络正常！","error");
+                   myToast2025(_t("common_net_error", "网络异常，请确定网络正常！"), "error");
                },
                success: function (res) {
                    eleTopLoading.hide();

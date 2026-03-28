@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 
-{% block title %} 基础算法管理 {% endblock title %}
+{% block title %} {{ T.algo_title|default:'基础算法管理' }} {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
@@ -383,29 +383,29 @@
                         <div class="xc_page-header">
                             <div class="xc_page-title">
                                 <i class="fa fa-cubes"></i>
-                                基础算法管理
+                                {{ T.algo_title|default:'基础算法管理' }}
                             </div>
                             <div class="xc_search-box">
-                                <input type="text" id="searchInput" class="xc_search-input" placeholder="输入算法名称或编号" value="{{ search_key }}">
+                                <input type="text" id="searchInput" class="xc_search-input" placeholder="{{ T.algo_search_placeholder|default:'输入算法名称或编号' }}" value="{{ search_key }}">
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="doSearch()">
-                                    <i class="fa fa-search"></i> 搜索
+                                    <i class="fa fa-search"></i> {{ T.algo_search|default:'搜索' }}
                                 </button>
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="resetSearch()" {% if not search_key %}style="display:none;"{% endif %} id="resetBtn">
-                                    <i class="fa fa-times"></i> 重置
+                                    <i class="fa fa-times"></i> {{ T.algo_reset|default:'重置' }}
                                 </button>
                             </div>
                             <div class="xc_header-actions">
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="openAddModal()">
-                                    <i class="fa fa-plus"></i> 添加
+                                    <i class="fa fa-plus"></i> {{ T.algo_add|default:'添加' }}
                                 </button>
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="f_reload()">
-                                    <i class="fa fa-refresh"></i> 刷新
+                                    <i class="fa fa-refresh"></i> {{ T.algo_refresh|default:'刷新' }}
                                 </button>
                             </div>
                             <div>
                                 <span id="top_loading" style="display: none;">
                                     <span class="xc_loading-spinner"></span>
-                                    <span class="xc_loading-text">加载中...</span>
+                                    <span class="xc_loading-text">{{ T.algo_loading|default:'加载中...' }}</span>
                                 </span>
                                 <span id="top_msg">{{top_msg}}</span>
                             </div>
@@ -416,12 +416,12 @@
                                 <thead class="xc_table-header">
                                     <tr>
                                         <th>ID</th>
-                                        <th>算法编号</th>
-                                        <th>算法名称</th>
-                                        <th>算法类型</th>
-                                        <th>算法参数</th>
-                                        <th>更新时间</th>
-                                        <th style="text-align: center;">操作</th>
+                                        <th>{{ T.algo_code|default:'算法编号' }}</th>
+                                        <th>{{ T.algo_name|default:'算法名称' }}</th>
+                                        <th>{{ T.algo_type|default:'算法类型' }}</th>
+                                        <th>{{ T.algo_param|default:'算法参数' }}</th>
+                                        <th>{{ T.algo_update_time|default:'更新时间' }}</th>
+                                        <th style="text-align: center;">{{ T.algo_action|default:'操作' }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="xc_table-body">
@@ -432,11 +432,11 @@
                                         <td><span class="xc_algorithm-name">{{ d.name }}</span></td>
                                         <td>
                                             {% if d.algorithm_type == "Detect" %}
-                                            <span class="xc_type-badge xc_type-detect">检测算法</span>
+                                            <span class="xc_type-badge xc_type-detect">{{ T.algo_detect|default:'检测算法' }}</span>
                                             {% elif d.algorithm_type == "Classify" %}
-                                            <span class="xc_type-badge xc_type-classify">分类算法</span>
+                                            <span class="xc_type-badge xc_type-classify">{{ T.algo_classify|default:'分类算法' }}</span>
                                             {% elif d.algorithm_type == "Track" %}
-                                            <span class="xc_type-badge xc_type-track">特征算法</span>
+                                            <span class="xc_type-badge xc_type-track">{{ T.algo_track|default:'特征算法' }}</span>
                                             {% else %}
                                             <span class="xc_type-badge">{{ d.algorithm_type_name }}</span>
                                             {% endif %}
@@ -448,10 +448,10 @@
                                         <td>
                                             <div class="xc_actions">
                                                 <button onclick="f_edit('{{ d.code }}')" class="xc_btn-icon">
-                                                    <i class="fa fa-edit"></i> 编辑
+                                                    <i class="fa fa-edit"></i> {{ T.algo_edit|default:'编辑' }}
                                                 </button>
                                                 <button onclick="f_del('{{ d.code }}')" class="xc_btn-icon delete">
-                                                    <i class="fa fa-trash"></i> 删除
+                                                    <i class="fa fa-trash"></i> {{ T.algo_delete|default:'删除' }}
                                                 </button>
                                             </div>
                                         </td>
@@ -463,14 +463,14 @@
                             {% if data|length == 0 %}
                             <div class="xc_empty-state">
                                 <i class="fa fa-cubes"></i>
-                                <p>暂无基础算法数据</p>
+                                <p>{{ T.algo_no_data|default:'暂无基础算法数据' }}</p>
                             </div>
                             {% endif %}
                         </div>
                     </div>
 
                     <div class="xc_pagination">
-                        <span class="xc_page-info">共 {{ pageData.page_num }} 页 / {{ pageData.count }} 条</span>
+                        <span class="xc_page-info">{{ T.algo_total|default:'共' }} {{ pageData.page_num }} {{ T.algo_page_unit|default:'页' }} / {{ pageData.count }} {{ T.algo_item_unit|default:'条' }}</span>
                         {%  for d  in pageData.pageLabels%}
                           {% if d.cur == 1 %}
                             <div class="xc_page-btn active">{{ d.name }}</div>
@@ -540,7 +540,7 @@
     
     // 删除算法
     function f_del(code) {
-        if(!confirm('确认删除该基础算法吗？')) {
+        if(!confirm(_t('algo_confirm_delete', '确认删除该基础算法吗？'))) {
             return;
         }
         
@@ -554,12 +554,12 @@
             timeout: 0,
             error: function () {
                 ele_top_loading.hide();
-                myToast2025("网络异常，请确定网络正常！", "error");
+                myToast2025(_t('algo_net_error', '网络异常，请确定网络正常！'), "error");
             },
             success: function (res) {
                 ele_top_loading.hide();
                 if(1000 === res.code) {
-                    myToast2025("删除成功", "success");
+                    myToast2025(_t('algo_delete_success', '删除成功'), "success");
                     setTimeout(function() {
                         window.location.reload();
                     }, 800);

@@ -117,49 +117,49 @@
     let eleSidebarMenus= document.getElementById("sidebar_menus");
     let html = "";
     if(is_superuser || permissions["/"] || permissions["/dashboard"]) {
-        html += "<li><a href=\"javascript:void(0);\" onclick=\"toggleMenu(this, event)\"><i class=\"fa fa-home\"></i> 主页 <span class=\"fa fa-chevron-down\"></span></a>";
+        html += "<li><a href=\"javascript:void(0);\" onclick=\"toggleMenu(this, event)\"><i class=\"fa fa-home\"></i> {{ T.menu_home|default:'主页' }} <span class=\"fa fa-chevron-down\"></span></a>";
             html += "<ul class=\"nav child_menu\">";
             if (is_superuser || permissions["/"]) {
-                html += "<li><a href=\"/\">控制面板</a></li>";
+                html += "<li><a href=\"/\">{{ T.menu_welcome|default:'控制面板' }}</a></li>";
             }
             if (is_superuser || permissions["/dashboard"]) {
-                html += "<li><a href=\"/dashboard\">大屏管理</a></li>";
+                html += "<li><a href=\"/dashboard\">{{ T.menu_dashboard|default:'大屏管理' }}</a></li>";
             }
             html += "</ul>";
         html += "</li>";
     }
     if(is_superuser || permissions["/alarm/index"] || permissions["/alarmInterface/index"]) {
-        html += "<li><a href=\"javascript:void(0);\" onclick=\"toggleMenu(this, event)\"><i class=\"fa fa-bullhorn\"></i> 报警管理 <span class=\"fa fa-chevron-down\"></span></a>";
+        html += "<li><a href=\"javascript:void(0);\" onclick=\"toggleMenu(this, event)\"><i class=\"fa fa-bullhorn\"></i> {{ T.menu_alarm|default:'报警管理' }} <span class=\"fa fa-chevron-down\"></span></a>";
             html += "<ul class=\"nav child_menu\">";
             if (is_superuser || permissions["/alarm/index"]) {
-                html += "<li><a href=\"/alarm/index\">报警管理</a></li>";
+                html += "<li><a href=\"/alarm/index\">{{ T.menu_alarm_record|default:'报警管理' }}</a></li>";
             }
             if (is_superuser || permissions["/alarmInterface/index"]) {
-                html += "<li><a href=\"/alarmInterface/index\">报警存储管理</a></li>";
+                html += "<li><a href=\"/alarmInterface/index\">{{ T.menu_alarm_storage|default:'报警存储管理' }}</a></li>";
             }
             html += "</ul>";
         html += "</li>";
     }
     if(is_superuser || permissions["/algorithmFlow/test"] || permissions["/algorithmFlow/index"] || permissions["/algorithm/index"] || permissions["/behaviour/index"]
     ) {
-        html += "<li><a href=\"javascript:void(0);\" onclick=\"toggleMenu(this, event)\"><i class=\"fa fa-eye\"></i> 算法管理 <span class=\"fa fa-chevron-down\"></span></a>";
+        html += "<li><a href=\"javascript:void(0);\" onclick=\"toggleMenu(this, event)\"><i class=\"fa fa-eye\"></i> {{ T.menu_algorithm|default:'算法管理' }} <span class=\"fa fa-chevron-down\"></span></a>";
             html += "<ul class=\"nav child_menu\">";
             if (is_superuser || permissions["/algorithmFlow/test"]) {
-                html += "<li><a href=\"/algorithmFlow/test\">算法测试</a></li>";
+                html += "<li><a href=\"/algorithmFlow/test\">{{ T.menu_algorithm_test|default:'算法测试' }}</a></li>";
             }
             if (is_superuser || permissions["/algorithmFlow/index"]) {
-                html += "<li><a href=\"/algorithmFlow/index\">业务算法管理</a></li>";
+                html += "<li><a href=\"/algorithmFlow/index\">{{ T.menu_algorithm_flow|default:'业务算法管理' }}</a></li>";
             }
 
             if (is_superuser || permissions["/algorithm/index"]) {
-                html += "<li><a href=\"/algorithm/index\">基础算法管理</a></li>";
+                html += "<li><a href=\"/algorithm/index\">{{ T.menu_algorithm_base|default:'基础算法管理' }}</a></li>";
             }
 
             if (is_superuser || permissions["/behaviour/index"]) {
-                html += "<li><a href=\"/behaviour/index\">行为算法管理</a></li>";
+                html += "<li><a href=\"/behaviour/index\">{{ T.menu_algorithm_behavior|default:'行为算法管理' }}</a></li>";
             }
             if (is_superuser || permissions["/llm/index"]) {
-                html += "<li><a href=\"/llm/index\">大模型管理</a></li>";
+                html += "<li><a href=\"/llm/index\">{{ T.menu_llm|default:'大模型管理' }}</a></li>";
             }
             html += "</ul>";
         html += "</li>";
@@ -167,74 +167,74 @@
     if(is_superuser || permissions["/stream/online"] || permissions["/stream/index"] || permissions["/stream/player"]
         || permissions["/streamRecord/index"] || permissions["/streamRecord/timeplayer"]
     ) {
-        html += "<li><a href=\"javascript:void(0);\" onclick=\"toggleMenu(this, event)\"><i class=\"fa fa-video-camera\"></i> 视频管理 <span class=\"fa fa-chevron-down\"></span></a>";
+        html += "<li><a href=\"javascript:void(0);\" onclick=\"toggleMenu(this, event)\"><i class=\"fa fa-video-camera\"></i> {{ T.menu_video|default:'视频管理' }} <span class=\"fa fa-chevron-down\"></span></a>";
         html += "<ul class=\"nav child_menu\">";
         if (is_superuser || permissions["/stream/online"]) {
-            html += "<li><a href=\"/stream/online\">在线预览</a></li>";
+            html += "<li><a href=\"/stream/online\">{{ T.menu_video_online|default:'在线预览' }}</a></li>";
         }
         if (is_superuser || permissions["/stream/index"]) {
-            html += "<li><a href=\"/stream/index\">摄像头管理</a></li>";
+            html += "<li><a href=\"/stream/index\">{{ T.menu_video_camera|default:'摄像头管理' }}</a></li>";
         }
         if (is_superuser || permissions["/stream/player"]) {
-            html += "<li><a href=\"/stream/player\">单屏播放器</a></li>";
+            html += "<li><a href=\"/stream/player\">{{ T.menu_video_player|default:'单屏播放器' }}</a></li>";
         }
 
         if (is_superuser || permissions["/streamRecord/index"]) {
-            html += "<li><a href=\"/streamRecord/index\">录像计划管理</a></li>";
+            html += "<li><a href=\"/streamRecord/index\">{{ T.menu_record_plan|default:'录像计划管理' }}</a></li>";
         }
         if (is_superuser || permissions["/streamRecord/timeplayer"]) {
-            html += "<li><a href=\"/streamRecord/timeplayer\">录像播放器</a></li>";
+            html += "<li><a href=\"/streamRecord/timeplayer\">{{ T.menu_record_player|default:'录像播放器' }}</a></li>";
         }
         html += "</ul>";
         html += "</li>";
     }
     if(is_superuser || permissions["/control/index"] ) {
-        html += "<li><a href=\"javascript:void(0);\" onclick=\"toggleMenu(this, event)\"><i class=\"fa fa-cube\"></i> 布控管理 <span class=\"fa fa-chevron-down\"></span></a>";
+        html += "<li><a href=\"javascript:void(0);\" onclick=\"toggleMenu(this, event)\"><i class=\"fa fa-cube\"></i> {{ T.menu_control|default:'布控管理' }} <span class=\"fa fa-chevron-down\"></span></a>";
         html += "<ul class=\"nav child_menu\">";
         if (is_superuser || permissions["/control/index"]) {
-            html += "<li><a href=\"/control/index\">布控管理</a></li>";
+            html += "<li><a href=\"/control/index\">{{ T.menu_control|default:'布控管理' }}</a></li>";
         }
         html += "</ul>";
         html += "</li>";
         }
         if(is_superuser || permissions["/audio/index"]) {
-            html += "<li><a href=\"javascript:void(0);\" onclick=\"toggleMenu(this, event)\"><i class=\"fa fa-music\"></i> 音频管理 <span class=\"fa fa-chevron-down\"></span></a>";
+            html += "<li><a href=\"javascript:void(0);\" onclick=\"toggleMenu(this, event)\"><i class=\"fa fa-music\"></i> {{ T.menu_audio|default:'音频管理' }} <span class=\"fa fa-chevron-down\"></span></a>";
                 html += "<ul class=\"nav child_menu\">";
                 if (is_superuser || permissions["/audio/index"]) {
-                    html += "<li><a href=\"/audio/index\">音频管理</a></li>";
+                    html += "<li><a href=\"/audio/index\">{{ T.menu_audio|default:'音频管理' }}</a></li>";
                 }
                 html += "</ul>";
             html += "</li>";
         }
         if(is_superuser || permissions["/face/index"]) {
-            html += "<li><a href=\"javascript:void(0);\" onclick=\"toggleMenu(this, event)\"><i class=\"fa fa-user-plus\"></i> 人脸管理 <span class=\"fa fa-chevron-down\"></span></a>";
+            html += "<li><a href=\"javascript:void(0);\" onclick=\"toggleMenu(this, event)\"><i class=\"fa fa-user-plus\"></i> {{ T.menu_face|default:'人脸管理' }} <span class=\"fa fa-chevron-down\"></span></a>";
                 html += "<ul class=\"nav child_menu\">";
                 if (is_superuser || permissions["/face/index"]) {
-                    html += "<li><a href=\"/face/index\">人脸管理</a></li>";
+                    html += "<li><a href=\"/face/index\">{{ T.menu_face|default:'人脸管理' }}</a></li>";
                 }
                 html += "</ul>";
             html += "</li>";
         }
        if(is_superuser || permissions["/scheduleTask/index"]) {
-            html += "<li><a href=\"javascript:void(0);\" onclick=\"toggleMenu(this, event)\"><i class=\"fa fa-clock-o\"></i> 计划任务 <span class=\"fa fa-chevron-down\"></span></a>";
+            html += "<li><a href=\"javascript:void(0);\" onclick=\"toggleMenu(this, event)\"><i class=\"fa fa-clock-o\"></i> {{ T.menu_schedule|default:'计划任务' }} <span class=\"fa fa-chevron-down\"></span></a>";
                 html += "<ul class=\"nav child_menu\">";
                 if (is_superuser || permissions["/scheduleTask/index"]) {
-                    html += "<li><a href=\"/scheduleTask/index\">计划任务</a></li>";
+                    html += "<li><a href=\"/scheduleTask/index\">{{ T.menu_schedule|default:'计划任务' }}</a></li>";
                 }
                 html += "</ul>";
             html += "</li>";
         }
         if(is_superuser || permissions["/user/index"] || permissions["/user/permission"] || permissions["/user/log"]) {
-            html += "<li><a href=\"javascript:void(0);\" onclick=\"toggleMenu(this, event)\"><i class=\"fa fa-user\"></i> 用户管理 <span class=\"fa fa-chevron-down\"></span></a>";
+            html += "<li><a href=\"javascript:void(0);\" onclick=\"toggleMenu(this, event)\"><i class=\"fa fa-user\"></i> {{ T.menu_user|default:'用户管理' }} <span class=\"fa fa-chevron-down\"></span></a>";
             html += "<ul class=\"nav child_menu\">";
             if (is_superuser || permissions["/user/index"]) {
-                html += "<li><a href=\"/user/index\">用户管理</a></li>";
+                html += "<li><a href=\"/user/index\">{{ T.menu_user_list|default:'用户管理' }}</a></li>";
             }
             if (is_superuser || permissions["/user/permission"]) {
-                html += "<li><a href=\"/user/permission\">权限管理</a></li>";
+                html += "<li><a href=\"/user/permission\">{{ T.menu_user_permission|default:'权限管理' }}</a></li>";
             }
             if (is_superuser || permissions["/user/log"]) {
-                html += "<li><a href=\"/user/log\">日志管理</a></li>";
+                html += "<li><a href=\"/user/log\">{{ T.menu_user_log|default:'日志管理' }}</a></li>";
             }
             html += "</ul>";
             html += "</li>";
@@ -242,19 +242,19 @@
 
 
         if(is_superuser || permissions["/system/config"] || permissions["/system/settings"] || permissions["/auth/index"] || permissions["/version/index"]) {
-            html += "<li><a href=\"javascript:void(0);\" onclick=\"toggleMenu(this, event)\"><i class=\"fa fa-gear\"></i> 系统功能 <span class=\"fa fa-chevron-down\"></span></a>";
+            html += "<li><a href=\"javascript:void(0);\" onclick=\"toggleMenu(this, event)\"><i class=\"fa fa-gear\"></i> {{ T.menu_system|default:'系统功能' }} <span class=\"fa fa-chevron-down\"></span></a>";
                 html += "<ul class=\"nav child_menu\">";
                 if (is_superuser || permissions["/system/config"]) {
-                    html += "<li><a href=\"/system/config\">启动配置</a></li>";
+                    html += "<li><a href=\"/system/config\">{{ T.menu_system_config|default:'启动配置' }}</a></li>";
                 }
                 if (is_superuser || permissions["/system/settings"]) {
-                    html += "<li><a href=\"/system/settings\">系统设置</a></li>";
+                    html += "<li><a href=\"/system/settings\">{{ T.menu_system_settings|default:'系统设置' }}</a></li>";
                 }
                 if (is_superuser || permissions["/auth/index"]) {
-                    html += "<li><a href=\"/auth/index\">系统授权</a></li>";
+                    html += "<li><a href=\"/auth/index\">{{ T.menu_system_auth|default:'系统授权' }}</a></li>";
                 }
                 if (is_superuser || permissions["/version/index"]) {
-                    html += "<li><a href=\"/version/index\">关于系统</a></li>";
+                    html += "<li><a href=\"/version/index\">{{ T.menu_system_about|default:'关于系统' }}</a></li>";
                 }
                 html += "</ul>";
             html += "</li>";

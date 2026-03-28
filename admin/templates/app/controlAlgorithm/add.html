@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% if  "add" == handle %}添加布控算法{% else %}编辑布控算法{% endif %}</title>
+    <title>{% if "add" == handle %}{{ T.control_alg_add_title|default:'添加布控算法' }}{% else %}{{ T.control_alg_edit_title|default:'编辑布控算法' }}{% endif %}</title>
     
     <!-- Font Awesome -->
     <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -231,13 +231,13 @@
                 </div>
 
                 <div class="div_left_bottom_menu">
-                    <button type="button" onclick="f_clickPlayStart()" class="btn btn-dark"><i class="fa fa-play"></i> 播放</button>
-                    <button type="button" onclick="f_clickPlayStop()" class="btn btn-default"><i class="fa fa-stop"></i> 停止</button>
-                    <button type="button" onclick="f_clearVideoCanvas()" class="btn btn-default"><i class="fa fa-paint-brush"></i> 清空区域</button>
+                    <button type="button" onclick="f_clickPlayStart()" class="btn btn-dark"><i class="fa fa-play"></i> {{ T.control_alg_play|default:'播放' }}</button>
+                    <button type="button" onclick="f_clickPlayStop()" class="btn btn-default"><i class="fa fa-stop"></i> {{ T.control_alg_stop|default:'停止' }}</button>
+                    <button type="button" onclick="f_clearVideoCanvas()" class="btn btn-default"><i class="fa fa-paint-brush"></i> {{ T.control_alg_clear|default:'清空区域' }}</button>
                     <div class="btn-group">
-                        <button type="button" id="btn_draw_type1" class="btn btn-default">矩形</button>
-                        <button type="button" id="btn_draw_type2" class="btn btn-default">多边形</button>
-                        <button type="button" id="btn_draw_type4" class="btn btn-default">方向线</button>
+                        <button type="button" id="btn_draw_type1" class="btn btn-default">{{ T.control_alg_rect|default:'矩形' }}</button>
+                        <button type="button" id="btn_draw_type2" class="btn btn-default">{{ T.control_alg_polygon|default:'多边形' }}</button>
+                        <button type="button" id="btn_draw_type4" class="btn btn-default">{{ T.control_alg_direction|default:'方向线' }}</button>
                     </div>
                 </div>
             </div>
@@ -246,26 +246,26 @@
             <div class="form-section">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="control-label">布控编号</label>
+                        <label class="control-label">{{ T.control_alg_control_code|default:'布控编号' }}</label>
                         <span style="height: 34px;line-height: 34px;padding: 6px 0;">{{ controlAlgorithm.control_code }}</span>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label">布控算法编号</label>
+                        <label class="control-label">{{ T.control_alg_alg_code|default:'布控算法编号' }}</label>
                         <span style="height: 34px;line-height: 34px;padding: 6px 0;">{{ controlAlgorithm.code }}</span>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label">播放地址</label>
+                        <label class="control-label">{{ T.control_alg_play_url|default:'播放地址' }}</label>
                         <input id="input_video_url" type="url" disabled="disabled" class="form-control">
                     </div>
 
                     <div class="ln_solid"></div>
 
                     <div class="form-group">
-                        <label class="control-label">业务算法 <span class="required">*</span></label>
+                        <label class="control-label">{{ T.control_alg_flow|default:'业务算法' }} <span class="required">*</span></label>
                         <select id="select_flow" class="form-control" required="required">
-                            <option value="0">请选择业务算法</option>
+                            <option value="0">{{ T.control_alg_select_flow|default:'请选择业务算法' }}</option>
                             {% for flow in flows %}
                                 <option {% if flow.code == controlAlgorithm.flow_code %} selected {% endif %} value="{{ flow.code }}">{{ flow.name }}</option>
                             {% endfor %}
@@ -273,9 +273,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label">大模型复核</label>
+                        <label class="control-label">{{ T.control_alg_llm|default:'大模型复核' }}</label>
                         <select id="select_llm" class="form-control">
-                            <option value="">请选择大模型</option>
+                            <option value="">{{ T.control_alg_select_llm|default:'请选择大模型' }}</option>
                             {% for llm in llms %}
                                 <option {% if llm.code == controlAlgorithm.llm_code %} selected {% endif %} value="{{ llm.code }}">{{ llm.name }}</option>
                             {% endfor %}
@@ -283,12 +283,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label">大模型提示词</label>
+                        <label class="control-label">{{ T.control_alg_llm_prompt|default:'大模型提示词' }}</label>
                         <textarea rows="1" id="input_llm_prompt" class="form-control" style="height: 40px; min-height: 40px;">{{ controlAlgorithm.llm_prompt }}</textarea>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label">发生关键词</label>
+                        <label class="control-label">{{ T.control_alg_happen_words|default:'发生关键词' }}</label>
                         <input type="text" id="input_llm_happen_words" class="form-control" value="{{ controlAlgorithm.llm_happen_words }}">
                     </div>
                     <!--
@@ -300,8 +300,8 @@
                     <div class="ln_solid"></div>
 
                     <div class="form-actions">
-                        <button type="button" onclick="if(window.parent && window.parent.closeAlgorithmModal){window.parent.closeAlgorithmModal();}else{window.history.go(-1);}" class="btn btn-default">取消</button>
-                        <button type="button" onclick="f_openHandle()" class="btn btn-dark">提交</button>
+                        <button type="button" onclick="if(window.parent && window.parent.closeAlgorithmModal){window.parent.closeAlgorithmModal();}else{window.history.go(-1);}" class="btn btn-default">{{ T.control_alg_cancel|default:'取消' }}</button>
+                        <button type="button" onclick="f_openHandle()" class="btn btn-dark">{{ T.control_alg_submit|default:'提交' }}</button>
                     </div>
                 </form>
             </div>
@@ -318,6 +318,8 @@
     <script src="/static/app/common/js/toast.js"></script>
 
     <script>
+        window.LANG = {{ T_JSON|safe|default:'{}' }};
+        function _t(key, def) { return (window.LANG && window.LANG[key]) ? window.LANG[key] : (def !== undefined ? def : key); }
 
         let flowDict = {};//算法字典
         let flowCode;
@@ -420,7 +422,7 @@
                     }else{
                         f_clearVideoCanvas();
                         f_changeCreateType(4);
-                        alert("绘制类型不正确，请重试");
+                        alert(_t("control_alg_draw_type_wrong", "绘制类型不正确，请重试"));
                         return;
                     }
                 }
@@ -435,7 +437,7 @@
                         let line = option[ind - 2] // 拿到直线
                         let res = f_calcuTwoLineIntersect(line.coor[0], line.coor[1], info.coor[0], info.coor[1]);
                         if (!res) {
-                            alert("方向线交叉不合规c1-"+info_type);
+                            alert(_t("control_alg_direction_cross_err", "方向线交叉不合规") + "c1-" + info_type);
                             option.pop()
                             instance.setData(option);
 
@@ -443,7 +445,7 @@
                     }else{
                         f_clearVideoCanvas();
                         f_changeCreateType(4);
-                        alert("方向线类型不合规c1-"+info_type);
+                        alert(_t("control_alg_direction_type_err", "方向线类型不合规") + "c1-" + info_type);
                     }
                 } else if (option.length === 3) {
                     if (info.type === 6) {
@@ -451,7 +453,7 @@
                         let line = option[ind - 2] // 拿到直线
                         let res = f_calcuTwoLineIntersect(line.coor[0], line.coor[1], info.coor[0], info.coor[1]);
                         if (!res) {
-                            alert("方向线交叉不合规c2-"+info_type);
+                            alert(_t("control_alg_direction_cross_err", "方向线交叉不合规") + "c2-" + info_type);
                             option.pop()
                             instance.setData(option);
 
@@ -459,7 +461,7 @@
                     } else {
                         f_clearVideoCanvas();
                         f_changeCreateType(4);
-                        alert("方向线类型不合规c2-"+info_type);
+                        alert(_t("control_alg_direction_type_err", "方向线类型不合规") + "c2-" + info_type);
                     }
                 }
             }
@@ -591,11 +593,11 @@
 
         function f_playStart(video_url){
             if(video_url === "" || typeof video_url === "undefined"){
-                myToast2025("请输入播放地址（支持ws-fmp4/http-fmp4）！","error");
+                myToast2025(_t("control_alg_player_no_url", "请输入播放地址（支持ws-fmp4/http-fmp4）！"), "error");
                 return false;
             }
             if(!video_url.endsWith(".mp4")){
-                myToast2025("视频流地址格式不正确！","error");
+                myToast2025(_t("control_alg_url_format_err", "视频流地址格式不正确！"), "error");
                 return false;
             }
             if(video_url.startsWith("ws://") || video_url.startsWith("http://")){
@@ -610,7 +612,7 @@
                 }
                 f_resetPolygon()
             }else{
-                 myToast2025("视频流地址格式不正确！","error");
+                 myToast2025(_t("control_alg_url_format_err", "视频流地址格式不正确！"), "error");
                  return false;
             }
 
@@ -620,7 +622,7 @@
                 //ePlayer.pause();
                 ePlayer.destroy();
             }else{
-                myToast2025("播放器未启动！","error");
+                myToast2025(_t("control_alg_player_not_started", "播放器未启动！"), "error");
             }
             f_clearVideoCanvas()
 
@@ -644,7 +646,7 @@
 
             flowCode = eleSelectFlow.val().trim();//typeof string
             if(flowCode==="0"){
-                myToast2025("请选择算法","error");
+                myToast2025(_t("control_alg_select_flow_err", "请选择算法"), "error");
                 return;
             }
 
@@ -720,7 +722,7 @@
 
                     polygon_array.push(item.join(","))
                 }else{
-                    myToast2025("方向线类型必须是两条直线","error");
+                    myToast2025(_t("control_alg_direction_two_lines", "方向线类型必须是两条直线"), "error");
                     return;
                 }
             }else if(mPolygonType === 3){//多边形
@@ -750,7 +752,7 @@
                     polygon_array.push(item.join(","))
                 }
             }else{
-                myToast2025("绘制类型错误:"+mPolygonType.toString(),"error");
+                myToast2025(_t("control_alg_draw_type_err_prefix", "绘制类型错误:") + mPolygonType.toString(), "error");
                 return;
             }
             console.log("polygon_array.length->",polygon_array.length)
@@ -788,7 +790,7 @@
                dataType: "json",
                timeout: "3000",
                error: function () {
-                    myToast2025("网络异常，请确定网络正常！","error",3000);
+                    myToast2025(_t("common_net_error", "网络异常，请确定网络正常！"), "error", 3000);
                },
                success: function (res) {
                    if(1000 === res.code){

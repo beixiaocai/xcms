@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 
-{% block title %} 无权限访问 {% endblock title %}
+{% block title %} {{ T.forbidden_title|default:'无权限访问' }} {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
@@ -135,10 +135,10 @@
                 <i class="fa fa-ban"></i>
             </div>
             
-            <h2 class="xc_no-permission-title">无权限访问</h2>
+            <h2 class="xc_no-permission-title">{{ T.forbidden_title|default:'无权限访问' }}</h2>
             
             <p class="xc_no-permission-message">
-                抱歉，您没有访问此页面的权限
+                {{ T.forbidden_message|default:'抱歉，您没有访问此页面的权限' }}
             </p>
             
             {% if request_path %}
@@ -148,17 +148,17 @@
             <div class="xc_no-permission-actions">
                 <a href="javascript:history.back()" class="xc_no-permission-btn">
                     <i class="fa fa-arrow-left"></i>
-                    返回上一页
+                    {{ T.forbidden_back|default:'返回上一页' }}
                 </a>
                 <a href="/" class="xc_no-permission-btn xc_no-permission-btn-primary">
                     <i class="fa fa-home"></i>
-                    返回首页
+                    {{ T.forbidden_home|default:'返回首页' }}
                 </a>
             </div>
             
             <div class="xc_no-permission-footer">
                 <p class="xc_no-permission-tip">
-                    如需访问此功能，请联系<span class="xc_no-permission-tip-highlight">超级管理员</span>为您分配相应权限
+                    {{ T.forbidden_tip_prefix|default:'如需访问此功能，请联系' }}<span class="xc_no-permission-tip-highlight">{{ T.forbidden_tip_admin|default:'超级管理员' }}</span>{{ T.forbidden_tip_suffix|default:'为您分配相应权限' }}
                 </p>
             </div>
         </div>

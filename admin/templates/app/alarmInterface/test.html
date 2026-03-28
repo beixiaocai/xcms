@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>报警存储测试</title>
+    <title>{{ T.alarm_test_title|default:'报警存储测试' }}</title>
     <link href="/static/lib/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <style>
@@ -100,26 +100,37 @@
         }
         
         .btn-test {
-            padding: 12px 32px;
-            background: #1a1a2e;
+            padding: 10px 32px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 6px;
+            font-size: 13px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            white-space: nowrap;
+            height: 32px;
+            line-height: 1;
+            box-sizing: border-box;
+            vertical-align: middle;
+            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
             margin-top: 10px;
         }
         
         .btn-test:hover {
-            background: #252545;
-            box-shadow: 0 4px 12px rgba(26, 26, 46, 0.3);
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
             transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
         }
         
         .btn-test:active {
             transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
         }
         
         .result-area {
@@ -323,10 +334,10 @@
     <div class="tool-container">
         <div class="left-panel">
             <div class="tool-section">
-                <h4>报警存储信息</h4>
+                <h4>{{ T.alarm_test_info_title|default:'报警存储信息' }}</h4>
                 <div id="alarmInfoContent">
                     <div style="text-align: center; padding: 20px; color: #6c757d;">
-                        <i class="fa fa-spinner fa-spin"></i> 加载中...
+                        <i class="fa fa-spinner fa-spin"></i> {{ T.common_loading|default:'加载中...' }}
                     </div>
                 </div>
             </div>
@@ -334,19 +345,19 @@
         
         <div class="right-panel">
             <div class="tool-section">
-                <h4>报警存储测试</h4>
+                <h4>{{ T.alarm_test_title|default:'报警存储测试' }}</h4>
                 <form id="alarmTestForm">
                     <div class="form-group">
-                        <label>选择图片 <span style="color: red;">*</span></label>
+                        <label>{{ T.alarm_test_select_img|default:'选择图片' }} <span style="color: red;">*</span></label>
                         <input type="file" id="testImage" accept="image/*" required>
                     </div>
                     <div class="form-group">
-                        <label>选择视频</label>
+                        <label>{{ T.alarm_test_select_video|default:'选择视频' }}</label>
                         <input type="file" id="testVideo" accept="video/*">
                     </div>
                     <div class="form-group">
                         <label style="display: flex; justify-content: space-between; align-items: center;">
-                            <span>是否开启base64</span>
+                            <span>{{ T.alarm_test_enable_base64|default:'是否开启base64' }}</span>
                             <label class="switch">
                                 <input type="checkbox" id="enableBase64Toggle">
                                 <span class="slider round"></span>
@@ -412,10 +423,10 @@
                             border-radius: 50%;
                         }
                     </style>
-                    <button type="submit" class="btn-test">开始测试</button>
+                    <button type="submit" class="btn-test">{{ T.alarm_test_btn|default:'测试' }}</button>
                 </form>
                 <div id="testLoading" style="display:none;">
-                    <i class="fa fa-spinner fa-spin"></i> 测试中...
+                    <i class="fa fa-spinner fa-spin"></i> {{ T.alarm_test_testing|default:'测试中...' }}
                 </div>
                 <div id="testResult" class="result-area" style="display:none;"></div>
             </div>
@@ -424,6 +435,9 @@
 
     <script src="/static/lib/jquery/jquery.min.js"></script>
     <script>
+        window.LANG = {{ T_JSON|safe|default:'{}' }};
+        function _t(key, def) { return (window.LANG && window.LANG[key]) ? window.LANG[key] : (def !== undefined ? def : key); }
+
         // 页面加载时检查是否有code参数
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -433,7 +447,7 @@
             } else {
                 document.getElementById('alarmInfoContent').innerHTML = `
                     <div style="text-align: center; padding: 20px; color: #dc3545;">
-                        <i class="fa fa-exclamation-circle"></i> 未找到报警存储编号参数
+                        <i class="fa fa-exclamation-circle"></i> ${_t('alarm_test_no_code_err', '未找到报警存储编号参数')}
                     </div>
                 `;
             }
@@ -451,7 +465,7 @@
                 error: function () {
                     document.getElementById('alarmInfoContent').innerHTML = `
                         <div style="text-align: center; padding: 20px; color: #dc3545;">
-                            <i class="fa fa-exclamation-circle"></i> 加载失败，请检查网络连接
+                            <i class="fa fa-exclamation-circle"></i> ${_t('alarm_test_load_fail', '加载失败，请检查网络连接')}
                         </div>
                     `;
                 },
@@ -463,36 +477,36 @@
                         // 构建报警信息HTML
                         html += `
                             <div class="alarm-info-item">
-                                <div class="alarm-info-label">编号：</div>
+                                <div class="alarm-info-label">${_t('alarm_test_code_label', '编号：')}</div>
                                 <div class="alarm-info-value">${alarmInfo.code}</div>
                             </div>
                             <div class="alarm-info-item">
-                                <div class="alarm-info-label">名称：</div>
+                                <div class="alarm-info-label">${_t('alarm_test_name_label', '名称：')}</div>
                                 <div class="alarm-info-value">${alarmInfo.name}</div>
                             </div>
                             <div class="alarm-info-item">
-                                <div class="alarm-info-label">是否保存本地：</div>
-                                <div class="alarm-info-value">${alarmInfo.is_save_local === 1 ? '是' : '否'}</div>
+                                <div class="alarm-info-label">${_t('alarm_test_save_local_label', '是否保存本地：')}</div>
+                                <div class="alarm-info-value">${alarmInfo.is_save_local === 1 ? _t('common_yes', '是') : _t('common_no', '否')}</div>
                             </div>
                             <div class="alarm-info-item">
-                                <div class="alarm-info-label">服务器类型：</div>
+                                <div class="alarm-info-label">${_t('alarm_test_server_type_label', '服务器类型：')}</div>
                                 <div class="alarm-info-value">${getServerTypeText(alarmInfo.request_server_type)}</div>
                             </div>
                             <div class="alarm-info-item">
-                                <div class="alarm-info-label">服务器地址：</div>
-                                <div class="alarm-info-value">${alarmInfo.request_address || '无'}</div>
+                                <div class="alarm-info-label">${_t('alarm_test_server_addr_label', '服务器地址：')}</div>
+                                <div class="alarm-info-value">${alarmInfo.request_address || _t('common_none', '无')}</div>
                             </div>
                             <div class="alarm-info-item">
-                                <div class="alarm-info-label">服务器参数：</div>
-                                <div class="alarm-info-value">${alarmInfo.request_params || '无'}</div>
+                                <div class="alarm-info-label">${_t('alarm_test_server_params_label', '服务器参数：')}</div>
+                                <div class="alarm-info-value">${alarmInfo.request_params || _t('common_none', '无')}</div>
                             </div>
                             <div class="alarm-info-item">
-                                <div class="alarm-info-label">扩展参数：</div>
-                                <div class="alarm-info-value">${alarmInfo.request_content_extend_params || '无'}</div>
+                                <div class="alarm-info-label">${_t('alarm_test_extend_label', '扩展参数：')}</div>
+                                <div class="alarm-info-value">${alarmInfo.request_content_extend_params || _t('common_none', '无')}</div>
                             </div>
                             <div class="alarm-info-item">
-                                <div class="alarm-info-label">创建时间：</div>
-                                <div class="alarm-info-value">${alarmInfo.create_time || '未知'}</div>
+                                <div class="alarm-info-label">${_t('alarm_test_create_time_label', '创建时间：')}</div>
+                                <div class="alarm-info-value">${alarmInfo.create_time || _t('common_unknown', '未知')}</div>
                             </div>
                         `;
                         
@@ -500,7 +514,7 @@
                     } else {
                         document.getElementById('alarmInfoContent').innerHTML = `
                             <div style="text-align: center; padding: 20px; color: #dc3545;">
-                                <i class="fa fa-exclamation-circle"></i> ${res.msg || '报警存储信息不存在'}
+                                <i class="fa fa-exclamation-circle"></i> ${res.msg || _t('alarm_test_not_exist', '报警存储信息不存在')}
                             </div>
                         `;
                     }
@@ -538,7 +552,7 @@
             const code = urlParams.get('code');
             
             if (!code) {
-                alert('未找到报警存储编号参数');
+                alert(_t('alarm_test_no_code_err', '未找到报警存储编号参数'));
                 return;
             }
             
@@ -547,7 +561,7 @@
             // 验证并添加图片文件（必填）
             const imageFiles = document.getElementById('testImage').files;
             if (imageFiles.length === 0) {
-                alert('请选择测试图片');
+                alert(_t('alarm_test_select_img_err', '请选择测试图片'));
                 return;
             }
             formData.append('image', imageFiles[0]);
@@ -579,7 +593,7 @@
                     document.getElementById('testLoading').style.display = 'none';
                     document.getElementById('testResult').style.display = 'block';
                     document.getElementById('testResult').innerHTML = `
-                        <div style="color:red;font-weight:500;">请求失败：${error}</div>
+                        <div style="color:red;font-weight:500;">${_t('alarm_test_req_fail_prefix', '请求失败：')}${error}</div>
                         <div style="margin-top:10px;">状态：${status}</div>
                     `;
                 },
@@ -592,14 +606,14 @@
                     if (data.code === 1000) {
                         document.getElementById('testResult').innerHTML = `
                             <div>
-                                <div style="margin:0 0 10px 0;font-size:14px;color:#666;font-weight:500;">测试时间：${(duration / 1000).toFixed(2)}秒</div>
-                                <div style="margin:0 0 10px 0;font-size:14px;color:#28a745;font-weight:500;">测试成功：${data.msg}</div>
+                                <div style="margin:0 0 10px 0;font-size:14px;color:#666;font-weight:500;">${_t('alarm_test_time_prefix', '测试时间：')}${(duration / 1000).toFixed(2)}秒</div>
+                                <div style="margin:0 0 10px 0;font-size:14px;color:#28a745;font-weight:500;">${_t('alarm_test_success_prefix', '测试成功：')}${data.msg}</div>
                                 <div style="font-size:14px;white-space:pre-wrap;word-break:break-all;">${JSON.stringify(data.result || {}, null, 2)}</div>
                             </div>
                         `;
                     } else {
                         document.getElementById('testResult').innerHTML = `
-                            <div style="color:red;font-weight:500;">测试失败：${data.msg}</div>
+                            <div style="color:red;font-weight:500;">${_t('alarm_test_fail_prefix', '测试失败：')}${data.msg}</div>
                             <div style="margin-top:10px;font-size:14px;white-space:pre-wrap;word-break:break-all;">${JSON.stringify(data, null, 2)}</div>
                         `;
                     }

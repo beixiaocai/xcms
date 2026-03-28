@@ -276,7 +276,7 @@
         <div class="xc_modal-header">
             <div class="xc_modal-title" id="modalTitle">
                 <i class="fa fa-plus-circle"></i>
-                添加基础算法
+                {{ T.algo_modal_add_title|default:'添加基础算法' }}
             </div>
             <button class="xc_modal-close" onclick="closeAlgorithmModal()">×</button>
         </div>
@@ -286,41 +286,41 @@
                 <input type="hidden" id="form_code" value="">
                 
                 <div class="xc_form-group" id="code_group" style="display: none;">
-                    <label class="xc_form-label">算法编号</label>
+                    <label class="xc_form-label">{{ T.algo_id_label|default:'算法编号' }}</label>
                     <input type="text" id="input_code_display" class="xc_form-input" disabled>
                 </div>
                 
                 <div class="xc_form-group">
-                    <label class="xc_form-label">算法名称<span class="required">*</span></label>
-                    <input type="text" id="input_name" class="xc_form-input" placeholder="请输入算法名称">
+                    <label class="xc_form-label">{{ T.algo_name_label|default:'算法名称' }}<span class="required">*</span></label>
+                    <input type="text" id="input_name" class="xc_form-input" placeholder="{{ T.algo_name_placeholder|default:'请输入算法名称' }}">
                 </div>
                 
                 <div class="xc_form-row">
                     <div class="xc_form-group">
-                        <label class="xc_form-label">算法类型<span class="required">*</span></label>
+                        <label class="xc_form-label">{{ T.algo_type_label|default:'算法类型' }}<span class="required">*</span></label>
                         <select id="input_algorithm_type" class="xc_form-select">
-                            <option value="0">请选择</option>
+                            <option value="0">{{ T.algo_select|default:'请选择' }}</option>
                         </select>
                     </div>
                     <div class="xc_form-group">
-                        <label class="xc_form-label">算法框架<span class="required">*</span></label>
+                        <label class="xc_form-label">{{ T.algo_framework_label|default:'算法框架' }}<span class="required">*</span></label>
                         <select id="input_framework" class="xc_form-select">
-                            <option value="0">请先选择算法类型</option>
+                            <option value="0">{{ T.algo_select_type_first|default:'请先选择算法类型' }}</option>
                         </select>
                     </div>
                 </div>
                 
                 <div class="xc_form-row">
                     <div class="xc_form-group">
-                        <label class="xc_form-label">推理引擎<span class="required">*</span></label>
+                        <label class="xc_form-label">{{ T.algo_inference_label|default:'推理引擎' }}<span class="required">*</span></label>
                         <select id="input_inference" class="xc_form-select">
-                            <option value="0">请先选择算法类型</option>
+                            <option value="0">{{ T.algo_select_type_first|default:'请先选择算法类型' }}</option>
                         </select>
                     </div>
                     <div class="xc_form-group">
                         <label class="xc_form-label">
-                            推理设备<span class="required">*</span>
-                            <i class="fa fa-info-circle xc_info-icon" title="推理引擎设备，比如CPU,GPU,GPU:0,GPU:1"></i>
+                            {{ T.algo_device_label|default:'推理设备' }}<span class="required">*</span>
+                            <i class="fa fa-info-circle xc_info-icon" title="{{ T.algo_device_title|default:'推理引擎设备，比如CPU,GPU,GPU:0,GPU:1' }}"></i>
                         </label>
                         <input type="text" id="input_inference_device" class="xc_form-input" placeholder="CPU">
                     </div>
@@ -328,58 +328,58 @@
                 
                 <div class="xc_form-group">
                     <label class="xc_form-label">
-                        模型推理参数<span class="required">*</span>
-                        <i class="fa fa-info-circle xc_info-icon" title="分析器基于模型计算时的自定义参数"></i>
+                        {{ T.algo_infer_params_label|default:'模型推理参数' }}<span class="required">*</span>
+                        <i class="fa fa-info-circle xc_info-icon" title="{{ T.algo_infer_params_title|default:'分析器基于模型计算时的自定义参数' }}"></i>
                     </label>
                     <input type="text" id="input_extend_params" class="xc_form-input" placeholder="width=640,height=640,nms_threshold=0.5,score_threshold=0.5,fp=16">
                 </div>
                 
                 <div class="xc_form-group" id="model_convert_group">
                     <label class="xc_form-label">
-                        模型转换参数<span class="required">*</span>
-                        <i class="fa fa-info-circle xc_info-icon" title="trtexec在将onnx转换为engine的命令行扩展参数"></i>
+                        {{ T.algo_convert_params_label|default:'模型转换参数' }}<span class="required">*</span>
+                        <i class="fa fa-info-circle xc_info-icon" title="{{ T.algo_convert_params_title|default:'trtexec在将onnx转换为engine的命令行扩展参数' }}"></i>
                     </label>
                     <input type="text" id="input_model_convert_params" class="xc_form-input" placeholder="--fp16">
                 </div>
                 
                 <div class="xc_form-group" id="model_class_group">
                     <label class="xc_form-label">
-                        模型目标<span class="required">*</span>
-                        <i class="fa fa-copy xc_copy-icon" onclick="copyModelClassNames()" title="复制模型目标" style="cursor: pointer; color: #3b82f6; margin-left: 6px;"></i>
+                        {{ T.algo_targets_label|default:'模型目标' }}<span class="required">*</span>
+                        <i class="fa fa-copy xc_copy-icon" onclick="copyModelClassNames()" title="{{ T.algo_targets_copy|default:'复制模型目标' }}" style="cursor: pointer; color: #3b82f6; margin-left: 6px;"></i>
                     </label>
-                    <textarea id="input_model_class_names" class="xc_form-textarea" rows="3" placeholder="请填写模型支持的目标名称，如果多个名称请用英文逗号隔开"></textarea>
+                    <textarea id="input_model_class_names" class="xc_form-textarea" rows="3" placeholder="{{ T.algo_targets_placeholder|default:'请填写模型支持的目标名称，如果多个名称请用英文逗号隔开' }}"></textarea>
                 </div>
                 
                 <!-- 编辑模式下的只读信息（三列布局） -->
                 <div class="xc_form-row" id="model_info_row" style="display: none;">
                     <div class="xc_form-group" style="max-width: 100px;">
-                        <label class="xc_form-label">模型目标数量</label>
+                        <label class="xc_form-label">{{ T.algo_target_count|default:'模型目标数量' }}</label>
                         <input type="text" id="input_model_class_len" class="xc_form-input" disabled>
                     </div>
                     <div class="xc_form-group">
-                        <label class="xc_form-label">模型文件路径</label>
+                        <label class="xc_form-label">{{ T.algo_model_path|default:'模型文件路径' }}</label>
                         <input type="text" id="input_model_path" class="xc_form-input" disabled>
                     </div>
                     <div class="xc_form-group" style="max-width: 100px;">
-                        <label class="xc_form-label">模型状态</label>
+                        <label class="xc_form-label">{{ T.algo_model_status|default:'模型状态' }}</label>
                         <div id="model_status_display" style="padding: 5px 0; font-size: 12px;"></div>
                     </div>
                 </div>
                 
                 <div class="xc_form-group" id="model_file_group">
-                    <label class="xc_form-label">模型文件<span class="required">*</span></label>
+                    <label class="xc_form-label">{{ T.algo_model_file|default:'模型文件' }}<span class="required">*</span></label>
                     <input type="file" id="input_model_file" class="xc_form-input xc_file-input" accept=".onnx,.engine,.tar,.om,.rknn">
-                    <span class="xc_form-hint">支持的文件格式：.onnx, .engine, .tar, .om, .rknn，最大1000M</span>
+                    <span class="xc_form-hint">{{ T.algo_model_file_help|default:'支持的文件格式：.onnx, .engine, .tar, .om, .rknn，最大1000M' }}</span>
                 </div>
             </form>
         </div>
         <div class="xc_modal-footer">
-            <button class="xc_modal-btn" onclick="closeAlgorithmModal()">取消</button>
+            <button class="xc_modal-btn" onclick="closeAlgorithmModal()">{{ T.algo_cancel|default:'取消' }}</button>
             <button class="xc_modal-btn xc_modal-btn-primary" id="submitBtn" onclick="submitAlgorithmForm()">
-                <span id="submit_text">提交</span>
+                <span id="submit_text">{{ T.algo_submit|default:'提交' }}</span>
             </button>
             <span id="submit_loading" style="display: none; margin-left: 12px; color: #3b82f6; font-size: 12px;">
-                <i class="fa fa-spinner fa-spin"></i> 提交中...
+                <i class="fa fa-spinner fa-spin"></i> {{ T.algo_submit_ing|default:'提交中...' }}
             </span>
             <span id="submit_timer" style="display: none; margin-left: 8px; color: #10b981; font-size: 12px; font-weight: 500;"></span>
         </div>

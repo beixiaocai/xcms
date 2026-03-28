@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 
-{% block title %} 权限管理 {% endblock title %}
+{% block title %} {{ T.perm_title|default:'权限管理' }} {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
@@ -516,32 +516,32 @@
                         <div class="xc_page-header">
                             <div class="xc_page-title">
                                 <i class="fa fa-key"></i>
-                                权限管理
+                                {{ T.perm_title|default:'权限管理' }}
                             </div>
                             <div class="xc_header-actions">
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="batchDeletePermissions()" id="batch_delete_perm_btn" style="display: none;">
-                                    <i class="fa fa-trash"></i> 批量删除
+                                    <i class="fa fa-trash"></i> {{ T.perm_batch_delete|default:'批量删除' }}
                                 </button>
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="openContentTypeListModal()">
-                                    内容类型管理
+                                    {{ T.perm_content_type_manage|default:'内容类型管理' }}
                                 </button>
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="exportPermissions()">
-                                    <i class="fa fa-download"></i> 导出
+                                    <i class="fa fa-download"></i> {{ T.perm_export|default:'导出' }}
                                 </button>
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="openImportModal()">
-                                    <i class="fa fa-upload"></i> 导入
+                                    <i class="fa fa-upload"></i> {{ T.perm_import|default:'导入' }}
                                 </button>
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="openAddModal()">
-                                    <i class="fa fa-plus"></i> 添加权限
+                                    <i class="fa fa-plus"></i> {{ T.perm_add|default:'添加权限' }}
                                 </button>
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="f_reload()">
-                                    <i class="fa fa-refresh"></i> 刷新
+                                    <i class="fa fa-refresh"></i> {{ T.camera_refresh|default:'刷新' }}
                                 </button>
                             </div>
                             <div>
                                 <span id="top_loading" style="display: none;">
                                     <span class="xc_loading-spinner"></span>
-                                    <span class="xc_loading-text">加载中...</span>
+                                    <span class="xc_loading-text">{{ T.common_loading|default:'加载中...' }}</span>
                                 </span>
                                 <span id="top_msg">{{top_msg}}</span>
                             </div>
@@ -555,10 +555,10 @@
                                             <input type="checkbox" id="perm_check_all" onchange="toggleAllPermissions(this)" style="cursor: pointer;">
                                         </th>
                                         <th>ID</th>
-                                        <th>权限名称</th>
-                                        <th>权限路由</th>
-                                        <th>内容类型</th>
-                                        <th style="text-align: center;">操作</th>
+                                        <th>{{ T.perm_name|default:'权限名称' }}</th>
+                                        <th>{{ T.perm_route|default:'权限路由' }}</th>
+                                        <th>{{ T.perm_content_type|default:'内容类型' }}</th>
+                                        <th style="text-align: center;">{{ T.camera_action|default:'操作' }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="xc_table-body">
@@ -577,13 +577,13 @@
                                         <td>
                                             <div class="xc_actions">
                                                 <button onclick="openViewModal('{{ d.id }}')" class="xc_btn-icon">
-                                                    <i class="fa fa-eye"></i> 查看
+                                                    <i class="fa fa-eye"></i> {{ T.ulog_detail|default:'查看' }}
                                                 </button>
                                                 <button onclick="openEditModal('{{ d.id }}')" class="xc_btn-icon">
-                                                    <i class="fa fa-edit"></i> 编辑
+                                                    <i class="fa fa-edit"></i> {{ T.camera_edit|default:'编辑' }}
                                                 </button>
                                                 <button onclick="f_del('{{ d.id }}')" class="xc_btn-icon delete">
-                                                    <i class="fa fa-trash"></i> 删除
+                                                    <i class="fa fa-trash"></i> {{ T.camera_delete|default:'删除' }}
                                                 </button>
                                             </div>
                                         </td>
@@ -595,14 +595,14 @@
                             {% if data|length == 0 %}
                             <div class="xc_empty-state">
                                 <i class="fa fa-key"></i>
-                                <p>暂无权限数据</p>
+                                <p>{{ T.perm_no_data|default:'暂无权限数据' }}</p>
                             </div>
                             {% endif %}
                         </div>
                     </div>
 
                     <div class="xc_pagination">
-                        <span class="xc_page-info">共 {{ pageData.page_num }} 页 / {{ pageData.count }} 条</span>
+                        <span class="xc_page-info">{{ T.alarm_total|default:'共' }} {{ pageData.page_num }} {{ T.alarm_page_unit|default:'页' }} / {{ pageData.count }} {{ T.alarm_item_unit|default:'条' }}</span>
                         {%  for d  in pageData.pageLabels%}
                           {% if d.cur == 1 %}
                             <div class="xc_page-btn active">{{ d.name }}</div>
@@ -621,31 +621,31 @@
 <div class="xc_modal-overlay" id="permModal">
     <div class="xc_modal-container">
         <div class="xc_modal-header">
-            <div class="xc_modal-title" id="modalTitle">添加权限</div>
+            <div class="xc_modal-title" id="modalTitle">{{ T.perm_modal_add_title|default:'添加权限' }}</div>
             <button class="xc_modal-close" onclick="closePermModal()">×</button>
         </div>
         <div class="xc_modal-body">
             <div class="xc_form-group">
-                <label class="xc_form-label">权限名称<span class="required">*</span></label>
-                <input type="text" id="input_name" class="xc_form-input" placeholder="请输入权限名称">
+                <label class="xc_form-label">{{ T.perm_name|default:'权限名称' }}<span class="required">*</span></label>
+                <input type="text" id="input_name" class="xc_form-input" placeholder="{{ T.perm_name_placeholder|default:'请输入权限名称' }}">
             </div>
             
             <div class="xc_form-group">
-                <label class="xc_form-label">权限路由<span class="required">*</span></label>
-                <input type="text" id="input_codename" class="xc_form-input" placeholder="请输入权限路由（如: control_index）">
+                <label class="xc_form-label">{{ T.perm_route|default:'权限路由' }}<span class="required">*</span></label>
+                <input type="text" id="input_codename" class="xc_form-input" placeholder="{{ T.perm_route_placeholder|default:'请输入权限路由（如: control_index）' }}">
             </div>
             
             <div class="xc_form-group">
-                <label class="xc_form-label">内容类型<span class="required">*</span></label>
+                <label class="xc_form-label">{{ T.perm_content_type|default:'内容类型' }}<span class="required">*</span></label>
                 <select id="input_content_type" class="xc_form-input">
-                    <option value="">请选择内容类型</option>
+                    <option value="">{{ T.perm_select_content_type|default:'请选择内容类型' }}</option>
                 </select>
             </div>
         </div>
         <div class="xc_modal-footer">
-            <button class="xc_modal-btn" onclick="closePermModal()">取消</button>
+            <button class="xc_modal-btn" onclick="closePermModal()">{{ T.camera_cancel|default:'取消' }}</button>
             <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitPermForm()">
-                <span id="submit_text">提交</span>
+                <span id="submit_text">{{ T.camera_submit|default:'提交' }}</span>
             </button>
         </div>
     </div>
@@ -655,7 +655,7 @@
 <div class="xc_modal-overlay" id="viewModal">
     <div class="xc_modal-container">
         <div class="xc_modal-header">
-            <div class="xc_modal-title">权限详情</div>
+            <div class="xc_modal-title">{{ T.perm_view_title|default:'权限详情' }}</div>
             <button class="xc_modal-close" onclick="closeViewModal()">×</button>
         </div>
         <div class="xc_modal-body">
@@ -664,20 +664,20 @@
                 <div class="xc_detail-value" id="view_id">-</div>
             </div>
             <div class="xc_detail-item">
-                <div class="xc_detail-label">权限名称：</div>
+                <div class="xc_detail-label">{{ T.perm_name|default:'权限名称' }}：</div>
                 <div class="xc_detail-value" id="view_name">-</div>
             </div>
             <div class="xc_detail-item">
-                <div class="xc_detail-label">权限路由：</div>
+                <div class="xc_detail-label">{{ T.perm_route|default:'权限路由' }}：</div>
                 <div class="xc_detail-value" id="view_codename">-</div>
             </div>
             <div class="xc_detail-item">
-                <div class="xc_detail-label">内容类型：</div>
+                <div class="xc_detail-label">{{ T.perm_content_type|default:'内容类型' }}：</div>
                 <div class="xc_detail-value" id="view_content_type">-</div>
             </div>
         </div>
         <div class="xc_modal-footer">
-            <button class="xc_modal-btn" onclick="closeViewModal()">关闭</button>
+            <button class="xc_modal-btn" onclick="closeViewModal()">{{ T.ulog_close|default:'关闭' }}</button>
         </div>
     </div>
 </div>
@@ -686,7 +686,7 @@
 <div class="xc_modal-overlay" id="ctListModal">
     <div class="xc_modal-container" style="max-width: 650px; max-height: 85vh;">
         <div class="xc_modal-header">
-            <div class="xc_modal-title">内容类型管理</div>
+            <div class="xc_modal-title">{{ T.perm_ct_list_title|default:'内容类型管理' }}</div>
             <button class="xc_modal-close" onclick="closeContentTypeListModal()">×</button>
         </div>
         <div class="xc_modal-body" style="padding: 10px;">
@@ -694,13 +694,13 @@
             <div style="margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
                 <div style="display: flex; gap: 6px;">
                     <button class="xc_btn-modern xc_btn-secondary" onclick="openCtAddModal()">
-                        <i class="fa fa-plus"></i> 添加内容类型
+                        <i class="fa fa-plus"></i> {{ T.perm_ct_add|default:'添加内容类型' }}
                     </button>
                     <button class="xc_btn-modern xc_btn-secondary" onclick="batchDeleteContentTypes()" id="batch_delete_ct_btn" style="display: none;">
-                        <i class="fa fa-trash"></i> 批量删除
+                        <i class="fa fa-trash"></i> {{ T.perm_batch_delete|default:'批量删除' }}
                     </button>
                 </div>
-                <span style="font-size: 11px; color: #6b7280;" id="ct_count_text">加载中...</span>
+                <span style="font-size: 11px; color: #6b7280;" id="ct_count_text">{{ T.common_loading|default:'加载中...' }}</span>
             </div>
             
             <!-- 内容类型列表 -->
@@ -712,15 +712,15 @@
                                 <input type="checkbox" id="ct_check_all" onchange="toggleAllContentTypes(this)" style="cursor: pointer;">
                             </th>
                             <th>ID</th>
-                            <th>应用名称</th>
-                            <th>模型名称</th>
-                            <th style="text-align: center;">操作</th>
+                            <th>{{ T.perm_ct_app_name|default:'应用名称' }}</th>
+                            <th>{{ T.perm_ct_model_name|default:'模型名称' }}</th>
+                            <th style="text-align: center;">{{ T.camera_action|default:'操作' }}</th>
                         </tr>
                     </thead>
                     <tbody class="xc_table-body" id="ct_list_body">
                         <tr>
                             <td colspan="5" style="text-align: center; padding: 30px;">
-                                <i class="fa fa-spinner fa-spin"></i> 加载中...
+                                <i class="fa fa-spinner fa-spin"></i> {{ T.common_loading|default:'加载中...' }}
                             </td>
                         </tr>
                     </tbody>
@@ -729,12 +729,12 @@
             
             <!-- 分页 -->
             <div class="xc_pagination" id="ct_pagination" style="padding: 10px 0; display: none;">
-                <span class="xc_page-info" id="ct_page_info">共 0 页 / 0 条</span>
+                <span class="xc_page-info" id="ct_page_info">{{ T.alarm_total|default:'共' }} 0 {{ T.alarm_page_unit|default:'页' }} / 0 {{ T.alarm_item_unit|default:'条' }}</span>
                 <span id="ct_page_btns"></span>
             </div>
         </div>
         <div class="xc_modal-footer">
-            <button class="xc_modal-btn" onclick="closeContentTypeListModal()">关闭</button>
+            <button class="xc_modal-btn" onclick="closeContentTypeListModal()">{{ T.ulog_close|default:'关闭' }}</button>
         </div>
     </div>
 </div>
@@ -743,24 +743,24 @@
 <div class="xc_modal-overlay" id="ctModal">
     <div class="xc_modal-container">
         <div class="xc_modal-header">
-            <div class="xc_modal-title" id="ctModalTitle">添加内容类型</div>
+            <div class="xc_modal-title" id="ctModalTitle">{{ T.perm_ct_add_title|default:'添加内容类型' }}</div>
             <button class="xc_modal-close" onclick="closeCtModal()">×</button>
         </div>
         <div class="xc_modal-body">
             <div class="xc_form-group">
-                <label class="xc_form-label">应用名称<span class="required">*</span></label>
-                <input type="text" id="input_ct_app_label" class="xc_form-input" placeholder="请输入应用名称">
+                <label class="xc_form-label">{{ T.perm_ct_app_name|default:'应用名称' }}<span class="required">*</span></label>
+                <input type="text" id="input_ct_app_label" class="xc_form-input" placeholder="{{ T.perm_ct_app_placeholder|default:'请输入应用名称' }}">
             </div>
             
             <div class="xc_form-group">
-                <label class="xc_form-label">模型名称<span class="required">*</span></label>
-                <input type="text" id="input_ct_model" class="xc_form-input" placeholder="请输入模型名称">
+                <label class="xc_form-label">{{ T.perm_ct_model_name|default:'模型名称' }}<span class="required">*</span></label>
+                <input type="text" id="input_ct_model" class="xc_form-input" placeholder="{{ T.perm_ct_model_placeholder|default:'请输入模型名称' }}">
             </div>
         </div>
         <div class="xc_modal-footer">
-            <button class="xc_modal-btn" onclick="closeCtModal()">取消</button>
+            <button class="xc_modal-btn" onclick="closeCtModal()">{{ T.camera_cancel|default:'取消' }}</button>
             <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitCtForm()">
-                <span id="ct_submit_text">提交</span>
+                <span id="ct_submit_text">{{ T.camera_submit|default:'提交' }}</span>
             </button>
         </div>
     </div>
@@ -770,7 +770,7 @@
 <div class="xc_modal-overlay" id="ctViewModal">
     <div class="xc_modal-container">
         <div class="xc_modal-header">
-            <div class="xc_modal-title">内容类型详情</div>
+            <div class="xc_modal-title">{{ T.perm_ct_view_title|default:'内容类型详情' }}</div>
             <button class="xc_modal-close" onclick="closeCtViewModal()">×</button>
         </div>
         <div class="xc_modal-body">
@@ -779,16 +779,16 @@
                 <div class="xc_detail-value" id="ct_view_id">-</div>
             </div>
             <div class="xc_detail-item">
-                <div class="xc_detail-label">应用名称：</div>
+                <div class="xc_detail-label">{{ T.perm_ct_app_name|default:'应用名称' }}：</div>
                 <div class="xc_detail-value" id="ct_view_app_label">-</div>
             </div>
             <div class="xc_detail-item">
-                <div class="xc_detail-label">模型名称：</div>
+                <div class="xc_detail-label">{{ T.perm_ct_model_name|default:'模型名称' }}：</div>
                 <div class="xc_detail-value" id="ct_view_model">-</div>
             </div>
         </div>
         <div class="xc_modal-footer">
-            <button class="xc_modal-btn" onclick="closeCtViewModal()">关闭</button>
+            <button class="xc_modal-btn" onclick="closeCtViewModal()">{{ T.ulog_close|default:'关闭' }}</button>
         </div>
     </div>
 </div>
@@ -797,30 +797,30 @@
 <div class="xc_modal-overlay" id="importModal">
     <div class="xc_modal-container" style="max-width: 500px;">
         <div class="xc_modal-header">
-            <div class="xc_modal-title">导入权限数据</div>
+            <div class="xc_modal-title">{{ T.perm_import_title|default:'导入权限数据' }}</div>
             <button class="xc_modal-close" onclick="closeImportModal()">×</button>
         </div>
         <div class="xc_modal-body">
             <div class="xc_form-group">
-                <label class="xc_form-label">选择JSON文件<span class="required">*</span></label>
+                <label class="xc_form-label">{{ T.perm_import_select_json|default:'选择JSON文件' }}<span class="required">*</span></label>
                 <input type="file" id="import_file" accept=".json" class="xc_form-input" style="padding: 5px;">
                 <div style="margin-top: 8px; font-size: 11px; color: #6b7280;">
-                    <i class="fa fa-info-circle"></i> 请选择通过“导出”功能生成的JSON文件
+                    <i class="fa fa-info-circle"></i> {{ T.perm_import_tip|default:'请选择通过“导出”功能生成的JSON文件' }}
                 </div>
             </div>
             <div style="margin-top: 15px; padding: 10px; background: #fef3c7; border-left: 3px solid #f59e0b; font-size: 11px; color: #92400e;">
-                <strong>注意事项：</strong>
+                <strong>{{ T.perm_import_notice_title|default:'注意事项：' }}</strong>
                 <ul style="margin: 5px 0 0 20px; padding: 0;">
-                    <li>导入时会智能匹配现有数据</li>
-                    <li>相同的权限将被更新，不存在的将被创建</li>
-                    <li>导入前请确认数据来源可靠</li>
+                    <li>{{ T.perm_import_notice_1|default:'导入时会智能匹配现有数据' }}</li>
+                    <li>{{ T.perm_import_notice_2|default:'相同的权限将被更新，不存在的将被创建' }}</li>
+                    <li>{{ T.perm_import_notice_3|default:'导入前请确认数据来源可靠' }}</li>
                 </ul>
             </div>
         </div>
         <div class="xc_modal-footer">
-            <button class="xc_modal-btn" onclick="closeImportModal()">取消</button>
+            <button class="xc_modal-btn" onclick="closeImportModal()">{{ T.camera_cancel|default:'取消' }}</button>
             <button class="xc_modal-btn xc_modal-btn-primary" onclick="submitImport()">
-                <span id="import_submit_text">开始导入</span>
+                <span id="import_submit_text">{{ T.perm_start_import|default:'开始导入' }}</span>
             </button>
         </div>
     </div>
@@ -845,7 +845,7 @@
         currentHandle = 'add';
         currentPermId = '';
         
-        $('#modalTitle').text('添加权限');
+        $('#modalTitle').text(_t("perm_modal_add_title",'添加权限'));
         $('#input_name').val('').prop('disabled', false);
         $('#input_codename').val('').prop('disabled', false);
         
@@ -862,18 +862,18 @@
             dataType: 'json',
             success: function(res) {
                 if(res.code === 1000) {
-                    let options = '<option value="">请选择内容类型</option>';
+                    let options = '<option value="">' + _t("perm_select_content_type",'请选择内容类型') + '</option>';
                     res.data.forEach(function(ct) {
                         let selected = selectedId && ct.id == selectedId ? 'selected' : '';
                         options += '<option value="' + ct.id + '" ' + selected + '>' + ct.app_label + '.' + ct.model + '</option>';
                     });
                     $('#input_content_type').html(options);
                 } else {
-                    myToast2025('加载内容类型失败', 'error');
+                    myToast2025(_t("perm_load_content_type_fail",'加载内容类型失败'), 'error');
                 }
             },
             error: function() {
-                myToast2025('加载内容类型失败', 'error');
+                myToast2025(_t("perm_load_content_type_fail",'加载内容类型失败'), 'error');
             }
         });
     }
@@ -882,7 +882,7 @@
         currentHandle = 'edit';
         currentPermId = perm_id;
         
-        $('#modalTitle').text('编辑权限');
+        $('#modalTitle').text(_t("perm_modal_edit_title",'编辑权限'));
         
         // 加载权限数据
         ele_top_loading.show();
@@ -905,12 +905,12 @@
                     
                     $('#permModal').addClass('active');
                 } else {
-                    myToast2025(res.msg || '权限不存在', 'error');
+                    myToast2025(res.msg || _t("perm_not_exist",'权限不存在'), 'error');
                 }
             },
             error: function() {
                 ele_top_loading.hide();
-                myToast2025('加载失败，请稍后重试', 'error');
+                myToast2025(_t("ulog_load_retry",'加载失败，请稍后重试'), 'error');
             }
         });
     }
@@ -955,15 +955,15 @@
         
         // 验证
         if(name === '') {
-            myToast2025('请输入权限名称', 'error');
+            myToast2025(_t("perm_input_name",'请输入权限名称'), 'error');
             return false;
         }
         if(codename === '') {
-            myToast2025('请输入权限路由', 'error');
+            myToast2025(_t("perm_input_route",'请输入权限路由'), 'error');
             return false;
         }
         if(content_type_id === '') {
-            myToast2025('请选择内容类型', 'error');
+            myToast2025(_t("perm_select_content_type",'请选择内容类型'), 'error');
             return false;
         }
         
@@ -979,12 +979,12 @@
         }
         
         if(curIsPost) {
-            myToast2025('正在提交中，请勿重复提交！', 'error', 500);
+            myToast2025(_t("perm_submitting",'正在提交中，请勿重复提交！'), 'error', 500);
             return false;
         }
         curIsPost = true;
         
-        $('#submit_text').text('提交中...');
+        $('#submit_text').text(_t("perm_submit_ing",'提交中...'));
         
         let handleUrl = currentHandle === 'add' ? '/user/openPermissionAdd' : '/user/openPermissionEdit';
         
@@ -995,12 +995,12 @@
             dataType: 'json',
             error: function() {
                 curIsPost = false;
-                $('#submit_text').text('提交');
-                myToast2025('网络异常，请确定网络正常！', 'error');
+                $('#submit_text').text(_t("camera_submit",'提交'));
+                myToast2025(_t("version_net_error_toast",'网络异常，请确定网络正常！'), 'error');
             },
             success: function(res) {
                 curIsPost = false;
-                $('#submit_text').text('提交');
+                $('#submit_text').text(_t("camera_submit",'提交'));
                 
                 if(res.code === 1000) {
                     myToast2025(res.msg, 'success', 1000);
@@ -1036,12 +1036,12 @@
                     
                     $('#viewModal').addClass('active');
                 } else {
-                    myToast2025(res.msg || '权限不存在', 'error');
+                    myToast2025(res.msg || _t("perm_not_exist",'权限不存在'), 'error');
                 }
             },
             error: function() {
                 ele_top_loading.hide();
-                myToast2025('加载失败，请稍后重试', 'error');
+                myToast2025(_t("ulog_load_retry",'加载失败，请稍后重试'), 'error');
             }
         });
     }
@@ -1058,7 +1058,7 @@
     
     // ============ 删除功能 ============
     function f_del(perm_id){
-        if(!confirm('确定要删除这个权限吗？删除后将从所有用户中移除！')) {
+        if(!confirm(_t("perm_confirm_delete",'确定要删除这个权限吗？删除后将从所有用户中移除！'))) {
             return;
         }
         
@@ -1072,7 +1072,7 @@
             timeout: 0,
             error: function () {
                 ele_top_loading.hide();
-                myToast2025("网络异常，请确定网络正常！","error");
+                myToast2025(_t("version_net_error_toast","网络异常，请确定网络正常！"),"error");
             },
             success: function (res) {
                 ele_top_loading.hide();
@@ -1111,11 +1111,11 @@
         });
         
         if(checkedIds.length === 0) {
-            myToast2025('请选择要删除的权限', 'error');
+            myToast2025(_t("perm_select_delete",'请选择要删除的权限'), 'error');
             return;
         }
         
-        if(!confirm('确定要删除选中的 ' + checkedIds.length + ' 个权限吗？删除后将从所有用户中移除！')) {
+        if(!confirm(_t("perm_confirm_batch_delete_prefix",'确定要删除选中的 ') + checkedIds.length + _t("perm_confirm_batch_delete_suffix",' 个权限吗？删除后将从所有用户中移除！'))) {
             return;
         }
         
@@ -1127,12 +1127,12 @@
             dataType: 'json',
             error: function() {
                 ele_top_loading.hide();
-                myToast2025('网络异常！', 'error');
+                myToast2025(_t("perm_net_error_short",'网络异常！'), 'error');
             },
             success: function(res) {
                 ele_top_loading.hide();
                 if(res.code === 1000) {
-                    myToast2025('批量删除成功', 'success', 1000);
+                    myToast2025(_t("perm_batch_delete_success",'批量删除成功'), 'success', 1000);
                     setTimeout(function() {
                         window.location.reload();
                     }, 1000);
@@ -1170,7 +1170,7 @@
     
     // 加载内容类型列表
     function loadContentTypeList() {
-        $('#ct_list_body').html('<tr><td colspan="5" style="text-align: center; padding: 30px;"><i class="fa fa-spinner fa-spin"></i> 加载中...</td></tr>');
+        $('#ct_list_body').html('<tr><td colspan="5" style="text-align: center; padding: 30px;"><i class="fa fa-spinner fa-spin"></i> ' + _t("common_loading",'加载中...') + '</td></tr>');
         
         $.ajax({
             url: '/user/openGetAllContentTypes',
@@ -1186,7 +1186,7 @@
                     ctTotalCount = res.total || res.data.length;
                     
                     if(res.data.length === 0) {
-                        html = '<tr><td colspan="5" style="text-align: center; padding: 30px; color: #9ca3af;"><i class="fa fa-database"></i><br/>暂无内容类型数据</td></tr>';
+                        html = '<tr><td colspan="5" style="text-align: center; padding: 30px; color: #9ca3af;"><i class="fa fa-database"></i><br/>' + _t("perm_ct_no_data",'暂无内容类型数据') + '</td></tr>';
                         $('#ct_pagination').hide();
                     } else {
                         res.data.forEach(function(ct) {
@@ -1196,9 +1196,9 @@
                             html += '<td><div class="xc_perm-name">' + ct.app_label + '</div></td>';
                             html += '<td><span class="xc_badge xc_badge-info">' + ct.model + '</span></td>';
                             html += '<td><div class="xc_actions">';
-                            html += '<button onclick="openCtViewModal(' + ct.id + ')" class="xc_btn-icon"><i class="fa fa-eye"></i> 查看</button>';
-                            html += '<button onclick="openCtEditModal(' + ct.id + ')" class="xc_btn-icon"><i class="fa fa-edit"></i> 编辑</button>';
-                            html += '<button onclick="deleteContentType(' + ct.id + ')" class="xc_btn-icon delete"><i class="fa fa-trash"></i> 删除</button>';
+                            html += '<button onclick="openCtViewModal(' + ct.id + ')" class="xc_btn-icon"><i class="fa fa-eye"></i> ' + _t("ulog_detail",'查看') + '</button>';
+                            html += '<button onclick="openCtEditModal(' + ct.id + ')" class="xc_btn-icon"><i class="fa fa-edit"></i> ' + _t("camera_edit",'编辑') + '</button>';
+                            html += '<button onclick="deleteContentType(' + ct.id + ')" class="xc_btn-icon delete"><i class="fa fa-trash"></i> ' + _t("camera_delete",'删除') + '</button>';
                             html += '</div></td>';
                             html += '</tr>';
                         });
@@ -1208,7 +1208,7 @@
                         $('#ct_pagination').show();
                     }
                     $('#ct_list_body').html(html);
-                    $('#ct_count_text').text('共 ' + ctTotalCount + ' 个内容类型');
+                    $('#ct_count_text').text(_t("alarm_total",'共') + ' ' + ctTotalCount + _t("perm_ct_count_suffix",' 个内容类型'));
                     
                     // 重置批量删除按钮状态
                     $('#batch_delete_ct_btn').hide();
@@ -1219,7 +1219,7 @@
                 }
             },
             error: function() {
-                $('#ct_list_body').html('<tr><td colspan="5" style="text-align: center; padding: 30px; color: #ef4444;">加载失败</td></tr>');
+                $('#ct_list_body').html('<tr><td colspan="5" style="text-align: center; padding: 30px; color: #ef4444;">' + _t("perm_ct_load_fail",'加载失败') + '</td></tr>');
                 $('#ct_pagination').hide();
             }
         });
@@ -1248,11 +1248,11 @@
         });
         
         if(checkedIds.length === 0) {
-            myToast2025('请选择要删除的内容类型', 'error');
+            myToast2025(_t("perm_select_delete_ct",'请选择要删除的内容类型'), 'error');
             return;
         }
         
-        if(!confirm('确定要删除选中的 ' + checkedIds.length + ' 个内容类型吗？删除后关联的权限也将被删除！')) {
+        if(!confirm(_t("perm_confirm_delete_ct_prefix",'确定要删除选中的 ') + checkedIds.length + _t("perm_confirm_delete_ct_suffix",' 个内容类型吗？删除后关联的权限也将被删除！'))) {
             return;
         }
         
@@ -1262,11 +1262,11 @@
             data: {ids: checkedIds.join(',')},
             dataType: 'json',
             error: function() {
-                myToast2025('网络异常！', 'error');
+                myToast2025(_t("perm_net_error_short",'网络异常！'), 'error');
             },
             success: function(res) {
                 if(res.code === 1000) {
-                    myToast2025('批量删除成功', 'success', 1000);
+                    myToast2025(_t("perm_batch_delete_success",'批量删除成功'), 'success', 1000);
                     loadContentTypeList(); // 重新加载列表
                     loadContentTypes(); // 更新权限表单中的下拉框
                 } else {
@@ -1288,7 +1288,7 @@
         
         // 上一页
         if(ctCurrentPage > 1) {
-            html += '<a href="javascript:void(0)" onclick="goToCtPage(' + (ctCurrentPage - 1) + ')" class="xc_page-btn">上一页</a>';
+            html += '<a href="javascript:void(0)" onclick="goToCtPage(' + (ctCurrentPage - 1) + ')" class="xc_page-btn">' + _t("perm_prev_page",'上一页') + '</a>';
         }
         
         // 页码
@@ -1319,11 +1319,11 @@
         
         // 下一页
         if(ctCurrentPage < pageNum) {
-            html += '<a href="javascript:void(0)" onclick="goToCtPage(' + (ctCurrentPage + 1) + ')" class="xc_page-btn">下一页</a>';
+            html += '<a href="javascript:void(0)" onclick="goToCtPage(' + (ctCurrentPage + 1) + ')" class="xc_page-btn">' + _t("perm_next_page",'下一页') + '</a>';
         }
         
         $('#ct_page_btns').html(html);
-        $('#ct_page_info').text('共 ' + pageNum + ' 页 / ' + ctTotalCount + ' 条');
+        $('#ct_page_info').text(_t("alarm_total",'共') + ' ' + pageNum + ' ' + _t("alarm_page_unit",'页') + ' / ' + ctTotalCount + ' ' + _t("alarm_item_unit",'条'));
     }
     
     // 跳转到指定页
@@ -1337,7 +1337,7 @@
         currentCtHandle = 'add';
         currentCtId = '';
         
-        $('#ctModalTitle').text('添加内容类型');
+        $('#ctModalTitle').text(_t("perm_ct_add_title",'添加内容类型'));
         $('#input_ct_app_label').val('');
         $('#input_ct_model').val('');
         
@@ -1349,7 +1349,7 @@
         currentCtHandle = 'edit';
         currentCtId = ct_id;
         
-        $('#ctModalTitle').text('编辑内容类型');
+        $('#ctModalTitle').text(_t("perm_ct_edit_title",'编辑内容类型'));
         
         $.ajax({
             url: '/user/openContentTypeInfo',
@@ -1362,11 +1362,11 @@
                     $('#input_ct_model').val(res.info.model);
                     $('#ctModal').addClass('active');
                 } else {
-                    myToast2025(res.msg || '内容类型不存在', 'error');
+                    myToast2025(res.msg || _t("perm_ct_not_exist",'内容类型不存在'), 'error');
                 }
             },
             error: function() {
-                myToast2025('加载失败', 'error');
+                myToast2025(_t("perm_ct_load_fail",'加载失败'), 'error');
             }
         });
     }
@@ -1387,11 +1387,11 @@
         let model = $('#input_ct_model').val().trim();
         
         if(app_label === '') {
-            myToast2025('请输入应用名称', 'error');
+            myToast2025(_t("perm_input_app_name",'请输入应用名称'), 'error');
             return false;
         }
         if(model === '') {
-            myToast2025('请输入模型名称', 'error');
+            myToast2025(_t("perm_input_model_name",'请输入模型名称'), 'error');
             return false;
         }
         
@@ -1406,12 +1406,12 @@
         }
         
         if(curCtIsPost) {
-            myToast2025('正在提交中，请勿重复提交！', 'error', 500);
+            myToast2025(_t("perm_submitting",'正在提交中，请勿重复提交！'), 'error', 500);
             return false;
         }
         curCtIsPost = true;
         
-        $('#ct_submit_text').text('提交中...');
+        $('#ct_submit_text').text(_t("perm_submit_ing",'提交中...'));
         
         let handleUrl = currentCtHandle === 'add' ? '/user/openContentTypeAdd' : '/user/openContentTypeEdit';
         
@@ -1422,12 +1422,12 @@
             dataType: 'json',
             error: function() {
                 curCtIsPost = false;
-                $('#ct_submit_text').text('提交');
-                myToast2025('网络异常！', 'error');
+                $('#ct_submit_text').text(_t("camera_submit",'提交'));
+                myToast2025(_t("perm_net_error_short",'网络异常！'), 'error');
             },
             success: function(res) {
                 curCtIsPost = false;
-                $('#ct_submit_text').text('提交');
+                $('#ct_submit_text').text(_t("camera_submit",'提交'));
                 
                 if(res.code === 1000) {
                     myToast2025(res.msg, 'success', 1000);
@@ -1455,11 +1455,11 @@
                     $('#ct_view_model').text(res.info.model);
                     $('#ctViewModal').addClass('active');
                 } else {
-                    myToast2025(res.msg || '内容类型不存在', 'error');
+                    myToast2025(res.msg || _t("perm_ct_not_exist",'内容类型不存在'), 'error');
                 }
             },
             error: function() {
-                myToast2025('加载失败', 'error');
+                myToast2025(_t("perm_ct_load_fail",'加载失败'), 'error');
             }
         });
     }
@@ -1476,7 +1476,7 @@
     
     // 删除内容类型
     function deleteContentType(ct_id) {
-        if(!confirm('确定要删除这个内容类型吗？删除后关联的权限也将被删除！')) {
+        if(!confirm(_t("perm_confirm_delete_ct_single",'确定要删除这个内容类型吗？删除后关联的权限也将被删除！'))) {
             return;
         }
         
@@ -1486,11 +1486,11 @@
             data: {id: ct_id},
             dataType: 'json',
             error: function() {
-                myToast2025('网络异常！', 'error');
+                myToast2025(_t("perm_net_error_short",'网络异常！'), 'error');
             },
             success: function(res) {
                 if(res.code === 1000) {
-                    myToast2025('删除成功', 'success', 1000);
+                    myToast2025(_t("face_delete_success",'删除成功'), 'success', 1000);
                     loadContentTypeList(); // 重新加载列表
                     loadContentTypes(); // 更新权限表单中的下拉框
                 } else {
@@ -1503,12 +1503,12 @@
     // ============ 导出和导入权限数据 ============
     // 导出权限数据
     function exportPermissions() {
-        if(!confirm('确认要导出所有权限数据吗？')) {
+        if(!confirm(_t("perm_export_confirm",'确认要导出所有权限数据吗？'))) {
             return;
         }
         
         ele_top_loading.show();
-        ele_top_msg.text('正在导出...');
+        ele_top_msg.text(_t("perm_export_ing",'正在导出...'));
         
         // 使用window.location直接下载文件
         window.location.href = '/user/exportPermissions';
@@ -1517,7 +1517,7 @@
         setTimeout(function() {
             ele_top_loading.hide();
             ele_top_msg.text('');
-            myToast2025('导出成功，请查看下载文件', 'success');
+            myToast2025(_t("perm_export_success",'导出成功，请查看下载文件'), 'success');
         }, 1000);
     }
     
@@ -1544,23 +1544,23 @@
         let file = fileInput.files[0];
         
         if(!file) {
-            myToast2025('请选择要导入的JSON文件', 'error');
+            myToast2025(_t("perm_select_import_file",'请选择要导入的JSON文件'), 'error');
             return;
         }
         
         if(!file.name.endsWith('.json')) {
-            myToast2025('只支持JSON格式文件', 'error');
+            myToast2025(_t("perm_only_json",'只支持JSON格式文件'), 'error');
             return;
         }
         
-        if(!confirm('确认要导入该文件的权限数据吗？\n\n相同的权限将被更新，不存在的将被创建。')) {
+        if(!confirm(_t("perm_import_confirm",'确认要导入该文件的权限数据吗？\n\n相同的权限将被更新，不存在的将被创建。'))) {
             return;
         }
         
         let formData = new FormData();
         formData.append('file', file);
         
-        $('#import_submit_text').text('导入中...');
+        $('#import_submit_text').text(_t("perm_import_ing",'导入中...'));
         
         $.ajax({
             url: '/user/importPermissions',
@@ -1570,24 +1570,24 @@
             contentType: false,
             dataType: 'json',
             error: function() {
-                $('#import_submit_text').text('开始导入');
-                myToast2025('网络异常！', 'error');
+                $('#import_submit_text').text(_t("perm_start_import",'开始导入'));
+                myToast2025(_t("perm_net_error_short",'网络异常！'), 'error');
             },
             success: function(res) {
-                $('#import_submit_text').text('开始导入');
+                $('#import_submit_text').text(_t("perm_start_import",'开始导入'));
                 
                 if(res.code === 1000) {
                     let msg = res.msg;
                     if(res.stats) {
-                        msg += '\n\n详细信息：';
-                        msg += '\n创建内容类型: ' + res.stats.content_types_created + ' 个';
-                        msg += '\n创建权限: ' + res.stats.permissions_created + ' 个';
-                        msg += '\n更新权限: ' + res.stats.permissions_updated + ' 个';
+                        msg += _t("perm_import_detail",'\n\n详细信息：');
+                        msg += _t("perm_import_ct_created",'\n创建内容类型: ') + res.stats.content_types_created + _t("perm_count_item",' 个');
+                        msg += _t("perm_import_perm_created",'\n创建权限: ') + res.stats.permissions_created + _t("perm_count_item",' 个');
+                        msg += _t("perm_import_perm_updated",'\n更新权限: ') + res.stats.permissions_updated + _t("perm_count_item",' 个');
                         if(res.stats.permissions_skipped > 0) {
-                            msg += '\n跳过重复权限: ' + res.stats.permissions_skipped + ' 个';
+                            msg += _t("perm_import_perm_skipped",'\n跳过重复权限: ') + res.stats.permissions_skipped + _t("perm_count_item",' 个');
                         }
                     }
-                    myToast2025('导入完成！', 'success', 2000);
+                    myToast2025(_t("perm_import_done",'导入完成！'), 'success', 2000);
                     closeImportModal();
                     
                     // 显示详细信息

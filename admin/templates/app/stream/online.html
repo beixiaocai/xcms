@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 
-{% block title %} 在线预览 {% endblock title %}
+{% block title %} {{ T.online_preview|default:'在线预览' }} {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
@@ -45,9 +45,9 @@
       <div class="col-md-12 col-sm-12 col-xs-12">
       <div class="x_panel">
         <div class="x_title">
-          <h2>在线预览
-            <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">加载中</span>
-                <button style="margin-left:10px;"  type="button" onclick="f_reload()"  class="xc_btn-common"><i class="fa fa-refresh"></i> 刷新</button>
+          <h2>{{ T.online_preview|default:'在线预览' }}
+            <span id="top_loading" ><img class="top_loading_img" src="/static/images/load.gif" alt="loading">{{ T.common_loading|default:'加载中' }}</span>
+                <button style="margin-left:10px;"  type="button" onclick="f_reload()"  class="xc_btn-common"><i class="fa fa-refresh"></i> {{ T.online_refresh|default:'刷新' }}</button>
             <span id="top_msg"></span>
           </h2>
 
@@ -61,15 +61,15 @@
             <table class="table table-bordered">
               <thead>
                 <tr class="headings">
-                  <th class="column-title">序号 </th>
-                    <th class="column-title">关联摄像头 </th>
+                  <th class="column-title">{{ T.online_serial_number|default:'序号' }} </th>
+                    <th class="column-title">{{ T.online_relate_camera|default:'关联摄像头' }} </th>
 
-                  <th class="column-title">播放 </th>
+                  <th class="column-title">{{ T.online_play|default:'播放' }} </th>
 
-                  <th class="column-title">在线人数 </th>
-                  <th class="column-title">入口带宽 </th>
-                  <th class="column-title">视频信息 </th>
-                  <th class="column-title last">音频信息 </th>
+                  <th class="column-title">{{ T.online_users|default:'在线人数' }} </th>
+                  <th class="column-title">{{ T.online_in_bandwidth|default:'入口带宽' }} </th>
+                  <th class="column-title">{{ T.online_video_info|default:'视频信息' }} </th>
+                  <th class="column-title last">{{ T.online_audio_info|default:'音频信息' }} </th>
                 </tr>
               </thead>
               <tbody id="data">
@@ -118,7 +118,7 @@
                timeout: 0,
                error: function () {
                    eleTopLoading.hide();
-                   myToast2025("网络异常，请确定网络正常！","error");
+                   myToast2025(_t("online_net_error", "网络异常，请确定网络正常！"), "error");
                },
                success: function (res) {
                    eleTopLoading.hide();
@@ -133,7 +133,7 @@
 
                        if(0===data_length){
                            item_html = "";
-                          item_html += "<tr class=\"even pointer\"><td colspan='7'>暂无数据</td></tr>";
+                          item_html += "<tr class=\"even pointer\"><td colspan='7'>" + _t("online_no_data", "暂无数据") + "</td></tr>";
                            eleData.append(item_html);
                        }else{
                             for (let i = 0; i < data_length; i++) {
@@ -142,7 +142,7 @@
                                item_html += "<tr class=\"even pointer\">";
                                item_html += "<td>"+String(i+1)+"</td>";
                                 item_html += "<td><a class='sun-a-label'  href=\"javascript:f_open_stream('"+d["code"]+"')\" >"+d["nickname"]+"</a></td>";
-                                item_html += "<td><span class='sun-state-success'><i class=\"fa fa-bar-chart\"></i> 在线</span> <a class='sun-a-label' href=\"javascript:f_open_player('"+d["app"]+"','"+d["name"]+"')\" ><i class=\"fa fa-play\"></i> "+d["app"]+"/"+d["name"]+"</a></td>";
+                                item_html += "<td><span class='sun-state-success'><i class=\"fa fa-bar-chart\"></i> " + _t("online_is_online", "在线") + "</span> <a class='sun-a-label' href=\"javascript:f_open_player('"+d["app"]+"','"+d["name"]+"')\" ><i class=\"fa fa-play\"></i> "+d["app"]+"/"+d["name"]+"</a></td>";
                                item_html += "<td>"+d["clients"]+"</td>";
                                item_html += "<td>"+d["produce_speed"]+"</td>";
                                item_html += "<td>"+d["video"]+"</td>";

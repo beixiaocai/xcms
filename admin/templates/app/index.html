@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 
-{% block title %} 控制面板 {% endblock title %}
+{% block title %} {{ T.index_dashboard_title|default:'控制面板' }} {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
@@ -294,7 +294,7 @@
           <div class="modern-card">
             <div class="modern-card-title">
               <i class="fa fa-tachometer icon-cpu"></i>
-              CPU利用率
+              {{ T.index_cpu_usage|default:'CPU利用率' }}
             </div>
             <div class="chart-container" id="cpuCharts"></div>
           </div>
@@ -305,7 +305,7 @@
           <div class="modern-card">
             <div class="modern-card-title">
               <i class="fa fa-database icon-memory"></i>
-              内存利用率
+              {{ T.index_mem_usage|default:'内存利用率' }}
             </div>
             <div class="chart-container" id="memoryCharts"></div>
           </div>
@@ -316,7 +316,7 @@
           <div class="modern-card">
             <div class="modern-card-title">
               <i class="fa fa-hdd-o icon-disk"></i>
-              存储利用率
+              {{ T.index_disk_usage|default:'存储利用率' }}
             </div>
             <div class="chart-container" id="diskCharts"></div>
           </div>
@@ -330,13 +330,13 @@
           <div class="modern-card">
             <div class="modern-card-title">
               <i class="fa fa-cogs icon-algorithm"></i>
-              视频信息
+              {{ T.index_video_info|default:'视频信息' }}
             </div>
             <table class="info-table" id="stream_data">
               <tbody>
                 <tr>
-                  <td>视频信息</td>
-                  <td>加载中...</td>
+                  <td>{{ T.index_video_info|default:'视频信息' }}</td>
+                  <td>{{ T.index_loading|default:'加载中...' }}</td>
                 </tr>
               </tbody>
             </table>
@@ -347,36 +347,36 @@
           <div class="modern-card">
             <div class="modern-card-title">
               <i class="fa fa-info-circle icon-system"></i>
-              系统信息
+              {{ T.index_system_info|default:'系统信息' }}
             </div>
             <table class="info-table">
               <tbody>
                 <tr>
-                  <td>版本</td>
+                  <td>{{ T.index_sys_version|default:'版本' }}</td>
                   <td id="project_version">-</td>
                 </tr>
                 <tr>
-                  <td>机器</td>
+                  <td>{{ T.index_sys_machine|default:'机器' }}</td>
                   <td id="os_machine_node">-</td>
                 </tr>
                 <tr>
-                  <td>系统</td>
+                  <td>{{ T.index_sys_system|default:'系统' }}</td>
                   <td id="os_system_name">-</td>
                 </tr>
                 <tr>
-                  <td>运行</td>
+                  <td>{{ T.index_sys_uptime|default:'运行' }}</td>
                   <td id="os_run_date_str">00:00:00</td>
                 </tr>
                 <tr>
-                  <td>CPU</td>
+                  <td>{{ T.index_sys_cpu|default:'CPU' }}</td>
                   <td id="os_cpu_used_rate">0%</td>
                 </tr>
                 <tr>
-                  <td>内存</td>
+                  <td>{{ T.index_sys_mem|default:'内存' }}</td>
                   <td id="os_virtual_mem_used_rate">0%</td>
                 </tr>
                 <tr>
-                  <td>存储</td>
+                  <td>{{ T.index_sys_disk|default:'存储' }}</td> 
                   <td id="os_disk_used_rate">0%</td>
                 </tr>
               </tbody>
@@ -389,13 +389,13 @@
           <div class="modern-card">
             <div class="modern-card-title">
               <i class="fa fa-cogs icon-algorithm"></i>
-              布控信息
+              {{ T.index_control_info|default:'布控信息' }}
             </div>
             <table class="info-table" id="control_data">
               <tbody>
                 <tr>
-                  <td>布控信息</td>
-                  <td>加载中...</td>
+                  <td>{{ T.index_control_info|default:'布控信息' }}</td>
+                  <td>{{ T.index_loading|default:'加载中...' }}</td>
                 </tr>
               </tbody>
             </table>
@@ -411,15 +411,15 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title">发现新版本</h4>
+            <h4 class="modal-title">{{ T.index_new_version|default:'发现新版本' }}</h4>
           </div>
           <div class="modal-body">
             <div id="checkVersionContent"></div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">{{ T.index_cancel|default:'取消' }}</button>
             <button type="button" onclick="f_downloadNewVersion()" class="btn btn-primary">
-              <i class="fa fa-download"></i> 下载新版本
+              <i class="fa fa-download"></i> {{ T.index_download_version|default:'下载新版本' }}
             </button>
           </div>
         </div>
@@ -566,9 +566,9 @@
     }
     
     // 创建三个图表
-    let cpuCharts = createModernChart('cpuCharts', 'CPU利用率', '#4a90e2');
-    let memoryCharts = createModernChart('memoryCharts', '内存利用率', '#4a90e2');
-    let diskCharts = createModernChart('diskCharts', '磁盘利用率', '#4a90e2');
+    let cpuCharts = createModernChart('cpuCharts', '{{ T.index_cpu_usage|default:"CPU利用率" }}', '#4a90e2');
+    let memoryCharts = createModernChart('memoryCharts', '{{ T.index_mem_usage|default:"内存利用率" }}', '#4a90e2');
+    let diskCharts = createModernChart('diskCharts', '{{ T.index_disk_usage|default:"存储利用率" }}', '#4a90e2');
     
     let eleStreamData = $("#stream_data tbody");
     let eleControlData = $("#control_data tbody");
@@ -593,7 +593,7 @@
         dataType: "json",
         timeout: 0,
         error: function () {
-          myToast2025("网络异常，请确定网络正常！", "error");
+          myToast2025(_t("online_net_error", "网络异常，请确定网络正常！"), "error");
         },
         success: function (res) {
           if (res.code === 1000) {
@@ -650,14 +650,14 @@
         dataType: "json",
         timeout: 0,
         error: function () {
-          myToast2025("网络异常，请确定网络正常！", "error");
+          myToast2025(_t("online_net_error", "网络异常，请确定网络正常！"), "error");
         },
         success: function (res) {
           let info = res["info"];
 
-          let html = "<tr><td>分组数量</td><td>" + info["groupCount"] + "</td></tr>";
-          html += "<tr><td>接入数量</td><td>" + info["count"] + "</td></tr>";
-          html += "<tr><td>在线数量</td><td>" + info["forwardCount"] + "</td></tr>";
+          let html = "<tr><td>{{ T.index_group_count|default:'分组数量' }}</td><td>" + info["groupCount"] + "</td></tr>";
+          html += "<tr><td>{{ T.index_access_count|default:'接入数量' }}</td><td>" + info["count"] + "</td></tr>";
+          html += "<tr><td>{{ T.index_online_count|default:'在线数量' }}</td><td>" + info["forwardCount"] + "</td></tr>";
 
           eleStreamData.html(html);
         }
@@ -673,7 +673,7 @@
         dataType: "json",
         timeout: 0,
         error: function () {
-          myToast2025("网络异常，请确定网络正常！", "error");
+          myToast2025(_t("online_net_error", "网络异常，请确定网络正常！"), "error");
         },
         success: function (res) {
           let data = res["data"];
@@ -682,15 +682,15 @@
           let coreProcessMode = config["coreProcessMode"];
           let coreProcessNum = config["coreProcessNum"];
 
-          let coreProcessModeStr = "未知模式";
+          let coreProcessModeStr = "{{ T.index_unknown_mode|default:'未知模式' }}";
           if(coreProcessMode === 0){
-              coreProcessModeStr = "随机负载";
+              coreProcessModeStr = "{{ T.index_random_load|default:'随机负载' }}";
           }else if(coreProcessMode === 1){
-              coreProcessModeStr = "指定负载";
+              coreProcessModeStr = "{{ T.index_specific_load|default:'指定负载' }}";
           }
 
-          let html = "<tr><td>进程模式</td><td>" + coreProcessModeStr + "</td></tr>";
-          html += "<tr><td>进程数量</td><td>" + coreProcessNum + "</td></tr>";
+          let html = "<tr><td>{{ T.index_process_mode|default:'进程模式' }}</td><td>" + coreProcessModeStr + "</td></tr>";
+          html += "<tr><td>{{ T.index_process_count|default:'进程数量' }}</td><td>" + coreProcessNum + "</td></tr>";
           
           for (let i = 0; i < data.length; i++) {
             let __status = data[i]["status"];
@@ -699,9 +699,9 @@
               let __controlCount = data[i]["controlCount"];
               let __streamCount = data[i]["streamCount"];
               html += "<tr><td>" + __port + "</td><td><span class='status-badge status-success'>" + 
-                      __streamCount + "(" + __controlCount + ")路</span></td></tr>";
+                      __streamCount + "(" + __controlCount + ")" + _t("index_stream_unit", "路") + "</span></td></tr>";
             } else {
-              html += "<tr><td>" + __port + "</td><td><span class='status-badge status-warning'>重启中</span></td></tr>";
+              html += "<tr><td>" + __port + "</td><td><span class='status-badge status-warning'>" + _t("index_restarting", "重启中") + "</span></td></tr>";
             }
           }
           eleControlData.html(html);
@@ -722,7 +722,7 @@
         dataType: "json",
         timeout: 0,
         error: function () {
-          myToast2025("网络异常，请确定网络正常！", "error");
+          myToast2025(_t("online_net_error", "网络异常，请确定网络正常！"), "error");
         },
         success: function (res) {
           let info = res.info;

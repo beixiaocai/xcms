@@ -2,6 +2,15 @@
 <html lang="en">
   <head>
     {% block head %}
+        <script>
+            // 注入全局多语言字典到前端
+            window.LANG = {{ T_JSON|safe|default:"{}" }};
+            // 前端翻译工具函数
+            function _t(key, default_val) {
+                if (!window.LANG) return default_val || key;
+                return window.LANG[key] !== undefined ? window.LANG[key] : (default_val || key);
+            }
+        </script>
       {% block meta %}
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta charset="utf-8">

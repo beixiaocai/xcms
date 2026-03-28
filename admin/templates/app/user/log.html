@@ -1,6 +1,6 @@
 {% extends "app/base_site.html" %}
 
-{% block title %} 日志管理 {% endblock title %}
+{% block title %} {{ T.ulog_title|default:'日志管理' }} {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
@@ -553,49 +553,49 @@
                         <div class="xc_page-header">
                             <div class="xc_page-title">
                                 <i class="fa fa-file-text-o"></i>
-                                日志管理
+                                {{ T.ulog_title|default:'日志管理' }}
                             </div>
                             <div class="xc_search-item" style="margin: 0;">
-                                <span class="xc_search-label">用户:</span>
+                                <span class="xc_search-label">{{ T.ulog_user|default:'用户:' }}</span>
                                 <select id="search_user_id" class="xc_search-select" style="width: 150px;">
-                                    <option value="">全部用户</option>
+                                    <option value="">{{ T.ulog_all_users|default:'全部用户' }}</option>
                                     {% for user in user_list %}
                                     <option value="{{ user.id }}" {% if search_user_id == user.id|stringformat:"s" %}selected{% endif %}>{{ user.username }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                             <div class="xc_search-item" style="margin: 0;">
-                                <span class="xc_search-label">日志类型:</span>
+                                <span class="xc_search-label">{{ T.ulog_type|default:'日志类型:' }}</span>
                                 <select id="search_log_type" class="xc_search-select">
-                                    <option value="">全部</option>
+                                    <option value="">{{ T.ulog_all|default:'全部' }}</option>
                                     {% for log_type in log_types %}
                                     <option value="{{ log_type.value }}" {% if search_log_type == log_type.value|stringformat:"s" %}selected{% endif %}>{{ log_type.text }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                             <div class="xc_search-item" style="margin: 0;">
-                                <span class="xc_search-label">状态:</span>
+                                <span class="xc_search-label">{{ T.ulog_status|default:'状态:' }}</span>
                                 <select id="search_state" class="xc_search-select">
-                                    <option value="">全部</option>
-                                    <option value="1" {% if search_state == '1' %}selected{% endif %}>成功</option>
-                                    <option value="0" {% if search_state == '0' %}selected{% endif %}>失败</option>
+                                    <option value="">{{ T.ulog_all|default:'全部' }}</option>
+                                    <option value="1" {% if search_state == '1' %}selected{% endif %}>{{ T.ulog_success|default:'成功' }}</option>
+                                    <option value="0" {% if search_state == '0' %}selected{% endif %}>{{ T.ulog_fail|default:'失败' }}</option>
                                 </select>
                             </div>
                             <button class="xc_btn-modern xc_btn-secondary" onclick="f_search()">
-                                <i class="fa fa-search"></i> 查询
+                                <i class="fa fa-search"></i> {{ T.ulog_search|default:'查询' }}
                             </button>
                             <button class="xc_btn-modern xc_btn-secondary" onclick="f_reset()">
-                                <i class="fa fa-undo"></i> 重置
+                                <i class="fa fa-undo"></i> {{ T.ulog_reset|default:'重置' }}
                             </button>
                             <div class="xc_header-actions">
                                 <button class="xc_btn-modern xc_btn-secondary" onclick="f_reload()">
-                                    <i class="fa fa-refresh"></i> 刷新
+                                    <i class="fa fa-refresh"></i> {{ T.ulog_refresh|default:'刷新' }}
                                 </button>
                             </div>
                             <div>
                                 <span id="top_loading" style="display: none;">
                                     <span class="xc_loading-spinner"></span>
-                                    <span class="xc_loading-text">加载中...</span>
+                                    <span class="xc_loading-text">{{ T.ulog_loading|default:'加载中...' }}</span>
                                 </span>
                                 <span id="top_msg"></span>
                             </div>
@@ -606,12 +606,12 @@
                                 <thead class="xc_table-header">
                                     <tr>
                                         <th style="width: 80px;">ID</th>
-                                        <th style="width: 120px;">用户</th>
-                                        <th style="width: 100px;">日志类型</th>
-                                        <th>日志内容</th>
-                                        <th style="width: 100px;">状态</th>
-                                        <th style="width: 160px;">创建时间</th>
-                                        <th style="text-align: center; width: 140px;">操作</th>
+                                        <th style="width: 120px;">{{ T.ulog_user_col|default:'用户' }}</th>
+                                        <th style="width: 100px;">{{ T.ulog_type_col|default:'日志类型' }}</th>
+                                        <th>{{ T.ulog_content|default:'日志内容' }}</th>
+                                        <th style="width: 100px;">{{ T.ulog_status_col|default:'状态' }}</th>
+                                        <th style="width: 160px;">{{ T.ulog_create_time|default:'创建时间' }}</th>
+                                        <th style="text-align: center; width: 140px;">{{ T.ulog_action|default:'操作' }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="xc_table-body">
@@ -620,26 +620,26 @@
                                         <td><span class="xc_log-id">{{ d.id }}</span></td>
                                         <td><span class="xc_user-name">{{ d.username }}</span></td>
                                         <td>
-                                            <span class="xc_badge xc_badge-{{ d.log_type_style }}">{{ d.log_type_text|default:"未知" }}</span>
+                                            <span class="xc_badge xc_badge-{{ d.log_type_style }}">{{ d.log_type_text|default:T.ulog_unknown }}</span>
                                         </td>
                                         <td>
                                             <div class="xc_log-content" title="{{ d.content }}">{{ d.content }}</div>
                                         </td>
                                         <td>
                                             {% if d.state == 1 %}
-                                            <span class="xc_badge xc_badge-success">成功</span>
+                                            <span class="xc_badge xc_badge-success">{{ T.ulog_success|default:'成功' }}</span>
                                             {% else %}
-                                            <span class="xc_badge xc_badge-danger">失败</span>
+                                            <span class="xc_badge xc_badge-danger">{{ T.ulog_fail|default:'失败' }}</span>
                                             {% endif %}
                                         </td>
                                         <td>{{ d.create_time|date:"Y-m-d H:i:s" }}</td>
                                         <td>
                                             <div class="xc_actions">
                                                 <button onclick="openDetailModal('{{ d.id }}')" class="xc_btn-icon">
-                                                    <i class="fa fa-eye"></i> 详情
+                                                    <i class="fa fa-eye"></i> {{ T.ulog_detail|default:'详情' }}
                                                 </button>
                                                 <button onclick="f_del('{{ d.id }}')" class="xc_btn-icon delete">
-                                                    <i class="fa fa-trash"></i> 删除
+                                                    <i class="fa fa-trash"></i> {{ T.ulog_delete|default:'删除' }}
                                                 </button>
                                             </div>
                                         </td>
@@ -651,7 +651,7 @@
                             {% if data|length == 0 %}
                             <div class="xc_empty-state">
                                 <i class="fa fa-file-text-o"></i>
-                                <p>暂无日志数据</p>
+                                <p>{{ T.ulog_no_data|default:'暂无日志数据' }}</p>
                             </div>
                             {% endif %}
                         </div>
@@ -659,7 +659,7 @@
 
                     {% if pageData.count > 0 %}
                     <div class="xc_pagination">
-                        <span class="xc_page-info">共 {{ pageData.page_num }} 页 / {{ pageData.count }} 条</span>
+                        <span class="xc_page-info">{{ T.ulog_total|default:'共' }} {{ pageData.page_num }} {{ T.ulog_page_unit|default:'页' }} / {{ pageData.count }} {{ T.ulog_item_unit|default:'条' }}</span>
                         {% for d in pageData.pageLabels %}
                           {% if d.cur == 1 %}
                             <div class="xc_page-btn active">{{ d.name }}</div>
@@ -680,37 +680,37 @@
 <div class="xc_modal-overlay" id="detailModal">
     <div class="xc_modal-container">
         <div class="xc_modal-header">
-            <div class="xc_modal-title">日志详情</div>
+            <div class="xc_modal-title">{{ T.ulog_detail_title|default:'日志详情' }}</div>
             <button class="xc_modal-close" onclick="closeDetailModal()">×</button>
         </div>
         <div class="xc_modal-body">
             <div class="xc_detail-group">
-                <span class="xc_detail-label">日志ID</span>
+                <span class="xc_detail-label">{{ T.ulog_log_id|default:'日志ID' }}</span>
                 <span class="xc_detail-value" id="detail_id">-</span>
             </div>
             <div class="xc_detail-group">
-                <span class="xc_detail-label">用户</span>
+                <span class="xc_detail-label">{{ T.ulog_user_col|default:'用户' }}</span>
                 <span class="xc_detail-value" id="detail_username">-</span>
             </div>
             <div class="xc_detail-group">
-                <span class="xc_detail-label">日志类型</span>
+                <span class="xc_detail-label">{{ T.ulog_type_col|default:'日志类型' }}</span>
                 <span class="xc_detail-value" id="detail_log_type">-</span>
             </div>
             <div class="xc_detail-group">
-                <span class="xc_detail-label">日志内容</span>
+                <span class="xc_detail-label">{{ T.ulog_content|default:'日志内容' }}</span>
                 <span class="xc_detail-value" id="detail_content" style="white-space: pre-wrap;">-</span>
             </div>
             <div class="xc_detail-group">
-                <span class="xc_detail-label">状态</span>
+                <span class="xc_detail-label">{{ T.ulog_status_col|default:'状态' }}</span>
                 <span class="xc_detail-value" id="detail_state">-</span>
             </div>
             <div class="xc_detail-group">
-                <span class="xc_detail-label">创建时间</span>
+                <span class="xc_detail-label">{{ T.ulog_create_time|default:'创建时间' }}</span>
                 <span class="xc_detail-value" id="detail_create_time">-</span>
             </div>
         </div>
         <div class="xc_modal-footer">
-            <button class="xc_modal-btn" onclick="closeDetailModal()">关闭</button>
+            <button class="xc_modal-btn" onclick="closeDetailModal()">{{ T.ulog_close|default:'关闭' }}</button>
         </div>
     </div>
 </div>
@@ -762,20 +762,20 @@
                     let log = res.data;
                     
                     $('#detail_id').text(log.id);
-                    $('#detail_username').text(log.username || '未知用户');
-                    $('#detail_log_type').text(log.log_type_text || '未知类型');
+                    $('#detail_username').text(log.username || _t('ulog_unknown_user', '未知用户'));
+                    $('#detail_log_type').text(log.log_type_text || _t('ulog_unknown_type', '未知类型'));
                     $('#detail_content').text(log.content);
-                    $('#detail_state').text(log.state == 1 ? '成功' : '失败');
+                    $('#detail_state').text(log.state == 1 ? _t('ulog_success', '成功') : _t('ulog_fail', '失败'));
                     $('#detail_create_time').text(log.create_time);
                     
                     $('#detailModal').addClass('active');
                 } else {
-                    myToast2025(res.msg || '加载失败', 'error');
+                    myToast2025(res.msg || _t('ulog_load_fail', '加载失败'), 'error');
                 }
             },
             error: function() {
                 ele_top_loading.hide();
-                myToast2025('加载失败，请稍后重试', 'error');
+                myToast2025(_t('ulog_load_retry', '加载失败，请稍后重试'), 'error');
             }
         });
     }
@@ -787,7 +787,7 @@
 
     // 删除日志
     function f_del(id) {
-        if (!confirm('确认删除该日志吗？')) {
+        if (!confirm(_t('ulog_confirm_delete', '确认删除该日志吗？'))) {
             return;
         }
         
@@ -801,7 +801,7 @@
                 ele_top_loading.hide();
                 
                 if (res.code === 1000) {
-                    myToast2025('删除成功', 'success', 1000);
+                    myToast2025(_t('ulog_delete_success', '删除成功'), 'success', 1000);
                     setTimeout(function() {
                         window.location.reload();
                     }, 1000);
@@ -811,7 +811,7 @@
             },
             error: function() {
                 ele_top_loading.hide();
-                myToast2025('网络异常，请确定网络正常！', 'error');
+                myToast2025(_t('online_net_error', '网络异常，请确定网络正常！'), 'error');
             }
         });
     }
